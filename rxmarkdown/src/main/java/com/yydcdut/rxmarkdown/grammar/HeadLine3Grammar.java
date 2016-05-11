@@ -6,7 +6,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.note.utils.Utils;
+import com.yydcdut.rxmarkdown.utils.MDUtils;
 
 /**
  * Created by yuyidong on 16/5/3.
@@ -25,7 +25,6 @@ class HeadLine3Grammar implements IGrammar {
     @Nullable
     @Override
     public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
-//        YLog.i("yuyidong", "ssb---->" + ssb);
         if (ssb == null) {
             return new SpannableStringBuilder("");
         }
@@ -41,7 +40,7 @@ class HeadLine3Grammar implements IGrammar {
         }
         ssb.delete(0, KEY.length());
         ssb.setSpan(new RelativeSizeSpan(1.1f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        Utils.marginSSBLeft(ssb, 10);
+        MDUtils.marginSSBLeft(ssb, 10);
         return ssb;
     }
 
