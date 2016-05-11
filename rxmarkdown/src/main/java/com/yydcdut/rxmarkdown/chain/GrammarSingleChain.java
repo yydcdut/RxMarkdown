@@ -3,7 +3,8 @@ package com.yydcdut.rxmarkdown.chain;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 
-import com.yydcdut.note.markdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
+
 
 /**
  * Created by yuyidong on 16/5/4.

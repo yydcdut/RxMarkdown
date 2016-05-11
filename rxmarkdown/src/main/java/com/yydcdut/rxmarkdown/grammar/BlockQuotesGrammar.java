@@ -7,7 +7,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.QuoteSpan;
 
-import com.yydcdut.note.utils.Utils;
+import com.yydcdut.rxmarkdown.utils.MDUtils;
 
 /**
  * Created by yuyidong on 16/5/4.
@@ -41,7 +41,7 @@ class BlockQuotesGrammar implements IGrammar {
         }
         ssb.delete(0, KEY.length() - 1);
         ssb.setSpan(new QuoteSpan(Color.GRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        Utils.marginSSBLeft(ssb, 20);
+        MDUtils.marginSSBLeft(ssb, 20);
         return ssb;
     }
 

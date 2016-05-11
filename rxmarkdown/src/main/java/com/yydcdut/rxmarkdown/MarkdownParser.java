@@ -2,14 +2,11 @@ package com.yydcdut.rxmarkdown;
 
 import android.text.SpannableStringBuilder;
 
-import com.yydcdut.note.markdown.chain.GrammarMultiChains;
-import com.yydcdut.note.markdown.chain.GrammarSingleChain;
-import com.yydcdut.note.markdown.chain.IResponsibilityChain;
-import com.yydcdut.note.markdown.chain.MultiGrammarsChain;
-import com.yydcdut.note.markdown.grammar.GrammarFactory;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
+import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
+import com.yydcdut.rxmarkdown.chain.IResponsibilityChain;
+import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
+import com.yydcdut.rxmarkdown.grammar.GrammarFactory;
 
 /**
  * Created by yuyidong on 16/5/3.
@@ -40,8 +37,6 @@ public class MarkdownParser {
         headerLine1Chain.addNextHandleGrammar(multiChain);
     }
 
-    @Inject
-    @Singleton
     public MarkdownParser() {
     }
 
