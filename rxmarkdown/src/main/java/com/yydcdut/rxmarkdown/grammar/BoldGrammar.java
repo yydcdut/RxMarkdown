@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/3.
  */
-class BoldGrammar implements IGrammar {
+public class BoldGrammar implements IGrammar {
     private static final String KEY = "**";
 
     @Override

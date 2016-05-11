@@ -10,7 +10,7 @@ import android.text.style.AlignmentSpan;
 /**
  * Created by yuyidong on 16/5/4.
  */
-class CenterAlignGrammar implements IGrammar {
+public class CenterAlignGrammar implements IGrammar {
     private static final String KEY0 = "[";
     private static final String KEY1 = "]";
 

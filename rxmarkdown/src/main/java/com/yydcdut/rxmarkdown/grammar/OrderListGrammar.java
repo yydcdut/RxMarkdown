@@ -10,7 +10,7 @@ import android.text.style.BulletSpan;
 /**
  * Created by yuyidong on 16/5/4.
  */
-class OrderListGrammar implements IGrammar {
+public class OrderListGrammar implements IGrammar {
 
     @Override
     public boolean isMatch(@Nullable String text) {

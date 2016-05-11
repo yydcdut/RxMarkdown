@@ -12,7 +12,7 @@ import com.yydcdut.rxmarkdown.utils.MDUtils;
 /**
  * Created by yuyidong on 16/5/4.
  */
-class BlockQuotesGrammar implements IGrammar {
+public class BlockQuotesGrammar implements IGrammar {
     private static final String KEY = "> ";
 
     @Override

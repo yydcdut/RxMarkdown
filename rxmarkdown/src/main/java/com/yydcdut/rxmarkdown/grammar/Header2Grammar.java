@@ -11,8 +11,8 @@ import com.yydcdut.rxmarkdown.utils.MDUtils;
 /**
  * Created by yuyidong on 16/5/3.
  */
-class HeadLine1Grammar implements IGrammar {
-    private static final String KEY = "# ";
+public class Header2Grammar implements IGrammar {
+    private static final String KEY = "## ";
 
     @Override
     public boolean isMatch(@Nullable String text) {
@@ -39,13 +39,13 @@ class HeadLine1Grammar implements IGrammar {
             return ssb;
         }
         ssb.delete(0, KEY.length());
-        ssb.setSpan(new RelativeSizeSpan(1.5f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new RelativeSizeSpan(1.3f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         MDUtils.marginSSBLeft(ssb, 10);
         return ssb;
     }
 
     @Override
     public String toString() {
-        return "HeadLine1Grammar{}";
+        return "HeadLine2Grammar{}";
     }
 }

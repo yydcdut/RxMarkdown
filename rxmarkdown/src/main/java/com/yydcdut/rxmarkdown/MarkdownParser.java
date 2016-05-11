@@ -6,7 +6,15 @@ import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
 import com.yydcdut.rxmarkdown.chain.IResponsibilityChain;
 import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
-import com.yydcdut.rxmarkdown.grammar.GrammarFactory;
+import com.yydcdut.rxmarkdown.factory.BlockQutesFactory;
+import com.yydcdut.rxmarkdown.factory.BoldFactory;
+import com.yydcdut.rxmarkdown.factory.CenterAlignFactory;
+import com.yydcdut.rxmarkdown.factory.Header1Factory;
+import com.yydcdut.rxmarkdown.factory.Header2Factory;
+import com.yydcdut.rxmarkdown.factory.Header3Factory;
+import com.yydcdut.rxmarkdown.factory.ItalicFactory;
+import com.yydcdut.rxmarkdown.factory.OrderListFactory;
+import com.yydcdut.rxmarkdown.factory.UnOrderListFactory;
 
 /**
  * Created by yuyidong on 16/5/3.
@@ -15,16 +23,16 @@ public class MarkdownParser {
     IResponsibilityChain mChain = null;
 
     {
-        mChain = new GrammarSingleChain(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_BLOCK_QUOTES));
-        IResponsibilityChain orderListChain = new GrammarSingleChain(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_ORDER_LIST));
-        IResponsibilityChain unOrderListChain = new GrammarSingleChain(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_UNORDER_LIST));
-        IResponsibilityChain centerAlignChain = new GrammarMultiChains(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_CENTER_ALIGN));
-        IResponsibilityChain headerLine3Chain = new GrammarMultiChains(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_HEADER_LINE_3));
-        IResponsibilityChain headerLine2Chain = new GrammarMultiChains(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_HEADER_LINE_2));
-        IResponsibilityChain headerLine1Chain = new GrammarMultiChains(GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_HEADER_LINE_1));
+        mChain = new GrammarSingleChain(new BlockQutesFactory().getGrammar());
+        IResponsibilityChain orderListChain = new GrammarSingleChain(new OrderListFactory().getGrammar());
+        IResponsibilityChain unOrderListChain = new GrammarSingleChain(new UnOrderListFactory().getGrammar());
+        IResponsibilityChain centerAlignChain = new GrammarMultiChains(new CenterAlignFactory().getGrammar());
+        IResponsibilityChain headerLine3Chain = new GrammarMultiChains(new Header3Factory().getGrammar());
+        IResponsibilityChain headerLine2Chain = new GrammarMultiChains(new Header2Factory().getGrammar());
+        IResponsibilityChain headerLine1Chain = new GrammarMultiChains(new Header1Factory().getGrammar());
         IResponsibilityChain multiChain = new MultiGrammarsChain(
-                GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_BOLD),
-                GrammarFactory.getGrammar(GrammarFactory.GRAMMAR_ITALIC));
+                new BoldFactory().getGrammar(),
+                new ItalicFactory().getGrammar());
         mChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
