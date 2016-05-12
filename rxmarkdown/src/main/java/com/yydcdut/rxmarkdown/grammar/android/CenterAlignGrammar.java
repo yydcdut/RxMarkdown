@@ -1,25 +1,27 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.Nullable;
+import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.RelativeSizeSpan;
+import android.text.style.AlignmentSpan;
 
-import com.yydcdut.rxmarkdown.utils.MDUtils;
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
- * Created by yuyidong on 16/5/3.
+ * Created by yuyidong on 16/5/4.
  */
-public class Header2Grammar implements IGrammar {
-    private static final String KEY = "## ";
+public class CenterAlignGrammar implements IGrammar {
+    private static final String KEY0 = "[";
+    private static final String KEY1 = "]";
 
     @Override
     public boolean isMatch(@Nullable String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
-        return text.startsWith(KEY);
+        return text.startsWith(KEY0) && text.endsWith(KEY1);
     }
 
     @Nullable
@@ -32,20 +34,19 @@ public class Header2Grammar implements IGrammar {
         if (TextUtils.isEmpty(text)) {
             return ssb;
         }
-        if (!text.startsWith(KEY)) {
+        if (!text.contains(KEY0) && !text.contains(KEY1)) {
             return ssb;
         }
         if (!isMatch(text)) {
             return ssb;
         }
-        ssb.delete(0, KEY.length());
-        ssb.setSpan(new RelativeSizeSpan(1.3f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        MDUtils.marginSSBLeft(ssb, 10);
+        ssb.delete(0, 1).delete(ssb.length() - 1, ssb.length());
+        ssb.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 
     @Override
     public String toString() {
-        return "HeadLine2Grammar{}";
+        return "CenterAlignGrammar{}";
     }
 }

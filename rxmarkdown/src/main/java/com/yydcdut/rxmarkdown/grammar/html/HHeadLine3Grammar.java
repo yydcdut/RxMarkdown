@@ -1,4 +1,4 @@
-package com.yydcdut.rxmarkdown.html;
+package com.yydcdut.rxmarkdown.grammar.html;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -6,11 +6,11 @@ import android.text.TextUtils;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class HHeadLine2Grammar implements IHGrammar {
-    public static final String KEY = "## ";
+public class HHeadLine3Grammar implements IHGrammar {
+    public static final String KEY = "### ";
 
-    public static final String HTML_BEGIN = "<h2>";
-    public static final String HTML_END = "</h2>";
+    public static final String HTML_BEGIN = "<h3>";
+    public static final String HTML_END = "</h3>";
 
     @Nullable
     @Override

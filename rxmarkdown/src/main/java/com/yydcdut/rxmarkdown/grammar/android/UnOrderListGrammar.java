@@ -1,25 +1,32 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.RelativeSizeSpan;
+import android.text.style.BulletSpan;
 
-import com.yydcdut.rxmarkdown.utils.MDUtils;
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
- * Created by yuyidong on 16/5/3.
+ * Created by yuyidong on 16/5/4.
  */
-public class Header1Grammar implements IGrammar {
-    private static final String KEY = "# ";
+public class UnOrderListGrammar implements IGrammar {
+    private static final String KEY0 = "* ";
+    private static final String KEY1 = "+ ";
+    private static final String KEY2 = "- ";
+
+    private static final int START_POSITION = 2;
 
     @Override
     public boolean isMatch(@Nullable String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
-        return text.startsWith(KEY);
+        return text.startsWith(KEY0) ||
+                text.startsWith(KEY1) ||
+                text.startsWith(KEY2);
     }
 
     @Nullable
@@ -32,20 +39,16 @@ public class Header1Grammar implements IGrammar {
         if (TextUtils.isEmpty(text)) {
             return ssb;
         }
-        if (!text.startsWith(KEY)) {
-            return ssb;
-        }
         if (!isMatch(text)) {
             return ssb;
         }
-        ssb.delete(0, KEY.length());
-        ssb.setSpan(new RelativeSizeSpan(1.5f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        MDUtils.marginSSBLeft(ssb, 10);
+        ssb.delete(0, START_POSITION);
+        ssb.setSpan(new BulletSpan(10, Color.BLACK), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 
     @Override
     public String toString() {
-        return "HeadLine1Grammar{}";
+        return "UnOrderListGrammar{}";
     }
 }

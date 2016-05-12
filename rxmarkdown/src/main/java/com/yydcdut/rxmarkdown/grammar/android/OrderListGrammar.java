@@ -1,4 +1,4 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BulletSpan;
+
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
  * Created by yuyidong on 16/5/4.

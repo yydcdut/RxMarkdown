@@ -1,4 +1,4 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
@@ -7,13 +7,15 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
+
 import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
-public class ItalicGrammar implements IGrammar {
-    private static final String KEY = "*";
+public class BoldGrammar implements IGrammar {
+    private static final String KEY = "**";
 
     @Override
     public boolean isMatch(@Nullable String text) {
@@ -23,7 +25,7 @@ public class ItalicGrammar implements IGrammar {
         if (!text.contains(KEY)) {
             return false;
         }
-        Pattern pattern = Pattern.compile(".*[\\*]{1}.*[\\*]{1}.*");
+        Pattern pattern = Pattern.compile(".*[\\*]{2}.*[\\*]{2}.*");
         return pattern.matcher(text).matches();
     }
 
@@ -35,7 +37,7 @@ public class ItalicGrammar implements IGrammar {
         }
         String text = ssb.toString();
         if (TextUtils.isEmpty(text)) {
-            return new SpannableStringBuilder("");
+            return ssb;
         }
         if (!text.contains(KEY)) {
             return ssb;
@@ -76,6 +78,6 @@ public class ItalicGrammar implements IGrammar {
 
     @Override
     public String toString() {
-        return "ItalicGrammar{}";
+        return "BoldGrammar{}";
     }
 }

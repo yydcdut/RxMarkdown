@@ -1,7 +1,9 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
+
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
  * Created by yuyidong on 16/5/4.

@@ -2,62 +2,91 @@ package com.yydcdut.rxmarkdown;
 
 import android.text.SpannableStringBuilder;
 
-import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
-import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
 import com.yydcdut.rxmarkdown.chain.IResponsibilityChain;
-import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
-import com.yydcdut.rxmarkdown.factory.BlockQutesFactory;
-import com.yydcdut.rxmarkdown.factory.BoldFactory;
-import com.yydcdut.rxmarkdown.factory.CenterAlignFactory;
-import com.yydcdut.rxmarkdown.factory.Header1Factory;
-import com.yydcdut.rxmarkdown.factory.Header2Factory;
-import com.yydcdut.rxmarkdown.factory.Header3Factory;
-import com.yydcdut.rxmarkdown.factory.ItalicFactory;
-import com.yydcdut.rxmarkdown.factory.OrderListFactory;
-import com.yydcdut.rxmarkdown.factory.UnOrderListFactory;
+import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
+import com.yydcdut.rxmarkdown.widget.TextWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
 public class MarkdownParser {
-    IResponsibilityChain mChain = null;
+    private String mContent;
 
-    {
-        mChain = new GrammarSingleChain(new BlockQutesFactory().getGrammar());
-        IResponsibilityChain orderListChain = new GrammarSingleChain(new OrderListFactory().getGrammar());
-        IResponsibilityChain unOrderListChain = new GrammarSingleChain(new UnOrderListFactory().getGrammar());
-        IResponsibilityChain centerAlignChain = new GrammarMultiChains(new CenterAlignFactory().getGrammar());
-        IResponsibilityChain headerLine3Chain = new GrammarMultiChains(new Header3Factory().getGrammar());
-        IResponsibilityChain headerLine2Chain = new GrammarMultiChains(new Header2Factory().getGrammar());
-        IResponsibilityChain headerLine1Chain = new GrammarMultiChains(new Header1Factory().getGrammar());
-        IResponsibilityChain multiChain = new MultiGrammarsChain(
-                new BoldFactory().getGrammar(),
-                new ItalicFactory().getGrammar());
-        mChain.setNextHandleGrammar(orderListChain);
-        orderListChain.setNextHandleGrammar(unOrderListChain);
-        unOrderListChain.setNextHandleGrammar(centerAlignChain);
-        centerAlignChain.addNextHandleGrammar(headerLine3Chain);
-        centerAlignChain.addNextHandleGrammar(multiChain);
-        headerLine3Chain.addNextHandleGrammar(headerLine2Chain);
-        headerLine3Chain.addNextHandleGrammar(multiChain);
-        headerLine2Chain.addNextHandleGrammar(headerLine1Chain);
-        headerLine2Chain.addNextHandleGrammar(multiChain);
-        headerLine1Chain.addNextHandleGrammar(multiChain);
+    private List<AbsGrammarFactory> mAbsGrammarFactoryList;
+    private List<TextWrapper> mTextWrapperList;
+
+    private MarkdownParser(String content, List<AbsGrammarFactory> absGrammarFactoryList, List<TextWrapper> textWrapperList) {
+        mContent = content;
+        mAbsGrammarFactoryList = absGrammarFactoryList;
+        mTextWrapperList = textWrapperList;
     }
 
-    public MarkdownParser() {
+    public Observable<SpannableStringBuilder> intoObservable() {
+        return Observable.just(mContent)
+                .subscribeOn(Schedulers.computation())
+                .map(new Func1<String, SpannableStringBuilder>() {
+                    @Override
+                    public SpannableStringBuilder call(String s) {
+                        if (mAbsGrammarFactoryList != null) {
+                            AbsGrammarFactory absGrammarFactory = mAbsGrammarFactoryList.get(0);
+                            IResponsibilityChain chain = absGrammarFactory.getChain();
+                            return parse(chain);
+                        }
+                        return null;
+                    }
+                });
     }
 
-    public SpannableStringBuilder parse(String content) {
-        String[] lines = content.split("\n");
+    private SpannableStringBuilder parse(IResponsibilityChain chain) {
+        String[] lines = mContent.split("\n");
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         for (String line : lines) {
             SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
-            mChain.handleGrammar(lineSSB);
+            chain.handleGrammar(lineSSB);
             ssb.append(lineSSB);
             ssb.append("\n");
         }
         return ssb;
     }
+
+
+    public static final class Builder {
+        private String mContent;
+
+        private List<AbsGrammarFactory> mAbsGrammarFactoryList;
+        private List<TextWrapper> mTextWrapperList;
+
+        public Builder(String content) {
+            mContent = content;
+        }
+
+        public Builder addFormatFactory(AbsGrammarFactory absGrammarFactory) {
+            if (mAbsGrammarFactoryList == null) {
+                mAbsGrammarFactoryList = new ArrayList<>();
+            }
+            mAbsGrammarFactoryList.add(absGrammarFactory);
+            return this;
+        }
+
+        public Builder addView(TextWrapper textWrapper) {
+            if (mTextWrapperList == null) {
+                mTextWrapperList = new ArrayList<>();
+            }
+            mTextWrapperList.add(textWrapper);
+            return this;
+        }
+
+        public MarkdownParser build() {
+            return new MarkdownParser(mContent, mAbsGrammarFactoryList, mTextWrapperList);
+        }
+    }
+
 
 }

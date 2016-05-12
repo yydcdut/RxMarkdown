@@ -1,4 +1,4 @@
-package com.yydcdut.rxmarkdown.grammar;
+package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
@@ -6,13 +6,14 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.utils.MDUtils;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
-public class Header3Grammar implements IGrammar {
-    private static final String KEY = "### ";
+public class Header1Grammar implements IGrammar {
+    private static final String KEY = "# ";
 
     @Override
     public boolean isMatch(@Nullable String text) {
@@ -39,13 +40,13 @@ public class Header3Grammar implements IGrammar {
             return ssb;
         }
         ssb.delete(0, KEY.length());
-        ssb.setSpan(new RelativeSizeSpan(1.1f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new RelativeSizeSpan(1.5f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         MDUtils.marginSSBLeft(ssb, 10);
         return ssb;
     }
 
     @Override
     public String toString() {
-        return "HeadLine3Grammar{}";
+        return "HeadLine1Grammar{}";
     }
 }

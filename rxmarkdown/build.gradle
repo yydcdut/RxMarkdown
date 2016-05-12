@@ -21,5 +21,5 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-annotations:23.3.0'
-    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxjava:1.1.5'
 }

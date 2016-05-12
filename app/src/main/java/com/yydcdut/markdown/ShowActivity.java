@@ -13,6 +13,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.yydcdut.rxmarkdown.MarkdownParser;
+import com.yydcdut.rxmarkdown.factory.AndroidFactory;
+import com.yydcdut.rxmarkdown.widget.TextWrapper;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by yuyidong on 16/5/11.
@@ -34,15 +39,35 @@ public class ShowActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        TextView mTextView = (TextView) findViewById(R.id.txt_md_show);
-        String mContent = getIntent().getStringExtra(EXTRA_CONTENT);
-        if (TextUtils.isEmpty(mContent)) {
-            Snackbar.make(mTextView, "No Text", Snackbar.LENGTH_SHORT).show();
+        final TextView textView = (TextView) findViewById(R.id.txt_md_show);
+        String content = getIntent().getStringExtra(EXTRA_CONTENT);
+        if (TextUtils.isEmpty(content)) {
+            Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
-        MarkdownParser markdownParser = new MarkdownParser();
-        SpannableStringBuilder ssb = markdownParser.parse(mContent);
-        mTextView.setText(ssb, TextView.BufferType.SPANNABLE);
+        MarkdownParser markdownParser = new MarkdownParser.Builder(content)
+                .addFormatFactory(AndroidFactory.create())
+                .addView(new TextWrapper(textView))
+                .build();
+        markdownParser.intoObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SpannableStringBuilder>() {
+                    @Override
+                    public void onCompleted() {
+                        Snackbar.make(textView, "onCompleted", Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Snackbar.make(textView, "onError  " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(SpannableStringBuilder spannableStringBuilder) {
+                        Snackbar.make(textView, "onNext", Snackbar.LENGTH_SHORT).show();
+                        textView.setText(spannableStringBuilder, TextView.BufferType.SPANNABLE);
+                    }
+                });
     }
 
     @Override
