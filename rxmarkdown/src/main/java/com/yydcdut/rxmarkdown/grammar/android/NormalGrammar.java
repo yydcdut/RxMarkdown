@@ -8,7 +8,7 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class NormalGrammar implements IGrammar {
+class NormalGrammar implements IGrammar {
 
     @Override
     public boolean isMatch(@Nullable String text) {

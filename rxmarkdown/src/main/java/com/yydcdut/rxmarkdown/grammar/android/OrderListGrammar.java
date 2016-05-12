@@ -12,7 +12,7 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class OrderListGrammar implements IGrammar {
+class OrderListGrammar implements IGrammar {
 
     @Override
     public boolean isMatch(@Nullable String text) {

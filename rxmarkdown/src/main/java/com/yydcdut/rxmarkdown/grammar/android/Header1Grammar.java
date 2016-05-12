@@ -12,7 +12,7 @@ import com.yydcdut.rxmarkdown.utils.MDUtils;
 /**
  * Created by yuyidong on 16/5/3.
  */
-public class Header1Grammar implements IGrammar {
+class Header1Grammar implements IGrammar {
     private static final String KEY = "# ";
 
     @Override

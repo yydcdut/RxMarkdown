@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/3.
  */
-public class ItalicGrammar implements IGrammar {
+class ItalicGrammar implements IGrammar {
     private static final String KEY = "*";
 
     @Override

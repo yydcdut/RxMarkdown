@@ -12,7 +12,7 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class UnOrderListGrammar implements IGrammar {
+class UnOrderListGrammar implements IGrammar {
     private static final String KEY0 = "* ";
     private static final String KEY1 = "+ ";
     private static final String KEY2 = "- ";
