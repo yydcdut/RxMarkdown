@@ -1,10 +1,12 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.LeadingMarginSpan;
+import android.util.Log;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
@@ -26,6 +28,10 @@ abstract class AbsAndroidGrammar implements IGrammar {
             ssb = new SpannableStringBuilder("");
         } else if (charSequence instanceof SpannableStringBuilder) {
             ssb = (SpannableStringBuilder) charSequence;
+        } else if (charSequence instanceof String || charSequence instanceof SpannableString) {
+            ssb = new SpannableStringBuilder(charSequence);
+        } else {
+            Log.wtf("yuyidong", "charSequence 类型 " + charSequence.getClass().getName());
         }
         return format(ssb);
     }
@@ -37,4 +43,5 @@ abstract class AbsAndroidGrammar implements IGrammar {
     protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
         ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
+
 }

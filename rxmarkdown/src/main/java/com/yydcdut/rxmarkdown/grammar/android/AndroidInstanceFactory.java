@@ -18,6 +18,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_ITALIC = 15;
     public static final int GRAMMAR_INLINE_CODE = 16;
     public static final int GRAMMAR_STRIKE_THROUGH = 17;
+    public static final int GRAMMAR_SUPERSCRIPT = 18;
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
@@ -43,6 +44,8 @@ public class AndroidInstanceFactory {
                 return new InlineCodeGrammar();
             case GRAMMAR_STRIKE_THROUGH:
                 return new StrikeThroughGrammar();
+            case GRAMMAR_SUPERSCRIPT:
+                return new SuperscriptGrammar();
             default:
                 return new NormalGrammar();
         }

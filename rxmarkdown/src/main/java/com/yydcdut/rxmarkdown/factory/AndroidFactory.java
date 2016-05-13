@@ -70,4 +70,9 @@ public class AndroidFactory extends AbsGrammarFactory {
     protected IGrammar getStrikeThroughGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_STRIKE_THROUGH);
     }
+
+    @Override
+    protected IGrammar getSuperscriptGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar((AndroidInstanceFactory.GRAMMAR_SUPERSCRIPT));
+    }
 }

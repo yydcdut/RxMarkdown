@@ -64,6 +64,7 @@ public class ShowActivity extends AppCompatActivity {
                         textView.setText(charSequence, TextView.BufferType.SPANNABLE);
                     }
                 });
+//        test(textView, content);
     }
 
     @Override
@@ -75,5 +76,16 @@ public class ShowActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    private void test(TextView textView, String content) {
+//        SuperScriptGrammar superScriptGrammar = new SuperScriptGrammar();
+//        boolean b = superScriptGrammar.isMatch(content);
+//        Log.i("yuyidong", "isMatch  ---->   " + b);
+//        if (b) {
+//            CharSequence charSequence = superScriptGrammar.format(new SpannableStringBuilder(content));
+//            textView.setText(charSequence, TextView.BufferType.SPANNABLE);
+//            Log.i("yuyidong", "finish   xxx  " + charSequence.toString());
+//        }
+//    }
 
 }
