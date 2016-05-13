@@ -1,7 +1,6 @@
 package com.yydcdut.rxmarkdown.chain;
 
-import android.support.annotation.Nullable;
-import android.text.SpannableStringBuilder;
+import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
@@ -15,17 +14,17 @@ public class MultiGrammarsChain implements IResponsibilityChain {
 
     private IResponsibilityChain mNextHandleGrammar = null;
 
-    public MultiGrammarsChain(@Nullable IGrammar... grammars) {
+    public MultiGrammarsChain(@NonNull IGrammar... grammars) {
         mGrammars = grammars;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public boolean handleGrammar(@Nullable SpannableStringBuilder ssb) {
+    public boolean handleGrammar(@NonNull CharSequence charSequence) {
         boolean handled = false;
         for (IGrammar iGrammar : mGrammars) {
-            if (iGrammar.isMatch(ssb.toString())) {
-                ssb = iGrammar.format(ssb);
+            if (iGrammar.isMatch(charSequence)) {
+                charSequence = iGrammar.format(charSequence);
                 handled |= true;
             }
         }
@@ -33,7 +32,7 @@ public class MultiGrammarsChain implements IResponsibilityChain {
             return true;
         } else {
             if (mNextHandleGrammar != null) {
-                return mNextHandleGrammar.handleGrammar(ssb);
+                return mNextHandleGrammar.handleGrammar(charSequence);
             } else {
                 return false;
             }
@@ -42,12 +41,12 @@ public class MultiGrammarsChain implements IResponsibilityChain {
 
     @Override
     @Deprecated
-    public boolean addNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         return false;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         mNextHandleGrammar = nextHandleGrammar;
         return true;
     }

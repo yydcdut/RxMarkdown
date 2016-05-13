@@ -1,7 +1,6 @@
 package com.yydcdut.rxmarkdown.chain;
 
-import android.support.annotation.Nullable;
-import android.text.SpannableStringBuilder;
+import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
@@ -14,19 +13,19 @@ public class GrammarSingleChain implements IResponsibilityChain {
 
     private IResponsibilityChain mNextHandleGrammar = null;
 
-    public GrammarSingleChain(@Nullable IGrammar grammar) {
+    public GrammarSingleChain(@NonNull IGrammar grammar) {
         mGrammar = grammar;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public boolean handleGrammar(@Nullable SpannableStringBuilder ssb) {
-        if (mGrammar.isMatch(ssb.toString())) {
-            mGrammar.format(ssb);
+    public boolean handleGrammar(@NonNull CharSequence charSequence) {
+        if (mGrammar.isMatch(charSequence)) {
+            mGrammar.format(charSequence);
             return true;
         } else {
             if (mNextHandleGrammar != null) {
-                return mNextHandleGrammar.handleGrammar(ssb);
+                return mNextHandleGrammar.handleGrammar(charSequence);
             } else {
                 return false;
             }
@@ -35,12 +34,12 @@ public class GrammarSingleChain implements IResponsibilityChain {
 
     @Override
     @Deprecated
-    public boolean addNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         return false;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         mNextHandleGrammar = nextHandleGrammar;
         return true;
     }

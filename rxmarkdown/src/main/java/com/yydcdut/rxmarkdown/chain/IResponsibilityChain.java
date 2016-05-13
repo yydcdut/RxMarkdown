@@ -1,17 +1,16 @@
 package com.yydcdut.rxmarkdown.chain;
 
-import android.support.annotation.Nullable;
-import android.text.SpannableStringBuilder;
+import android.support.annotation.NonNull;
 
 /**
  * Created by yuyidong on 16/5/4.
  */
 public interface IResponsibilityChain {
-    @Nullable
-    boolean handleGrammar(@Nullable SpannableStringBuilder ssb);
+    @NonNull
+    boolean handleGrammar(@NonNull CharSequence ssb);
 
-    boolean addNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar);
+    boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar);
 
-    boolean setNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar);
+    boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar);
 
 }

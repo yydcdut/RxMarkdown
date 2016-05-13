@@ -1,7 +1,6 @@
 package com.yydcdut.rxmarkdown.chain;
 
-import android.support.annotation.Nullable;
-import android.text.SpannableStringBuilder;
+import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
@@ -16,20 +15,20 @@ public class GrammarMultiChains implements IResponsibilityChain {
 
     private List<IResponsibilityChain> mNextHandleGrammarList = null;
 
-    public GrammarMultiChains(@Nullable IGrammar grammar) {
+    public GrammarMultiChains(@NonNull IGrammar grammar) {
         mGrammar = grammar;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public boolean handleGrammar(@Nullable SpannableStringBuilder ssb) {
-        if (mGrammar.isMatch(ssb.toString())) {
-            mGrammar.format(ssb);
+    public boolean handleGrammar(@NonNull CharSequence charSequence) {
+        if (mGrammar.isMatch(charSequence)) {
+            mGrammar.format(charSequence);
         }
         if (mNextHandleGrammarList != null) {
             boolean handled = false;
             for (IResponsibilityChain responsibilityChain : mNextHandleGrammarList) {
-                handled |= responsibilityChain.handleGrammar(ssb);
+                handled |= responsibilityChain.handleGrammar(charSequence);
             }
             return handled;
         } else {
@@ -38,7 +37,7 @@ public class GrammarMultiChains implements IResponsibilityChain {
     }
 
     @Override
-    public boolean addNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         if (mNextHandleGrammarList == null) {
             mNextHandleGrammarList = new ArrayList<>();
         }
@@ -48,7 +47,7 @@ public class GrammarMultiChains implements IResponsibilityChain {
 
     @Override
     @Deprecated
-    public boolean setNextHandleGrammar(@Nullable IResponsibilityChain nextHandleGrammar) {
+    public boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
         return false;
     }
 

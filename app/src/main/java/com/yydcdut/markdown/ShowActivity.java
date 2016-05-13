@@ -7,14 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.yydcdut.rxmarkdown.MarkdownParser;
+import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
-import com.yydcdut.rxmarkdown.widget.TextWrapper;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,16 +43,15 @@ public class ShowActivity extends AppCompatActivity {
             Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
-        MarkdownParser markdownParser = new MarkdownParser.Builder(content)
-                .addFormatFactory(AndroidFactory.create())
-                .addView(new TextWrapper(textView))
-                .build();
-        markdownParser.intoObservable()
+        final long beginTime = System.currentTimeMillis();
+        RxMarkdown.with(content)
+                .factory(AndroidFactory.create())
+                .intoObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SpannableStringBuilder>() {
+                .subscribe(new Subscriber<CharSequence>() {
                     @Override
                     public void onCompleted() {
-                        Snackbar.make(textView, "onCompleted", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(textView, "onCompleted " + (System.currentTimeMillis() - beginTime) + "ms", Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -63,9 +60,8 @@ public class ShowActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(SpannableStringBuilder spannableStringBuilder) {
-                        Snackbar.make(textView, "onNext", Snackbar.LENGTH_SHORT).show();
-                        textView.setText(spannableStringBuilder, TextView.BufferType.SPANNABLE);
+                    public void onNext(CharSequence charSequence) {
+                        textView.setText(charSequence, TextView.BufferType.SPANNABLE);
                     }
                 });
     }
