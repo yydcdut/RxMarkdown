@@ -5,7 +5,7 @@ package com.yydcdut.markdown;
  */
 public interface Const {
 
-    String MD_SAMPLE = "在这个版本中我们增加了 `Markdown` 功能。`Markdown` 是一种使用纯文本编写的标记语言，可以产生格式丰富的页面排版效果，比如突出标题、居中、加粗、引用和生成列表。\n" +
+    String MD_SAMPLE = "在这个**版本**中我们增加了 `Markdown` 功能。`Markdown` 是~~一种使用*纯文本*编写的标记语言~~，可以~~产生~~格式丰富的页面排版效果，比如突出标题、居中、加粗、引用和生成列表。\n" +
             "\n" +
             "## **用法与规则：**\n" +
 //                    "\n" +

@@ -23,7 +23,8 @@ public abstract class AbsGrammarFactory {
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
                 getBoldGrammar(),
                 getItalicGrammar(),
-                getInlineCodeGrammar());
+                getInlineCodeGrammar(),
+                getStrikeThroughGrammar());
         mChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
@@ -55,6 +56,8 @@ public abstract class AbsGrammarFactory {
     protected abstract IGrammar getItalicGrammar();
 
     protected abstract IGrammar getInlineCodeGrammar();
+
+    protected abstract IGrammar getStrikeThroughGrammar();
 
     public IResponsibilityChain getChain() {
         return mChain;

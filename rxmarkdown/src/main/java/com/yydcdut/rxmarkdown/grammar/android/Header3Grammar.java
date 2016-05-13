@@ -6,8 +6,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.rxmarkdown.utils.MDUtils;
-
 /**
  * Created by yuyidong on 16/5/3.
  */
@@ -40,7 +38,7 @@ class Header3Grammar extends AbsAndroidGrammar {
         }
         ssb.delete(0, KEY.length());
         ssb.setSpan(new RelativeSizeSpan(1.1f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        MDUtils.marginSSBLeft(ssb, 10);
+        marginSSBLeft(ssb, 10);
         return ssb;
     }
 

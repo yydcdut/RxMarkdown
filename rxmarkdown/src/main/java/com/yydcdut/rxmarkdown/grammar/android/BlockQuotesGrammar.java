@@ -9,8 +9,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.QuoteSpan;
 
-import com.yydcdut.rxmarkdown.utils.MDUtils;
-
 /**
  * Created by yuyidong on 16/5/4.
  */
@@ -45,7 +43,7 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
         Drawable drawable = new ColorDrawable(Color.RED);
         drawable.setBounds(0, 0, 100, 100);
         ssb.setSpan(new QuoteSpan(Color.GRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        MDUtils.marginSSBLeft(ssb, 20);
+        marginSSBLeft(ssb, 20);
         return ssb;
     }
 
