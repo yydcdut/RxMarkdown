@@ -16,6 +16,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_HEADER_LINE_3 = 13;
     public static final int GRAMMAR_BOLD = 14;
     public static final int GRAMMAR_ITALIC = 15;
+    public static final int GRAMMAR_INLINE_CODE = 16;
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
@@ -37,6 +38,8 @@ public class AndroidInstanceFactory {
                 return new BoldGrammar();
             case GRAMMAR_ITALIC:
                 return new ItalicGrammar();
+            case GRAMMAR_INLINE_CODE:
+                return new InlineCodeGrammar();
             default:
                 return new NormalGrammar();
         }

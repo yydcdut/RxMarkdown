@@ -60,4 +60,9 @@ public class AndroidFactory extends AbsGrammarFactory {
     protected IGrammar getItalicGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ITALIC);
     }
+
+    @Override
+    protected IGrammar getInlineCodeGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_INLINE_CODE);
+    }
 }
