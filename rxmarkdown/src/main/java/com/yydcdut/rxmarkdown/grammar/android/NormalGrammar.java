@@ -1,23 +1,21 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
-
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
  * Created by yuyidong on 16/5/4.
  */
-class NormalGrammar implements IGrammar {
+class NormalGrammar extends AbsAndroidGrammar {
 
     @Override
-    public boolean isMatch(@Nullable String text) {
+    public boolean isMatch(@NonNull String text) {
         return false;
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
+    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         return ssb;
     }
 

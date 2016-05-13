@@ -1,24 +1,22 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
-
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
-class ItalicGrammar implements IGrammar {
+class ItalicGrammar extends AbsAndroidGrammar {
     private static final String KEY = "*";
 
     @Override
-    public boolean isMatch(@Nullable String text) {
+    public boolean isMatch(@NonNull String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
@@ -29,9 +27,9 @@ class ItalicGrammar implements IGrammar {
         return pattern.matcher(text).matches();
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
+    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (ssb == null) {
             return new SpannableStringBuilder("");
         }

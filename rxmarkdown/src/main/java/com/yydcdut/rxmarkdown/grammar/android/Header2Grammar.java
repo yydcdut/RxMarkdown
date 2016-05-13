@@ -1,31 +1,30 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.utils.MDUtils;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
-class Header2Grammar implements IGrammar {
+class Header2Grammar extends AbsAndroidGrammar {
     private static final String KEY = "## ";
 
     @Override
-    public boolean isMatch(@Nullable String text) {
+    public boolean isMatch(@NonNull String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
         return text.startsWith(KEY);
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
+    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (ssb == null) {
             return new SpannableStringBuilder("");
         }

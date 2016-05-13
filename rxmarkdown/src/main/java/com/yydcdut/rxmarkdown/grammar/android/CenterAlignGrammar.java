@@ -1,32 +1,30 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
-
 /**
  * Created by yuyidong on 16/5/4.
  */
-class CenterAlignGrammar implements IGrammar {
+class CenterAlignGrammar extends AbsAndroidGrammar {
     private static final String KEY0 = "[";
     private static final String KEY1 = "]";
 
     @Override
-    public boolean isMatch(@Nullable String text) {
+    public boolean isMatch(@NonNull String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
         return text.startsWith(KEY0) && text.endsWith(KEY1);
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
+    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (ssb == null) {
             return new SpannableStringBuilder("");
         }

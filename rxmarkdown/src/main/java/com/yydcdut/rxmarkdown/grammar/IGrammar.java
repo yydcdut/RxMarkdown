@@ -1,15 +1,14 @@
 package com.yydcdut.rxmarkdown.grammar;
 
-import android.support.annotation.Nullable;
-import android.text.SpannableStringBuilder;
+import android.support.annotation.NonNull;
 
 /**
  * Created by yuyidong on 16/5/3.
  */
 public interface IGrammar {
 
-    boolean isMatch(@Nullable String text);
+    boolean isMatch(@NonNull CharSequence charSequence);
 
-    @Nullable
-    SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb);
+    @NonNull
+    CharSequence format(@NonNull CharSequence charSequence);
 }

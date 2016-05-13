@@ -1,18 +1,16 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BulletSpan;
 
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
-
 /**
  * Created by yuyidong on 16/5/4.
  */
-class UnOrderListGrammar implements IGrammar {
+class UnOrderListGrammar extends AbsAndroidGrammar {
     private static final String KEY0 = "* ";
     private static final String KEY1 = "+ ";
     private static final String KEY2 = "- ";
@@ -20,7 +18,7 @@ class UnOrderListGrammar implements IGrammar {
     private static final int START_POSITION = 2;
 
     @Override
-    public boolean isMatch(@Nullable String text) {
+    public boolean isMatch(@NonNull String text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
@@ -29,9 +27,9 @@ class UnOrderListGrammar implements IGrammar {
                 text.startsWith(KEY2);
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public SpannableStringBuilder format(@Nullable SpannableStringBuilder ssb) {
+    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (ssb == null) {
             return new SpannableStringBuilder("");
         }
