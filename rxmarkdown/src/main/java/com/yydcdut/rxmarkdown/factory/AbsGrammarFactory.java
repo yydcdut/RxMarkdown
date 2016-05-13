@@ -23,6 +23,7 @@ public abstract class AbsGrammarFactory {
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
                 getBoldGrammar(),
                 getItalicGrammar());
+        mChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
         centerAlignChain.addNextHandleGrammar(headerLine3Chain);
