@@ -62,7 +62,7 @@ class ItalicGrammar extends AbsAndroidGrammar {
             if (positionFooter != -1) {
                 ssb.delete(tmp.length(), tmp.length() + KEY.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
-                ssb.setSpan(new StyleSpan(Typeface.BOLD), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new StyleSpan(Typeface.ITALIC), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY.length());
             } else {
                 tmp.append(KEY);
