@@ -1,40 +1,31 @@
 # RxMarkdown
 
-RxMarkdown 是一个可以在 `android.widget.EditText` 或者  `android.widget.TextView` 中编辑和显示简易 markdown 的 Android库。 
-
-RxMarkdown 运用了 RxJava 中复杂的 API 来实现
+RxMarkdown 是一个运用 RxJava API 来实现在   `android.widget.TextView` 或 `android.widget.EditText` 中编辑和显示基础 markdown 语法的 Android 库。 
 
 ## 支持语法 
 
 - [x] 标题 `# ` / `## ` / `### `
-
 - [x] 区域引用 `> `
-
 - [ ] 嵌套区域引用 `>> `
-
 - [x] 粗体 `**`
-
 - [x] 斜体 `*`
-
 - [x] 有序列表 `1. `
-
 - [x] 无序列表 `* ` /  `+ ` / `- `
-
+- [ ] 嵌套列表 `* ` /  `+ ` / `- ` 
 - [ ] 图片 `![]()`
-
 - [ ] 链接 `[]()`
-
+- [x] 行内代码 `` `
 - [ ] 代码区块 ````java`
-
 - [ ] 反斜杠 `\`
-
 - [ ] 分割线 `* * *` / `***` / `*****` / `- - -` / `-----------------`
-
-      ​
+- [x] 删除线 `~~`
+- [x] 注脚 `[^]`
 
 ### 其他语法
 
 - [x] 居中 `[]`
+
+- [ ] 文字下划线 `待定`
 
       ​
 

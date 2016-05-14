@@ -22,9 +22,13 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 
 - [x] UnOrdered List `* ` /  `+ ` / `- `
 
+- [ ] Nested List `* ` /  `+ ` / `- ` 
+
 - [ ] Image `![]()`
 
 - [ ] Link `[]()`
+
+- [x] Inline Code `` `
 
 - [ ] Code ````java`
 
@@ -32,11 +36,17 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 
 - [ ] Horizontal Rules `* * *` / `***` / `*****` / `- - -` / `-----------------`
 
+- [x] Strike Through `~~` 
+
+- [x] Footnote `[^]`
+
       ​
 
 ### Other Grammar
 
 - [x] Center Align `[]`
+
+- [ ] UnderLine `to be confirmed`
 
       ​
 
