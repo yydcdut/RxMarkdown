@@ -2,7 +2,7 @@ package com.yydcdut.rxmarkdown.factory;
 
 import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
-import com.yydcdut.rxmarkdown.chain.IResponsibilityChain;
+import com.yydcdut.rxmarkdown.chain.IChain;
 import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
@@ -10,7 +10,7 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  * Created by yuyidong on 16/5/12.
  */
 public abstract class AbsGrammarFactory {
-    protected IResponsibilityChain mChain;
+    protected IChain mChain;
 
     public AbsGrammarFactory() {
         mChain = new GrammarSingleChain(getBlockQuotesGrammar());
@@ -65,7 +65,7 @@ public abstract class AbsGrammarFactory {
 
     protected abstract IGrammar getHyperLinkGrammar();
 
-    public IResponsibilityChain getChain() {
+    public IChain getChain() {
         return mChain;
     }
 }

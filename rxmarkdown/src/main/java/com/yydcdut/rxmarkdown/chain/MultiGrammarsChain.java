@@ -9,10 +9,10 @@ import java.util.Arrays;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class MultiGrammarsChain implements IResponsibilityChain {
+public class MultiGrammarsChain implements IChain {
     private IGrammar[] mGrammars;
 
-    private IResponsibilityChain mNextHandleGrammar = null;
+    private IChain mNextHandleGrammar = null;
 
     public MultiGrammarsChain(@NonNull IGrammar... grammars) {
         mGrammars = grammars;
@@ -41,12 +41,12 @@ public class MultiGrammarsChain implements IResponsibilityChain {
 
     @Override
     @Deprecated
-    public boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
+    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
         return false;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
+    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
         mNextHandleGrammar = nextHandleGrammar;
         return true;
     }

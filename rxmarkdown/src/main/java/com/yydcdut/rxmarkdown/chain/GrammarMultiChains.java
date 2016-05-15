@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class GrammarMultiChains implements IResponsibilityChain {
+public class GrammarMultiChains implements IChain {
     private IGrammar mGrammar;
 
-    private List<IResponsibilityChain> mNextHandleGrammarList = null;
+    private List<IChain> mNextHandleGrammarList = null;
 
     public GrammarMultiChains(@NonNull IGrammar grammar) {
         mGrammar = grammar;
@@ -27,7 +27,7 @@ public class GrammarMultiChains implements IResponsibilityChain {
         }
         if (mNextHandleGrammarList != null) {
             boolean handled = false;
-            for (IResponsibilityChain responsibilityChain : mNextHandleGrammarList) {
+            for (IChain responsibilityChain : mNextHandleGrammarList) {
                 handled |= responsibilityChain.handleGrammar(charSequence);
             }
             return handled;
@@ -37,7 +37,7 @@ public class GrammarMultiChains implements IResponsibilityChain {
     }
 
     @Override
-    public boolean addNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
+    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
         if (mNextHandleGrammarList == null) {
             mNextHandleGrammarList = new ArrayList<>();
         }
@@ -47,7 +47,7 @@ public class GrammarMultiChains implements IResponsibilityChain {
 
     @Override
     @Deprecated
-    public boolean setNextHandleGrammar(@NonNull IResponsibilityChain nextHandleGrammar) {
+    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
         return false;
     }
 
