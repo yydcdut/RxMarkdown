@@ -15,6 +15,10 @@ public class AndroidFactory extends AbsGrammarFactory {
         return new AndroidFactory();
     }
 
+    @Override
+    protected IGrammar getHorizontalRules() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HORIZONTAL_RULES);
+    }
 
     @Override
     protected IGrammar getBlockQuotesGrammar() {
