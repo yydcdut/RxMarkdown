@@ -75,4 +75,9 @@ public class AndroidFactory extends AbsGrammarFactory {
     protected IGrammar getSuperscriptGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar((AndroidInstanceFactory.GRAMMAR_SUPERSCRIPT));
     }
+
+    @Override
+    protected IGrammar getHyperLinkGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK);
+    }
 }

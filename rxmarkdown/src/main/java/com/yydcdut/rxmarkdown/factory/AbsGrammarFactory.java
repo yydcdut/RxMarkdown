@@ -25,7 +25,8 @@ public abstract class AbsGrammarFactory {
                 getItalicGrammar(),
                 getInlineCodeGrammar(),
                 getStrikeThroughGrammar(),
-                getSuperscriptGrammar());
+                getSuperscriptGrammar(),
+                getHyperLinkGrammar());
         mChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
@@ -61,6 +62,8 @@ public abstract class AbsGrammarFactory {
     protected abstract IGrammar getStrikeThroughGrammar();
 
     protected abstract IGrammar getSuperscriptGrammar();
+
+    protected abstract IGrammar getHyperLinkGrammar();
 
     public IResponsibilityChain getChain() {
         return mChain;

@@ -19,6 +19,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_INLINE_CODE = 16;
     public static final int GRAMMAR_STRIKE_THROUGH = 17;
     public static final int GRAMMAR_SUPERSCRIPT = 18;
+    public static final int GRAMMAR_HYPERLINK = 19;
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
@@ -46,6 +47,8 @@ public class AndroidInstanceFactory {
                 return new StrikeThroughGrammar();
             case GRAMMAR_SUPERSCRIPT:
                 return new SuperscriptGrammar();
+            case GRAMMAR_HYPERLINK:
+                return new HyperLinkGrammar();
             default:
                 return new NormalGrammar();
         }

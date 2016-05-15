@@ -2,12 +2,16 @@ package com.yydcdut.markdown;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -38,11 +42,13 @@ public class ShowActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView textView = (TextView) findViewById(R.id.txt_md_show);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
         String content = getIntent().getStringExtra(EXTRA_CONTENT);
         if (TextUtils.isEmpty(content)) {
             Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
+//        getTextViewLength(textView);
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content)
                 .factory(AndroidFactory.create())
@@ -75,6 +81,29 @@ public class ShowActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getTextViewLength(final TextView textView) {
+        getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                textView.setTextSize(20f);
+                int width = textView.getWidth();
+                Log.i("yuyidong", width + "   width");
+                Paint paint = new Paint();
+                float ll = paint.measureText("H");
+                Log.i("yuyidong", "ll---->" + ll);
+                TextPaint textPaint = textView.getPaint();
+                float llll = textPaint.measureText("H");
+                Log.i("yuyidong", llll + "   llllllllllllllll");
+                int geshu = (int) (width / llll);
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < geshu + 1; i++) {
+                    stringBuilder.append("H");
+                }
+                textView.setText(stringBuilder.toString());
+            }
+        });
     }
 
 //    private void test(TextView textView, String content) {
