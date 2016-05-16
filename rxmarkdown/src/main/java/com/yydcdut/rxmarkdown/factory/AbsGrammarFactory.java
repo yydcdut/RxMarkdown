@@ -13,7 +13,8 @@ public abstract class AbsGrammarFactory {
     protected IChain mChain;
 
     public AbsGrammarFactory() {
-        mChain = new GrammarSingleChain(getHorizontalRules());
+        mChain = new GrammarSingleChain(getImageGrammar());
+        GrammarSingleChain horizontalRulesChain = new GrammarSingleChain(getHorizontalRulesGrammar());
         GrammarSingleChain blockQuitesChain = new GrammarSingleChain(getBlockQuotesGrammar());
         GrammarSingleChain orderListChain = new GrammarSingleChain(getOrderListGrammar());
         GrammarSingleChain unOrderListChain = new GrammarSingleChain(getUnOrderListGrammar());
@@ -28,7 +29,8 @@ public abstract class AbsGrammarFactory {
                 getStrikeThroughGrammar(),
                 getSuperscriptGrammar(),
                 getHyperLinkGrammar());
-        mChain.setNextHandleGrammar(blockQuitesChain);
+        mChain.setNextHandleGrammar(horizontalRulesChain);
+        horizontalRulesChain.setNextHandleGrammar(blockQuitesChain);
         blockQuitesChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
@@ -41,7 +43,9 @@ public abstract class AbsGrammarFactory {
         headerLine1Chain.addNextHandleGrammar(multiChain);
     }
 
-    protected abstract IGrammar getHorizontalRules();
+    protected abstract IGrammar getImageGrammar();
+
+    protected abstract IGrammar getHorizontalRulesGrammar();
 
     protected abstract IGrammar getBlockQuotesGrammar();
 

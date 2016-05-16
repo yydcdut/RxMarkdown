@@ -64,8 +64,8 @@ public class RxMarkdown {
         for (String line : lines) {
             SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
             chain.handleGrammar(lineSSB);
+            lineSSB.append("\n");
             ssb.append(lineSSB);
-            ssb.append("\n");
         }
         return ssb;
     }

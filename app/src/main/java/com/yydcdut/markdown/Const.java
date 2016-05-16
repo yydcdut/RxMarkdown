@@ -20,6 +20,7 @@ public interface Const {
             "## 二级标题\n" +
             "### 三级标题\n" +
             "---\n" +
+            "![test](http://static.yo9.com/web/emotions/tv_sad.png)\n" +
             "### **加粗功能**\n" +
             "使用一组星号“**”来加粗一段文字\n" +
             "\n" +

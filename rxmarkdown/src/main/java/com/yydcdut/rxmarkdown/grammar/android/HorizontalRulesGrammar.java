@@ -11,7 +11,7 @@ import com.yydcdut.rxmarkdown.span.CustomHorizontalRulesSpan;
 /**
  * Created by yuyidong on 16/5/15.
  */
-public class HorizontalRulesGrammar extends AbsAndroidGrammar {
+class HorizontalRulesGrammar extends AbsAndroidGrammar {
     private static final String KEY_0 = "***";
     private static final String KEY_1 = "---";
 

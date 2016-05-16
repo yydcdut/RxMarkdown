@@ -7,10 +7,11 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  */
 public class AndroidInstanceFactory {
 
-    public static final int GRAMMAR_HORIZONTAL_RULES = 0;
-    public static final int GRAMMAR_BLOCK_QUOTES = 1;
-    public static final int GRAMMAR_ORDER_LIST = 2;
-    public static final int GRAMMAR_UNORDER_LIST = 3;
+    public static final int GRAMMAR_IMAGE = 0;
+    public static final int GRAMMAR_HORIZONTAL_RULES = 1;
+    public static final int GRAMMAR_BLOCK_QUOTES = 2;
+    public static final int GRAMMAR_ORDER_LIST = 3;
+    public static final int GRAMMAR_UNORDER_LIST = 4;
     public static final int GRAMMAR_CENTER_ALIGN = 10;
     public static final int GRAMMAR_HEADER_LINE_1 = 11;
     public static final int GRAMMAR_HEADER_LINE_2 = 12;
@@ -25,6 +26,8 @@ public class AndroidInstanceFactory {
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
+            case GRAMMAR_IMAGE:
+                return new ImageGrammar();
             case GRAMMAR_HORIZONTAL_RULES:
                 return new HorizontalRulesGrammar();
             case GRAMMAR_BLOCK_QUOTES:
