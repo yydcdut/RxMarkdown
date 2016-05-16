@@ -1,11 +1,15 @@
 package com.yydcdut.markdown;
 
+import android.os.Environment;
+
+import java.io.File;
+
 /**
  * Created by yuyidong on 16/5/11.
  */
 public interface Const {
 
-    String MD_SAMPLE = "在这个**版本**中我们*增加test*了 `Markdown` 功能。`Markdown` 是~~一种使用纯文本编写的标记~~语言，可以产生格式丰富的页面[^排版效果]，比如突出[标题](http://www.baidu.com)、居中、加粗、引用和生成列表。\n" +
+    String MD_SAMPLE = "在这个**版本**中我们*增加test*了 `Markdown` 功能。`Markdown` 是~~一种使用纯文本编写的标记~~语言，可以产生格式![test](http://static.yo9.com/web/emotions/tv_sad.png)丰富的页面[^排版效果]，比如突出[标题](http://www.baidu.com)、居中、加粗、引用和生成列表。\n" +
             "\n" +
             "## **用法与规则：**\n" +
 //                    "\n" +
@@ -20,7 +24,7 @@ public interface Const {
             "## 二级标题\n" +
             "### 三级标题\n" +
             "---\n" +
-            "![test](http://static.yo9.com/web/emotions/tv_sad.png)\n" +
+            "![test](file://" + Environment.getExternalStorageDirectory() + File.separator + "tv_cheers.png" + ")\n" +
             "### **加粗功能**\n" +
             "使用一组星号“**”来加粗一段文字\n" +
             "\n" +

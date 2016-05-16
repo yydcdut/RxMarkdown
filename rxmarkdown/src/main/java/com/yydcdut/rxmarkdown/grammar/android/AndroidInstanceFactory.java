@@ -7,7 +7,6 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  */
 public class AndroidInstanceFactory {
 
-    public static final int GRAMMAR_IMAGE = 0;
     public static final int GRAMMAR_HORIZONTAL_RULES = 1;
     public static final int GRAMMAR_BLOCK_QUOTES = 2;
     public static final int GRAMMAR_ORDER_LIST = 3;
@@ -21,13 +20,12 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_INLINE_CODE = 16;
     public static final int GRAMMAR_STRIKE_THROUGH = 17;
     public static final int GRAMMAR_SUPERSCRIPT = 18;
-    public static final int GRAMMAR_HYPERLINK = 19;
+    public static final int GRAMMAR_IMAGE = 19;
+    public static final int GRAMMAR_HYPERLINK = 20;
 
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
-            case GRAMMAR_IMAGE:
-                return new ImageGrammar();
             case GRAMMAR_HORIZONTAL_RULES:
                 return new HorizontalRulesGrammar();
             case GRAMMAR_BLOCK_QUOTES:
@@ -54,6 +52,8 @@ public class AndroidInstanceFactory {
                 return new StrikeThroughGrammar();
             case GRAMMAR_SUPERSCRIPT:
                 return new SuperscriptGrammar();
+            case GRAMMAR_IMAGE:
+                return new ImageGrammar();
             case GRAMMAR_HYPERLINK:
                 return new HyperLinkGrammar();
             default:

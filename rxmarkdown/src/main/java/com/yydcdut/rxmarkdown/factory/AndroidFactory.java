@@ -16,11 +16,6 @@ public class AndroidFactory extends AbsGrammarFactory {
     }
 
     @Override
-    protected IGrammar getImageGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_IMAGE);
-    }
-
-    @Override
     protected IGrammar getHorizontalRulesGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HORIZONTAL_RULES);
     }
@@ -83,6 +78,11 @@ public class AndroidFactory extends AbsGrammarFactory {
     @Override
     protected IGrammar getSuperscriptGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar((AndroidInstanceFactory.GRAMMAR_SUPERSCRIPT));
+    }
+
+    @Override
+    protected IGrammar getImageGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_IMAGE);
     }
 
     @Override

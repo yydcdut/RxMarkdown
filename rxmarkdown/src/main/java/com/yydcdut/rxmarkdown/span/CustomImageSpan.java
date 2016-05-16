@@ -10,7 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
+import android.util.Log;
 import android.view.View;
 
 import com.yydcdut.rxmarkdown.view.ForwardingDrawable;
@@ -18,6 +21,7 @@ import com.yydcdut.rxmarkdown.view.ForwardingDrawable;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +33,14 @@ import java.net.URL;
  * Created by yuyidong on 16/5/16.
  */
 public class CustomImageSpan extends DynamicDrawableSpan {
+
+    private static final int URL_$$$$ = -1;
+    private static final int URL_HTTP = 0;
+    private static final int URL_FILE = 1;
+
+    private static final String URL_HEADER_HTTP = "http://";
+    private static final String URL_HEADER_FILE = "file://";
+
     private String mImageUri;
     private Drawable mPlaceHolder;
     private Drawable mFinalDrawable;
@@ -86,13 +98,21 @@ public class CustomImageSpan extends DynamicDrawableSpan {
 
             @Override
             protected Drawable doInBackground(String... params) {
-                String http = params[0];
-                byte[] bytes = net(http);
-                if (bytes == null) {
-                    return null;
+                String url = params[0];
+                int type = judgeUrl(url);
+                Drawable drawable = null;
+                switch (type) {
+                    case URL_HTTP:
+                        drawable = getDrawableFromNet(url);
+                        break;
+                    case URL_FILE:
+                        drawable = getDrawableFromLocal(url);
+                        break;
+                    case URL_$$$$:
+                    default:
+                        return null;
                 }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Drawable drawable = createBitmapDrawable(bitmap);
+
                 return drawable;
             }
 
@@ -101,28 +121,68 @@ public class CustomImageSpan extends DynamicDrawableSpan {
                 setImageWithIntrinsicBounds(drawable);
             }
 
-            protected BitmapDrawable createBitmapDrawable(Bitmap bitmap) {
-                BitmapDrawable drawable;
-                if (mAttachedView != null) {
-                    final Context context = mAttachedView.getContext();
-                    drawable = new BitmapDrawable(context.getResources(), bitmap);
-                } else {
-                    drawable = new BitmapDrawable(null, bitmap);
-                }
-                return drawable;
-            }
         };
         asyncTask.execute(mImageUri);
     }
 
-    private void setImageWithIntrinsicBounds(Drawable drawable) {
+    private void setImageWithIntrinsicBounds(@NonNull Drawable drawable) {
         if (mFinalDrawable != drawable && drawable != null) {
             mActualDrawable.setCurrent(drawable);
             mFinalDrawable = drawable;
         }
     }
 
-    private static byte[] net(String http) {
+    private BitmapDrawable createBitmapDrawable(Bitmap bitmap) {
+        BitmapDrawable drawable;
+        if (mAttachedView != null) {
+            final Context context = mAttachedView.getContext();
+            drawable = new BitmapDrawable(context.getResources(), bitmap);
+        } else {
+            drawable = new BitmapDrawable(null, bitmap);
+        }
+        return drawable;
+    }
+
+    private Drawable getDrawableFromLocal(String url) {
+        final Context context = mAttachedView.getContext();
+        if (context == null) {
+            Log.i("yuyidong", "context == null");
+            return null;
+        }
+        String path = url.substring(URL_HEADER_FILE.length() + 1, url.length());
+        InputStream inputStream = null;
+        Drawable drawable = null;
+        try {
+            inputStream = new FileInputStream(path);
+            byte[] bytes = getBytes(inputStream);
+            if (bytes != null) {
+                drawable = getDrawable(bytes);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(inputStream);
+        }
+        return drawable;
+    }
+
+    private Drawable getDrawableFromNet(@NonNull String http) {
+        byte[] bytes = net(http);
+        if (bytes == null) {
+            return null;
+        }
+        return getDrawable(bytes);
+    }
+
+    private static int calculate(@NonNull BitmapFactory.Options options, int expectWidth, int expectHeight) {
+        int sampleSize = 1;
+        while (options.outHeight / sampleSize > expectWidth || options.outWidth / sampleSize > expectHeight) {
+            sampleSize = sampleSize << 1;
+        }
+        return sampleSize;
+    }
+
+    private static byte[] net(@NonNull String http) {
         HttpURLConnection httpURLConnection = null;
         ByteArrayOutputStream out = null;
         byte[] bytes = null;
@@ -130,12 +190,7 @@ public class CustomImageSpan extends DynamicDrawableSpan {
             URL url = new URL(http);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
-            out = new ByteArrayOutputStream();
-            int i;
-            while ((i = in.read()) != -1) {
-                out.write(i);
-            }
-            bytes = out.toByteArray();
+            bytes = getBytes(in);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -151,7 +206,45 @@ public class CustomImageSpan extends DynamicDrawableSpan {
         return bytes;
     }
 
-    private static void closeStream(Closeable closeable) {
+    private static byte[] getBytes(@NonNull InputStream inputStream) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] bytes = null;
+        try {
+            int i;
+            while ((i = inputStream.read()) != -1) {
+                out.write(i);
+            }
+            bytes = out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+    private Drawable getDrawable(@NonNull byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        BitmapFactory.Options calculateOptions = new BitmapFactory.Options();
+        calculateOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, calculateOptions);
+        int expectWidth = mActualDrawable.getIntrinsicWidth();
+        int expectHeight = mActualDrawable.getIntrinsicHeight();
+        int sampleSize = 1;
+        if (expectWidth >= 0 && expectHeight >= 0) {
+            sampleSize = calculate(calculateOptions, expectWidth, expectHeight);
+        } else if (mPlaceHolder.getBounds().width() >= 0 && mPlaceHolder.getBounds().height() >= 0) {
+            Rect rect = mPlaceHolder.getBounds();
+            sampleSize = calculate(calculateOptions, rect.width(), rect.height());
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = sampleSize;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+        Drawable drawable = createBitmapDrawable(bitmap);
+        return drawable;
+    }
+
+    private static void closeStream(@Nullable Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -167,11 +260,18 @@ public class CustomImageSpan extends DynamicDrawableSpan {
         }
         mActualDrawable.setCallback(null);
         mAttachedView = null;
-        reset();
-    }
-
-    private void reset() {
         mActualDrawable.setCurrent(mPlaceHolder);
     }
 
+    private static int judgeUrl(@NonNull String url) {
+        if (TextUtils.isEmpty(url)) {
+            return URL_$$$$;
+        }
+        if (url.toLowerCase().startsWith(URL_HEADER_HTTP)) {
+            return URL_HTTP;
+        } else if (url.toLowerCase().startsWith(URL_HEADER_FILE)) {
+            return URL_FILE;
+        }
+        return URL_$$$$;
+    }
 }
