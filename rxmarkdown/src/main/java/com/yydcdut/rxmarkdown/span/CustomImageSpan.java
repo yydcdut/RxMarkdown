@@ -144,7 +144,10 @@ public class CustomImageSpan extends DynamicDrawableSpan {
     }
 
     private Drawable getDrawableFromLocal(String url) {
-        final Context context = mAttachedView.getContext();
+        if (mAttachedView == null) {
+            return null;
+        }
+        Context context = mAttachedView.getContext();
         if (context == null) {
             Log.i("yuyidong", "context == null");
             return null;

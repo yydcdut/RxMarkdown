@@ -15,7 +15,7 @@ import com.yydcdut.rxmarkdown.span.CustomImageSpan;
  */
 public class MDTextView extends TextView {
 
-    private boolean mHasDraweeInText;
+    private boolean mHasImageInText;
 
     public MDTextView(Context context) {
         super(context);
@@ -36,13 +36,13 @@ public class MDTextView extends TextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        if (mHasDraweeInText) {
-            onDetach(); // detach all old images
-            mHasDraweeInText = false;
+        if (mHasImageInText) {
+            onDetach();
+            mHasImageInText = false;
         }
         if (text instanceof Spanned) {
             CustomImageSpan[] spans = ((Spanned) text).getSpans(0, text.length(), CustomImageSpan.class);
-            mHasDraweeInText = spans.length > 0;
+            mHasImageInText = spans.length > 0;
             for (CustomImageSpan image : spans) {
                 image.onAttach(this);
             }
@@ -67,7 +67,7 @@ public class MDTextView extends TextView {
 
     @Override
     public void invalidateDrawable(Drawable dr) {
-        if (mHasDraweeInText) {
+        if (mHasImageInText) {
             invalidate();
         } else {
             super.invalidateDrawable(dr);
@@ -86,10 +86,9 @@ public class MDTextView extends TextView {
     }
 
     private CustomImageSpan[] getImages() {
-        if (mHasDraweeInText && length() > 0) {
+        if (mHasImageInText && length() > 0) {
             return ((Spanned) getText()).getSpans(0, length(), CustomImageSpan.class);
         }
         return new CustomImageSpan[0];
     }
-
 }

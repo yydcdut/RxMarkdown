@@ -89,4 +89,9 @@ public class AndroidFactory extends AbsGrammarFactory {
     protected IGrammar getHyperLinkGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK);
     }
+
+    @Override
+    protected IGrammar getCodeGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CODE);
+    }
 }

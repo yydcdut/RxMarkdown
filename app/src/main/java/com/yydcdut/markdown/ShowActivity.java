@@ -49,7 +49,6 @@ public class ShowActivity extends AppCompatActivity {
             Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
-//        getTextViewLength(textView);
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content)
                 .factory(AndroidFactory.create())
@@ -72,6 +71,7 @@ public class ShowActivity extends AppCompatActivity {
                     }
                 });
 //        test(textView, content);
+//        getTextViewLength(textView);
     }
 
     @Override
@@ -107,15 +107,15 @@ public class ShowActivity extends AppCompatActivity {
         });
     }
 
-//    private void test(TextView textView, String content) {
-//        SuperScriptGrammar superScriptGrammar = new SuperScriptGrammar();
-//        boolean b = superScriptGrammar.isMatch(content);
+    private void test(TextView textView, String content) {
+//        CodeGrammar codeGrammar = new CodeGrammar();
+//        boolean b = codeGrammar.isMatch(content);
 //        Log.i("yuyidong", "isMatch  ---->   " + b);
 //        if (b) {
-//            CharSequence charSequence = superScriptGrammar.format(new SpannableStringBuilder(content));
+//            CharSequence charSequence = codeGrammar.format(new SpannableStringBuilder(content));
 //            textView.setText(charSequence, TextView.BufferType.SPANNABLE);
 //            Log.i("yuyidong", "finish   xxx  " + charSequence.toString());
 //        }
-//    }
+    }
 
 }

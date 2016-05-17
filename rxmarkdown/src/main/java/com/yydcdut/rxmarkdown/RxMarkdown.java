@@ -50,20 +50,26 @@ public class RxMarkdown {
                     @Override
                     public CharSequence call(String s) {
                         if (mAbsGrammarFactory != null) {
-                            IChain chain = mAbsGrammarFactory.getChain();
-                            return parse(chain);
+                            SpannableStringBuilder ssb = parseByLine(mAbsGrammarFactory.getLineChain(), mContent);
+                            parseTotal(mAbsGrammarFactory.getTotalChain(), ssb);
+                            return ssb;
                         }
                         return s;
                     }
                 });
     }
 
-    private CharSequence parse(IChain chain) {
-        String[] lines = mContent.split("\n");
+    private static CharSequence parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
+        totalChain.handleGrammar(ssb);
+        return ssb;
+    }
+
+    private static SpannableStringBuilder parseByLine(IChain lineChain, String content) {
+        String[] lines = content.split("\n");
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         for (String line : lines) {
             SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
-            chain.handleGrammar(lineSSB);
+            lineChain.handleGrammar(lineSSB);
             lineSSB.append("\n");
             ssb.append(lineSSB);
         }

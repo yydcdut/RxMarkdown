@@ -10,10 +10,12 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  * Created by yuyidong on 16/5/12.
  */
 public abstract class AbsGrammarFactory {
-    protected IChain mChain;
+    protected IChain mLineChain;
+    protected IChain mTotalChain;
 
     public AbsGrammarFactory() {
-        mChain = new GrammarSingleChain(getHorizontalRulesGrammar());
+        mTotalChain = new GrammarSingleChain(getCodeGrammar());
+        mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar());
         GrammarSingleChain blockQuitesChain = new GrammarSingleChain(getBlockQuotesGrammar());
         GrammarSingleChain orderListChain = new GrammarSingleChain(getOrderListGrammar());
         GrammarSingleChain unOrderListChain = new GrammarSingleChain(getUnOrderListGrammar());
@@ -29,7 +31,7 @@ public abstract class AbsGrammarFactory {
                 getSuperscriptGrammar(),
                 getImageGrammar(),
                 getHyperLinkGrammar());
-        mChain.setNextHandleGrammar(blockQuitesChain);
+        mLineChain.setNextHandleGrammar(blockQuitesChain);
         blockQuitesChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
@@ -42,7 +44,7 @@ public abstract class AbsGrammarFactory {
         headerLine1Chain.addNextHandleGrammar(multiChain);
     }
 
-    protected abstract IGrammar getImageGrammar();
+    protected abstract IGrammar getCodeGrammar();
 
     protected abstract IGrammar getHorizontalRulesGrammar();
 
@@ -70,9 +72,15 @@ public abstract class AbsGrammarFactory {
 
     protected abstract IGrammar getSuperscriptGrammar();
 
+    protected abstract IGrammar getImageGrammar();
+
     protected abstract IGrammar getHyperLinkGrammar();
 
-    public IChain getChain() {
-        return mChain;
+    public IChain getLineChain() {
+        return mLineChain;
+    }
+
+    public IChain getTotalChain() {
+        return mTotalChain;
     }
 }

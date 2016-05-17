@@ -2,28 +2,27 @@ package com.yydcdut.rxmarkdown.span;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
 
 /**
- * Created by yuyidong on 16/5/15.
+ * Created by yuyidong on 16/5/17.
  */
-public class CustomHorizontalRulesSpan extends QuoteSpan {
+public class CustomCodeSpan extends QuoteSpan {
     private final int mColor;
 
-    public CustomHorizontalRulesSpan() {
+    public CustomCodeSpan() {
         super();
         mColor = 0xff0000ff;
     }
 
-    public CustomHorizontalRulesSpan(int color) {
+    public CustomCodeSpan(int color) {
         super(color);
         mColor = color;
     }
 
-    public CustomHorizontalRulesSpan(Parcel src) {
+    public CustomCodeSpan(Parcel src) {
         super(src);
         mColor = src.readInt();
     }
@@ -38,11 +37,7 @@ public class CustomHorizontalRulesSpan extends QuoteSpan {
         p.setStyle(Paint.Style.FILL);
         p.setColor(mColor);
 
-        int height = bottom - top;
-        int width = layout.getWidth();
-
-        RectF rectF = new RectF(x, top + height * 2 / 5, x + width, bottom - height * 2 / 5);
-        c.drawRoundRect(rectF, height / 2, height / 2, p);
+        c.drawRect(x, top, x + layout.getWidth(), bottom, p);
 
         p.setStyle(style);
         p.setColor(color);
