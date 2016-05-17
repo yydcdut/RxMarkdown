@@ -22,6 +22,8 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_FOOTNOTE = 18;
     public static final int GRAMMAR_IMAGE = 19;
     public static final int GRAMMAR_HYPERLINK = 20;
+    public static final int GRAMMAR_TODO = 21;
+    public static final int GRAMMAR_TODO_DONE = 22;
 
     public static final int GRAMMAR_CODE = 30;
 
@@ -60,6 +62,10 @@ public class AndroidInstanceFactory {
                 return new HyperLinkGrammar();
             case GRAMMAR_CODE:
                 return new CodeGrammar();
+            case GRAMMAR_TODO:
+                return new TodoGrammar();
+            case GRAMMAR_TODO_DONE:
+                return new TodoDoneGrammar();
             default:
                 return new NormalGrammar();
         }

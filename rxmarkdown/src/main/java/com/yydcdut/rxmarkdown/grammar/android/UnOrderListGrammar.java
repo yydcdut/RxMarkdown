@@ -11,9 +11,9 @@ import android.text.style.BulletSpan;
  * Created by yuyidong on 16/5/4.
  */
 class UnOrderListGrammar extends AbsAndroidGrammar {
-    private static final String KEY0 = "* ";
-    private static final String KEY1 = "+ ";
-    private static final String KEY2 = "- ";
+    private static final String KEY_0 = "* ";
+    private static final String KEY_1 = "+ ";
+    private static final String KEY_2 = "- ";
 
     private static final int START_POSITION = 2;
 
@@ -22,9 +22,9 @@ class UnOrderListGrammar extends AbsAndroidGrammar {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
-        return text.startsWith(KEY0) ||
-                text.startsWith(KEY1) ||
-                text.startsWith(KEY2);
+        return text.startsWith(KEY_0) ||
+                text.startsWith(KEY_1) ||
+                (text.startsWith(KEY_2));
     }
 
     @NonNull

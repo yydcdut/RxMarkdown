@@ -17,6 +17,8 @@ public abstract class AbsGrammarFactory {
         mTotalChain = new GrammarSingleChain(getCodeGrammar());
         mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar());
         GrammarSingleChain blockQuitesChain = new GrammarSingleChain(getBlockQuotesGrammar());
+        GrammarSingleChain todoChain = new GrammarSingleChain(getTodoGrammar());
+        GrammarSingleChain todoDoneChain = new GrammarSingleChain(getTodoDoneGrammar());
         GrammarSingleChain orderListChain = new GrammarSingleChain(getOrderListGrammar());
         GrammarSingleChain unOrderListChain = new GrammarSingleChain(getUnOrderListGrammar());
         GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar());
@@ -32,7 +34,9 @@ public abstract class AbsGrammarFactory {
                 getImageGrammar(),
                 getHyperLinkGrammar());
         mLineChain.setNextHandleGrammar(blockQuitesChain);
-        blockQuitesChain.setNextHandleGrammar(orderListChain);
+        blockQuitesChain.setNextHandleGrammar(todoChain);
+        todoChain.setNextHandleGrammar(todoDoneChain);
+        todoDoneChain.setNextHandleGrammar(orderListChain);
         orderListChain.setNextHandleGrammar(unOrderListChain);
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
         centerAlignChain.addNextHandleGrammar(headerLine3Chain);
@@ -49,6 +53,10 @@ public abstract class AbsGrammarFactory {
     protected abstract IGrammar getHorizontalRulesGrammar();
 
     protected abstract IGrammar getBlockQuotesGrammar();
+
+    protected abstract IGrammar getTodoGrammar();
+
+    protected abstract IGrammar getTodoDoneGrammar();
 
     protected abstract IGrammar getOrderListGrammar();
 

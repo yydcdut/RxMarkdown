@@ -26,6 +26,16 @@ public class AndroidFactory extends AbsGrammarFactory {
     }
 
     @Override
+    protected IGrammar getTodoGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO);
+    }
+
+    @Override
+    protected IGrammar getTodoDoneGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO_DONE);
+    }
+
+    @Override
     protected IGrammar getOrderListGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ORDER_LIST);
     }
