@@ -24,17 +24,17 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 
 - [ ] Nested List `* ` /  `+ ` / `- ` 
 
-- [ ] Image `![]()`
+- [x] Image `![]()`
 
-- [ ] Link `[]()`
+- [x] Hyper Link `[]()`
 
 - [x] Inline Code `` `
 
-- [ ] Code ````java`
+- [x] Code `\`\`\`java`
 
 - [ ] Backslash `\`
 
-- [ ] Horizontal Rules `* * *` / `***` / `*****` / `- - -` / `-----------------`
+- [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
 
 - [x] Strike Through `~~` 
 

@@ -28,7 +28,7 @@ public abstract class AbsGrammarFactory {
                 getItalicGrammar(),
                 getInlineCodeGrammar(),
                 getStrikeThroughGrammar(),
-                getSuperscriptGrammar(),
+                getFootnoteGrammar(),
                 getImageGrammar(),
                 getHyperLinkGrammar());
         mLineChain.setNextHandleGrammar(blockQuitesChain);
@@ -70,7 +70,7 @@ public abstract class AbsGrammarFactory {
 
     protected abstract IGrammar getStrikeThroughGrammar();
 
-    protected abstract IGrammar getSuperscriptGrammar();
+    protected abstract IGrammar getFootnoteGrammar();
 
     protected abstract IGrammar getImageGrammar();
 

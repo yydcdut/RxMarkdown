@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/13.
  */
-class SuperscriptGrammar extends AbsAndroidGrammar {
+class FootnoteGrammar extends AbsAndroidGrammar {
     private static final String KEY_BEGIN = "[^";
     private static final String KEY_END = "]";
 

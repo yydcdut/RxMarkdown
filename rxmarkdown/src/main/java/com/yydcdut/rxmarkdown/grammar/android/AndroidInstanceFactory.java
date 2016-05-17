@@ -19,7 +19,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_ITALIC = 15;
     public static final int GRAMMAR_INLINE_CODE = 16;
     public static final int GRAMMAR_STRIKE_THROUGH = 17;
-    public static final int GRAMMAR_SUPERSCRIPT = 18;
+    public static final int GRAMMAR_FOOTNOTE = 18;
     public static final int GRAMMAR_IMAGE = 19;
     public static final int GRAMMAR_HYPERLINK = 20;
 
@@ -52,8 +52,8 @@ public class AndroidInstanceFactory {
                 return new InlineCodeGrammar();
             case GRAMMAR_STRIKE_THROUGH:
                 return new StrikeThroughGrammar();
-            case GRAMMAR_SUPERSCRIPT:
-                return new SuperscriptGrammar();
+            case GRAMMAR_FOOTNOTE:
+                return new FootnoteGrammar();
             case GRAMMAR_IMAGE:
                 return new ImageGrammar();
             case GRAMMAR_HYPERLINK:
