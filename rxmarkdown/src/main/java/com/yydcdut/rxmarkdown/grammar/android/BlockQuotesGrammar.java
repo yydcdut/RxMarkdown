@@ -13,8 +13,6 @@ import com.yydcdut.rxmarkdown.span.CustomQuoteSpan;
 class BlockQuotesGrammar extends AbsAndroidGrammar {
     private static final String KEY = "> ";
 
-    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY;
-
     @Override
     public boolean isMatch(@NonNull String text) {
         if (!text.startsWith(KEY)) {
@@ -26,15 +24,6 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
-        }
         return ssb;
     }
 
@@ -53,15 +42,6 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(KEY_ENCODE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
-        }
         return ssb;
     }
 

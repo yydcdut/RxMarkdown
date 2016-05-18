@@ -1,5 +1,9 @@
 package com.yydcdut.rxmarkdown.factory;
 
+import android.support.annotation.NonNull;
+import android.text.SpannableStringBuilder;
+
+import com.yydcdut.rxmarkdown.chain.IChain;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
 
@@ -104,4 +108,29 @@ public class AndroidFactory extends AbsGrammarFactory {
     protected IGrammar getCodeGrammar() {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CODE);
     }
+
+    @NonNull
+    @Override
+    public CharSequence parse(@NonNull CharSequence charSequence) {
+        SpannableStringBuilder ssb = parseByLine(mLineChain, charSequence.toString());
+        return parseTotal(mTotalChain, ssb);
+    }
+
+    private static CharSequence parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
+        totalChain.handleGrammar(ssb);
+        return ssb;
+    }
+
+    private static SpannableStringBuilder parseByLine(IChain lineChain, String content) {
+        String[] lines = content.split("\n");
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        for (String line : lines) {
+            SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
+            lineChain.handleGrammar(lineSSB);
+            lineSSB.append("\n");
+            ssb.append(lineSSB);
+        }
+        return ssb;
+    }
+
 }

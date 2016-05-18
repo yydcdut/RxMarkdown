@@ -4,10 +4,14 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, Handler.Callback {
     private EditText mEditText;
     private AsyncTask mAsyncTask;
+
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
+        mHandler = new Handler(this);
+
         mEditText = (EditText) findViewById(R.id.edit_md);
         mEditText.setText(Const.MD_SAMPLE);
         mAsyncTask = new DemoPictureAsyncTask().execute();
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {//增加
+                    CharSequence input = s.toString().subSequence(start, start + count);
+                    if ("\n".equals(input.toString())) {
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
 
@@ -69,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Snackbar.make(v, "Wait....", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        mEditText.append(" 1. ");
+        return false;
     }
 
     class DemoPictureAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -107,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-
-
             return null;
         }
     }

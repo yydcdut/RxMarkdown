@@ -1,5 +1,7 @@
 package com.yydcdut.rxmarkdown.factory;
 
+import android.support.annotation.NonNull;
+
 import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
 import com.yydcdut.rxmarkdown.chain.IChain;
@@ -48,8 +50,6 @@ public abstract class AbsGrammarFactory {
         headerLine1Chain.addNextHandleGrammar(multiChain);
     }
 
-    protected abstract IGrammar getCodeGrammar();
-
     protected abstract IGrammar getHorizontalRulesGrammar();
 
     protected abstract IGrammar getBlockQuotesGrammar();
@@ -84,11 +84,8 @@ public abstract class AbsGrammarFactory {
 
     protected abstract IGrammar getHyperLinkGrammar();
 
-    public IChain getLineChain() {
-        return mLineChain;
-    }
+    protected abstract IGrammar getCodeGrammar();
 
-    public IChain getTotalChain() {
-        return mTotalChain;
-    }
+    @NonNull
+    public abstract CharSequence parse(@NonNull CharSequence charSequence);
 }

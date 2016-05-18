@@ -1,9 +1,5 @@
 package com.yydcdut.rxmarkdown;
 
-import android.text.SpannableStringBuilder;
-import android.widget.TextView;
-
-import com.yydcdut.rxmarkdown.chain.IChain;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 
 import rx.Observable;
@@ -23,8 +19,6 @@ public class RxMarkdown {
      */
     private AbsGrammarFactory mAbsGrammarFactory;
 
-    private float mMeasureText = 0f;
-
     private RxMarkdown(String content) {
         mContent = content;
     }
@@ -38,11 +32,6 @@ public class RxMarkdown {
         return this;
     }
 
-    public RxMarkdown measure(TextView textView) {
-        mMeasureText = textView.getPaint().measureText(" ");
-        return this;
-    }
-
     public Observable<CharSequence> intoObservable() {
         return Observable.just(mContent)
                 .subscribeOn(Schedulers.computation())
@@ -50,30 +39,12 @@ public class RxMarkdown {
                     @Override
                     public CharSequence call(String s) {
                         if (mAbsGrammarFactory != null) {
-                            SpannableStringBuilder ssb = parseByLine(mAbsGrammarFactory.getLineChain(), mContent);
-                            parseTotal(mAbsGrammarFactory.getTotalChain(), ssb);
-                            return ssb;
+                            return mAbsGrammarFactory.parse(s);
                         }
                         return s;
                     }
                 });
     }
 
-    private static CharSequence parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
-        totalChain.handleGrammar(ssb);
-        return ssb;
-    }
-
-    private static SpannableStringBuilder parseByLine(IChain lineChain, String content) {
-        String[] lines = content.split("\n");
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        for (String line : lines) {
-            SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
-            lineChain.handleGrammar(lineSSB);
-            lineSSB.append("\n");
-            ssb.append(lineSSB);
-        }
-        return ssb;
-    }
 
 }

@@ -13,8 +13,6 @@ import android.text.style.BulletSpan;
 class OrderListGrammar extends AbsAndroidGrammar {
     private static final char DOT = '.';
 
-    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + DOT;
-
     @Override
     public boolean isMatch(@NonNull String text) {
         if (text.length() < 3) {
@@ -49,15 +47,6 @@ class OrderListGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
-        }
         return ssb;
     }
 
@@ -81,15 +70,6 @@ class OrderListGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(KEY_ENCODE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
-        }
         return ssb;
     }
 
