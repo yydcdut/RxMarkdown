@@ -9,46 +9,29 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 ## Support Grammar 
 
 - [x] Header `# ` / `## ` / `### `
-
 - [x] BlockQuote `> `
-
 - [ ] Nested BlockQuote `>> `
-
 - [x] Bold `**`
-
 - [x] Italic `*`
-
 - [x] Ordered List `1. `
-
 - [x] UnOrdered List `* ` /  `+ ` / `- `
-
 - [ ] Nested List `* ` /  `+ ` / `- ` 
-
 - [x] Image `![]()`
-
 - [x] Hyper Link `[]()`
-
-- [x] Inline Code `` `
-
-- [x] Code `\`\`\`java`
-
+- [x] Inline Code ``
+- [x] Code ```
 - [ ] Backslash `\`
-
 - [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
-
 - [x] Strike Through `~~` 
-
 - [x] Footnote `[^]`
-
-      ​
+- [x] Todo `- [ ] ` / `- [x] `
 
 ### Other Grammar
 
 - [x] Center Align `[]`
 
-- [ ] UnderLine `to be confirmed`
+- [ ] UnderLine `to be confirmed`​
 
-      ​
 
 # Branch Status
 
