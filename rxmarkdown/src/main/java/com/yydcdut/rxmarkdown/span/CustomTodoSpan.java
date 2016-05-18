@@ -11,9 +11,9 @@ import android.text.style.QuoteSpan;
  * Created by yuyidong on 16/5/17.
  */
 public class CustomTodoSpan extends QuoteSpan {
-    private static final int GAP_WIDTH_PLUS = 50;
+    private static final int GAP_WIDTH_PLUS = 10;
 
-    private int mMarginLength = 10;
+    private int mMarginLength = 50;
 
     protected final int mColor;
 

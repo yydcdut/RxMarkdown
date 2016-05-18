@@ -15,7 +15,19 @@ class NormalGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        return ssb;
+    }
+
+    @NonNull
+    @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+        return ssb;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
     }
 

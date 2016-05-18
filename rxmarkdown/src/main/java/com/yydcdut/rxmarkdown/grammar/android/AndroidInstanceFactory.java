@@ -27,7 +27,6 @@ public class AndroidInstanceFactory {
 
     public static final int GRAMMAR_CODE = 30;
 
-
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
             case GRAMMAR_HORIZONTAL_RULES:

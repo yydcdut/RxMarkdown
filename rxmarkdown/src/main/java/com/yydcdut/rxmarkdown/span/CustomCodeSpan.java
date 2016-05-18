@@ -10,6 +10,8 @@ import android.text.style.QuoteSpan;
  * Created by yuyidong on 16/5/17.
  */
 public class CustomCodeSpan extends QuoteSpan {
+    private static final int GAP_WIDTH_PLUS = 15;
+
     private final int mColor;
 
     public CustomCodeSpan() {
@@ -25,6 +27,11 @@ public class CustomCodeSpan extends QuoteSpan {
     public CustomCodeSpan(Parcel src) {
         super(src);
         mColor = src.readInt();
+    }
+
+    @Override
+    public int getLeadingMargin(boolean first) {
+        return super.getLeadingMargin(first) + GAP_WIDTH_PLUS;
     }
 
     @Override

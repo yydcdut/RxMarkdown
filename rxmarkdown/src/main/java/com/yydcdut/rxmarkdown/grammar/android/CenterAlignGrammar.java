@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.AlignmentSpan;
 
 /**
@@ -14,32 +13,71 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     private static final String KEY0 = "[";
     private static final String KEY1 = "]";
 
+    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + KEY0;
+    private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY1;
+
     @Override
     public boolean isMatch(@NonNull String text) {
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
         return text.startsWith(KEY0) && text.endsWith(KEY1);
     }
 
     @NonNull
     @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        int index0 = -1;
+        while (true) {
+            String text = ssb.toString();
+            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
+            if (index0 == -1) {
+                break;
+            }
+            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
+        }
+        int index1 = -1;
+        while (true) {
+            String text = ssb.toString();
+            index1 = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            if (index1 == -1) {
+                break;
+            }
+            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), KEY_ENCODE_1);
+        }
+        return ssb;
+    }
+
+    @NonNull
+    @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
-        String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return ssb;
-        }
-        if (!text.contains(KEY0) && !text.contains(KEY1)) {
-            return ssb;
-        }
-        if (!isMatch(text)) {
+        if (!isMatch(ssb.toString())) {
             return ssb;
         }
         ssb.delete(0, 1).delete(ssb.length() - 1, ssb.length());
         ssb.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return ssb;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
+        int index0 = -1;
+        while (true) {
+            String text = ssb.toString();
+            index0 = text.indexOf(KEY_ENCODE);
+            if (index0 == -1) {
+                break;
+            }
+            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+        }
+
+        int index1 = -1;
+        while (true) {
+            String text = ssb.toString();
+            index1 = text.indexOf(KEY_ENCODE_1);
+            if (index1 == -1) {
+                break;
+            }
+            ssb.replace(index1, index1 + KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+        }
         return ssb;
     }
 

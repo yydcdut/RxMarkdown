@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
 
 import java.util.regex.Pattern;
@@ -12,14 +11,13 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/3.
  */
-class BoldGrammar extends AbsAndroidGrammar {
+public class BoldGrammar extends AbsAndroidGrammar {
     private static final String KEY = "**";
+
+    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + "*";
 
     @Override
     public boolean isMatch(@NonNull String text) {
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
         if (!text.contains(KEY)) {
             return false;
         }
@@ -29,24 +27,50 @@ class BoldGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_BACKSLASH_VALUE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
+        }
+        return ssb;
+    }
+
+    @NonNull
+    @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
         String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return ssb;
-        }
-        if (!text.contains(KEY)) {
-            return ssb;
-        }
         if (!isMatch(text)) {
             return ssb;
         }
-        return complex(text, ssb);
+        ssb = encode(ssb);
+        text = text.replace(KEY_BACKSLASH_VALUE, KEY_ENCODE);
+        ssb = complex(text, ssb);
+        ssb = decode(ssb);
+        return ssb;
     }
 
-    private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_ENCODE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+        }
+        return ssb;
+    }
+
+    @NonNull
+    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {

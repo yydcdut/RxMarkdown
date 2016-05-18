@@ -15,16 +15,30 @@ import java.util.regex.Pattern;
 class ItalicGrammar extends AbsAndroidGrammar {
     private static final String KEY = "*";
 
+    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY;
+
     @Override
     public boolean isMatch(@NonNull String text) {
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
         if (!text.contains(KEY)) {
             return false;
         }
         Pattern pattern = Pattern.compile(".*[\\*]{1}.*[\\*]{1}.*");
         return pattern.matcher(text).matches();
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_BACKSLASH_VALUE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
+        }
+        return ssb;
     }
 
     @NonNull
@@ -44,6 +58,21 @@ class ItalicGrammar extends AbsAndroidGrammar {
             return ssb;
         }
         return complex(text, ssb);
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_ENCODE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+        }
+        return ssb;
     }
 
     private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {

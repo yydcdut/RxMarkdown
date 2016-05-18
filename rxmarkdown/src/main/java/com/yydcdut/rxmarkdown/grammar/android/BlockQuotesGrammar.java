@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.span.CustomQuoteSpan;
 
@@ -14,11 +13,10 @@ import com.yydcdut.rxmarkdown.span.CustomQuoteSpan;
 class BlockQuotesGrammar extends AbsAndroidGrammar {
     private static final String KEY = "> ";
 
+    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY;
+
     @Override
     public boolean isMatch(@NonNull String text) {
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
         if (!text.startsWith(KEY)) {
             return false;
         }
@@ -27,20 +25,43 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_BACKSLASH_VALUE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
+        }
+        return ssb;
+    }
+
+    @NonNull
+    @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
-        String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return new SpannableStringBuilder("");
-        }
-        if (!isMatch(text)) {
+        if (!isMatch(ssb.toString())) {
             return ssb;
         }
         ssb.delete(0, KEY.length() - 1);
         ssb.setSpan(new CustomQuoteSpan(Color.LTGRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
+        return ssb;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
+        int index = -1;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_ENCODE);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+        }
         return ssb;
     }
 

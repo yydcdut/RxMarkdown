@@ -3,7 +3,6 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
 /**
@@ -14,31 +13,31 @@ class Header2Grammar extends AbsAndroidGrammar {
 
     @Override
     public boolean isMatch(@NonNull String text) {
-        if (TextUtils.isEmpty(text)) {
-            return false;
-        }
         return text.startsWith(KEY);
     }
 
     @NonNull
     @Override
+    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
+        return ssb;
+    }
+
+    @NonNull
+    @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
         String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return ssb;
-        }
-        if (!text.startsWith(KEY)) {
-            return ssb;
-        }
         if (!isMatch(text)) {
             return ssb;
         }
         ssb.delete(0, KEY.length());
         ssb.setSpan(new RelativeSizeSpan(1.3f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 10);
+        return ssb;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
     }
 
