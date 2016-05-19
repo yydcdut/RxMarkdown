@@ -20,7 +20,7 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 - [x] Hyper Link `[]()`
 - [x] Inline Code ``
 - [x] Code ```
-- [ ] Backslash `\`
+- [x] Backslash `\`
 - [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
 - [x] Strike Through `~~` 
 - [x] Footnote `[^]`
