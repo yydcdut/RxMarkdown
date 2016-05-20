@@ -13,6 +13,7 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 - [ ] Nested BlockQuote `>> `
 - [x] Bold `**`
 - [x] Italic `*`
+- [ ] Nested Bold && Italic
 - [x] Ordered List `1. `
 - [x] UnOrdered List `* ` /  `+ ` / `- `
 - [ ] Nested List `* ` /  `+ ` / `- ` 
