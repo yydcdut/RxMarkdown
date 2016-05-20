@@ -15,7 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.yydcdut.rxmarkdown.MDTextView;
+import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
 
@@ -42,7 +42,7 @@ public class ShowActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final MDTextView textView = (MDTextView) findViewById(R.id.txt_md_show);
+        final RxMDTextView textView = (RxMDTextView) findViewById(R.id.txt_md_show);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         String content = getIntent().getStringExtra(EXTRA_CONTENT);
         if (TextUtils.isEmpty(content)) {

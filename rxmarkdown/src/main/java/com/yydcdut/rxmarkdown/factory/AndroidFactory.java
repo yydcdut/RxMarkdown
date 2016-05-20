@@ -55,18 +55,8 @@ public class AndroidFactory extends AbsGrammarFactory {
     }
 
     @Override
-    protected IGrammar getHeader3Grammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE_3);
-    }
-
-    @Override
-    protected IGrammar getHeader2Grammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE_2);
-    }
-
-    @Override
-    protected IGrammar getHeader1Grammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE_1);
+    protected IGrammar getHeaderGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE);
     }
 
     @Override

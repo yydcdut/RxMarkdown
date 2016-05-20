@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  */
 public interface IChain {
     @NonNull
-    boolean handleGrammar(@NonNull CharSequence ssb);
+    boolean handleGrammar(@NonNull CharSequence charSequence);
 
     boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar);
 

@@ -12,9 +12,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_ORDER_LIST = 2;
     public static final int GRAMMAR_UNORDER_LIST = 3;
     public static final int GRAMMAR_CENTER_ALIGN = 10;
-    public static final int GRAMMAR_HEADER_LINE_1 = 11;
-    public static final int GRAMMAR_HEADER_LINE_2 = 12;
-    public static final int GRAMMAR_HEADER_LINE_3 = 13;
+    public static final int GRAMMAR_HEADER_LINE = 11;
     public static final int GRAMMAR_BOLD = 14;
     public static final int GRAMMAR_ITALIC = 15;
     public static final int GRAMMAR_INLINE_CODE = 16;
@@ -39,12 +37,8 @@ public class AndroidInstanceFactory {
                 return new UnOrderListGrammar();
             case GRAMMAR_CENTER_ALIGN:
                 return new CenterAlignGrammar();
-            case GRAMMAR_HEADER_LINE_1:
-                return new Header1Grammar();
-            case GRAMMAR_HEADER_LINE_2:
-                return new Header2Grammar();
-            case GRAMMAR_HEADER_LINE_3:
-                return new Header3Grammar();
+            case GRAMMAR_HEADER_LINE:
+                return new HeaderGrammar();
             case GRAMMAR_BOLD:
                 return new BoldGrammar();
             case GRAMMAR_ITALIC:

@@ -2,6 +2,7 @@ package com.yydcdut.rxmarkdown.factory;
 
 import android.support.annotation.NonNull;
 
+import com.yydcdut.rxmarkdown.chain.GrammarDoElseChain;
 import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
 import com.yydcdut.rxmarkdown.chain.IChain;
@@ -19,14 +20,12 @@ public abstract class AbsGrammarFactory {
         mTotalChain = new GrammarSingleChain(getCodeGrammar());
         mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar());
         GrammarSingleChain blockQuitesChain = new GrammarSingleChain(getBlockQuotesGrammar());
-        GrammarSingleChain todoChain = new GrammarSingleChain(getTodoGrammar());
-        GrammarSingleChain todoDoneChain = new GrammarSingleChain(getTodoDoneGrammar());
-        GrammarSingleChain orderListChain = new GrammarSingleChain(getOrderListGrammar());
-        GrammarSingleChain unOrderListChain = new GrammarSingleChain(getUnOrderListGrammar());
+        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar());
+        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar());
+        GrammarDoElseChain orderListChain = new GrammarDoElseChain(getOrderListGrammar());
+        GrammarDoElseChain unOrderListChain = new GrammarDoElseChain(getUnOrderListGrammar());
         GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar());
-        GrammarMultiChains headerLine3Chain = new GrammarMultiChains(getHeader3Grammar());
-        GrammarMultiChains headerLine2Chain = new GrammarMultiChains(getHeader2Grammar());
-        GrammarMultiChains headerLine1Chain = new GrammarMultiChains(getHeader1Grammar());
+        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar());
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
                 getBoldGrammar(),
                 getItalicGrammar(),
@@ -35,19 +34,27 @@ public abstract class AbsGrammarFactory {
                 getFootnoteGrammar(),
                 getImageGrammar(),
                 getHyperLinkGrammar());
+
         mLineChain.setNextHandleGrammar(blockQuitesChain);
+
         blockQuitesChain.setNextHandleGrammar(todoChain);
+
         todoChain.setNextHandleGrammar(todoDoneChain);
+        todoChain.addNextHandleGrammar(multiChain);
+
         todoDoneChain.setNextHandleGrammar(orderListChain);
+        todoDoneChain.addNextHandleGrammar(multiChain);
+
         orderListChain.setNextHandleGrammar(unOrderListChain);
+        orderListChain.addNextHandleGrammar(multiChain);
+
         unOrderListChain.setNextHandleGrammar(centerAlignChain);
-        centerAlignChain.addNextHandleGrammar(headerLine3Chain);
+        unOrderListChain.addNextHandleGrammar(multiChain);
+
+        centerAlignChain.addNextHandleGrammar(headerChain);
         centerAlignChain.addNextHandleGrammar(multiChain);
-        headerLine3Chain.addNextHandleGrammar(headerLine2Chain);
-        headerLine3Chain.addNextHandleGrammar(multiChain);
-        headerLine2Chain.addNextHandleGrammar(headerLine1Chain);
-        headerLine2Chain.addNextHandleGrammar(multiChain);
-        headerLine1Chain.addNextHandleGrammar(multiChain);
+
+        headerChain.addNextHandleGrammar(multiChain);
     }
 
     protected abstract IGrammar getHorizontalRulesGrammar();
@@ -64,11 +71,7 @@ public abstract class AbsGrammarFactory {
 
     protected abstract IGrammar getCenterAlignGrammar();
 
-    protected abstract IGrammar getHeader3Grammar();
-
-    protected abstract IGrammar getHeader2Grammar();
-
-    protected abstract IGrammar getHeader1Grammar();
+    protected abstract IGrammar getHeaderGrammar();
 
     protected abstract IGrammar getBoldGrammar();
 

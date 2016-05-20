@@ -13,24 +13,24 @@ import com.yydcdut.rxmarkdown.span.CustomImageSpan;
 /**
  * Created by yuyidong on 16/5/16.
  */
-public class MDTextView extends TextView {
+public class RxMDTextView extends TextView {
 
     private boolean mHasImageInText;
 
-    public MDTextView(Context context) {
+    public RxMDTextView(Context context) {
         super(context);
     }
 
-    public MDTextView(Context context, AttributeSet attrs) {
+    public RxMDTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MDTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RxMDTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MDTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RxMDTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
