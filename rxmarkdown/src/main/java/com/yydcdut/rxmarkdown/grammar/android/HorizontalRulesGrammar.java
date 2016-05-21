@@ -18,9 +18,6 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     private static final char KEY_SINGLE_0 = '*';
     private static final char KEY_SINGLE_1 = '-';
 
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + KEY_SINGLE_0;
-    private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_SINGLE_1;
-
     @Override
     boolean isMatch(@NonNull String text) {
         if (!(text.startsWith(KEY_0) || text.startsWith(KEY_1))) {
@@ -35,24 +32,6 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
-        }
-        int index1 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(KEY_BACKSLASH_VALUE_1);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), KEY_ENCODE_1);
-        }
         return ssb;
     }
 
@@ -76,25 +55,6 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
-        }
-
-        int index1 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(KEY_ENCODE_1);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
-        }
         return ssb;
     }
 

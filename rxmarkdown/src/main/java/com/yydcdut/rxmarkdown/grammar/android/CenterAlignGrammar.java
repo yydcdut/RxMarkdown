@@ -13,7 +13,6 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     private static final String KEY0 = "[";
     private static final String KEY1 = "]";
 
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + KEY0;
     private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY1;
 
     @Override
@@ -24,15 +23,6 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
-        }
         int index1 = -1;
         while (true) {
             String text = ssb.toString();
@@ -59,16 +49,6 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
-        }
-
         int index1 = -1;
         while (true) {
             String text = ssb.toString();

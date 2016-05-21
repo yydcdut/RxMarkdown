@@ -19,7 +19,7 @@ public abstract class AbsGrammarFactory {
     public AbsGrammarFactory() {
         mTotalChain = new GrammarSingleChain(getCodeGrammar());
         mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar());
-        GrammarSingleChain blockQuitesChain = new GrammarSingleChain(getBlockQuotesGrammar());
+        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesGrammar());
         GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar());
         GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar());
         GrammarDoElseChain orderListChain = new GrammarDoElseChain(getOrderListGrammar());
@@ -38,6 +38,7 @@ public abstract class AbsGrammarFactory {
         mLineChain.setNextHandleGrammar(blockQuitesChain);
 
         blockQuitesChain.setNextHandleGrammar(todoChain);
+        blockQuitesChain.addNextHandleGrammar(multiChain);
 
         todoChain.setNextHandleGrammar(todoDoneChain);
         todoChain.addNextHandleGrammar(multiChain);
