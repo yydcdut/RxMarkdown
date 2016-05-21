@@ -2,7 +2,6 @@ package com.yydcdut.rxmarkdown.span;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
 
@@ -19,11 +18,6 @@ public class CustomQuoteSpan extends QuoteSpan {
     public CustomQuoteSpan(int color, int nested) {
         super(color);
         mNested = nested;
-    }
-
-    public CustomQuoteSpan(Parcel src) {
-        super(src);
-        mNested = 1;
     }
 
     @Override

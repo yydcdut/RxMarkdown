@@ -34,6 +34,9 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
             return ssb;
         }
         int nested = calculateNested(ssb.toString());
+        if (nested == 0) {
+            return ssb;
+        }
         ssb = ssb.delete(0, nested * KEY.length() - 1);
         ssb.setSpan(new CustomQuoteSpan(Color.LTGRAY, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
@@ -51,9 +54,18 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
         return "BlockQuotesGrammar{}";
     }
 
+    /**
+     * 有一个 "> " 就算嵌套一层
+     *
+     * @param text
+     * @return
+     */
     private int calculateNested(@NonNull String text) {
-        int nested = 1;
+        int nested = 0;
         while (true) {
+            if ((nested + 1) * KEY.length() > text.length()) {
+                break;
+            }
             String sub = text.substring(nested * KEY.length(), (nested + 1) * KEY.length());
             if (!KEY.equals(sub)) {
                 break;

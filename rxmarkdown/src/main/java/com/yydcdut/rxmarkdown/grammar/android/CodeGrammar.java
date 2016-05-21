@@ -67,7 +67,7 @@ class CodeGrammar implements IGrammar {
             }
             index += lines[i].length() + "\n".length();
         }
-        return charSequence;
+        return ssb;
     }
 
     private int calculateTotalKey(String text) {
