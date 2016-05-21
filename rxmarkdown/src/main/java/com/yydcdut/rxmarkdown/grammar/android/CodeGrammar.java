@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 16/5/17.
- * Key 与 InlineCodeGrammar 有关联
  */
 class CodeGrammar implements IGrammar {
     private static final String KEY = "```";

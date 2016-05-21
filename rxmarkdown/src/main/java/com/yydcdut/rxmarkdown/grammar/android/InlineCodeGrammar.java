@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 16/5/13.
- * Key 与 CodeGrammar 有关联
  */
 class InlineCodeGrammar extends AbsAndroidGrammar {
     private static final String KEY = "`";
@@ -62,10 +61,10 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
     }
 
     private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
-        if (text.startsWith(KEY) && text.length() == 3 &&
-                KEY.equals(text.charAt(1) + "") && KEY.equals(text.charAt(2) + "")) {
-            return ssb;
-        }
+//        if (text.startsWith(KEY) && text.length() == 3 &&
+//                KEY.equals(text.charAt(1) + "") && KEY.equals(text.charAt(2) + "")) {
+//            return ssb;
+//        }
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
