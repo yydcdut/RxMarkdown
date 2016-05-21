@@ -14,25 +14,27 @@ public class CustomQuoteSpan extends QuoteSpan {
     private static final int DRAWING_X_PLUS = 10;
     private static final int QUOTE_WIDTH_PLUS = 2;
 
-    public CustomQuoteSpan() {
-        super();
-    }
+    private int mNested = 1;
 
-    public CustomQuoteSpan(int color) {
+    public CustomQuoteSpan(int color, int nested) {
         super(color);
+        mNested = nested;
     }
 
     public CustomQuoteSpan(Parcel src) {
         super(src);
+        mNested = 1;
     }
 
     @Override
     public int getLeadingMargin(boolean first) {
-        return super.getLeadingMargin(first) + GAP_WIDTH_PLUS;
+        return mNested * (super.getLeadingMargin(first) + GAP_WIDTH_PLUS);
     }
 
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout layout) {
-        super.drawLeadingMargin(c, p, x + DRAWING_X_PLUS, dir + QUOTE_WIDTH_PLUS, top, baseline, bottom, text, start, end, first, layout);
+        for (int i = 1; i <= mNested; i++) {
+            super.drawLeadingMargin(c, p, x + i * DRAWING_X_PLUS, dir + QUOTE_WIDTH_PLUS, top, baseline, bottom, text, start, end, first, layout);
+        }
     }
 }

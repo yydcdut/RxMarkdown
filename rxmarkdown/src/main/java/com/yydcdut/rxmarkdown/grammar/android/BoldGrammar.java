@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/3.
  */
-public class BoldGrammar extends AbsAndroidGrammar {
+class BoldGrammar extends AbsAndroidGrammar {
     private static final String KEY = "**";
 
     private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + "*";

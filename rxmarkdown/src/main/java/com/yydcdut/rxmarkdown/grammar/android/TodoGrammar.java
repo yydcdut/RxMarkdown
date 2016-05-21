@@ -11,7 +11,7 @@ import com.yydcdut.rxmarkdown.span.CustomTodoSpan;
 /**
  * Created by yuyidong on 16/5/17.
  */
-public class TodoGrammar extends AbsAndroidGrammar {
+class TodoGrammar extends AbsAndroidGrammar {
     private static final String KEY = "- [ ] ";
 
     @Override

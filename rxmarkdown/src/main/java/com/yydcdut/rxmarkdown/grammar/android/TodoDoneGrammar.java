@@ -10,7 +10,7 @@ import com.yydcdut.rxmarkdown.span.CustomTodoDoneSpan;
 /**
  * Created by yuyidong on 16/5/17.
  */
-public class TodoDoneGrammar extends AbsAndroidGrammar {
+class TodoDoneGrammar extends AbsAndroidGrammar {
     private static final String KEY_0 = "- [x] ";
     private static final String KEY_1 = "- [X] ";
 

@@ -8,7 +8,7 @@ import android.text.style.RelativeSizeSpan;
 /**
  * Created by yuyidong on 16/5/20.
  */
-public class HeaderGrammar extends AbsAndroidGrammar {
+class HeaderGrammar extends AbsAndroidGrammar {
     private static final String KEY_0 = "# ";
     private static final String KEY_1 = "## ";
     private static final String KEY_2 = "### ";
