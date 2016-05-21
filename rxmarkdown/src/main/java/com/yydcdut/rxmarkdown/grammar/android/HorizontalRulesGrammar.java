@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.span.CustomHorizontalRulesSpan;
 
@@ -37,16 +36,6 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
-        String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return new SpannableStringBuilder("");
-        }
-        if (!isMatch(text)) {
-            return ssb;
-        }
         ssb.replace(0, ssb.length(), " ");
         ssb.setSpan(new CustomHorizontalRulesSpan(Color.LTGRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;

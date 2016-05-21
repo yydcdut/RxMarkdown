@@ -38,9 +38,6 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (!isMatch(ssb.toString())) {
-            return ssb;
-        }
         ssb.delete(0, 1).delete(ssb.length() - 1, ssb.length());
         ssb.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;

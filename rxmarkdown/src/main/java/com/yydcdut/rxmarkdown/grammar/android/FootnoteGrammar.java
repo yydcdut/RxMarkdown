@@ -53,12 +53,6 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (!(text.contains(KEY_BEGIN) && text.contains(KEY_END))) {
-            return ssb;
-        }
-        if (!isMatch(text)) {
-            return ssb;
-        }
         return complex(text, ssb);
     }
 

@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
 
 import java.util.regex.Pattern;
@@ -44,19 +43,7 @@ class ItalicGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
         String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return new SpannableStringBuilder("");
-        }
-        if (!text.contains(KEY)) {
-            return ssb;
-        }
-        if (!isMatch(text)) {
-            return ssb;
-        }
         return complex(text, ssb);
     }
 

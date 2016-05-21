@@ -36,9 +36,6 @@ class HeaderGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (!isMatch(text)) {
-            return ssb;
-        }
         if (text.startsWith(KEY_5)) {
             ssb.delete(0, KEY_5.length());
             ssb.setSpan(new RelativeSizeSpan(1.1f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

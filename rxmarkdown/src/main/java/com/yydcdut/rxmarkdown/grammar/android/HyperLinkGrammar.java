@@ -66,9 +66,6 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (!isMatch(text)) {
-            return ssb;
-        }
         return complex(text, ssb);
     }
 

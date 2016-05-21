@@ -30,9 +30,6 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (!isMatch(ssb.toString())) {
-            return ssb;
-        }
         int nested = calculateNested(ssb.toString());
         if (nested == 0) {
             return ssb;

@@ -53,16 +53,6 @@ class OrderListGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        if (ssb == null) {
-            return new SpannableStringBuilder("");
-        }
-        String text = ssb.toString();
-        if (TextUtils.isEmpty(text)) {
-            return ssb;
-        }
-        if (!isMatch(text)) {
-            return ssb;
-        }
         ssb.setSpan(new BulletSpan(10, Color.TRANSPARENT), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }

@@ -44,13 +44,7 @@ class BoldGrammar extends AbsAndroidGrammar {
     @Override
     public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (!isMatch(text)) {
-            return ssb;
-        }
-        ssb = encode(ssb);
-        text = text.replace(KEY_BACKSLASH_VALUE, KEY_ENCODE);
         ssb = complex(text, ssb);
-        ssb = decode(ssb);
         return ssb;
     }
 

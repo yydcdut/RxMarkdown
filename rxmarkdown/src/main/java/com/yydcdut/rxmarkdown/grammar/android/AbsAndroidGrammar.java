@@ -29,19 +29,16 @@ abstract class AbsAndroidGrammar implements IGrammar {
             ssb = (SpannableStringBuilder) charSequence;
         } else {
             Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
-            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
+//            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
+            return false;
         }
         if (ssb.getSpans(0, ssb.length(), CustomCodeSpan.class).length > 0) {
             return false;
         }
-        String text = null;
         if (TextUtils.isEmpty(charSequence)) {
-            text = "";
-        } else {
-            text = charSequence + "";
+            return false;
         }
-
-        return isMatch(text);
+        return isMatch(charSequence.toString());
     }
 
     @NonNull
@@ -52,7 +49,8 @@ abstract class AbsAndroidGrammar implements IGrammar {
             ssb = (SpannableStringBuilder) charSequence;
         } else {
             Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
-            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
+//            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
+            return charSequence;
         }
         ssb = encode(ssb);
         ssb = format(ssb);
