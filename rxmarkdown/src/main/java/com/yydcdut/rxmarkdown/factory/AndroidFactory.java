@@ -102,23 +102,29 @@ public class AndroidFactory extends AbsGrammarFactory {
     @NonNull
     @Override
     public CharSequence parse(@NonNull CharSequence charSequence) {
-        SpannableStringBuilder ssb = parseByLine(mLineChain, charSequence.toString());
-        return parseTotal(mTotalChain, ssb);
+        SpannableStringBuilder ssb = new SpannableStringBuilder(charSequence);
+        ssb = parseTotal(mTotalChain, ssb);
+        ssb = parseByLine(mLineChain, ssb);
+        return ssb;
     }
 
-    private static CharSequence parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
+    private static SpannableStringBuilder parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
         totalChain.handleGrammar(ssb);
         return ssb;
     }
 
-    private static SpannableStringBuilder parseByLine(IChain lineChain, String content) {
-        String[] lines = content.split("\n");
+    private static SpannableStringBuilder parseByLine(IChain lineChain, SpannableStringBuilder content) {
+        String text = content.toString();
+        String[] lines = text.split("\n");
+        SpannableStringBuilder[] ssbLines = new SpannableStringBuilder[lines.length];
         SpannableStringBuilder ssb = new SpannableStringBuilder();
-        for (String line : lines) {
-            SpannableStringBuilder lineSSB = new SpannableStringBuilder(line);
-            lineChain.handleGrammar(lineSSB);
-            lineSSB.append("\n");
-            ssb.append(lineSSB);
+        int index = 0;
+        for (int i = 0; i < lines.length; i++) {
+            ssbLines[i] = (SpannableStringBuilder) content.subSequence(index, index + lines[i].length());
+            lineChain.handleGrammar(ssbLines[i]);
+            ssbLines[i].append("\n");
+            ssb.append(ssbLines[i]);
+            index = index + (lines[i] + "\n").length();
         }
         return ssb;
     }

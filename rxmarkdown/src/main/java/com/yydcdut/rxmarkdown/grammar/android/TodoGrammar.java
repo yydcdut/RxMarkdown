@@ -10,6 +10,7 @@ import com.yydcdut.rxmarkdown.span.CustomTodoSpan;
 
 /**
  * Created by yuyidong on 16/5/17.
+ * Key 与 UnOrderListGrammar 有关联
  */
 class TodoGrammar extends AbsAndroidGrammar {
     private static final String KEY = "- [ ] ";

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 16/5/13.
+ * Key 与 CodeGrammar 有关联
  */
 class InlineCodeGrammar extends AbsAndroidGrammar {
     private static final String KEY = "`";

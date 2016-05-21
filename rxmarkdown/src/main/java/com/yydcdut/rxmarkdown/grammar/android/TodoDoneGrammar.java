@@ -9,14 +9,11 @@ import com.yydcdut.rxmarkdown.span.CustomTodoDoneSpan;
 
 /**
  * Created by yuyidong on 16/5/17.
+ * Key 与 UnOrderListGrammar 有关联
  */
 class TodoDoneGrammar extends AbsAndroidGrammar {
     private static final String KEY_0 = "- [x] ";
     private static final String KEY_1 = "- [X] ";
-
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "-";
-    private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + "[";
-    private static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
 
     private static final int START_POSITION = 6;
 

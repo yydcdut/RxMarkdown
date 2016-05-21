@@ -1,7 +1,6 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -9,6 +8,7 @@ import android.text.style.LeadingMarginSpan;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
 
 /**
  * Created by yuyidong on 16/5/13.
@@ -24,12 +24,23 @@ abstract class AbsAndroidGrammar implements IGrammar {
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {
+        SpannableStringBuilder ssb = null;
+        if (charSequence instanceof SpannableStringBuilder) {
+            ssb = (SpannableStringBuilder) charSequence;
+        } else {
+            Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
+            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
+        }
+        if (ssb.getSpans(0, ssb.length(), CustomCodeSpan.class).length > 0) {
+            return false;
+        }
         String text = null;
         if (TextUtils.isEmpty(charSequence)) {
             text = "";
         } else {
             text = charSequence + "";
         }
+
         return isMatch(text);
     }
 
@@ -37,15 +48,11 @@ abstract class AbsAndroidGrammar implements IGrammar {
     @Override
     public CharSequence format(@NonNull CharSequence charSequence) {
         SpannableStringBuilder ssb = null;
-        if (TextUtils.isEmpty(charSequence)) {
-            ssb = new SpannableStringBuilder("");
-        } else if (charSequence instanceof SpannableStringBuilder) {
+        if (charSequence instanceof SpannableStringBuilder) {
             ssb = (SpannableStringBuilder) charSequence;
-        } else if (charSequence instanceof String || charSequence instanceof SpannableString) {
-            ssb = new SpannableStringBuilder(charSequence);
         } else {
             Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
-            ssb = new SpannableStringBuilder(charSequence);
+            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
         }
         ssb = encode(ssb);
         ssb = format(ssb);

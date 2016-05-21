@@ -13,12 +13,17 @@ import java.util.ArrayList;
 
 /**
  * Created by yuyidong on 16/5/21.
+ * Key 与 TodoDoneGrammar 和 TodoGrammar 有关联
  */
 class UnOrderListGrammar implements IGrammar {
     private static final String KEY_HEADER = "  ";
     private static final String KEY_0 = "* ";
     private static final String KEY_1 = "+ ";
     private static final String KEY_2 = "- ";
+
+    private static final String KEY_IGNORE_0 = "- [ ] ";
+    private static final String KEY_IGNORE_1 = "- [x] ";
+    private static final String KEY_IGNORE_2 = "- [X] ";
 
     private static final int START_POSITION = 2;
 
@@ -54,6 +59,11 @@ class UnOrderListGrammar implements IGrammar {
         String[] lines = text.split("\n");
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
+            if (lines[i].startsWith(KEY_IGNORE_0) || lines[i].startsWith(KEY_IGNORE_1) || lines[i].startsWith(KEY_IGNORE_2)) {
+                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                currentLineIndex += (lines[i] + "\n").length();
+                continue;
+            }
             if (lines[i].startsWith(KEY_0) || lines[i].startsWith(KEY_1) || lines[i].startsWith(KEY_2)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0));
                 currentLineIndex += (lines[i] + "\n").length();
