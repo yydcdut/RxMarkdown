@@ -8,30 +8,30 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 
 ## Support Grammar 
 
-- [x] Header `# ` / `## ` / `### `
+- [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
 - [x] BlockQuote `>  `
 - [x] Nested BlockQuote `> >  `
-- [x] Bold `**`
-- [x] Italic `*`
+- [x] Emphasis Bold `**`
+- [x] Emphasis Italic `*`
 - [x] Nested Bold && Italic
 - [x] Ordered List `1. `
-- [ ] Nested Ordered List
+- [x] Nested Ordered List
 - [x] UnOrdered List `* ` /  `+ ` / `- `
 - [x] Nested UnOrdered List
 - [x] Image `![]()`
 - [x] Hyper Link `[]()`
-- [x] Inline Code ` `` `
-- [x] Code ` ``` `
+- [x] Inline Code 
+- [x] Code 
 - [x] Backslash `\`
 - [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
 - [x] Strike Through `~~` 
 - [x] Footnote `[^]`
 - [x] Todo `- [ ] ` / `- [x] `
+- [ ] Table `| Table | Table |`
 
 ### Other Grammar
 
 - [x] Center Align `[]`
-
 - [ ] UnderLine `to be confirmed`​
 
 
