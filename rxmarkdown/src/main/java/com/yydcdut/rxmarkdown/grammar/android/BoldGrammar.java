@@ -68,7 +68,7 @@ class BoldGrammar extends AbsAndroidGrammar {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
-            int positionHeader = tmpTotal.indexOf(KEY);
+            int positionHeader = findPosition(tmpTotal, ssb, tmp);
             if (positionHeader == -1) {
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
@@ -76,7 +76,7 @@ class BoldGrammar extends AbsAndroidGrammar {
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
             tmpTotal = tmpTotal.substring(positionHeader + KEY.length(), tmpTotal.length());
-            int positionFooter = tmpTotal.indexOf(KEY);
+            int positionFooter = findPosition(tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
                 ssb.delete(tmp.length(), tmp.length() + KEY.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
@@ -90,6 +90,22 @@ class BoldGrammar extends AbsAndroidGrammar {
             tmpTotal = tmpTotal.substring(positionFooter + KEY.length(), tmpTotal.length());
         }
         return ssb;
+    }
+
+    private int findPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+        String tmpTmpTotal = tmpTotal;
+        int position = tmpTmpTotal.indexOf(KEY);
+        if (position == -1) {
+            return -1;
+        } else {
+            if (checkInInlineCode(ssb, tmp.length() + position, KEY.length())) {//key是否在inlineCode中
+                StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
+                        .append("$$").append(tmpTmpTotal.substring(position + KEY.length(), tmpTmpTotal.length()));
+                return findPosition(sb.toString(), ssb, tmp);
+            } else {
+                return position;
+            }
+        }
     }
 
     @Override

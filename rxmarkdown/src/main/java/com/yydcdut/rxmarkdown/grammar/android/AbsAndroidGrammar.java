@@ -4,11 +4,14 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.LeadingMarginSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
+import com.yydcdut.rxmarkdown.span.CustomImageSpan;
 
 /**
  * Created by yuyidong on 16/5/13.
@@ -71,6 +74,33 @@ abstract class AbsAndroidGrammar implements IGrammar {
 
     protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
         ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+    }
+
+    protected boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
+        BackgroundColorSpan[] spans = ssb.getSpans(position, position + keyLength, BackgroundColorSpan.class);
+        if (spans.length == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected boolean checkInHyperLink(SpannableStringBuilder ssb, int position, int keyLength) {
+        URLSpan[] spans = ssb.getSpans(position, position + keyLength, URLSpan.class);
+        if (spans.length == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected boolean checkInImage(SpannableStringBuilder ssb, int position, int keyLength) {
+        CustomImageSpan[] spans = ssb.getSpans(position, position + keyLength, CustomImageSpan.class);
+        if (spans.length == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

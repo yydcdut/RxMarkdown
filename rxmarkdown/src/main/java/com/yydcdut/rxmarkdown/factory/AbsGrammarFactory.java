@@ -28,13 +28,13 @@ public abstract class AbsGrammarFactory {
         GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar());
         GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar());
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
+                getImageGrammar(),
+                getHyperLinkGrammar(),
+                getInlineCodeGrammar(),
                 getBoldGrammar(),
                 getItalicGrammar(),
-                getInlineCodeGrammar(),
                 getStrikeThroughGrammar(),
-                getFootnoteGrammar(),
-                getImageGrammar(),
-                getHyperLinkGrammar());
+                getFootnoteGrammar());
 
         mLineChain.setNextHandleGrammar(blockQuitesChain);
 
