@@ -9,18 +9,19 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 ## Support Grammar 
 
 - [x] Header `# ` / `## ` / `### `
-- [x] BlockQuote `> `
-- [ ] Nested BlockQuote `>> `
+- [x] BlockQuote `>  `
+- [x] Nested BlockQuote `> >  `
 - [x] Bold `**`
 - [x] Italic `*`
-- [ ] Nested Bold && Italic
+- [x] Nested Bold && Italic
 - [x] Ordered List `1. `
+- [ ] Nested Ordered List
 - [x] UnOrdered List `* ` /  `+ ` / `- `
-- [ ] Nested List `* ` /  `+ ` / `- ` 
+- [x] Nested UnOrdered List
 - [x] Image `![]()`
 - [x] Hyper Link `[]()`
-- [x] Inline Code ``
-- [x] Code ```
+- [x] Inline Code ` `` `
+- [x] Code ` ``` `
 - [x] Backslash `\`
 - [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
 - [x] Strike Through `~~` 
