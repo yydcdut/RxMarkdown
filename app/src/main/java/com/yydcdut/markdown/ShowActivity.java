@@ -63,6 +63,7 @@ public class ShowActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Snackbar.make(textView, "onError  " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -108,14 +109,21 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     private void test(TextView textView, String content) {
-//        CodeGrammar codeGrammar = new CodeGrammar();
-//        boolean b = codeGrammar.isMatch(content);
+//        OrderListGrammar orderListGrammar = new OrderListGrammar();
+//        boolean b = orderListGrammar.isMatch(content);
 //        Log.i("yuyidong", "isMatch  ---->   " + b);
 //        if (b) {
-//            CharSequence charSequence = codeGrammar.format(new SpannableStringBuilder(content));
+//            CharSequence charSequence = orderListGrammar.format(new SpannableStringBuilder(content));
 //            textView.setText(charSequence, TextView.BufferType.SPANNABLE);
 //            Log.i("yuyidong", "finish   xxx  " + charSequence.toString());
-//        }
     }
+
+
+//        SpannableStringBuilder ssb = new SpannableStringBuilder("1234567890");
+//        ssb.setSpan(new StyleSpan(Typeface.BOLD), 4, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        ssb.delete(3,7);
+//        ssb.insert(3,"abcdefg");
+//        textView.setText(ssb);
+//    }
 
 }

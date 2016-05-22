@@ -9,7 +9,6 @@ public class AndroidInstanceFactory {
 
     public static final int GRAMMAR_HORIZONTAL_RULES = 0;
     public static final int GRAMMAR_BLOCK_QUOTES = 1;
-    public static final int GRAMMAR_ORDER_LIST = 2;
     public static final int GRAMMAR_CENTER_ALIGN = 10;
     public static final int GRAMMAR_HEADER_LINE = 11;
     public static final int GRAMMAR_BOLD = 14;
@@ -24,7 +23,7 @@ public class AndroidInstanceFactory {
 
     public static final int GRAMMAR_CODE = 30;
     public static final int GRAMMAR_UNORDER_LIST = 31;
-
+    public static final int GRAMMAR_ORDER_LIST = 32;
 
     public static IGrammar getAndroidGrammar(int grammar) {
         switch (grammar) {
@@ -32,8 +31,6 @@ public class AndroidInstanceFactory {
                 return new HorizontalRulesGrammar();
             case GRAMMAR_BLOCK_QUOTES:
                 return new BlockQuotesGrammar();
-            case GRAMMAR_ORDER_LIST:
-                return new OrderListGrammar();
             case GRAMMAR_CENTER_ALIGN:
                 return new CenterAlignGrammar();
             case GRAMMAR_HEADER_LINE:
@@ -60,7 +57,8 @@ public class AndroidInstanceFactory {
                 return new CodeGrammar();
             case GRAMMAR_UNORDER_LIST:
                 return new UnOrderListGrammar();
-
+            case GRAMMAR_ORDER_LIST:
+                return new OrderListGrammar();
             default:
                 return new NormalGrammar();
         }
