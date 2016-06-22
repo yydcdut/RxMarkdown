@@ -11,9 +11,9 @@ import android.text.style.AlignmentSpan;
  */
 class CenterAlignGrammar extends AbsAndroidGrammar {
     private static final String KEY0 = "[";
-    private static final String KEY1 = "]";
+    protected static final String KEY1 = "]";
 
-    private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY1;
+    protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + KEY1;
 
     @Override
     public boolean isMatch(@NonNull String text) {
@@ -30,7 +30,7 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), KEY_ENCODE_1);
+            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), BackslashGrammar.KEY_ENCODE_1);
         }
         return ssb;
     }
@@ -49,11 +49,11 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
         int index1 = -1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(KEY_ENCODE_1);
+            index1 = text.indexOf(BackslashGrammar.KEY_ENCODE_1);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index1, index1 + BackslashGrammar.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
         }
         return ssb;
     }

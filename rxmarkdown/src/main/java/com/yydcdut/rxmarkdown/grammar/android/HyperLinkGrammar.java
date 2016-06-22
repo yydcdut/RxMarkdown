@@ -11,15 +11,15 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/14.
  */
 class HyperLinkGrammar extends AbsAndroidGrammar {
-    private static final String KEY_0 = "[";
+    protected static final String KEY_0 = "[";
     private static final String KEY_1 = "](";
-    private static final String KEY_2 = ")";
+    protected static final String KEY_2 = ")";
 
     private static final String PLACE_HOLDER = " ";
 
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
-    private static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + "]";
-    private static final String KEY_BACKSLASH_VALUE_3 = KEY_BACKSLASH + ")";
+    protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "[";
+    protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + "]";
+    protected static final String KEY_BACKSLASH_VALUE_3 = BackslashGrammar.KEY_BACKSLASH + ")";
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -40,7 +40,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
+            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashGrammar.KEY_ENCODE);
         }
         int index1 = -1;
         while (true) {
@@ -49,7 +49,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), KEY_ENCODE_1);
+            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), BackslashGrammar.KEY_ENCODE_1);
         }
         int index3 = -1;
         while (true) {
@@ -58,7 +58,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
             if (index3 == -1) {
                 break;
             }
-            ssb.replace(index3, index3 + KEY_BACKSLASH_VALUE_3.length(), KEY_ENCODE_3);
+            ssb.replace(index3, index3 + KEY_BACKSLASH_VALUE_3.length(), BackslashGrammar.KEY_ENCODE_3);
         }
         return ssb;
     }
@@ -75,29 +75,29 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
         int index0 = -1;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_ENCODE);
+            index0 = text.indexOf(BackslashGrammar.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
         }
         int index1 = -1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(KEY_ENCODE_1);
+            index1 = text.indexOf(BackslashGrammar.KEY_ENCODE_1);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index1, index1 + BackslashGrammar.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
         }
         int index3 = -1;
         while (true) {
             String text = ssb.toString();
-            index3 = text.indexOf(KEY_ENCODE_3);
+            index3 = text.indexOf(BackslashGrammar.KEY_ENCODE_3);
             if (index3 == -1) {
                 break;
             }
-            ssb.replace(index3, index3 + KEY_ENCODE_3.length(), KEY_BACKSLASH_VALUE_3);
+            ssb.replace(index3, index3 + BackslashGrammar.KEY_ENCODE_3.length(), KEY_BACKSLASH_VALUE_3);
         }
         return ssb;
     }

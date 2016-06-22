@@ -20,6 +20,7 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_HYPERLINK = 20;
     public static final int GRAMMAR_TODO = 21;
     public static final int GRAMMAR_TODO_DONE = 22;
+    public static final int GRAMMAR_BACKSLASH = 23;
 
     public static final int GRAMMAR_CODE = 30;
     public static final int GRAMMAR_UNORDER_LIST = 31;
@@ -59,6 +60,8 @@ public class AndroidInstanceFactory {
                 return new UnOrderListGrammar();
             case GRAMMAR_ORDER_LIST:
                 return new OrderListGrammar();
+            case GRAMMAR_BACKSLASH:
+                return new BackslashGrammar();
             default:
                 return new NormalGrammar();
         }

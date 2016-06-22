@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
 class ImageGrammar extends AbsAndroidGrammar {
     private static final String KEY_0 = "![";
     private static final String KEY_1 = "](";
-    private static final String KEY_2 = ")";
+    protected static final String KEY_2 = ")";
 
     private static final String PLACE_HOLDER_0 = "  ";
     private static final String PLACE_HOLDER_2 = " ";
 
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "!";
-    private static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
-    private static final String KEY_BACKSLASH_VALUE_4 = KEY_BACKSLASH + ")";
+    protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "!";
+    protected static final String KEY_BACKSLASH_VALUE_2 = BackslashGrammar.KEY_BACKSLASH + "]";
+    protected static final String KEY_BACKSLASH_VALUE_4 = BackslashGrammar.KEY_BACKSLASH + KEY_2;
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -42,7 +42,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
+            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashGrammar.KEY_ENCODE);
         }
         int index2 = -1;
         while (true) {
@@ -51,7 +51,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), KEY_ENCODE_2);
+            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), BackslashGrammar.KEY_ENCODE_2);
         }
         int index4 = -1;
         while (true) {
@@ -60,7 +60,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             if (index4 == -1) {
                 break;
             }
-            ssb.replace(index4, index4 + KEY_BACKSLASH_VALUE_4.length(), KEY_ENCODE_4);
+            ssb.replace(index4, index4 + KEY_BACKSLASH_VALUE_4.length(), BackslashGrammar.KEY_ENCODE_4);
         }
         return ssb;
     }
@@ -77,29 +77,29 @@ class ImageGrammar extends AbsAndroidGrammar {
         int index0 = -1;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_ENCODE);
+            index0 = text.indexOf(BackslashGrammar.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
         }
         int index2 = -1;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(KEY_ENCODE_2);
+            index2 = text.indexOf(BackslashGrammar.KEY_ENCODE_2);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
+            ssb.replace(index2, index2 + BackslashGrammar.KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
         }
         int index4 = -1;
         while (true) {
             String text = ssb.toString();
-            index4 = text.indexOf(KEY_ENCODE_4);
+            index4 = text.indexOf(BackslashGrammar.KEY_ENCODE_4);
             if (index4 == -1) {
                 break;
             }
-            ssb.replace(index4, index4 + KEY_ENCODE_4.length(), KEY_BACKSLASH_VALUE_4);
+            ssb.replace(index4, index4 + BackslashGrammar.KEY_ENCODE_4.length(), KEY_BACKSLASH_VALUE_4);
         }
         return ssb;
     }

@@ -28,14 +28,10 @@ public class MultiGrammarsChain implements IChain {
                 handled |= true;
             }
         }
-        if (handled) {
-            return true;
+        if (mNextHandleGrammar != null) {
+            return mNextHandleGrammar.handleGrammar(charSequence);
         } else {
-            if (mNextHandleGrammar != null) {
-                return mNextHandleGrammar.handleGrammar(charSequence);
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 

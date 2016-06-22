@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/3.
  */
 class ItalicGrammar extends AbsAndroidGrammar {
-    private static final String KEY = "*";
+    protected static final String KEY = "*";
 
-    private static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY;
+    protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + KEY;
 
     @Override
     public boolean isMatch(@NonNull String text) {
@@ -35,7 +35,7 @@ class ItalicGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), KEY_ENCODE);
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), BackslashGrammar.KEY_ENCODE);
         }
         return ssb;
     }
@@ -53,11 +53,11 @@ class ItalicGrammar extends AbsAndroidGrammar {
         int index = -1;
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(KEY_ENCODE);
+            index = text.indexOf(BackslashGrammar.KEY_ENCODE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+            ssb.replace(index, index + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
         }
         return ssb;
     }

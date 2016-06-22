@@ -35,6 +35,7 @@ public abstract class AbsGrammarFactory {
                 getItalicGrammar(),
                 getStrikeThroughGrammar(),
                 getFootnoteGrammar());
+        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar());
 
         mLineChain.setNextHandleGrammar(blockQuitesChain);
 
@@ -51,6 +52,8 @@ public abstract class AbsGrammarFactory {
         centerAlignChain.addNextHandleGrammar(multiChain);
 
         headerChain.addNextHandleGrammar(multiChain);
+
+        multiChain.setNextHandleGrammar(backslashChain);
     }
 
     protected abstract IGrammar getHorizontalRulesGrammar();
@@ -84,6 +87,8 @@ public abstract class AbsGrammarFactory {
     protected abstract IGrammar getHyperLinkGrammar();
 
     protected abstract IGrammar getCodeGrammar();
+
+    protected abstract IGrammar getBackslashGrammar();
 
     @NonNull
     public abstract CharSequence parse(@NonNull CharSequence charSequence);

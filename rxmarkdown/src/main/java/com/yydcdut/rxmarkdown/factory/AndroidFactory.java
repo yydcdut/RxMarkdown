@@ -99,6 +99,11 @@ public class AndroidFactory extends AbsGrammarFactory {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CODE);
     }
 
+    @Override
+    protected IGrammar getBackslashGrammar() {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BACKSLASH);
+    }
+
     @NonNull
     @Override
     public CharSequence parse(@NonNull CharSequence charSequence) {

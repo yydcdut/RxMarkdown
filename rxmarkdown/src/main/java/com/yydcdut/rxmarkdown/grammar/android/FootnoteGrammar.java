@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
  */
 class FootnoteGrammar extends AbsAndroidGrammar {
     private static final String KEY_BEGIN = "[^";
-    private static final String KEY_END = "]";
+    protected static final String KEY_END = "]";
 
-    private static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
-    private static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
+    protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "[";
+    protected static final String KEY_BACKSLASH_VALUE_2 = BackslashGrammar.KEY_BACKSLASH + "]";
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -36,7 +36,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), KEY_ENCODE);
+            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashGrammar.KEY_ENCODE);
         }
         int index2 = -1;
         while (true) {
@@ -45,7 +45,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), KEY_ENCODE_2);
+            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), BackslashGrammar.KEY_ENCODE_2);
         }
         return ssb;
     }
@@ -62,20 +62,20 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         int index0 = -1;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_ENCODE);
+            index0 = text.indexOf(BackslashGrammar.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
         }
         int index2 = -1;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(KEY_ENCODE_2);
+            index2 = text.indexOf(BackslashGrammar.KEY_ENCODE_2);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
+            ssb.replace(index2, index2 + BackslashGrammar.KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
         }
         return ssb;
     }

@@ -17,13 +17,6 @@ import com.yydcdut.rxmarkdown.span.CustomImageSpan;
  * Created by yuyidong on 16/5/13.
  */
 abstract class AbsAndroidGrammar implements IGrammar {
-    protected static final String KEY_BACKSLASH = "\\";
-
-    protected static final String KEY_ENCODE = "@$7DF16dgf%jy@po&";
-    protected static final String KEY_ENCODE_1 = "%4usyHDlL&@D%";
-    protected static final String KEY_ENCODE_2 = "&YDhs@h4sF&%kLsx63sd@";
-    protected static final String KEY_ENCODE_3 = "%hsyRjh34l%$2@";
-    protected static final String KEY_ENCODE_4 = "&@da&U56ec%k$QW@";
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {
