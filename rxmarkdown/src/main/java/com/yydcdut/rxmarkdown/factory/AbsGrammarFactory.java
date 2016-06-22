@@ -51,8 +51,6 @@ public abstract class AbsGrammarFactory {
         centerAlignChain.addNextHandleGrammar(headerChain);
         centerAlignChain.addNextHandleGrammar(multiChain);
 
-        headerChain.addNextHandleGrammar(multiChain);
-
         multiChain.setNextHandleGrammar(backslashChain);
     }
 

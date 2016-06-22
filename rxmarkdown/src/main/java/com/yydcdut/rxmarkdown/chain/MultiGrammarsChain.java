@@ -29,7 +29,7 @@ public class MultiGrammarsChain implements IChain {
             }
         }
         if (mNextHandleGrammar != null) {
-            return mNextHandleGrammar.handleGrammar(charSequence);
+            return true | mNextHandleGrammar.handleGrammar(charSequence);
         } else {
             return false;
         }
