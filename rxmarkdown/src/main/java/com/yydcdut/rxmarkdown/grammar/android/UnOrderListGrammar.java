@@ -77,7 +77,7 @@ class UnOrderListGrammar implements IGrammar {
             int nested = calculateNested(lines[i]);
             if (nested > 0) {
                 //判断上文
-                if (i - 1 < 0) {
+                if (i - 1 < 0 || i - 1 >= list.size()) {
                     currentLineIndex += (lines[i] + "\n").length();
                     continue;
                 }

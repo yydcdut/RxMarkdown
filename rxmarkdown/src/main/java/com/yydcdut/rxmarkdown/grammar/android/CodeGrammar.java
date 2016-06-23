@@ -49,7 +49,7 @@ class CodeGrammar implements IGrammar {
                 currentKeyIndex++;
             }
             if (currentKeyIndex % 2 == 0) {//非代码部分
-                if (lines[i].equals(KEY)) {
+                if (KEY.equals(lines[i])) {
                     ssb.delete(index, index + KEY.length() + ((i == lines.length - 1) ? 0 : "\n".length()));
                     continue;
                 }
@@ -57,8 +57,13 @@ class CodeGrammar implements IGrammar {
                 if (needCareful && currentKeyIndex == totalKey) {
                     break;
                 }
-                if (lines[i].equals(KEY)) {
+                if (KEY.equals(lines[i])) {
                     ssb.delete(index, index + KEY.length() + "\n".length());
+                    continue;
+                }
+                //中间如果有直接换行的，就删除掉
+                if ("".equals(lines[i])) {
+                    ssb.delete(index, index + "".length() + ((i == lines.length - 1) ? 0 : "\n".length()));
                     continue;
                 }
                 int start = index;
