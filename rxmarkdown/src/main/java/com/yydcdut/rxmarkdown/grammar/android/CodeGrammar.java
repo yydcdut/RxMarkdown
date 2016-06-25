@@ -79,7 +79,7 @@ class CodeGrammar implements IGrammar {
         String[] lines = text.split("\n");
         int number = 0;
         for (int i = 0; i < lines.length; i++) {
-            number += lines[i].equals(KEY) ? 1 : 0;
+            number += KEY.equals(lines[i]) ? 1 : 0;
         }
         return number;
     }
