@@ -1,11 +1,11 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
 
@@ -16,6 +16,12 @@ import java.util.regex.Pattern;
  */
 class CodeGrammar implements IGrammar {
     private static final String KEY = "```";
+
+    private int mColor;
+
+    public CodeGrammar(@NonNull Configuration configuration) {
+        mColor = configuration.getCodeBgColor();
+    }
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {
@@ -68,7 +74,7 @@ class CodeGrammar implements IGrammar {
                 }
                 int start = index;
                 int end = index + lines[i].length() + ((i == lines.length - 1) ? 0 : "\n".length());
-                ssb.setSpan(new CustomCodeSpan(Color.LTGRAY), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new CustomCodeSpan(mColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             index += lines[i].length() + "\n".length();
         }

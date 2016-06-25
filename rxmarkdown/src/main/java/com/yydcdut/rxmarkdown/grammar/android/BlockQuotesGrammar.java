@@ -1,17 +1,23 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.span.CustomQuoteSpan;
 
 /**
  * Created by yuyidong on 16/5/4.
  */
 class BlockQuotesGrammar extends AbsAndroidGrammar {
+    private int mColor;
     private static final String KEY = "> ";
+
+    public BlockQuotesGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+        mColor = configuration.getBlockQuotesColor();
+    }
 
     @Override
     public boolean isMatch(@NonNull String text) {
@@ -35,7 +41,7 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
             return ssb;
         }
         ssb = ssb.delete(0, nested * KEY.length() - 1);
-        ssb.setSpan(new CustomQuoteSpan(Color.LTGRAY, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new CustomQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
         return ssb;
     }

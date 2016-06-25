@@ -3,6 +3,8 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
+import com.yydcdut.rxmarkdown.Configuration;
+
 /**
  * Created by yuyidong on 16/6/20.
  */
@@ -14,6 +16,10 @@ public class BackslashGrammar extends AbsAndroidGrammar {
     protected static final String KEY_ENCODE_2 = "&YDhs@h4sF&%kLsx63sd@";
     protected static final String KEY_ENCODE_3 = "%hsyRjh34l%$2@";
     protected static final String KEY_ENCODE_4 = "&@da&U56ec%k$QW@";
+
+    public BackslashGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+    }
 
     @Override
     boolean isMatch(@NonNull String text) {

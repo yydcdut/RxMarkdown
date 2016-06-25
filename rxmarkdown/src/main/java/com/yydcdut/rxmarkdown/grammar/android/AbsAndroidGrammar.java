@@ -9,6 +9,7 @@ import android.text.style.LeadingMarginSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
 import com.yydcdut.rxmarkdown.span.CustomImageSpan;
@@ -17,6 +18,9 @@ import com.yydcdut.rxmarkdown.span.CustomImageSpan;
  * Created by yuyidong on 16/5/13.
  */
 abstract class AbsAndroidGrammar implements IGrammar {
+
+    public AbsAndroidGrammar(@NonNull Configuration configuration) {
+    }
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {

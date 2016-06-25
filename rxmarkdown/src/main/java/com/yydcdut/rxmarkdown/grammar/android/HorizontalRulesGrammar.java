@@ -1,10 +1,10 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.span.CustomHorizontalRulesSpan;
 
 /**
@@ -16,6 +16,13 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
 
     private static final char KEY_SINGLE_0 = '*';
     private static final char KEY_SINGLE_1 = '-';
+
+    private int mColor;
+
+    public HorizontalRulesGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+        mColor = configuration.getHorizontalRulesColor();
+    }
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -37,7 +44,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         ssb.replace(0, ssb.length(), " ");
-        ssb.setSpan(new CustomHorizontalRulesSpan(Color.LTGRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new CustomHorizontalRulesSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 

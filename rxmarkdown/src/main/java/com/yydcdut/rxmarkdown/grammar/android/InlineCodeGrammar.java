@@ -5,6 +5,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 
+import com.yydcdut.rxmarkdown.Configuration;
+
 import java.util.regex.Pattern;
 
 /**
@@ -14,6 +16,13 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
     protected static final String KEY = "`";
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + KEY;
+
+    private int mColor;
+
+    public InlineCodeGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+        mColor = configuration.getInlineCodeBgColor();
+    }
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -76,7 +85,7 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
             if (positionFooter != -1) {
                 ssb.delete(tmp.length(), tmp.length() + KEY.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
-                ssb.setSpan(new BackgroundColorSpan(0xff0099cc), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new BackgroundColorSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY.length());
             } else {
                 tmp.append(KEY);

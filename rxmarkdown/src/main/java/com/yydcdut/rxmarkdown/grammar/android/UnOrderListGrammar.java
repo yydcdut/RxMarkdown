@@ -1,11 +1,11 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.CustomBulletSpan;
 
@@ -26,6 +26,12 @@ class UnOrderListGrammar implements IGrammar {
     private static final String KEY_IGNORE_2 = "- [X] ";
 
     private static final int START_POSITION = 2;
+
+    private int mColor;
+
+    public UnOrderListGrammar(@NonNull Configuration configuration) {
+        mColor = configuration.getUnOrderListColor();
+    }
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {
@@ -127,7 +133,7 @@ class UnOrderListGrammar implements IGrammar {
 
     private void setSSB(int nested, int start, String line, SpannableStringBuilder ssb) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + START_POSITION);
-        ssb.setSpan(new CustomBulletSpan(10, Color.BLACK, nested),
+        ssb.setSpan(new CustomBulletSpan(10, mColor, nested),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + START_POSITION),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -3,6 +3,7 @@ package com.yydcdut.rxmarkdown.factory;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.chain.IChain;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
@@ -11,7 +12,7 @@ import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
  * Created by yuyidong on 16/5/12.
  */
 public class AndroidFactory extends AbsGrammarFactory {
-    public AndroidFactory() {
+    private AndroidFactory() {
         super();
     }
 
@@ -20,88 +21,88 @@ public class AndroidFactory extends AbsGrammarFactory {
     }
 
     @Override
-    protected IGrammar getHorizontalRulesGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HORIZONTAL_RULES);
+    protected IGrammar getHorizontalRulesGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HORIZONTAL_RULES, configuration);
     }
 
     @Override
-    protected IGrammar getBlockQuotesGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BLOCK_QUOTES);
+    protected IGrammar getBlockQuotesGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BLOCK_QUOTES, configuration);
     }
 
     @Override
-    protected IGrammar getTodoGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO);
+    protected IGrammar getTodoGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO, configuration);
     }
 
     @Override
-    protected IGrammar getTodoDoneGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO_DONE);
+    protected IGrammar getTodoDoneGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_TODO_DONE, configuration);
     }
 
     @Override
-    protected IGrammar getOrderListGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ORDER_LIST);
+    protected IGrammar getOrderListGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ORDER_LIST, configuration);
     }
 
     @Override
-    protected IGrammar getUnOrderListGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_UNORDER_LIST);
+    protected IGrammar getUnOrderListGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_UNORDER_LIST, configuration);
     }
 
     @Override
-    protected IGrammar getCenterAlignGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CENTER_ALIGN);
+    protected IGrammar getCenterAlignGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CENTER_ALIGN, configuration);
     }
 
     @Override
-    protected IGrammar getHeaderGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE);
+    protected IGrammar getHeaderGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HEADER_LINE, configuration);
     }
 
     @Override
-    protected IGrammar getBoldGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BOLD);
+    protected IGrammar getBoldGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BOLD, configuration);
     }
 
     @Override
-    protected IGrammar getItalicGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ITALIC);
+    protected IGrammar getItalicGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_ITALIC, configuration);
     }
 
     @Override
-    protected IGrammar getInlineCodeGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_INLINE_CODE);
+    protected IGrammar getInlineCodeGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_INLINE_CODE, configuration);
     }
 
     @Override
-    protected IGrammar getStrikeThroughGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_STRIKE_THROUGH);
+    protected IGrammar getStrikeThroughGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_STRIKE_THROUGH, configuration);
     }
 
     @Override
-    protected IGrammar getFootnoteGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar((AndroidInstanceFactory.GRAMMAR_FOOTNOTE));
+    protected IGrammar getFootnoteGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar((AndroidInstanceFactory.GRAMMAR_FOOTNOTE), configuration);
     }
 
     @Override
-    protected IGrammar getImageGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_IMAGE);
+    protected IGrammar getImageGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_IMAGE, configuration);
     }
 
     @Override
-    protected IGrammar getHyperLinkGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK);
+    protected IGrammar getHyperLinkGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK, configuration);
     }
 
     @Override
-    protected IGrammar getCodeGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CODE);
+    protected IGrammar getCodeGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_CODE, configuration);
     }
 
     @Override
-    protected IGrammar getBackslashGrammar() {
-        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BACKSLASH);
+    protected IGrammar getBackslashGrammar(@NonNull Configuration configuration) {
+        return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BACKSLASH, configuration);
     }
 
     @NonNull

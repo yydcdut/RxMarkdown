@@ -1,5 +1,7 @@
 package com.yydcdut.rxmarkdown;
 
+import android.util.Log;
+
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 
 import rx.Observable;
@@ -10,14 +12,9 @@ import rx.schedulers.Schedulers;
  * Created by yuyidong on 16/5/3.
  */
 public class RxMarkdown {
-    /**
-     * 内容
-     */
     private String mContent;
-    /**
-     * 语法工厂
-     */
     private AbsGrammarFactory mAbsGrammarFactory;
+    private Configuration mConfiguration;
 
     private RxMarkdown(String content) {
         mContent = content;
@@ -25,6 +22,11 @@ public class RxMarkdown {
 
     public static RxMarkdown with(String content) {
         return new RxMarkdown(content);
+    }
+
+    public RxMarkdown config(Configuration configuration) {
+        mConfiguration = configuration;
+        return this;
     }
 
     public RxMarkdown factory(AbsGrammarFactory absGrammarFactory) {
@@ -39,7 +41,14 @@ public class RxMarkdown {
                     @Override
                     public CharSequence call(String s) {
                         if (mAbsGrammarFactory != null) {
-                            return mAbsGrammarFactory.parse(s);
+                            if (mConfiguration == null) {
+                                mConfiguration = new Configuration.Builder().build();
+                            }
+                            mAbsGrammarFactory.init(mConfiguration);
+                            long time = System.currentTimeMillis();
+                            CharSequence charSequence = mAbsGrammarFactory.parse(s);
+                            Log.i("yuyidong", "spend time --->" + (System.currentTimeMillis() - time));
+                            return charSequence;
                         }
                         return s;
                     }

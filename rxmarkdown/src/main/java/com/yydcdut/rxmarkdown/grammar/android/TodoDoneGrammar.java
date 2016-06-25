@@ -1,10 +1,10 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.span.CustomTodoDoneSpan;
 
 /**
@@ -16,6 +16,13 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
     private static final String KEY_1 = "- [X] ";
 
     private static final int START_POSITION = 6;
+
+    private int mColor;
+
+    public TodoDoneGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+        mColor = configuration.getTodoDoneColor();
+    }
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -31,9 +38,8 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
         ssb.delete(0, START_POSITION);
-        ssb.setSpan(new CustomTodoDoneSpan(Color.DKGRAY), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new CustomTodoDoneSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 

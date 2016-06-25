@@ -6,6 +6,8 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AlignmentSpan;
 
+import com.yydcdut.rxmarkdown.Configuration;
+
 /**
  * Created by yuyidong on 16/5/4.
  */
@@ -14,6 +16,10 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     protected static final String KEY1 = "]";
 
     protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + KEY1;
+
+    public CenterAlignGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+    }
 
     @Override
     public boolean isMatch(@NonNull String text) {

@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.CustomBulletSpan;
 
@@ -19,6 +20,9 @@ class OrderListGrammar implements IGrammar {
     private static final String KEY_HEADER = "  ";
 
     private static final char DOT = '.';
+
+    public OrderListGrammar(@NonNull Configuration configuration) {
+    }
 
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {

@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
  */
 public class CustomImageSpan extends DynamicDrawableSpan {
 
-    private static final int DEFAULT_SIZE = 100;
     private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\*(\\d+)$");
     private static final int URL_$$$$ = -1;
     private static final int URL_HTTP = 0;
@@ -58,8 +57,8 @@ public class CustomImageSpan extends DynamicDrawableSpan {
         return d;
     }
 
-    public CustomImageSpan(String uri) {
-        this(uri, createEmptyDrawable(getSize(uri)[0], getSize(uri)[1]));
+    public CustomImageSpan(String uri, int width, int height) {
+        this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]));
     }
 
     public CustomImageSpan(String uri, Drawable placeHolder) {
@@ -282,9 +281,9 @@ public class CustomImageSpan extends DynamicDrawableSpan {
     }
 
     @NonNull
-    private static int[] getSize(String sourceUrl) {
+    private static int[] getSize(String sourceUrl, int defaultWidth, int defaultHeight) {
         Matcher m = sImageUrlPattern.matcher(sourceUrl);
-        int[] size = new int[]{DEFAULT_SIZE, DEFAULT_SIZE};
+        int[] size = new int[]{defaultWidth, defaultHeight};
         if (m.find()) {
             if (TextUtils.isDigitsOnly(m.group(2))) {
                 size[0] = Integer.valueOf(m.group(2));

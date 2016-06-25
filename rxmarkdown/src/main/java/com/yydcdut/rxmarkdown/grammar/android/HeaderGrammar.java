@@ -5,6 +5,8 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 
+import com.yydcdut.rxmarkdown.Configuration;
+
 /**
  * Created by yuyidong on 16/5/20.
  */
@@ -15,6 +17,23 @@ class HeaderGrammar extends AbsAndroidGrammar {
     private static final String KEY_3 = "#### ";
     private static final String KEY_4 = "##### ";
     private static final String KEY_5 = "###### ";
+
+    private float mHeader1RelativeSize;
+    private float mHeader2RelativeSize;
+    private float mHeader3RelativeSize;
+    private float mHeader4RelativeSize;
+    private float mHeader5RelativeSize;
+    private float mHeader6RelativeSize;
+
+    public HeaderGrammar(@NonNull Configuration configuration) {
+        super(configuration);
+        mHeader1RelativeSize = configuration.getHeader1RelativeSize();
+        mHeader2RelativeSize = configuration.getHeader2RelativeSize();
+        mHeader3RelativeSize = configuration.getHeader3RelativeSize();
+        mHeader4RelativeSize = configuration.getHeader4RelativeSize();
+        mHeader5RelativeSize = configuration.getHeader5RelativeSize();
+        mHeader6RelativeSize = configuration.getHeader6RelativeSize();
+    }
 
     @Override
     boolean isMatch(@NonNull String text) {
@@ -38,22 +57,22 @@ class HeaderGrammar extends AbsAndroidGrammar {
         String text = ssb.toString();
         if (text.startsWith(KEY_5)) {
             ssb.delete(0, KEY_5.length());
-            ssb.setSpan(new RelativeSizeSpan(1.1f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader6RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (text.startsWith(KEY_4)) {
             ssb.delete(0, KEY_4.length());
-            ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader5RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (text.startsWith(KEY_3)) {
             ssb.delete(0, KEY_3.length());
-            ssb.setSpan(new RelativeSizeSpan(1.3f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader4RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (text.startsWith(KEY_2)) {
             ssb.delete(0, KEY_2.length());
-            ssb.setSpan(new RelativeSizeSpan(1.4f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader3RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (text.startsWith(KEY_1)) {
             ssb.delete(0, KEY_1.length());
-            ssb.setSpan(new RelativeSizeSpan(1.5f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader2RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (text.startsWith(KEY_0)) {
             ssb.delete(0, KEY_0.length());
-            ssb.setSpan(new RelativeSizeSpan(1.6f), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new RelativeSizeSpan(mHeader1RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         marginSSBLeft(ssb, 10);
         return ssb;
