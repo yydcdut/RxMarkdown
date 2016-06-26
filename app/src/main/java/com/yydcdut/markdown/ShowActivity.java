@@ -12,6 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
@@ -46,8 +47,27 @@ public class ShowActivity extends AppCompatActivity {
             Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
+        textView.setText(content);
+
+        Configuration configuration = new Configuration.Builder()
+                .setDefaultImageSize(50, 50)
+                .setBlockQuotesColor(0xff33b5e5)
+                .setHeader1RelativeSize(2.2f)
+                .setHeader2RelativeSize(2.0f)
+                .setHeader3RelativeSize(1.8f)
+                .setHeader4RelativeSize(1.6f)
+                .setHeader5RelativeSize(1.4f)
+                .setHeader6RelativeSize(1.2f)
+                .setHorizontalRulesColor(0xff99cc00)
+                .setInlineCodeBgColor(0xffff4444)
+                .setCodeBgColor(0x33999999)
+                .setTodoColor(0xffaa66cc)
+                .setTodoDoneColor(0xffff8800)
+                .setUnOrderListColor(0xff00ddff)
+                .build();
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content)
+                .config(configuration)
                 .factory(AndroidFactory.create())
                 .intoObservable()
                 .observeOn(AndroidSchedulers.mainThread())

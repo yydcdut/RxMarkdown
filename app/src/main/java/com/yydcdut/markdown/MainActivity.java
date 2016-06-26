@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0) {//增加
-                    CharSequence input = s.toString().subSequence(start, start + count);
-                    if ("\n".equals(input.toString())) {
-                        mHandler.sendEmptyMessage(1);
-                    }
-                }
+//                if (count > 0) {//增加
+//                    CharSequence input = s.toString().subSequence(start, start + count);
+//                    if ("\n".equals(input.toString())) {
+//                        mHandler.sendEmptyMessage(1);
+//                    }
+//                }
             }
 
             @Override
