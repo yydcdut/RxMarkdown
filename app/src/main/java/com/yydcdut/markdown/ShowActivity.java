@@ -12,7 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
@@ -49,7 +49,7 @@ public class ShowActivity extends AppCompatActivity {
         }
         textView.setText(content);
 
-        Configuration configuration = new Configuration.Builder()
+        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder()
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesColor(0xff33b5e5)
                 .setHeader1RelativeSize(2.2f)
@@ -67,7 +67,7 @@ public class ShowActivity extends AppCompatActivity {
                 .build();
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content)
-                .config(configuration)
+                .config(rxMDConfiguration)
                 .factory(AndroidFactory.create())
                 .intoObservable()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,8 +88,6 @@ public class ShowActivity extends AppCompatActivity {
                         textView.setText(charSequence, TextView.BufferType.SPANNABLE);
                     }
                 });
-//        test(textView, content);
-//        getTextViewLength(textView);
     }
 
     @Override
@@ -102,45 +100,5 @@ public class ShowActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private void getTextViewLength(final TextView textView) {
-//        getWindow().getDecorView().post(new Runnable() {
-//            @Override
-//            public void run() {
-//                textView.setTextSize(20f);
-//                int width = textView.getWidth();
-//                Log.i("yuyidong", width + "   width");
-//                Paint paint = new Paint();
-//                float ll = paint.measureText("H");
-//                Log.i("yuyidong", "ll---->" + ll);
-//                TextPaint textPaint = textView.getPaint();
-//                float llll = textPaint.measureText("H");
-//                Log.i("yuyidong", llll + "   llllllllllllllll");
-//                int geshu = (int) (width / llll);
-//                StringBuilder stringBuilder = new StringBuilder();
-//                for (int i = 0; i < geshu + 1; i++) {
-//                    stringBuilder.append("H");
-//                }
-//                textView.setText(stringBuilder.toString());
-//            }
-//        });
-//    }
-
-//    private void test(TextView textView, String content) {
-//        OrderListGrammar orderListGrammar = new OrderListGrammar();
-//        boolean b = orderListGrammar.isMatch(content);
-//        Log.i("yuyidong", "isMatch  ---->   " + b);
-//        if (b) {
-//            CharSequence charSequence = orderListGrammar.format(new SpannableStringBuilder(content));
-//            textView.setText(charSequence, TextView.BufferType.SPANNABLE);
-//            Log.i("yuyidong", "finish   xxx  " + charSequence.toString());
-//    }
-
-
-//        SpannableStringBuilder ssb = new SpannableStringBuilder("1234567890");
-//        ssb.setSpan(new StyleSpan(Typeface.BOLD), 4, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        ssb.delete(3,7);
-//        ssb.insert(3,"abcdefg");
-//        textView.setText(ssb);
-//    }
 
 }

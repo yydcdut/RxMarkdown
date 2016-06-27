@@ -3,6 +3,9 @@ package com.yydcdut.rxmarkdown;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 
+import com.yydcdut.rxmarkdown.loader.DefaultLoader;
+import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
+
 /**
  * Created by yuyidong on 16/6/22.
  */
@@ -29,7 +32,15 @@ public class RxMDConfiguration {
     @ColorInt
     private int unOrderListColor;
 
-    public RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor, float header1RelativeSize, float header2RelativeSize, float header3RelativeSize, float header4RelativeSize, float header5RelativeSize, float header6RelativeSize, int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor, int todoColor, int todoDoneColor, int unOrderListColor) {
+    private RxMDImageLoader rxMDImageLoader;
+
+    public RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
+                             float header1RelativeSize, float header2RelativeSize,
+                             float header3RelativeSize, float header4RelativeSize,
+                             float header5RelativeSize, float header6RelativeSize,
+                             int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
+                             int todoColor, int todoDoneColor, int unOrderListColor,
+                             RxMDImageLoader rxMDImageLoader) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -44,6 +55,7 @@ public class RxMDConfiguration {
         this.todoColor = todoColor;
         this.todoDoneColor = todoDoneColor;
         this.unOrderListColor = unOrderListColor;
+        this.rxMDImageLoader = rxMDImageLoader;
     }
 
     public final int[] getDefaultImageSize() {
@@ -102,6 +114,10 @@ public class RxMDConfiguration {
         return unOrderListColor;
     }
 
+    public RxMDImageLoader getRxMDImageLoader() {
+        return rxMDImageLoader;
+    }
+
     public static class Builder {
 
         private int[] defaultImageSize;
@@ -134,6 +150,8 @@ public class RxMDConfiguration {
         @ColorInt
         private int unOrderListColor;
 
+        private RxMDImageLoader rxMDImageLoader;
+
         public Builder() {
             defaultImageSize = new int[]{100, 100};
             blockQuotesColor = Color.LTGRAY;
@@ -149,6 +167,7 @@ public class RxMDConfiguration {
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
             unOrderListColor = Color.BLACK;
+            rxMDImageLoader = new DefaultLoader();
         }
 
         public Builder setDefaultImageSize(int width, int height) {
@@ -221,6 +240,11 @@ public class RxMDConfiguration {
             return this;
         }
 
+        public Builder setRxMDImageLoader(RxMDImageLoader rxMDImageLoader) {
+            this.rxMDImageLoader = rxMDImageLoader;
+            return this;
+        }
+
         public RxMDConfiguration build() {
             return new RxMDConfiguration(defaultImageSize, blockQuotesColor,
                     header1RelativeSize,
@@ -230,7 +254,7 @@ public class RxMDConfiguration {
                     header5RelativeSize,
                     header6RelativeSize,
                     horizontalRulesColor, inlineCodeBgColor, codeBgColor,
-                    todoColor, todoDoneColor, unOrderListColor);
+                    todoColor, todoDoneColor, unOrderListColor, rxMDImageLoader);
         }
     }
 }

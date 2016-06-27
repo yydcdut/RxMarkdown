@@ -5,6 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.regex.Pattern;
@@ -24,10 +25,12 @@ class ImageGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_4 = BackslashGrammar.KEY_BACKSLASH + KEY_2;
 
     private int[] mSize;
+    private RxMDImageLoader mRxMDImageLoader;
 
     ImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mSize = rxMDConfiguration.getDefaultImageSize();
+        mRxMDImageLoader = rxMDConfiguration.getRxMDImageLoader();
     }
 
     @Override
@@ -137,7 +140,7 @@ class ImageGrammar extends AbsAndroidGrammar {
                 tmpTotal = tmpTotal.substring(positionCenter + KEY_1.length(), tmpTotal.length());
                 int positionFooter = tmpTotal.indexOf(KEY_2);
                 String link = tmpTotal.substring(0, positionFooter);
-                ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1]), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1], mRxMDImageLoader), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY_1.length() + link.length() + KEY_2.length());
                 tmpTotal = tmpTotal.substring(positionFooter + KEY_2.length(), tmpTotal.length());
             } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {

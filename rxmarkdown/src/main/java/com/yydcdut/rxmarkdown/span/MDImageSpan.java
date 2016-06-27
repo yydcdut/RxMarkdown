@@ -10,23 +10,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.view.View;
 
 import com.yydcdut.rxmarkdown.drawable.ForwardingDrawable;
+import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,12 +26,6 @@ import java.util.regex.Pattern;
 public class MDImageSpan extends DynamicDrawableSpan {
 
     private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\*(\\d+)$");
-    private static final int URL_$$$$ = -1;
-    private static final int URL_HTTP = 0;
-    private static final int URL_FILE = 1;
-
-    private static final String URL_HEADER_HTTP = "http://";
-    private static final String URL_HEADER_FILE = "file://";
 
     private String mImageUri;
     private Drawable mPlaceHolder;
@@ -51,19 +35,22 @@ public class MDImageSpan extends DynamicDrawableSpan {
     private View mAttachedView;
     private boolean mIsRequestSubmitted = false;
 
+    private RxMDImageLoader mRxMDImageLoader;
+
     private static Drawable createEmptyDrawable(int width, int height) {
         ColorDrawable d = new ColorDrawable(Color.TRANSPARENT);
         d.setBounds(0, 0, width, height);
         return d;
     }
 
-    public MDImageSpan(String uri, int width, int height) {
-        this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]));
+    public MDImageSpan(String uri, int width, int height, RxMDImageLoader rxMDImageLoader) {
+        this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]), rxMDImageLoader);
     }
 
-    public MDImageSpan(String uri, Drawable placeHolder) {
+    private MDImageSpan(String uri, Drawable placeHolder, RxMDImageLoader rxMDImageLoader) {
         super(ALIGN_BOTTOM);
         getUrl(uri);
+        mRxMDImageLoader = rxMDImageLoader;
         mImageUri = uri;
         mPlaceHolder = placeHolder;
         mActualDrawable = new ForwardingDrawable(mPlaceHolder);
@@ -102,20 +89,8 @@ public class MDImageSpan extends DynamicDrawableSpan {
             @Override
             protected Drawable doInBackground(String... params) {
                 String url = params[0];
-                int type = judgeUrl(url);
-                Drawable drawable = null;
-                switch (type) {
-                    case URL_HTTP:
-                        drawable = getDrawableFromNet(getUrl(url));
-                        break;
-                    case URL_FILE:
-                        drawable = getDrawableFromLocal(getUrl(url));
-                        break;
-                    case URL_$$$$:
-                    default:
-                        return null;
-                }
-
+                byte[] bytes = mRxMDImageLoader.loadSync(getUrl(url));
+                Drawable drawable = getDrawable(bytes);
                 return drawable;
             }
 
@@ -146,84 +121,12 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return drawable;
     }
 
-    private Drawable getDrawableFromLocal(String url) {
-        if (mAttachedView == null) {
-            return null;
-        }
-        Context context = mAttachedView.getContext();
-        if (context == null) {
-            return null;
-        }
-        String path = url.substring(URL_HEADER_FILE.length() + 1, url.length());
-        InputStream inputStream = null;
-        Drawable drawable = null;
-        try {
-            inputStream = new FileInputStream(path);
-            byte[] bytes = getBytes(inputStream);
-            if (bytes != null) {
-                drawable = getDrawable(bytes);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            closeStream(inputStream);
-        }
-        return drawable;
-    }
-
-    private Drawable getDrawableFromNet(@NonNull String http) {
-        byte[] bytes = net(http);
-        if (bytes == null) {
-            return null;
-        }
-        return getDrawable(bytes);
-    }
-
     private static int calculate(@NonNull BitmapFactory.Options options, int expectWidth, int expectHeight) {
         int sampleSize = 1;
         while (options.outHeight / sampleSize > expectWidth || options.outWidth / sampleSize > expectHeight) {
             sampleSize = sampleSize << 1;
         }
         return sampleSize;
-    }
-
-    private static byte[] net(@NonNull String http) {
-        HttpURLConnection httpURLConnection = null;
-        ByteArrayOutputStream out = null;
-        byte[] bytes = null;
-        try {
-            URL url = new URL(http);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
-            bytes = getBytes(in);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeStream(out);
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
-        return bytes;
-    }
-
-    private static byte[] getBytes(@NonNull InputStream inputStream) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] bytes = null;
-        try {
-            int i;
-            while ((i = inputStream.read()) != -1) {
-                out.write(i);
-            }
-            bytes = out.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bytes;
     }
 
     private Drawable getDrawable(@NonNull byte[] bytes) {
@@ -249,16 +152,6 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return drawable;
     }
 
-    private static void closeStream(@Nullable Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void onDetach() {
         if (!mIsAttached) {
             return;
@@ -266,18 +159,6 @@ public class MDImageSpan extends DynamicDrawableSpan {
         mActualDrawable.setCallback(null);
         mAttachedView = null;
         mActualDrawable.setCurrent(mPlaceHolder);
-    }
-
-    private static int judgeUrl(@NonNull String url) {
-        if (TextUtils.isEmpty(url)) {
-            return URL_$$$$;
-        }
-        if (url.toLowerCase().startsWith(URL_HEADER_HTTP)) {
-            return URL_HTTP;
-        } else if (url.toLowerCase().startsWith(URL_HEADER_FILE)) {
-            return URL_FILE;
-        }
-        return URL_$$$$;
     }
 
     @NonNull
