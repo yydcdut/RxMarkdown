@@ -8,12 +8,12 @@ import android.text.style.BulletSpan;
 /**
  * Created by yuyidong on 16/5/21.
  */
-public class CustomBulletSpan extends BulletSpan {
+public class MDBulletSpan extends BulletSpan {
     private int mNested = 0;
     private static final int NESTED_MARGIN_LENGTH = 9;
     private static final int GAP_WIDTH_PLUS = 10;
 
-    public CustomBulletSpan(int gapWidth, int color, int nested) {
+    public MDBulletSpan(int gapWidth, int color, int nested) {
         super(gapWidth, color);
         mNested = nested;
     }

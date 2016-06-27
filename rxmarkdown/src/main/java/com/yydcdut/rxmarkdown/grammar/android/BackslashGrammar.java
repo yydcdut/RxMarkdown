@@ -17,7 +17,7 @@ public class BackslashGrammar extends AbsAndroidGrammar {
     protected static final String KEY_ENCODE_3 = "%hsyRjh34l%$2@";
     protected static final String KEY_ENCODE_4 = "&@da&U56ec%k$QW@";
 
-    public BackslashGrammar(@NonNull Configuration configuration) {
+    BackslashGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 

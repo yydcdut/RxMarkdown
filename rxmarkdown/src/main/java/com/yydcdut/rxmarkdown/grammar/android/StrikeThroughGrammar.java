@@ -17,12 +17,12 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "~";
 
-    public StrikeThroughGrammar(@NonNull Configuration configuration) {
+    StrikeThroughGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 
     @Override
-    public boolean isMatch(@NonNull String text) {
+    boolean isMatch(@NonNull String text) {
         if (!text.contains(KEY)) {
             return false;
         }
@@ -66,7 +66,8 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
+    @NonNull
+    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -94,7 +95,7 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private int findPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+    private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY);
         if (position == -1) {
@@ -108,10 +109,5 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
                 return position;
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "StrikeThroughGrammar{}";
     }
 }

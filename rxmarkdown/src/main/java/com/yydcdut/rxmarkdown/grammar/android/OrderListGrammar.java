@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.span.CustomBulletSpan;
+import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ class OrderListGrammar implements IGrammar {
 
     private static final char DOT = '.';
 
-    public OrderListGrammar(@NonNull Configuration configuration) {
+    OrderListGrammar(@NonNull Configuration configuration) {
     }
 
     @Override
@@ -113,8 +113,7 @@ class OrderListGrammar implements IGrammar {
         return ssb;
     }
 
-
-    private boolean check(String text) {
+    private boolean check(@NonNull String text) {
         if (text.length() < 3) {
             return false;
         }
@@ -144,7 +143,7 @@ class OrderListGrammar implements IGrammar {
         }
     }
 
-    private int calculateNested(String text) {
+    private int calculateNested(@NonNull String text) {
         if (text.length() < 3) {
             return -1;
         }
@@ -165,7 +164,7 @@ class OrderListGrammar implements IGrammar {
         return nested;
     }
 
-    private int calculateNumber(String text, int nested) {
+    private int calculateNumber(@NonNull String text, int nested) {
         if (text.length() < 3) {
             return -1;
         }
@@ -187,10 +186,10 @@ class OrderListGrammar implements IGrammar {
         return number;
     }
 
-    private void setSSB(int nested, int start, String line, SpannableStringBuilder ssb, int number, int originalNumber) {
+    private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + (originalNumber + "").length());
         ssb.insert(start, number + "");
-        ssb.setSpan(new CustomBulletSpan(10, Color.TRANSPARENT, nested),
+        ssb.setSpan(new MDBulletSpan(10, Color.TRANSPARENT, nested),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + (originalNumber + "").length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -205,7 +204,7 @@ class OrderListGrammar implements IGrammar {
         final int number;
         final int originalNumber;
 
-        public NestedOrderListBean(int start, boolean isRegular, String line, int nested, int number, int originalNumber) {
+        public NestedOrderListBean(int start, boolean isRegular, @NonNull String line, int nested, int number, int originalNumber) {
             this.start = start;
             this.isRegular = isRegular;
             this.line = line;

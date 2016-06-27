@@ -19,7 +19,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "[";
     protected static final String KEY_BACKSLASH_VALUE_2 = BackslashGrammar.KEY_BACKSLASH + "]";
 
-    public FootnoteGrammar(@NonNull Configuration configuration) {
+    FootnoteGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 
@@ -86,7 +86,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
+    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -114,7 +114,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private int findBeginPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+    private int findBeginPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY_BEGIN);
         if (position == -1) {
@@ -130,7 +130,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         }
     }
 
-    private int findEndPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+    private int findEndPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY_END);
         if (position == -1) {
@@ -144,11 +144,5 @@ class FootnoteGrammar extends AbsAndroidGrammar {
                 return position;
             }
         }
-    }
-
-
-    @Override
-    public String toString() {
-        return "SuperScriptGrammarAbs{}";
     }
 }

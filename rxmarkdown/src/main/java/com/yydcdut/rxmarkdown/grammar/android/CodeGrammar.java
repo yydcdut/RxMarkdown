@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.regex.Pattern;
 
@@ -74,14 +74,14 @@ class CodeGrammar implements IGrammar {
                 }
                 int start = index;
                 int end = index + lines[i].length() + ((i == lines.length - 1) ? 0 : "\n".length());
-                ssb.setSpan(new CustomCodeSpan(mColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDCodeSpan(mColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             index += lines[i].length() + "\n".length();
         }
         return ssb;
     }
 
-    private int calculateTotalKey(String text) {
+    private int calculateTotalKey(@NonNull String text) {
         String[] lines = text.split("\n");
         int number = 0;
         for (int i = 0; i < lines.length; i++) {
@@ -89,5 +89,4 @@ class CodeGrammar implements IGrammar {
         }
         return number;
     }
-
 }

@@ -8,7 +8,7 @@ import android.text.Spanned;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.yydcdut.rxmarkdown.span.CustomImageSpan;
+import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 /**
  * Created by yuyidong on 16/5/16.
@@ -41,9 +41,9 @@ public class RxMDTextView extends TextView {
             mHasImageInText = false;
         }
         if (text instanceof Spanned) {
-            CustomImageSpan[] spans = ((Spanned) text).getSpans(0, text.length(), CustomImageSpan.class);
+            MDImageSpan[] spans = ((Spanned) text).getSpans(0, text.length(), MDImageSpan.class);
             mHasImageInText = spans.length > 0;
-            for (CustomImageSpan image : spans) {
+            for (MDImageSpan image : spans) {
                 image.onAttach(this);
             }
         }
@@ -75,8 +75,8 @@ public class RxMDTextView extends TextView {
     }
 
     final void onDetach() {
-        CustomImageSpan[] images = getImages();
-        for (CustomImageSpan image : images) {
+        MDImageSpan[] images = getImages();
+        for (MDImageSpan image : images) {
             Drawable drawable = image.getDrawable();
             if (drawable != null) {
                 unscheduleDrawable(drawable);
@@ -85,10 +85,10 @@ public class RxMDTextView extends TextView {
         }
     }
 
-    private CustomImageSpan[] getImages() {
+    private MDImageSpan[] getImages() {
         if (mHasImageInText && length() > 0) {
-            return ((Spanned) getText()).getSpans(0, length(), CustomImageSpan.class);
+            return ((Spanned) getText()).getSpans(0, length(), MDImageSpan.class);
         }
-        return new CustomImageSpan[0];
+        return new MDImageSpan[0];
     }
 }

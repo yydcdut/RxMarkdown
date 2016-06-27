@@ -11,8 +11,8 @@ import android.util.Log;
 
 import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.span.CustomCodeSpan;
-import com.yydcdut.rxmarkdown.span.CustomImageSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 /**
  * Created by yuyidong on 16/5/13.
@@ -32,7 +32,7 @@ abstract class AbsAndroidGrammar implements IGrammar {
 //            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
             return false;
         }
-        if (ssb.getSpans(0, ssb.length(), CustomCodeSpan.class).length > 0) {
+        if (ssb.getSpans(0, ssb.length(), MDCodeSpan.class).length > 0) {
             return false;
         }
         if (TextUtils.isEmpty(charSequence)) {
@@ -92,7 +92,7 @@ abstract class AbsAndroidGrammar implements IGrammar {
     }
 
     protected boolean checkInImage(SpannableStringBuilder ssb, int position, int keyLength) {
-        CustomImageSpan[] spans = ssb.getSpans(position, position + keyLength, CustomImageSpan.class);
+        MDImageSpan[] spans = ssb.getSpans(position, position + keyLength, MDImageSpan.class);
         if (spans.length == 0) {
             return false;
         } else {

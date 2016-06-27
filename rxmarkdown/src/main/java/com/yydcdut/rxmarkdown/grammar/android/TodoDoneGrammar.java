@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.Configuration;
-import com.yydcdut.rxmarkdown.span.CustomTodoDoneSpan;
+import com.yydcdut.rxmarkdown.span.MDTodoDoneSpan;
 
 /**
  * Created by yuyidong on 16/5/17.
@@ -19,7 +19,7 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    public TodoDoneGrammar(@NonNull Configuration configuration) {
+    TodoDoneGrammar(@NonNull Configuration configuration) {
         super(configuration);
         mColor = configuration.getTodoDoneColor();
     }
@@ -39,7 +39,7 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         ssb.delete(0, START_POSITION);
-        ssb.setSpan(new CustomTodoDoneSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new MDTodoDoneSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 

@@ -25,7 +25,7 @@ class HeaderGrammar extends AbsAndroidGrammar {
     private float mHeader5RelativeSize;
     private float mHeader6RelativeSize;
 
-    public HeaderGrammar(@NonNull Configuration configuration) {
+    HeaderGrammar(@NonNull Configuration configuration) {
         super(configuration);
         mHeader1RelativeSize = configuration.getHeader1RelativeSize();
         mHeader2RelativeSize = configuration.getHeader2RelativeSize();
@@ -83,5 +83,4 @@ class HeaderGrammar extends AbsAndroidGrammar {
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
     }
-
 }

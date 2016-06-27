@@ -10,12 +10,12 @@ import com.yydcdut.rxmarkdown.Configuration;
  */
 class NormalGrammar extends AbsAndroidGrammar {
 
-    public NormalGrammar(@NonNull Configuration configuration) {
+    NormalGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 
     @Override
-    public boolean isMatch(@NonNull String text) {
+    boolean isMatch(@NonNull String text) {
         return false;
     }
 
@@ -27,7 +27,7 @@ class NormalGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
-    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         return ssb;
     }
 
@@ -35,10 +35,5 @@ class NormalGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
-    }
-
-    @Override
-    public String toString() {
-        return "NormalGrammar{}";
     }
 }

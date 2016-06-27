@@ -8,16 +8,16 @@ import android.text.Layout;
 /**
  * Created by yuyidong on 16/5/17.
  */
-public class CustomTodoDoneSpan extends CustomTodoSpan {
-    public CustomTodoDoneSpan() {
+public class MDTodoDoneSpan extends MDTodoSpan {
+    public MDTodoDoneSpan() {
         super();
     }
 
-    public CustomTodoDoneSpan(int color) {
+    public MDTodoDoneSpan(int color) {
         super(color);
     }
 
-    public CustomTodoDoneSpan(Parcel src) {
+    public MDTodoDoneSpan(Parcel src) {
         super(src);
     }
 

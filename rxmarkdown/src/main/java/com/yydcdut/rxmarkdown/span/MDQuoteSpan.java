@@ -8,14 +8,14 @@ import android.text.style.QuoteSpan;
 /**
  * Created by yuyidong on 16/5/15.
  */
-public class CustomQuoteSpan extends QuoteSpan {
+public class MDQuoteSpan extends QuoteSpan {
     private static final int GAP_WIDTH_PLUS = 5;
     private static final int DRAWING_X_PLUS = 10;
     private static final int QUOTE_WIDTH_PLUS = 2;
 
     private int mNested = 1;
 
-    public CustomQuoteSpan(int color, int nested) {
+    public MDQuoteSpan(int color, int nested) {
         super(color);
         mNested = nested;
     }

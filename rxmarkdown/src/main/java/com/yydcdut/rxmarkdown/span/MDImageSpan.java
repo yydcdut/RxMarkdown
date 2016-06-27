@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.view.View;
 
-import com.yydcdut.rxmarkdown.view.ForwardingDrawable;
+import com.yydcdut.rxmarkdown.drawable.ForwardingDrawable;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/16.
  */
-public class CustomImageSpan extends DynamicDrawableSpan {
+public class MDImageSpan extends DynamicDrawableSpan {
 
     private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\*(\\d+)$");
     private static final int URL_$$$$ = -1;
@@ -57,11 +57,11 @@ public class CustomImageSpan extends DynamicDrawableSpan {
         return d;
     }
 
-    public CustomImageSpan(String uri, int width, int height) {
+    public MDImageSpan(String uri, int width, int height) {
         this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]));
     }
 
-    public CustomImageSpan(String uri, Drawable placeHolder) {
+    public MDImageSpan(String uri, Drawable placeHolder) {
         super(ALIGN_BOTTOM);
         getUrl(uri);
         mImageUri = uri;

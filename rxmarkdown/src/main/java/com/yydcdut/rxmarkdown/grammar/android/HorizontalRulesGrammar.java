@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.Configuration;
-import com.yydcdut.rxmarkdown.span.CustomHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
 
 /**
  * Created by yuyidong on 16/5/15.
@@ -19,7 +19,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    public HorizontalRulesGrammar(@NonNull Configuration configuration) {
+    HorizontalRulesGrammar(@NonNull Configuration configuration) {
         super(configuration);
         mColor = configuration.getHorizontalRulesColor();
     }
@@ -44,7 +44,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         ssb.replace(0, ssb.length(), " ");
-        ssb.setSpan(new CustomHorizontalRulesSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new MDHorizontalRulesSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 
@@ -54,7 +54,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private boolean check(String text, char key) {
+    private boolean check(@NonNull String text, char key) {
         char[] chars = text.toCharArray();
         boolean bool = true;
         for (int i = 0; i < chars.length; i++) {

@@ -18,12 +18,12 @@ class BoldGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "*";
 
-    public BoldGrammar(@NonNull Configuration configuration) {
+    BoldGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 
     @Override
-    public boolean isMatch(@NonNull String text) {
+    boolean isMatch(@NonNull String text) {
         if (!text.contains(KEY)) {
             return false;
         }
@@ -48,7 +48,7 @@ class BoldGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
-    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
         ssb = complex(text, ssb);
         return ssb;
@@ -98,7 +98,7 @@ class BoldGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private int findPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+    private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY);
         if (position == -1) {
@@ -112,10 +112,5 @@ class BoldGrammar extends AbsAndroidGrammar {
                 return position;
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "BoldGrammar{}";
     }
 }

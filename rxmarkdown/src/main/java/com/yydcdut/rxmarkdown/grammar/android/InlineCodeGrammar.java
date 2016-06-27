@@ -19,7 +19,7 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    public InlineCodeGrammar(@NonNull Configuration configuration) {
+    InlineCodeGrammar(@NonNull Configuration configuration) {
         super(configuration);
         mColor = configuration.getInlineCodeBgColor();
     }
@@ -69,7 +69,8 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
+    @NonNull
+    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -98,7 +99,7 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
     }
 
 
-    private int findPosition(String tmpTotal, SpannableStringBuilder ssb, SpannableStringBuilder tmp) {
+    private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY);
         if (position == -1) {

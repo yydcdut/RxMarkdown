@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.Configuration;
-import com.yydcdut.rxmarkdown.span.CustomQuoteSpan;
+import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 
 /**
  * Created by yuyidong on 16/5/4.
@@ -14,13 +14,13 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     private int mColor;
     private static final String KEY = "> ";
 
-    public BlockQuotesGrammar(@NonNull Configuration configuration) {
+    BlockQuotesGrammar(@NonNull Configuration configuration) {
         super(configuration);
         mColor = configuration.getBlockQuotesColor();
     }
 
     @Override
-    public boolean isMatch(@NonNull String text) {
+    boolean isMatch(@NonNull String text) {
         if (!text.startsWith(KEY)) {
             return false;
         }
@@ -35,13 +35,13 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
 
     @NonNull
     @Override
-    public SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         int nested = calculateNested(ssb.toString());
         if (nested == 0) {
             return ssb;
         }
         ssb = ssb.delete(0, nested * KEY.length() - 1);
-        ssb.setSpan(new CustomQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
         return ssb;
     }
@@ -50,11 +50,6 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
-    }
-
-    @Override
-    public String toString() {
-        return "BlockQuotesGrammar{}";
     }
 
     /**
@@ -76,6 +71,5 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
             ++nested;
         }
         return nested;
-
     }
 }

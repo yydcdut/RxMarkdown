@@ -23,7 +23,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + "]";
     protected static final String KEY_BACKSLASH_VALUE_3 = BackslashGrammar.KEY_BACKSLASH + ")";
 
-    public HyperLinkGrammar(@NonNull Configuration configuration) {
+    HyperLinkGrammar(@NonNull Configuration configuration) {
         super(configuration);
     }
 
@@ -108,7 +108,8 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private SpannableStringBuilder complex(String text, SpannableStringBuilder ssb) {
+    @NonNull
+    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -152,6 +153,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    @NonNull
     private String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
         if (target == null) {
             throw new NullPointerException("target == null");

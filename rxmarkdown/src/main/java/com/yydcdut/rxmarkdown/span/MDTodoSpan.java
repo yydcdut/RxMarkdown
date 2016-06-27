@@ -10,24 +10,24 @@ import android.text.style.QuoteSpan;
 /**
  * Created by yuyidong on 16/5/17.
  */
-public class CustomTodoSpan extends QuoteSpan {
+public class MDTodoSpan extends QuoteSpan {
     private static final int GAP_WIDTH_PLUS = 10;
 
     private int mMarginLength = 50;
 
     protected final int mColor;
 
-    public CustomTodoSpan() {
+    public MDTodoSpan() {
         super();
         mColor = 0xff0000ff;
     }
 
-    public CustomTodoSpan(int color) {
+    public MDTodoSpan(int color) {
         super(color);
         mColor = color;
     }
 
-    public CustomTodoSpan(Parcel src) {
+    public MDTodoSpan(Parcel src) {
         super(src);
         mColor = src.readInt();
     }

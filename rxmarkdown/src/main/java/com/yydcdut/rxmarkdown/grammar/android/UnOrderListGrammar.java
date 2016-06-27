@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.Configuration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.span.CustomBulletSpan;
+import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
 import java.util.ArrayList;
 
@@ -113,7 +113,7 @@ class UnOrderListGrammar implements IGrammar {
      * @param text
      * @return
      */
-    private int calculateNested(String text) {
+    private int calculateNested(@NonNull String text) {
         int nested = 0;
         while (true) {
             if ((nested + 1) * KEY_HEADER.length() > text.length()) {
@@ -131,9 +131,9 @@ class UnOrderListGrammar implements IGrammar {
         return nested;
     }
 
-    private void setSSB(int nested, int start, String line, SpannableStringBuilder ssb) {
+    private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + START_POSITION);
-        ssb.setSpan(new CustomBulletSpan(10, mColor, nested),
+        ssb.setSpan(new MDBulletSpan(10, mColor, nested),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + START_POSITION),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -145,7 +145,7 @@ class UnOrderListGrammar implements IGrammar {
         final String line;//without "\n"
         final int nested;
 
-        public NestedUnOrderListBean(int start, boolean isRegular, String line, int nested) {
+        public NestedUnOrderListBean(int start, boolean isRegular, @NonNull String line, int nested) {
             this.start = start;
             this.isRegular = isRegular;
             this.line = line;
