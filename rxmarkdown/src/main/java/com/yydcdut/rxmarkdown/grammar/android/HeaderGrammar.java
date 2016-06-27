@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
  * Created by yuyidong on 16/5/20.
@@ -25,14 +25,14 @@ class HeaderGrammar extends AbsAndroidGrammar {
     private float mHeader5RelativeSize;
     private float mHeader6RelativeSize;
 
-    HeaderGrammar(@NonNull Configuration configuration) {
-        super(configuration);
-        mHeader1RelativeSize = configuration.getHeader1RelativeSize();
-        mHeader2RelativeSize = configuration.getHeader2RelativeSize();
-        mHeader3RelativeSize = configuration.getHeader3RelativeSize();
-        mHeader4RelativeSize = configuration.getHeader4RelativeSize();
-        mHeader5RelativeSize = configuration.getHeader5RelativeSize();
-        mHeader6RelativeSize = configuration.getHeader6RelativeSize();
+    HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
+        mHeader1RelativeSize = rxMDConfiguration.getHeader1RelativeSize();
+        mHeader2RelativeSize = rxMDConfiguration.getHeader2RelativeSize();
+        mHeader3RelativeSize = rxMDConfiguration.getHeader3RelativeSize();
+        mHeader4RelativeSize = rxMDConfiguration.getHeader4RelativeSize();
+        mHeader5RelativeSize = rxMDConfiguration.getHeader5RelativeSize();
+        mHeader6RelativeSize = rxMDConfiguration.getHeader6RelativeSize();
     }
 
     @Override

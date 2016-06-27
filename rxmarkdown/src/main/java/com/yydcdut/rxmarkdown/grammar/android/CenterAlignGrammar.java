@@ -6,7 +6,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AlignmentSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
  * Created by yuyidong on 16/5/4.
@@ -17,8 +17,8 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + KEY1;
 
-    CenterAlignGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    CenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

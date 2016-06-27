@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDTodoSpan;
 
 /**
@@ -16,9 +16,9 @@ class TodoGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    TodoGrammar(@NonNull Configuration configuration) {
-        super(configuration);
-        mColor = configuration.getTodoColor();
+    TodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
+        mColor = rxMDConfiguration.getTodoColor();
     }
 
     @Override

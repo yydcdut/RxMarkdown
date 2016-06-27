@@ -3,7 +3,7 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
  * Created by yuyidong on 16/6/20.
@@ -17,8 +17,8 @@ public class BackslashGrammar extends AbsAndroidGrammar {
     protected static final String KEY_ENCODE_3 = "%hsyRjh34l%$2@";
     protected static final String KEY_ENCODE_4 = "&@da&U56ec%k$QW@";
 
-    BackslashGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    BackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

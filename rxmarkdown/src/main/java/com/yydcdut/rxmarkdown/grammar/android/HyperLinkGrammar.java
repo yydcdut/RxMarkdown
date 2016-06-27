@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.URLSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
@@ -23,8 +23,8 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + "]";
     protected static final String KEY_BACKSLASH_VALUE_3 = BackslashGrammar.KEY_BACKSLASH + ")";
 
-    HyperLinkGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    HyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

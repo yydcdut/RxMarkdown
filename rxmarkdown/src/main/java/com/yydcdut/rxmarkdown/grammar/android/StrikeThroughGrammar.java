@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StrikethroughSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
@@ -17,8 +17,8 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "~";
 
-    StrikeThroughGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    StrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

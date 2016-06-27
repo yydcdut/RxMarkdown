@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
@@ -19,8 +19,8 @@ class CodeGrammar implements IGrammar {
 
     private int mColor;
 
-    public CodeGrammar(@NonNull Configuration configuration) {
-        mColor = configuration.getCodeBgColor();
+    public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        mColor = rxMDConfiguration.getCodeBgColor();
     }
 
     @Override

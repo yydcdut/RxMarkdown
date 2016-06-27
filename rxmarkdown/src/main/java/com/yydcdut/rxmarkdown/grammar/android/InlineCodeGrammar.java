@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
@@ -19,9 +19,9 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    InlineCodeGrammar(@NonNull Configuration configuration) {
-        super(configuration);
-        mColor = configuration.getInlineCodeBgColor();
+    InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
+        mColor = rxMDConfiguration.getInlineCodeBgColor();
     }
 
     @Override

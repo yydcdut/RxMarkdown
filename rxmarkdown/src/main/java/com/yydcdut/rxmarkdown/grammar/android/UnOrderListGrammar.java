@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
@@ -29,8 +29,8 @@ class UnOrderListGrammar implements IGrammar {
 
     private int mColor;
 
-    public UnOrderListGrammar(@NonNull Configuration configuration) {
-        mColor = configuration.getUnOrderListColor();
+    public UnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        mColor = rxMDConfiguration.getUnOrderListColor();
     }
 
     @Override

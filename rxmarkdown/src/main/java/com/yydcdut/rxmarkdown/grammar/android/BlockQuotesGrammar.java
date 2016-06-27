@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 
 /**
@@ -14,9 +14,9 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     private int mColor;
     private static final String KEY = "> ";
 
-    BlockQuotesGrammar(@NonNull Configuration configuration) {
-        super(configuration);
-        mColor = configuration.getBlockQuotesColor();
+    BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
+        mColor = rxMDConfiguration.getBlockQuotesColor();
     }
 
     @Override

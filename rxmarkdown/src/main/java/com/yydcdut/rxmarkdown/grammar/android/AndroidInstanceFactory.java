@@ -3,7 +3,7 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
@@ -30,44 +30,44 @@ public class AndroidInstanceFactory {
     public static final int GRAMMAR_UNORDER_LIST = 31;
     public static final int GRAMMAR_ORDER_LIST = 32;
 
-    public static IGrammar getAndroidGrammar(@IntRange(from = 0, to = 32) int grammar, @NonNull Configuration configuration) {
+    public static IGrammar getAndroidGrammar(@IntRange(from = 0, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
         switch (grammar) {
             case GRAMMAR_HORIZONTAL_RULES:
-                return new HorizontalRulesGrammar(configuration);
+                return new HorizontalRulesGrammar(rxMDConfiguration);
             case GRAMMAR_BLOCK_QUOTES:
-                return new BlockQuotesGrammar(configuration);
+                return new BlockQuotesGrammar(rxMDConfiguration);
             case GRAMMAR_CENTER_ALIGN:
-                return new CenterAlignGrammar(configuration);
+                return new CenterAlignGrammar(rxMDConfiguration);
             case GRAMMAR_HEADER_LINE:
-                return new HeaderGrammar(configuration);
+                return new HeaderGrammar(rxMDConfiguration);
             case GRAMMAR_BOLD:
-                return new BoldGrammar(configuration);
+                return new BoldGrammar(rxMDConfiguration);
             case GRAMMAR_ITALIC:
-                return new ItalicGrammar(configuration);
+                return new ItalicGrammar(rxMDConfiguration);
             case GRAMMAR_INLINE_CODE:
-                return new InlineCodeGrammar(configuration);
+                return new InlineCodeGrammar(rxMDConfiguration);
             case GRAMMAR_STRIKE_THROUGH:
-                return new StrikeThroughGrammar(configuration);
+                return new StrikeThroughGrammar(rxMDConfiguration);
             case GRAMMAR_FOOTNOTE:
-                return new FootnoteGrammar(configuration);
+                return new FootnoteGrammar(rxMDConfiguration);
             case GRAMMAR_IMAGE:
-                return new ImageGrammar(configuration);
+                return new ImageGrammar(rxMDConfiguration);
             case GRAMMAR_HYPERLINK:
-                return new HyperLinkGrammar(configuration);
+                return new HyperLinkGrammar(rxMDConfiguration);
             case GRAMMAR_TODO:
-                return new TodoGrammar(configuration);
+                return new TodoGrammar(rxMDConfiguration);
             case GRAMMAR_TODO_DONE:
-                return new TodoDoneGrammar(configuration);
+                return new TodoDoneGrammar(rxMDConfiguration);
             case GRAMMAR_CODE:
-                return new CodeGrammar(configuration);
+                return new CodeGrammar(rxMDConfiguration);
             case GRAMMAR_UNORDER_LIST:
-                return new UnOrderListGrammar(configuration);
+                return new UnOrderListGrammar(rxMDConfiguration);
             case GRAMMAR_ORDER_LIST:
-                return new OrderListGrammar(configuration);
+                return new OrderListGrammar(rxMDConfiguration);
             case GRAMMAR_BACKSLASH:
-                return new BackslashGrammar(configuration);
+                return new BackslashGrammar(rxMDConfiguration);
             default:
-                return new NormalGrammar(configuration);
+                return new NormalGrammar(rxMDConfiguration);
         }
     }
 

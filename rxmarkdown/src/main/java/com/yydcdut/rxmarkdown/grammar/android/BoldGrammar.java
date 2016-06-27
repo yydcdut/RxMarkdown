@@ -6,7 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
@@ -18,8 +18,8 @@ class BoldGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "*";
 
-    BoldGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

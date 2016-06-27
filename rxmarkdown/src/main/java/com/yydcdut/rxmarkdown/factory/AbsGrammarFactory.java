@@ -2,7 +2,7 @@ package com.yydcdut.rxmarkdown.factory;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.chain.GrammarDoElseChain;
 import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
@@ -20,26 +20,26 @@ public abstract class AbsGrammarFactory {
     protected AbsGrammarFactory() {
     }
 
-    public void init(@NonNull Configuration configuration) {
+    public void init(@NonNull RxMDConfiguration rxMDConfiguration) {
         mTotalChain = new MultiGrammarsChain(
-                getCodeGrammar(configuration),
-                getUnOrderListGrammar(configuration),
-                getOrderListGrammar(configuration));
-        mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar(configuration));
-        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesGrammar(configuration));
-        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar(configuration));
-        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar(configuration));
-        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar(configuration));
-        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar(configuration));
+                getCodeGrammar(rxMDConfiguration),
+                getUnOrderListGrammar(rxMDConfiguration),
+                getOrderListGrammar(rxMDConfiguration));
+        mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar(rxMDConfiguration));
+        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesGrammar(rxMDConfiguration));
+        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar(rxMDConfiguration));
+        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar(rxMDConfiguration));
+        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar(rxMDConfiguration));
+        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar(rxMDConfiguration));
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
-                getImageGrammar(configuration),
-                getHyperLinkGrammar(configuration),
-                getInlineCodeGrammar(configuration),
-                getBoldGrammar(configuration),
-                getItalicGrammar(configuration),
-                getStrikeThroughGrammar(configuration),
-                getFootnoteGrammar(configuration));
-        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar(configuration));
+                getImageGrammar(rxMDConfiguration),
+                getHyperLinkGrammar(rxMDConfiguration),
+                getInlineCodeGrammar(rxMDConfiguration),
+                getBoldGrammar(rxMDConfiguration),
+                getItalicGrammar(rxMDConfiguration),
+                getStrikeThroughGrammar(rxMDConfiguration),
+                getFootnoteGrammar(rxMDConfiguration));
+        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar(rxMDConfiguration));
 
         mLineChain.setNextHandleGrammar(blockQuitesChain);
 
@@ -58,39 +58,39 @@ public abstract class AbsGrammarFactory {
         multiChain.setNextHandleGrammar(backslashChain);
     }
 
-    protected abstract IGrammar getHorizontalRulesGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getBlockQuotesGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getTodoGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getTodoDoneGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getOrderListGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getUnOrderListGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getCenterAlignGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getHeaderGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getBoldGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getItalicGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getInlineCodeGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getStrikeThroughGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getFootnoteGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getImageGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getHyperLinkGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getCodeGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
-    protected abstract IGrammar getBackslashGrammar(@NonNull Configuration configuration);
+    protected abstract IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     @NonNull
     public abstract CharSequence parse(@NonNull CharSequence charSequence);

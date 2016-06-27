@@ -7,7 +7,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
@@ -21,7 +21,7 @@ class OrderListGrammar implements IGrammar {
 
     private static final char DOT = '.';
 
-    OrderListGrammar(@NonNull Configuration configuration) {
+    OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
     }
 
     @Override

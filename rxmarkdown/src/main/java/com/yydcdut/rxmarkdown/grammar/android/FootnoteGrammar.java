@@ -5,7 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.SuperscriptSpan;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
@@ -19,8 +19,8 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "[";
     protected static final String KEY_BACKSLASH_VALUE_2 = BackslashGrammar.KEY_BACKSLASH + "]";
 
-    FootnoteGrammar(@NonNull Configuration configuration) {
-        super(configuration);
+    FootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
     }
 
     @Override

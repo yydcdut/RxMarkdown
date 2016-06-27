@@ -6,7 +6,7 @@ import android.support.annotation.ColorInt;
 /**
  * Created by yuyidong on 16/6/22.
  */
-public class Configuration {
+public class RxMDConfiguration {
     private final int[] defaultImageSize;
     @ColorInt
     private final int blockQuotesColor;
@@ -29,7 +29,7 @@ public class Configuration {
     @ColorInt
     private int unOrderListColor;
 
-    public Configuration(int[] defaultImageSize, int blockQuotesColor, float header1RelativeSize, float header2RelativeSize, float header3RelativeSize, float header4RelativeSize, float header5RelativeSize, float header6RelativeSize, int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor, int todoColor, int todoDoneColor, int unOrderListColor) {
+    public RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor, float header1RelativeSize, float header2RelativeSize, float header3RelativeSize, float header4RelativeSize, float header5RelativeSize, float header6RelativeSize, int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor, int todoColor, int todoDoneColor, int unOrderListColor) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -221,8 +221,8 @@ public class Configuration {
             return this;
         }
 
-        public Configuration build() {
-            return new Configuration(defaultImageSize, blockQuotesColor,
+        public RxMDConfiguration build() {
+            return new RxMDConfiguration(defaultImageSize, blockQuotesColor,
                     header1RelativeSize,
                     header2RelativeSize,
                     header3RelativeSize,

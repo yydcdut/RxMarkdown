@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.regex.Pattern;
@@ -25,9 +25,9 @@ class ImageGrammar extends AbsAndroidGrammar {
 
     private int[] mSize;
 
-    ImageGrammar(@NonNull Configuration configuration) {
-        super(configuration);
-        mSize = configuration.getDefaultImageSize();
+    ImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        super(rxMDConfiguration);
+        mSize = rxMDConfiguration.getDefaultImageSize();
     }
 
     @Override

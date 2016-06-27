@@ -9,7 +9,7 @@ import android.text.style.LeadingMarginSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 
-import com.yydcdut.rxmarkdown.Configuration;
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
@@ -19,7 +19,7 @@ import com.yydcdut.rxmarkdown.span.MDImageSpan;
  */
 abstract class AbsAndroidGrammar implements IGrammar {
 
-    public AbsAndroidGrammar(@NonNull Configuration configuration) {
+    public AbsAndroidGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
     }
 
     @Override

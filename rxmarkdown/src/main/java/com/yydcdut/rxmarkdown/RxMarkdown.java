@@ -14,7 +14,7 @@ import rx.schedulers.Schedulers;
 public class RxMarkdown {
     private String mContent;
     private AbsGrammarFactory mAbsGrammarFactory;
-    private Configuration mConfiguration;
+    private RxMDConfiguration mRxMDConfiguration;
 
     private RxMarkdown(String content) {
         mContent = content;
@@ -24,8 +24,8 @@ public class RxMarkdown {
         return new RxMarkdown(content);
     }
 
-    public RxMarkdown config(Configuration configuration) {
-        mConfiguration = configuration;
+    public RxMarkdown config(RxMDConfiguration rxMDConfiguration) {
+        mRxMDConfiguration = rxMDConfiguration;
         return this;
     }
 
@@ -41,10 +41,10 @@ public class RxMarkdown {
                     @Override
                     public CharSequence call(String s) {
                         if (mAbsGrammarFactory != null) {
-                            if (mConfiguration == null) {
-                                mConfiguration = new Configuration.Builder().build();
+                            if (mRxMDConfiguration == null) {
+                                mRxMDConfiguration = new RxMDConfiguration.Builder().build();
                             }
-                            mAbsGrammarFactory.init(mConfiguration);
+                            mAbsGrammarFactory.init(mRxMDConfiguration);
                             long time = System.currentTimeMillis();
                             CharSequence charSequence = mAbsGrammarFactory.parse(s);
                             Log.i("yuyidong", "spend time --->" + (System.currentTimeMillis() - time));
