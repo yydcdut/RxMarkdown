@@ -12,10 +12,12 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.yydcdut.markdown.loader.OKLoader;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
+import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,6 +50,9 @@ public class ShowActivity extends AppCompatActivity {
             return;
         }
         textView.setText(content);
+        RxMDImageLoader rxMDImageLoader = null;
+        rxMDImageLoader = new OKLoader();
+//        rxMDImageLoader = new UILLoader(this);
 
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder()
                 .setDefaultImageSize(50, 50)
@@ -64,6 +69,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
+                .setRxMDImageLoader(rxMDImageLoader)
                 .build();
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content)
