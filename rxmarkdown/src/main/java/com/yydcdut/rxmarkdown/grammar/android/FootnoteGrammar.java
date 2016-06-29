@@ -13,11 +13,8 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/13.
  */
 class FootnoteGrammar extends AbsAndroidGrammar {
-    private static final String KEY_BEGIN = "[^";
-    protected static final String KEY_END = "]";
-
-    protected static final String KEY_BACKSLASH_VALUE_0 = BackslashGrammar.KEY_BACKSLASH + "[";
-    protected static final String KEY_BACKSLASH_VALUE_2 = BackslashGrammar.KEY_BACKSLASH + "]";
+    protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
+    protected static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
 
     FootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -25,7 +22,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(KEY_BEGIN) && text.contains(KEY_END))) {
+        if (!(text.contains(KEY_BEGIN_FOOTNOTE) && text.contains(KEY_END_FOOTNOTE))) {
             return false;
         }
         Pattern pattern = Pattern.compile(".*[\\[\\^].*[]].*");
@@ -97,32 +94,32 @@ class FootnoteGrammar extends AbsAndroidGrammar {
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + KEY_BEGIN.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionHeader + KEY_BEGIN_FOOTNOTE.length(), tmpTotal.length());
             int positionFooter = findEndPosition(tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + KEY_BEGIN.length());
+                ssb.delete(tmp.length(), tmp.length() + KEY_BEGIN_FOOTNOTE.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new SuperscriptSpan(), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_END.length());
+                ssb.delete(tmp.length(), tmp.length() + KEY_END_FOOTNOTE.length());
             } else {
-                tmp.append(KEY_BEGIN);
+                tmp.append(KEY_BEGIN_FOOTNOTE);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + KEY_BEGIN.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + KEY_BEGIN_FOOTNOTE.length(), tmpTotal.length());
         }
         return ssb;
     }
 
     private int findBeginPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_BEGIN);
+        int position = tmpTmpTotal.indexOf(KEY_BEGIN_FOOTNOTE);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_BEGIN.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, KEY_BEGIN_FOOTNOTE.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$$").append(tmpTmpTotal.substring(position + KEY_BEGIN.length(), tmpTmpTotal.length()));
+                        .append("$$").append(tmpTmpTotal.substring(position + KEY_BEGIN_FOOTNOTE.length(), tmpTmpTotal.length()));
                 return findBeginPosition(sb.toString(), ssb, tmp);
             } else {
                 return position;
@@ -132,13 +129,13 @@ class FootnoteGrammar extends AbsAndroidGrammar {
 
     private int findEndPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_END);
+        int position = tmpTmpTotal.indexOf(KEY_END_FOOTNOTE);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_END.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, KEY_END_FOOTNOTE.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$").append(tmpTmpTotal.substring(position + KEY_END.length(), tmpTmpTotal.length()));
+                        .append("$").append(tmpTmpTotal.substring(position + KEY_END_FOOTNOTE.length(), tmpTmpTotal.length()));
                 return findBeginPosition(sb.toString(), ssb, tmp);
             } else {
                 return position;

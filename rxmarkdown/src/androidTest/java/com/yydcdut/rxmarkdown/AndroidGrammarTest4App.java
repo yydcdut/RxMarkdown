@@ -24,9 +24,9 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //        assertEquals("111](2222", ssb.toString());
     }
 
-//    private static final String KEY_0 = "[";
+//    private static final String KEY_0_HYPER_LINK = "[";
 //    private static final String KEY_1 = "](";
-//    private static final String KEY_2 = ")";
+//    private static final String KEY_2_HYPER_LINK = ")";
 //
 //    private static final String PLACE_HOLDER = " ";
 //
@@ -34,9 +34,9 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //        SpannableStringBuilder tmp = new SpannableStringBuilder();
 //        String tmpTotal = text;
 //        while (true) {
-//            int position4Key0 = tmpTotal.indexOf(KEY_0);
+//            int position4Key0 = tmpTotal.indexOf(KEY_0_HYPER_LINK);
 //            int position4Key1 = tmpTotal.indexOf(KEY_1);
-//            int position4Key2 = tmpTotal.indexOf(KEY_2);
+//            int position4Key2 = tmpTotal.indexOf(KEY_2_HYPER_LINK);
 //            if (position4Key0 == -1 || position4Key1 == -1 || position4Key2 == -1) {
 //                break;
 //            }
@@ -45,30 +45,30 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //                int tmpCenter = tmpTotal.indexOf(KEY_1);
 //                String tmpLeft = tmpTotal.substring(0, tmpCenter);
 //                //正常流程
-//                int positionHeader = tmpLeft.lastIndexOf(KEY_0);
+//                int positionHeader = tmpLeft.lastIndexOf(KEY_0_HYPER_LINK);
 //                tmp.append(tmpTotal.substring(0, positionHeader));
 //                int index = tmp.length();
-//                tmpTotal = tmpTotal.substring(positionHeader + KEY_0.length(), tmpTotal.length());
+//                tmpTotal = tmpTotal.substring(positionHeader + KEY_0_HYPER_LINK.length(), tmpTotal.length());
 //                int positionCenter = tmpTotal.indexOf(KEY_1);
-//                ssb.delete(tmp.length(), tmp.length() + KEY_0.length());
+//                ssb.delete(tmp.length(), tmp.length() + KEY_0_HYPER_LINK.length());
 //                tmp.append(tmpTotal.substring(0, positionCenter));
 //                tmpTotal = tmpTotal.substring(positionCenter + KEY_1.length(), tmpTotal.length());
-//                int positionFooter = tmpTotal.indexOf(KEY_2);
+//                int positionFooter = tmpTotal.indexOf(KEY_2_HYPER_LINK);
 //                String link = tmpTotal.substring(0, positionFooter);
 //                ssb.setSpan(new URLSpan(link), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                ssb.delete(tmp.length(), tmp.length() + KEY_1.length() + link.length() + KEY_2.length());
-//                tmpTotal = tmpTotal.substring(positionFooter + KEY_2.length(), tmpTotal.length());
+//                ssb.delete(tmp.length(), tmp.length() + KEY_1.length() + link.length() + KEY_2_HYPER_LINK.length());
+//                tmpTotal = tmpTotal.substring(positionFooter + KEY_2_HYPER_LINK.length(), tmpTotal.length());
 //            } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {
 //                //111[22)22](33333)
-//                tmpTotal = replaceFirstOne(tmpTotal, KEY_2, PLACE_HOLDER);
+//                tmpTotal = replaceFirstOne(tmpTotal, KEY_2_HYPER_LINK, PLACE_HOLDER);
 //            } else if (position4Key1 < position4Key0 && position4Key1 < position4Key2) {
 //                //](在最前面的情况 111](2222[333)4444  1111](2222)3333[4444
 //                tmp.append(tmpTotal.substring(0, position4Key1 + KEY_1.length()));
 //                tmpTotal = tmpTotal.substring(position4Key1 + KEY_1.length(), tmpTotal.length());
 //            } else if (position4Key2 < position4Key0 && position4Key2 < position4Key1) {
 //                //)在最前面的情况 111)2222](333[4444  1111)2222[3333](4444
-//                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2.length()));
-//                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2.length(), tmpTotal.length());
+//                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2_HYPER_LINK.length()));
+//                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2_HYPER_LINK.length(), tmpTotal.length());
 //            }
 //        }
 //        return ssb;
@@ -120,9 +120,9 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //        }
     }
 
-//    private static final String KEY_0 = "![";
+//    private static final String KEY_0_HYPER_LINK = "![";
 //    private static final String KEY_1 = "](";
-//    private static final String KEY_2 = ")";
+//    private static final String KEY_2_HYPER_LINK = ")";
 //
 //    private static final String PLACE_HOLDER_0 = "  ";
 //    private static final String PLACE_HOLDER_2 = " ";
@@ -131,7 +131,7 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //        if (TextUtils.isEmpty(text)) {
 //            return false;
 //        }
-//        if (!(text.contains(KEY_0) && text.contains(KEY_1) && text.contains(KEY_2))) {
+//        if (!(text.contains(KEY_0_HYPER_LINK) && text.contains(KEY_1) && text.contains(KEY_2_HYPER_LINK))) {
 //            return false;
 //        }
 //        Pattern pattern = Pattern.compile(".*[!\\[]{1}.*[\\](]{1}.*[)]{1}.*");
@@ -142,9 +142,9 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //        SpannableStringBuilder tmp = new SpannableStringBuilder();
 //        String tmpTotal = text;
 //        while (true) {
-//            int position4Key0 = tmpTotal.indexOf(KEY_0);
+//            int position4Key0 = tmpTotal.indexOf(KEY_0_HYPER_LINK);
 //            int position4Key1 = tmpTotal.indexOf(KEY_1);
-//            int position4Key2 = tmpTotal.indexOf(KEY_2);
+//            int position4Key2 = tmpTotal.indexOf(KEY_2_HYPER_LINK);
 //            if (position4Key0 == -1 || position4Key1 == -1 || position4Key2 == -1) {
 //                break;
 //            }
@@ -153,30 +153,30 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //                int tmpCenter = tmpTotal.indexOf(KEY_1);
 //                String tmpLeft = tmpTotal.substring(0, tmpCenter);
 //                //正常流程
-//                int positionHeader = tmpLeft.lastIndexOf(KEY_0);
+//                int positionHeader = tmpLeft.lastIndexOf(KEY_0_HYPER_LINK);
 //                tmp.append(tmpTotal.substring(0, positionHeader));
 //                int index = tmp.length();
-//                tmpTotal = tmpTotal.substring(positionHeader + KEY_0.length(), tmpTotal.length());
+//                tmpTotal = tmpTotal.substring(positionHeader + KEY_0_HYPER_LINK.length(), tmpTotal.length());
 //                int positionCenter = tmpTotal.indexOf(KEY_1);
-//                ssb.delete(tmp.length(), tmp.length() + KEY_0.length());
+//                ssb.delete(tmp.length(), tmp.length() + KEY_0_HYPER_LINK.length());
 //                tmp.append(tmpTotal.substring(0, positionCenter));
 //                tmpTotal = tmpTotal.substring(positionCenter + KEY_1.length(), tmpTotal.length());
-//                int positionFooter = tmpTotal.indexOf(KEY_2);
+//                int positionFooter = tmpTotal.indexOf(KEY_2_HYPER_LINK);
 //                String link = tmpTotal.substring(0, positionFooter);
 //                ssb.setSpan(new URLSpan(link), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                ssb.delete(tmp.length(), tmp.length() + KEY_1.length() + link.length() + KEY_2.length());
-//                tmpTotal = tmpTotal.substring(positionFooter + KEY_2.length(), tmpTotal.length());
+//                ssb.delete(tmp.length(), tmp.length() + KEY_1.length() + link.length() + KEY_2_HYPER_LINK.length());
+//                tmpTotal = tmpTotal.substring(positionFooter + KEY_2_HYPER_LINK.length(), tmpTotal.length());
 //            } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {
 //                //111![22)22](33333)
-//                tmpTotal = replaceFirstOne(tmpTotal, KEY_2, PLACE_HOLDER_2);
+//                tmpTotal = replaceFirstOne(tmpTotal, KEY_2_HYPER_LINK, PLACE_HOLDER_2);
 //            } else if (position4Key1 < position4Key0 && position4Key1 < position4Key2) {
 //                //](在最前面的情况 111](2222![333)4444  1111](2222)3333![4444
 //                tmp.append(tmpTotal.substring(0, position4Key1 + KEY_1.length()));
 //                tmpTotal = tmpTotal.substring(position4Key1 + KEY_1.length(), tmpTotal.length());
 //            } else if (position4Key2 < position4Key0 && position4Key2 < position4Key1) {
 //                //)在最前面的情况 111)2222](333![4444  1111)2222![3333](4444
-//                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2.length()));
-//                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2.length(), tmpTotal.length());
+//                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2_HYPER_LINK.length()));
+//                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2_HYPER_LINK.length(), tmpTotal.length());
 //            }
 //        }
 //        return ssb;

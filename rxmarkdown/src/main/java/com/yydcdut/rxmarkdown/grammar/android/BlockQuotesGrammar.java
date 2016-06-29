@@ -12,7 +12,6 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
  */
 class BlockQuotesGrammar extends AbsAndroidGrammar {
     private int mColor;
-    private static final String KEY = "> ";
 
     BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -21,7 +20,7 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.startsWith(KEY)) {
+        if (!text.startsWith(KEY_BLOCK_QUOTES)) {
             return false;
         }
         return true;
@@ -40,7 +39,7 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
         if (nested == 0) {
             return ssb;
         }
-        ssb = ssb.delete(0, nested * KEY.length() - 1);
+        ssb = ssb.delete(0, nested * KEY_BLOCK_QUOTES.length() - 1);
         ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
         return ssb;
@@ -61,11 +60,11 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     private int calculateNested(@NonNull String text) {
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY.length() > text.length()) {
+            if ((nested + 1) * KEY_BLOCK_QUOTES.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY.length(), (nested + 1) * KEY.length());
-            if (!KEY.equals(sub)) {
+            String sub = text.substring(nested * KEY_BLOCK_QUOTES.length(), (nested + 1) * KEY_BLOCK_QUOTES.length());
+            if (!KEY_BLOCK_QUOTES.equals(sub)) {
                 break;
             }
             ++nested;

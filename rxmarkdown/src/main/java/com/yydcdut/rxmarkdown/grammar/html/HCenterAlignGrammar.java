@@ -6,7 +6,7 @@ import android.text.TextUtils;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class HCenterAlignGrammar implements IHGrammar {
+class HCenterAlignGrammar implements IHGrammar {
     public static final String KEY0 = "[";
     public static final String KEY1 = "]";
 

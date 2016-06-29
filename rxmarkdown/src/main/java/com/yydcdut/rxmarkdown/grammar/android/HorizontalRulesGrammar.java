@@ -11,9 +11,6 @@ import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
  * Created by yuyidong on 16/5/15.
  */
 class HorizontalRulesGrammar extends AbsAndroidGrammar {
-    private static final String KEY_0 = "***";
-    private static final String KEY_1 = "---";
-
     private static final char KEY_SINGLE_0 = '*';
     private static final char KEY_SINGLE_1 = '-';
 
@@ -26,10 +23,10 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.startsWith(KEY_0) || text.startsWith(KEY_1))) {
+        if (!(text.startsWith(KEY_0_HORIZONTAL_RULES) || text.startsWith(KEY_1_HORIZONTAL_RULES))) {
             return false;
         }
-        if (!(text.contains(KEY_0) || text.contains(KEY_1))) {
+        if (!(text.contains(KEY_0_HORIZONTAL_RULES) || text.contains(KEY_1_HORIZONTAL_RULES))) {
             return false;
         }
         return check(text, KEY_SINGLE_0) || check(text, KEY_SINGLE_1);

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class HHeadLine1Grammar implements IHGrammar {
+class HHeadLine1Grammar implements IHGrammar {
     public static final String KEY = "# ";
 
     public static final String HTML_BEGIN = "<h1>";

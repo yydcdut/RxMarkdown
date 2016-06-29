@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/17.
  */
 class CodeGrammar implements IGrammar {
-    private static final String KEY = "```";
-
     private int mColor;
 
     public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
@@ -51,20 +49,20 @@ class CodeGrammar implements IGrammar {
         String[] lines = text.split("\n");
         int currentKeyIndex = 0;
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].equals(KEY)) {
+            if (lines[i].equals(KEY_CODE)) {
                 currentKeyIndex++;
             }
             if (currentKeyIndex % 2 == 0) {//非代码部分
-                if (KEY.equals(lines[i])) {
-                    ssb.delete(index, index + KEY.length() + ((i == lines.length - 1) ? 0 : "\n".length()));
+                if (KEY_CODE.equals(lines[i])) {
+                    ssb.delete(index, index + KEY_CODE.length() + ((i == lines.length - 1) ? 0 : "\n".length()));
                     continue;
                 }
             } else {//代码部分
                 if (needCareful && currentKeyIndex == totalKey) {
                     break;
                 }
-                if (KEY.equals(lines[i])) {
-                    ssb.delete(index, index + KEY.length() + "\n".length());
+                if (KEY_CODE.equals(lines[i])) {
+                    ssb.delete(index, index + KEY_CODE.length() + "\n".length());
                     continue;
                 }
                 //中间如果有直接换行的，就删除掉
@@ -85,7 +83,7 @@ class CodeGrammar implements IGrammar {
         String[] lines = text.split("\n");
         int number = 0;
         for (int i = 0; i < lines.length; i++) {
-            number += KEY.equals(lines[i]) ? 1 : 0;
+            number += KEY_CODE.equals(lines[i]) ? 1 : 0;
         }
         return number;
     }

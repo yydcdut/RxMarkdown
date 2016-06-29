@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public interface IHGrammar {
+interface IHGrammar {
     @Nullable
     String format(@Nullable String text);
 

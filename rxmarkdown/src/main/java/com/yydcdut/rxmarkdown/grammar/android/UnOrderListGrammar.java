@@ -17,9 +17,6 @@ import java.util.ArrayList;
  */
 class UnOrderListGrammar implements IGrammar {
     private static final String KEY_HEADER = "  ";
-    private static final String KEY_0 = "* ";
-    private static final String KEY_1 = "+ ";
-    private static final String KEY_2 = "- ";
 
     private static final String KEY_IGNORE_0 = "- [ ] ";
     private static final String KEY_IGNORE_1 = "- [x] ";
@@ -41,9 +38,9 @@ class UnOrderListGrammar implements IGrammar {
         String text = charSequence.toString();
         String[] lines = text.split("\n");
         for (int i = 0; i < lines.length; i++) {
-            boolean b = lines[i].startsWith(KEY_0) ||
-                    lines[i].startsWith(KEY_1) ||
-                    (lines[i].startsWith(KEY_2));
+            boolean b = lines[i].startsWith(KEY_0_UNORDER_LIST) ||
+                    lines[i].startsWith(KEY_1_UNORDER_LIST) ||
+                    (lines[i].startsWith(KEY_2_UNORDER_LIST));
             if (b) {
                 return true;
             } else {
@@ -70,7 +67,7 @@ class UnOrderListGrammar implements IGrammar {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(KEY_0) || lines[i].startsWith(KEY_1) || lines[i].startsWith(KEY_2)) {
+            if (lines[i].startsWith(KEY_0_UNORDER_LIST) || lines[i].startsWith(KEY_1_UNORDER_LIST) || lines[i].startsWith(KEY_2_UNORDER_LIST)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -122,7 +119,7 @@ class UnOrderListGrammar implements IGrammar {
             String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
             if (KEY_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (KEY_0.equals(sub) || KEY_1.equals(sub) || KEY_2.equals(sub)) {
+            } else if (KEY_0_UNORDER_LIST.equals(sub) || KEY_1_UNORDER_LIST.equals(sub) || KEY_2_UNORDER_LIST.equals(sub)) {
                 return nested;
             } else {
                 return -1;

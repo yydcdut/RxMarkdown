@@ -12,10 +12,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * Created by yuyidong on 16/5/4.
  */
 class CenterAlignGrammar extends AbsAndroidGrammar {
-    private static final String KEY0 = "[";
-    protected static final String KEY1 = "]";
 
-    protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + KEY1;
+    protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY1_CENTER_ALIGN;
 
     CenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -23,7 +21,7 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY0) && text.endsWith(KEY1);
+        return text.startsWith(KEY0_CENTER_ALIGN) && text.endsWith(KEY1_CENTER_ALIGN);
     }
 
     @NonNull

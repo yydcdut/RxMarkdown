@@ -11,13 +11,6 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * Created by yuyidong on 16/5/20.
  */
 class HeaderGrammar extends AbsAndroidGrammar {
-    private static final String KEY_0 = "# ";
-    private static final String KEY_1 = "## ";
-    private static final String KEY_2 = "### ";
-    private static final String KEY_3 = "#### ";
-    private static final String KEY_4 = "##### ";
-    private static final String KEY_5 = "###### ";
-
     private float mHeader1RelativeSize;
     private float mHeader2RelativeSize;
     private float mHeader3RelativeSize;
@@ -37,12 +30,12 @@ class HeaderGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_0) ||
-                text.startsWith(KEY_1) ||
-                text.startsWith(KEY_2) ||
-                text.startsWith(KEY_3) ||
-                text.startsWith(KEY_4) ||
-                text.startsWith(KEY_5);
+        return text.startsWith(KEY_0_HEADER) ||
+                text.startsWith(KEY_1_HEADER) ||
+                text.startsWith(KEY_2_HEADER) ||
+                text.startsWith(KEY_3_HEADER) ||
+                text.startsWith(KEY_4_HEADER) ||
+                text.startsWith(KEY_5_HEADER);
     }
 
     @NonNull
@@ -55,23 +48,23 @@ class HeaderGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (text.startsWith(KEY_5)) {
-            ssb.delete(0, KEY_5.length());
+        if (text.startsWith(KEY_5_HEADER)) {
+            ssb.delete(0, KEY_5_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader6RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_4)) {
-            ssb.delete(0, KEY_4.length());
+        } else if (text.startsWith(KEY_4_HEADER)) {
+            ssb.delete(0, KEY_4_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader5RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_3)) {
-            ssb.delete(0, KEY_3.length());
+        } else if (text.startsWith(KEY_3_HEADER)) {
+            ssb.delete(0, KEY_3_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader4RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_2)) {
-            ssb.delete(0, KEY_2.length());
+        } else if (text.startsWith(KEY_2_HEADER)) {
+            ssb.delete(0, KEY_2_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader3RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_1)) {
-            ssb.delete(0, KEY_1.length());
+        } else if (text.startsWith(KEY_1_HEADER)) {
+            ssb.delete(0, KEY_1_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader2RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_0)) {
-            ssb.delete(0, KEY_0.length());
+        } else if (text.startsWith(KEY_0_HEADER)) {
+            ssb.delete(0, KEY_0_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader1RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         marginSSBLeft(ssb, 10);

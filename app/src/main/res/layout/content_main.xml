@@ -9,7 +9,7 @@
     tools:context="com.yydcdut.markdown.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <EditText
+    <com.yydcdut.rxmarkdown.RxMDEditText
         android:id="@+id/edit_md"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

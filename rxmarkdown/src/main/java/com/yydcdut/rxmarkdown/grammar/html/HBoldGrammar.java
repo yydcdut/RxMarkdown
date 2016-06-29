@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/4.
  */
-public class HBoldGrammar implements IHGrammar {
+class HBoldGrammar implements IHGrammar {
     public static final String KEY = "**";
 
     public static final String HTML_BEGIN = "<b>";
