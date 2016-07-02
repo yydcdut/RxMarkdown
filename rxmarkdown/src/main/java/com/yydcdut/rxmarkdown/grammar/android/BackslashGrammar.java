@@ -8,13 +8,13 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 /**
  * Created by yuyidong on 16/6/20.
  */
-public class BackslashGrammar extends AbsAndroidGrammar {
+class BackslashGrammar extends AbsAndroidGrammar {
 
-    protected static final String KEY_ENCODE = "@$7DF16dgf%jy@po&";
+    protected static final String KEY_ENCODE = "@%7DF16dgf%jy@po&";
     protected static final String KEY_ENCODE_1 = "%4usyHDlL&@D%";
     protected static final String KEY_ENCODE_2 = "&YDhs@h4sF&%kLsx63sd@";
-    protected static final String KEY_ENCODE_3 = "%hsyRjh34l%$2@";
-    protected static final String KEY_ENCODE_4 = "&@da&U56ec%k$QW@";
+    protected static final String KEY_ENCODE_3 = "%hsyRjh34l%%2@";
+    protected static final String KEY_ENCODE_4 = "&@da&U56ec%k%QW@";
 
     BackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -68,7 +68,7 @@ public class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + CenterAlignGrammar.KEY_BACKSLASH_VALUE_1.length(), KEY1_CENTER_ALIGN);
+            ssb.replace(index, index + CenterAlignGrammar.KEY_BACKSLASH_VALUE_1.length(), KEY_1_CENTER_ALIGN);
         }
         //----------  CenterAlignGrammar  ----------
         //----------  FootnoteGrammar  ----------
@@ -86,7 +86,7 @@ public class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + FootnoteGrammar.KEY_BACKSLASH_VALUE_2.length(), KEY_END_FOOTNOTE);
+            ssb.replace(index, index + FootnoteGrammar.KEY_BACKSLASH_VALUE_2.length(), KEY_1_FOOTNOTE);
         }
         //----------  FootnoteGrammar  ----------
         //----------  HyperLinkGrammar  ----------

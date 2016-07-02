@@ -11,13 +11,13 @@ public interface Grammar {
 
     String KEY_BLOCK_QUOTES = "> ";
 
-    String KEY0_CENTER_ALIGN = "[";
-    String KEY1_CENTER_ALIGN = "]";
+    String KEY_0_CENTER_ALIGN = "[";
+    String KEY_1_CENTER_ALIGN = "]";
 
     String KEY_CODE = "```";
 
-    String KEY_BEGIN_FOOTNOTE = "[^";
-    String KEY_END_FOOTNOTE = "]";
+    String KEY_0_FOOTNOTE = "[^";
+    String KEY_1_FOOTNOTE = "]";
 
     String KEY_0_HEADER = "# ";
     String KEY_1_HEADER = "## ";

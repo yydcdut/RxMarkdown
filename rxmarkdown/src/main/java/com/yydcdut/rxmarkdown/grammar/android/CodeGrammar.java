@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.regex.Pattern;
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/5/17.
  */
-class CodeGrammar implements IGrammar {
+class CodeGrammar extends GrammarAdapter {
     private int mColor;
 
     public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

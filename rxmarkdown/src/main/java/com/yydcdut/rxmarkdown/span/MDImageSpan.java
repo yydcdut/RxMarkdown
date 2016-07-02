@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  */
 public class MDImageSpan extends DynamicDrawableSpan {
 
-    private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\*(\\d+)$");
+    private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\$(\\d+)$");
 
     private String mImageUri;
     private Drawable mPlaceHolder;

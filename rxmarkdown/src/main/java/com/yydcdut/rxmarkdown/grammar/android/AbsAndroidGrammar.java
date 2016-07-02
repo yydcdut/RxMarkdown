@@ -1,6 +1,8 @@
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -10,9 +12,12 @@ import android.text.style.URLSpan;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.edit.EditToken;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
+
+import java.util.List;
 
 /**
  * Created by yuyidong on 16/5/13.
@@ -98,6 +103,12 @@ abstract class AbsAndroidGrammar implements IGrammar {
         } else {
             return true;
         }
+    }
+
+    @Nullable
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return null;
     }
 
 }

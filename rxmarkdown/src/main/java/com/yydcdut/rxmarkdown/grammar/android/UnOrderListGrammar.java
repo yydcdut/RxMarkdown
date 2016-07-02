@@ -6,7 +6,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  * Created by yuyidong on 16/5/21.
  * Key 与 TodoDoneGrammar 和 TodoGrammar 有关联
  */
-class UnOrderListGrammar implements IGrammar {
+class UnOrderListGrammar extends GrammarAdapter {
     private static final String KEY_HEADER = "  ";
 
     private static final String KEY_IGNORE_0 = "- [ ] ";

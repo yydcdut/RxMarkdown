@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 
 import java.io.File;
@@ -36,6 +37,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
 
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
+        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder()
+                .setDefaultImageSize(50, 50)
+                .setBlockQuotesColor(0xff33b5e5)
+                .setHeader1RelativeSize(2.2f)
+                .setHeader2RelativeSize(2.0f)
+                .setHeader3RelativeSize(1.8f)
+                .setHeader4RelativeSize(1.6f)
+                .setHeader5RelativeSize(1.4f)
+                .setHeader6RelativeSize(1.2f)
+                .setHorizontalRulesColor(0xff99cc00)
+                .setInlineCodeBgColor(0xffff4444)
+                .setCodeBgColor(0x33999999)
+                .setTodoColor(0xffaa66cc)
+                .setTodoDoneColor(0xffff8800)
+                .setUnOrderListColor(0xff00ddff)
+                .build();
+        mEditText.setConfig(rxMDConfiguration);
         mEditText.setText(Const.MD_SAMPLE);
         mAsyncTask = new DemoPictureAsyncTask().execute();
     }

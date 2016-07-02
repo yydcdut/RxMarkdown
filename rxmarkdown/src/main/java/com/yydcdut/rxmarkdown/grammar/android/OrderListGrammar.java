@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by yuyidong on 16/5/22.
  */
-class OrderListGrammar implements IGrammar {
+class OrderListGrammar extends GrammarAdapter {
     private static final String KEY_HEADER = "  ";
 
     private static final char DOT = '.';

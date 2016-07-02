@@ -2,12 +2,13 @@ package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.edit.EditProcessor;
+import com.yydcdut.rxmarkdown.factory.EditFactory;
 
 import java.util.ArrayList;
 
@@ -18,47 +19,48 @@ public class RxMDEditText extends EditText {
 
     private ArrayList<TextWatcher> mListeners;
 
-    private EditProcessor mEditProcessor;
-
     public RxMDEditText(Context context) {
         super(context);
-        super.addTextChangedListener(mEditTextWatcher);
-        mEditProcessor = new EditProcessor();
+        init();
     }
 
     public RxMDEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        super.addTextChangedListener(mEditTextWatcher);
-        mEditProcessor = new EditProcessor();
+        init();
     }
 
     public RxMDEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
         super.addTextChangedListener(mEditTextWatcher);
-        mEditProcessor = new EditProcessor();
+        Editable editable = getText();
+        if (!TextUtils.isEmpty(editable)) {
+            mEditTextWatcher.beforeTextChanged("", 0, 0, editable.length());
+            mEditTextWatcher.onTextChanged(editable, 0, 0, editable.length());
+            mEditTextWatcher.afterTextChanged(editable);
+        }
     }
 
     private TextWatcher mEditTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            mEditProcessor.checkAddOrDelete4BeforeTextChanged(start, count, after);
-            sendBeforeTextChanged(s, start, count, after);
-            Log.i("yuyidong", " start " + start + " count " + count + " after " + after + "  " + s.toString());
+        public void beforeTextChanged(CharSequence s, int start, int before, int after) {
+            sendBeforeTextChanged(s, start, before, after);
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mEditProcessor.checkAddOrDelete4OnTextChanged(start, before, count);
-            sendOnTextChanged(s, start, before, count);
-            Log.i("yuyidong", " start " + start + " before " + before + " count " + count + "  " + s.toString());
+        public void onTextChanged(CharSequence s, int start, int before, int after) {
+            sendOnTextChanged(s, start, before, after);
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
-            RxMDEditText.this.removeTextChangedListener(this);
-            mEditProcessor.format(s);
-            RxMDEditText.this.addTextChangedListener(this);
-            doAfterTextChanged(s);
+        public void afterTextChanged(final Editable s) {
+            removeTextChangedListener(mEditTextWatcher);
+            format();
+            addTextChangedListener(mEditTextWatcher);
+            sendAfterTextChanged(s);
         }
     };
 
@@ -88,27 +90,27 @@ public class RxMDEditText extends EditText {
         }
     }
 
-    private void sendBeforeTextChanged(CharSequence s, int start, int count, int after) {
+    private void sendBeforeTextChanged(CharSequence s, int start, int before, int after) {
         if (mListeners != null) {
             final ArrayList<TextWatcher> list = mListeners;
-            final int count4List = list.size();
-            for (int i = 0; i < count4List; i++) {
-                list.get(i).beforeTextChanged(s, start, count, after);
+            final int count = list.size();
+            for (int i = 0; i < count; i++) {
+                list.get(i).beforeTextChanged(s, start, before, after);
             }
         }
     }
 
-    private void sendOnTextChanged(CharSequence s, int start, int before, int count) {
+    private void sendOnTextChanged(CharSequence s, int start, int before, int after) {
         if (mListeners != null) {
             final ArrayList<TextWatcher> list = mListeners;
-            final int count4List = list.size();
-            for (int i = 0; i < count4List; i++) {
-                list.get(i).onTextChanged(s, start, before, count);
+            final int count = list.size();
+            for (int i = 0; i < count; i++) {
+                list.get(i).onTextChanged(s, start, before, after);
             }
         }
     }
 
-    private void doAfterTextChanged(Editable s) {
+    private void sendAfterTextChanged(Editable s) {
         if (mListeners != null) {
             final ArrayList<TextWatcher> list = mListeners;
             final int count = list.size();
@@ -116,5 +118,23 @@ public class RxMDEditText extends EditText {
                 list.get(i).afterTextChanged(s);
             }
         }
+    }
+
+    private RxMDConfiguration mRxMDConfiguration;
+
+    public void setConfig(RxMDConfiguration rxMDConfiguration) {
+        mRxMDConfiguration = rxMDConfiguration;
+    }
+
+    private void format() {
+        long begin = System.currentTimeMillis();
+        Editable editable = getText();
+        int selectionEnd = getSelectionEnd();
+        int selectionStart = getSelectionStart();
+        EditFactory editFactory = EditFactory.create();
+        editFactory.init(mRxMDConfiguration);
+        setText(editFactory.parse(editable));
+        setSelection(selectionStart, selectionEnd);
+        Log.i("yuyidong", "finish-->" + (System.currentTimeMillis() - begin));
     }
 }

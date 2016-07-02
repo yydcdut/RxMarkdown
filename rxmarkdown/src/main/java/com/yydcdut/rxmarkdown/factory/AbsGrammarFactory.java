@@ -3,59 +3,19 @@ package com.yydcdut.rxmarkdown.factory;
 import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.chain.GrammarDoElseChain;
-import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
-import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
-import com.yydcdut.rxmarkdown.chain.IChain;
-import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 /**
  * Created by yuyidong on 16/5/12.
  */
 public abstract class AbsGrammarFactory {
-    protected IChain mLineChain;
-    protected IChain mTotalChain;
+    protected RxMDConfiguration mRxMDConfiguration;
 
     protected AbsGrammarFactory() {
     }
 
     public void init(@NonNull RxMDConfiguration rxMDConfiguration) {
-        mTotalChain = new MultiGrammarsChain(
-                getCodeGrammar(rxMDConfiguration),
-                getUnOrderListGrammar(rxMDConfiguration),
-                getOrderListGrammar(rxMDConfiguration));
-        mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar(rxMDConfiguration));
-        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesGrammar(rxMDConfiguration));
-        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar(rxMDConfiguration));
-        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar(rxMDConfiguration));
-        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar(rxMDConfiguration));
-        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar(rxMDConfiguration));
-        MultiGrammarsChain multiChain = new MultiGrammarsChain(
-                getImageGrammar(rxMDConfiguration),
-                getHyperLinkGrammar(rxMDConfiguration),
-                getInlineCodeGrammar(rxMDConfiguration),
-                getBoldGrammar(rxMDConfiguration),
-                getItalicGrammar(rxMDConfiguration),
-                getStrikeThroughGrammar(rxMDConfiguration),
-                getFootnoteGrammar(rxMDConfiguration));
-        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar(rxMDConfiguration));
-
-        mLineChain.setNextHandleGrammar(blockQuitesChain);
-
-        blockQuitesChain.setNextHandleGrammar(todoChain);
-        blockQuitesChain.addNextHandleGrammar(multiChain);
-
-        todoChain.setNextHandleGrammar(todoDoneChain);
-        todoChain.addNextHandleGrammar(multiChain);
-
-        todoDoneChain.setNextHandleGrammar(centerAlignChain);
-        todoDoneChain.addNextHandleGrammar(multiChain);
-
-        centerAlignChain.addNextHandleGrammar(headerChain);
-        centerAlignChain.addNextHandleGrammar(multiChain);
-
-        multiChain.setNextHandleGrammar(backslashChain);
+        mRxMDConfiguration = rxMDConfiguration;
     }
 
     protected abstract IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
