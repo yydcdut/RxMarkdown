@@ -1,6 +1,7 @@
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -8,7 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.factory.EditFactory;
+import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 
 import java.util.ArrayList;
 
@@ -16,32 +17,23 @@ import java.util.ArrayList;
  * Created by yuyidong on 16/5/20.
  */
 public class RxMDEditText extends EditText {
+    private static final String TAG = "yuyidong_RxMDEditText";
+
+    private AbsGrammarFactory mGrammarFactory;
+    private RxMDConfiguration mRxMDConfiguration;
 
     private ArrayList<TextWatcher> mListeners;
 
     public RxMDEditText(Context context) {
         super(context);
-        init();
     }
 
     public RxMDEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public RxMDEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
-        super.addTextChangedListener(mEditTextWatcher);
-        Editable editable = getText();
-        if (!TextUtils.isEmpty(editable)) {
-            mEditTextWatcher.beforeTextChanged("", 0, 0, editable.length());
-            mEditTextWatcher.onTextChanged(editable, 0, 0, editable.length());
-            mEditTextWatcher.afterTextChanged(editable);
-        }
     }
 
     private TextWatcher mEditTextWatcher = new TextWatcher() {
@@ -120,21 +112,33 @@ public class RxMDEditText extends EditText {
         }
     }
 
-    private RxMDConfiguration mRxMDConfiguration;
-
-    public void setConfig(RxMDConfiguration rxMDConfiguration) {
+    protected void setFactoryAndConfig(@NonNull AbsGrammarFactory absGrammarFactory,
+                                       @NonNull RxMDConfiguration rxMDConfiguration) {
+        mGrammarFactory = absGrammarFactory;
+        mGrammarFactory.init(rxMDConfiguration);
         mRxMDConfiguration = rxMDConfiguration;
+        super.addTextChangedListener(mEditTextWatcher);
+        Editable editable = getText();
+        if (!TextUtils.isEmpty(editable)) {
+            mEditTextWatcher.beforeTextChanged("", 0, 0, editable.length());
+            mEditTextWatcher.onTextChanged(editable, 0, 0, editable.length());
+            mEditTextWatcher.afterTextChanged(editable);
+        }
     }
 
-    private void format() {
+    private CharSequence format() {
+        if (mGrammarFactory == null) {
+            return getText();
+        }
         long begin = System.currentTimeMillis();
         Editable editable = getText();
         int selectionEnd = getSelectionEnd();
         int selectionStart = getSelectionStart();
-        EditFactory editFactory = EditFactory.create();
-        editFactory.init(mRxMDConfiguration);
-        setText(editFactory.parse(editable));
+        setText(mGrammarFactory.parse(editable));
         setSelection(selectionStart, selectionEnd);
-        Log.i("yuyidong", "finish-->" + (System.currentTimeMillis() - begin));
+        if (mRxMDConfiguration.isDebug()) {
+            Log.i(TAG, "finish-->" + (System.currentTimeMillis() - begin));
+        }
+        return getText();
     }
 }

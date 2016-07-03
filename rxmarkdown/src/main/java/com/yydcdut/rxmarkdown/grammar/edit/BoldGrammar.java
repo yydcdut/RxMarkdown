@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/6/29.
  */
-
 class BoldGrammar extends EditGrammarAdapter {
 
     BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

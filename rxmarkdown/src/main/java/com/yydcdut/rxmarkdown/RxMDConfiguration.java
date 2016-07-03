@@ -34,13 +34,15 @@ public class RxMDConfiguration {
 
     private RxMDImageLoader rxMDImageLoader;
 
+    private boolean isDebug = true;
+
     public RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
                              float header1RelativeSize, float header2RelativeSize,
                              float header3RelativeSize, float header4RelativeSize,
                              float header5RelativeSize, float header6RelativeSize,
                              int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
                              int todoColor, int todoDoneColor, int unOrderListColor,
-                             RxMDImageLoader rxMDImageLoader) {
+                             RxMDImageLoader rxMDImageLoader, boolean isDebug) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -56,6 +58,7 @@ public class RxMDConfiguration {
         this.todoDoneColor = todoDoneColor;
         this.unOrderListColor = unOrderListColor;
         this.rxMDImageLoader = rxMDImageLoader;
+        this.isDebug = isDebug;
     }
 
     public final int[] getDefaultImageSize() {
@@ -118,6 +121,10 @@ public class RxMDConfiguration {
         return rxMDImageLoader;
     }
 
+    public boolean isDebug() {
+        return isDebug;
+    }
+
     public static class Builder {
 
         private int[] defaultImageSize;
@@ -151,6 +158,8 @@ public class RxMDConfiguration {
         private int unOrderListColor;
 
         private RxMDImageLoader rxMDImageLoader;
+
+        private boolean isDebug = true;
 
         public Builder() {
             defaultImageSize = new int[]{100, 100};
@@ -245,6 +254,11 @@ public class RxMDConfiguration {
             return this;
         }
 
+        public Builder setDebug(boolean debug) {
+            isDebug = debug;
+            return this;
+        }
+
         public RxMDConfiguration build() {
             return new RxMDConfiguration(defaultImageSize, blockQuotesColor,
                     header1RelativeSize,
@@ -254,7 +268,8 @@ public class RxMDConfiguration {
                     header5RelativeSize,
                     header6RelativeSize,
                     horizontalRulesColor, inlineCodeBgColor, codeBgColor,
-                    todoColor, todoDoneColor, unOrderListColor, rxMDImageLoader);
+                    todoColor, todoDoneColor, unOrderListColor, rxMDImageLoader,
+                    isDebug);
         }
     }
 }

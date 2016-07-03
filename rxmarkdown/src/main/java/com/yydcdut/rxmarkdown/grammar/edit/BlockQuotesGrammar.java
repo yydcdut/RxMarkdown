@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 /**
  * Created by yuyidong on 16/6/30.
  */
-
 class BlockQuotesGrammar extends EditGrammarAdapter {
     private int mColor;
 

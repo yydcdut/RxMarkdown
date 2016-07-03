@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.rxmarkdown.RxMarkdown;
+import com.yydcdut.rxmarkdown.factory.EditFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +23,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RxMDEditText mEditText;
@@ -53,8 +57,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .build();
-        mEditText.setConfig(rxMDConfiguration);
         mEditText.setText(Const.MD_SAMPLE);
+        RxMarkdown.live(mEditText)
+                .config(rxMDConfiguration)
+                .factory(EditFactory.create())
+                .intoObservable()
+                .subscribe(new Subscriber<CharSequence>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CharSequence charSequence) {
+//                        mEditText.setText(charSequence);
+                    }
+                });
+
+
         mAsyncTask = new DemoPictureAsyncTask().execute();
     }
 
