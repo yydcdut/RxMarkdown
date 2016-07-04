@@ -20,6 +20,8 @@ import com.yydcdut.rxmarkdown.factory.AndroidFactory;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by yuyidong on 16/5/11.
@@ -75,8 +77,8 @@ public class ShowActivity extends AppCompatActivity {
                 .config(rxMDConfiguration)
                 .factory(AndroidFactory.create())
                 .intoObservable()
-//                .subscribeOn(Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CharSequence>() {
                     @Override
                     public void onCompleted() {

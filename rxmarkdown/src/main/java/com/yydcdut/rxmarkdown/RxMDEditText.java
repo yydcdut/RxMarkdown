@@ -24,6 +24,8 @@ public class RxMDEditText extends EditText {
 
     private ArrayList<TextWatcher> mListeners;
 
+    private boolean shouldFormat = false;
+
     public RxMDEditText(Context context) {
         super(context);
     }
@@ -40,18 +42,29 @@ public class RxMDEditText extends EditText {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int before, int after) {
             sendBeforeTextChanged(s, start, before, after);
+            if (shouldFormat) {
+                return;
+            }
+            shouldFormat = shouldFormat4BeforeTextChanged(s, start, before, after);
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int after) {
             sendOnTextChanged(s, start, before, after);
+            if (shouldFormat) {
+                return;
+            }
+            shouldFormat = shouldFormat4OnTextChanged(s, start, before, after);
         }
 
         @Override
         public void afterTextChanged(final Editable s) {
-            removeTextChangedListener(mEditTextWatcher);
-            format();
-            addTextChangedListener(mEditTextWatcher);
+            if (shouldFormat) {
+                removeTextChangedListener(mEditTextWatcher);
+                format();
+                addTextChangedListener(mEditTextWatcher);
+                shouldFormat = false;
+            }
             sendAfterTextChanged(s);
         }
     };
@@ -120,6 +133,7 @@ public class RxMDEditText extends EditText {
         super.addTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
         if (!TextUtils.isEmpty(editable)) {
+            shouldFormat = true;
             mEditTextWatcher.beforeTextChanged("", 0, 0, editable.length());
             mEditTextWatcher.onTextChanged(editable, 0, 0, editable.length());
             mEditTextWatcher.afterTextChanged(editable);
@@ -140,6 +154,71 @@ public class RxMDEditText extends EditText {
             Log.i(TAG, "finish-->" + (System.currentTimeMillis() - begin));
         }
         return getText();
+    }
+
+    private boolean shouldFormat4BeforeTextChanged(CharSequence s, int start, int before, int after) {
+        if (before != 0) {
+            String deleteString = s.subSequence(start, start + before).toString();
+            String beforeString = null;
+            String afterString = null;
+            if (start > 0) {
+                beforeString = s.subSequence(start - 1, start).toString();
+            }
+            if (start + before + 1 <= s.length()) {
+                afterString = s.subSequence(start + before, start + before + 1).toString();
+            }
+            if (deleteString.contains("*")
+                    || deleteString.contains("#")
+                    || deleteString.contains("~")
+                    || deleteString.contains(">")
+                    || deleteString.contains("[")
+                    || deleteString.contains("]")
+                    || deleteString.contains("`")
+                    || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
+                    || ("#".equals(beforeString) || "#".equals(afterString))//*11*ss** --> **ss**
+                    || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
+                    || ("`".equals(beforeString) || "`".equals(afterString))) {//`1``(``1`)(```1)(1```) --> ```
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean shouldFormat4OnTextChanged(CharSequence s, int start, int before, int after) {
+        if (after != 0) {
+            String addString;
+            String beforeString = null;
+            String afterString = null;
+            if (after - before >= 0) {
+                addString = s.subSequence(start, start + (after - before)).toString();
+                if (start + (after - before) + 1 <= s.length()) {
+                    afterString = s.subSequence(start + (after - before), start + (after - before) + 1).toString();
+                }
+            } else {
+                addString = s.subSequence(start, start + (before - after)).toString();
+                if (start + (after - before) + 1 <= s.length()) {
+                    afterString = s.subSequence(start + (before - after), start + (before - after) + 1).toString();
+                }
+            }
+            if (start > 0) {
+                beforeString = s.subSequence(start - 1, start).toString();
+            }
+            if (addString.contains("*")
+                    || addString.contains("#")
+                    || addString.contains("~")
+                    || addString.contains(">")
+                    || addString.contains("[")
+                    || addString.contains("]")
+                    || addString.contains("`")
+                    || (addString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
+                    || ("#".equals(beforeString) || "#".equals(afterString))//**ss** --> *11*ss**
+                    || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
+                    || ("`".equals(beforeString) || "`".equals(afterString))) {//``` --> `1``(``1`)(```1)(1```)
+                return true;
+            }
+        }
+        return false;
     }
 
     public void clear() {

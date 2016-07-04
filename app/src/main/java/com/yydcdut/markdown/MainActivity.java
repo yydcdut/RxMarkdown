@@ -28,8 +28,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-import static com.yydcdut.markdown.R.id.fab;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RxMDEditText mEditText;
     private AsyncTask mAsyncTask;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFloatingActionButton = (FloatingActionButton) findViewById(fab);
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         mFloatingActionButton.setOnClickListener(this);
 
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
@@ -70,21 +68,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .config(rxMDConfiguration)
                 .factory(EditFactory.create())
                 .intoObservable();
-        mSubscription = mObservable.subscribe(new Subscriber<CharSequence>() {
-            @Override
-            public void onCompleted() {
+        final long time = System.currentTimeMillis();
+        mSubscription = mObservable
+                .subscribe(new Subscriber<CharSequence>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
 
-            @Override
-            public void onNext(CharSequence charSequence) {
-            }
-        });
+                    @Override
+                    public void onNext(CharSequence charSequence) {
+                        Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
 
         mAsyncTask = new DemoPictureAsyncTask().execute();
     }
@@ -106,21 +108,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_enable) {
-            mSubscription = mObservable.subscribe(new Subscriber<CharSequence>() {
-                @Override
-                public void onCompleted() {
+            final long time = System.currentTimeMillis();
+            mSubscription = mObservable
+                    .subscribe(new Subscriber<CharSequence>() {
+                        @Override
+                        public void onCompleted() {
 
-                }
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
 
-                @Override
-                public void onNext(CharSequence charSequence) {
-                }
-            });
+                        @Override
+                        public void onNext(CharSequence charSequence) {
+                            Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
             return true;
         } else if (id == R.id.action_disable) {
             if (mSubscription != null) {

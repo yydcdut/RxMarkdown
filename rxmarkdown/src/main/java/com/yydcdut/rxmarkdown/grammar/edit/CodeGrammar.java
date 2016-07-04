@@ -28,37 +28,49 @@ class CodeGrammar extends EditGrammarAdapter {
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("^```$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("^```", Pattern.MULTILINE);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         while (m.find()) {
             matchList.add(m.group());
         }
-        int size = matchList.size() % 2 == 0 ? matchList.size() : matchList.size() - 1;
+        int size = matchList.size();
         int index = 0;
+        int matchIndex = 0;
         for (int i = 0; i < size; i++) {
             String match = matchList.get(i);
-            if (i % 2 == 0) {
+            if (matchIndex % 2 == 0) {
                 index = content.indexOf(match);
                 char c4 = content.charAt(index + 3);
                 int length = match.length();
-                content.replace(index, index + length, getPlaceHolder(getPlaceHolder(match)));
+                content.replace(index, index + length, getPlaceHolder(match));
                 if (c4 != '\n') {
                     index = 0;
-                    i--;
                     continue;
                 }
+                if (index - 1 > 0) {
+                    char c0 = content.charAt(index - 1);
+                    if (c0 != '\n') {
+                        continue;
+                    }
+                }
+                matchIndex++;
             } else {
                 int currentIndex = content.indexOf(match);
                 int length = match.length();
-                content.replace(currentIndex, currentIndex + length, getPlaceHolder(getPlaceHolder(match)));
-                char c4 = content.charAt(currentIndex + 3);
-                if (c4 != '\n') {
-                    i--;
-                    continue;
-                } else {
-                    editTokenList.add(new EditToken(new MDCodeSpan(mColor), index, currentIndex + length));
+                content.replace(currentIndex, currentIndex + length, getPlaceHolder(match));
+                if (currentIndex + 3 <= content.length()) {
+                    char c4 = content.charAt(currentIndex + 3);
+                    if (c4 != '\n') {
+                        continue;
+                    }
                 }
+                char c0 = content.charAt(currentIndex - 1);
+                if (c0 != '\n') {
+                    continue;
+                }
+                matchIndex++;
+                editTokenList.add(new EditToken(new MDCodeSpan(mColor), index, currentIndex + length));
             }
         }
         return editTokenList;
