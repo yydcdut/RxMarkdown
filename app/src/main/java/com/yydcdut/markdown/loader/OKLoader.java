@@ -1,5 +1,6 @@
 package com.yydcdut.markdown.loader;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -11,7 +12,6 @@ import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,58 +19,84 @@ import java.io.InputStream;
  * Created by yuyidong on 16/6/27.
  */
 public class OKLoader implements RxMDImageLoader {
+    private Context mContext;
+
+    public OKLoader(Context context) {
+        mContext = context;
+    }
 
     @Nullable
     @Override
-    public byte[] loadSync(@NonNull String url) {
-        if (url.toLowerCase().startsWith("http://")) {
-            byte[] bytes = null;
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(url).build();
-                Response response = client.newCall(request).execute();
-                InputStream is = response.body().byteStream();
-                bytes = getBytes(is);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bytes;
-        } else if (url.toLowerCase().startsWith("file://")) {
-            return local(url);
-        } else {
-            return null;
+    public byte[] loadSync(@NonNull String url) throws IOException {
+        byte[] bytes = null;
+        switch (Scheme.ofUri(url)) {
+            case HTTP:
+            case HTTPS:
+                return http(url);
+            case FILE:
+                return local(url);
+            case ASSETS:
+                return asserts(url);
+            case DRAWABLE:
+                return drawable(url);
+            case UNKNOWN:
+            default:
+                return bytes;
         }
     }
 
     @Nullable
-    private static byte[] local(@NonNull String url) {
-        String path = url.substring("file://".length() + 1, url.length());
-        InputStream inputStream = null;
+    private static byte[] http(@NonNull String url) throws IOException {
+        ByteArrayOutputStream out = null;
         byte[] bytes = null;
-        try {
-            inputStream = new FileInputStream(path);
-            bytes = getBytes(inputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            closeStream(inputStream);
-        }
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        Response response = client.newCall(request).execute();
+        InputStream is = response.body().byteStream();
+        bytes = getBytes(is);
+        closeStream(out);
         return bytes;
     }
 
     @Nullable
-    private static byte[] getBytes(@NonNull InputStream inputStream) {
+    private static byte[] local(@NonNull String url) throws IOException {
+        String path = Scheme.FILE.crop(url);
+        InputStream inputStream = null;
+        inputStream = new FileInputStream(path);
+        byte[] bytes = getBytes(inputStream);
+        closeStream(inputStream);
+        return bytes;
+    }
+
+    @Nullable
+    private static byte[] getBytes(@NonNull InputStream inputStream) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         byte[] bytes = null;
-        try {
-            int i;
-            while ((i = inputStream.read()) != -1) {
-                out.write(i);
-            }
-            bytes = out.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
+        int i;
+        while ((i = inputStream.read()) != -1) {
+            out.write(i);
         }
+        bytes = out.toByteArray();
+        closeStream(inputStream);
+        return bytes;
+    }
+
+    @Nullable
+    private byte[] asserts(@NonNull String url) throws IOException {
+        String filePath = Scheme.ASSETS.crop(url);
+        InputStream inputStream = mContext.getAssets().open(filePath);
+        byte[] bytes = getBytes(inputStream);
+        closeStream(inputStream);
+        return bytes;
+    }
+
+    @Nullable
+    private byte[] drawable(@NonNull String url) throws IOException {
+        String drawableIdString = Scheme.DRAWABLE.crop(url);
+        int drawableId = Integer.parseInt(drawableIdString);
+        InputStream inputStream = mContext.getResources().openRawResource(drawableId);
+        byte[] bytes = getBytes(inputStream);
+        closeStream(inputStream);
         return bytes;
     }
 
@@ -83,5 +109,4 @@ public class OKLoader implements RxMDImageLoader {
             }
         }
     }
-
 }

@@ -17,6 +17,7 @@ import android.view.View;
 import com.yydcdut.rxmarkdown.drawable.ForwardingDrawable;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,7 +90,15 @@ public class MDImageSpan extends DynamicDrawableSpan {
             @Override
             protected Drawable doInBackground(String... params) {
                 String url = params[0];
-                byte[] bytes = mRxMDImageLoader.loadSync(getUrl(url));
+                byte[] bytes = new byte[0];
+                try {
+                    bytes = mRxMDImageLoader.loadSync(getUrl(url));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (bytes == null) {
+                    return mPlaceHolder;
+                }
                 Drawable drawable = getDrawable(bytes);
                 return drawable;
             }

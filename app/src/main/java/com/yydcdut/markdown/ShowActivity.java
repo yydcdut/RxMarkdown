@@ -50,10 +50,10 @@ public class ShowActivity extends AppCompatActivity {
         }
         textView.setText(content);
         RxMDImageLoader rxMDImageLoader = null;
-        rxMDImageLoader = new OKLoader();
+        rxMDImageLoader = new OKLoader(this);
 //        rxMDImageLoader = new UILLoader(this);
 
-        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder()
+        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesColor(0xff33b5e5)
                 .setHeader1RelativeSize(2.2f)
@@ -68,10 +68,10 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
-                .setRxMDImageLoader(rxMDImageLoader)
+//                .setRxMDImageLoader(rxMDImageLoader)
                 .build();
         final long beginTime = System.currentTimeMillis();
-        RxMarkdown.with(content)
+        RxMarkdown.with(content, this)
                 .config(rxMDConfiguration)
                 .factory(AndroidFactory.create())
                 .intoObservable()

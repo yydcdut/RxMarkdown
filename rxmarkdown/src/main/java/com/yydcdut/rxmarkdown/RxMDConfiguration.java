@@ -1,7 +1,9 @@
 package com.yydcdut.rxmarkdown;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
@@ -161,7 +163,7 @@ public class RxMDConfiguration {
 
         private boolean isDebug = true;
 
-        public Builder() {
+        public Builder(@NonNull Context context) {
             defaultImageSize = new int[]{100, 100};
             blockQuotesColor = Color.LTGRAY;
             header1RelativeSize = 1.6f;
@@ -176,7 +178,7 @@ public class RxMDConfiguration {
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
             unOrderListColor = Color.BLACK;
-            rxMDImageLoader = new DefaultLoader();
+            rxMDImageLoader = new DefaultLoader(context);
         }
 
         public Builder setDefaultImageSize(int width, int height) {
@@ -260,7 +262,8 @@ public class RxMDConfiguration {
         }
 
         public RxMDConfiguration build() {
-            return new RxMDConfiguration(defaultImageSize, blockQuotesColor,
+            return new RxMDConfiguration(
+                    defaultImageSize, blockQuotesColor,
                     header1RelativeSize,
                     header2RelativeSize,
                     header3RelativeSize,

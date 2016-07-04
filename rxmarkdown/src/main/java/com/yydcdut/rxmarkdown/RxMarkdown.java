@@ -1,5 +1,6 @@
 package com.yydcdut.rxmarkdown;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -15,19 +16,22 @@ public class RxMarkdown {
     private static final String TAG = "yuyidong_RxMarkdown";
     private String mContent;
     private RxMDEditText mRxMDEditText;
+    private Context mContext;
     private AbsGrammarFactory mAbsGrammarFactory;
     private RxMDConfiguration mRxMDConfiguration;
 
-    private RxMarkdown(String content) {
+    private RxMarkdown(String content, Context context) {
         mContent = content;
+        mContext = context;
     }
 
     private RxMarkdown(RxMDEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
+        mContext = mRxMDEditText.getContext();
     }
 
-    public static RxMarkdown with(String content) {
-        return new RxMarkdown(content);
+    public static RxMarkdown with(String content, Context context) {
+        return new RxMarkdown(content, context);
     }
 
     public static RxMarkdown live(RxMDEditText rxMDEditText) {
@@ -81,7 +85,7 @@ public class RxMarkdown {
     @NonNull
     private RxMDConfiguration getRxMDConfiguration() {
         if (mRxMDConfiguration == null) {
-            mRxMDConfiguration = new RxMDConfiguration.Builder().build();
+            mRxMDConfiguration = new RxMDConfiguration.Builder(mContext).build();
         }
         return mRxMDConfiguration;
     }

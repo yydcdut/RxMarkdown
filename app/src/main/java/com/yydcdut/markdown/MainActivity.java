@@ -24,11 +24,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
+
+import static com.yydcdut.markdown.R.id.fab;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RxMDEditText mEditText;
     private AsyncTask mAsyncTask;
+    private FloatingActionButton mFloatingActionButton;
+
+    private Observable<CharSequence> mObservable;
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        mFloatingActionButton = (FloatingActionButton) findViewById(fab);
+        mFloatingActionButton.setOnClickListener(this);
 
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
-        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder()
+        RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesColor(0xff33b5e5)
                 .setHeader1RelativeSize(2.2f)
@@ -58,27 +66,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setUnOrderListColor(0xff00ddff)
                 .build();
         mEditText.setText(Const.MD_SAMPLE);
-        RxMarkdown.live(mEditText)
+        mObservable = RxMarkdown.live(mEditText)
                 .config(rxMDConfiguration)
                 .factory(EditFactory.create())
-                .intoObservable()
-                .subscribe(new Subscriber<CharSequence>() {
-                    @Override
-                    public void onCompleted() {
+                .intoObservable();
+        mSubscription = mObservable.subscribe(new Subscriber<CharSequence>() {
+            @Override
+            public void onCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
+                Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
 
-                    }
-
-                    @Override
-                    public void onNext(CharSequence charSequence) {
-//                        mEditText.setText(charSequence);
-                    }
-                });
-
+            @Override
+            public void onNext(CharSequence charSequence) {
+            }
+        });
 
         mAsyncTask = new DemoPictureAsyncTask().execute();
     }
@@ -99,7 +105,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_enable) {
+            mSubscription = mObservable.subscribe(new Subscriber<CharSequence>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNext(CharSequence charSequence) {
+                }
+            });
+            return true;
+        } else if (id == R.id.action_disable) {
+            if (mSubscription != null) {
+                mSubscription.unsubscribe();
+                mSubscription = null;
+                mEditText.clear();
+            }
             return true;
         }
 
