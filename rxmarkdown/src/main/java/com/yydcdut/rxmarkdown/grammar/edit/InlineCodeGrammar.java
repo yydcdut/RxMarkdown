@@ -27,7 +27,7 @@ class InlineCodeGrammar extends EditGrammarAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        StringBuilder content = new StringBuilder(editable.toString().replace("```", "  "));
+        StringBuilder content = new StringBuilder(editable.toString().replace("```", "   "));
         Pattern p = Pattern.compile("(`)(.+?)(`)");
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
