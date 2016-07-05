@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 class BlockQuotesGrammar extends EditGrammarAdapter {
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.android.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
      */
     protected static final String KEY_BLOCK_QUOTES = "> ";
 

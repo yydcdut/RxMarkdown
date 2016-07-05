@@ -13,6 +13,7 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 class BlockQuotesGrammar extends AbsAndroidGrammar {
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
      */
     protected static final String KEY_BLOCK_QUOTES = "> ";
     private int mColor;

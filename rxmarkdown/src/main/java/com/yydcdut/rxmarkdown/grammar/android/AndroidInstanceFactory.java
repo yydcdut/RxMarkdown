@@ -4,16 +4,33 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
+
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BACKSLASH;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BLOCK_QUOTES;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BOLD;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_CENTER_ALIGN;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_CODE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_FOOTNOTE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HEADER_LINE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HORIZONTAL_RULES;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HYPERLINK;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_IMAGE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_INLINE_CODE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ITALIC;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ORDER_LIST;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_STRIKE_THROUGH;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO_DONE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNORDER_LIST;
 
 
 /**
  * Created by yuyidong on 16/5/12.
  */
-public class AndroidInstanceFactory implements IFactory {
+public class AndroidInstanceFactory {
 
-    public static IGrammar getAndroidGrammar(@IntRange(from = 0, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
+    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
         switch (grammar) {
             case GRAMMAR_HORIZONTAL_RULES:
                 return new HorizontalRulesGrammar(rxMDConfiguration);

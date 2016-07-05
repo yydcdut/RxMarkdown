@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
@@ -33,8 +32,6 @@ abstract class AbsAndroidGrammar implements IGrammar {
         if (charSequence instanceof SpannableStringBuilder) {
             ssb = (SpannableStringBuilder) charSequence;
         } else {
-            Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
-//            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
             return false;
         }
         if (ssb.getSpans(0, ssb.length(), MDCodeSpan.class).length > 0) {
@@ -53,8 +50,6 @@ abstract class AbsAndroidGrammar implements IGrammar {
         if (charSequence instanceof SpannableStringBuilder) {
             ssb = (SpannableStringBuilder) charSequence;
         } else {
-            Log.wtf("AbsAndroidGrammar", "charSequence 类型 " + charSequence.getClass().getName());
-//            throw new RuntimeException("AbsAndroidGrammar\ncharSequence 类型 " + charSequence.getClass().getName());
             return charSequence;
         }
         ssb = encode(ssb);

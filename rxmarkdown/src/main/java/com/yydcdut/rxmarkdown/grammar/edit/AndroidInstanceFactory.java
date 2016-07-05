@@ -4,18 +4,33 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
+
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BACKSLASH;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BLOCK_QUOTES;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BOLD;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_CENTER_ALIGN;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_CODE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_FOOTNOTE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HEADER_LINE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HORIZONTAL_RULES;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_HYPERLINK;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_IMAGE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_INLINE_CODE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ITALIC;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ORDER_LIST;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_STRIKE_THROUGH;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO_DONE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNORDER_LIST;
 
 /**
  * Created by yuyidong on 16/7/2.
  */
-public class AndroidInstanceFactory implements IFactory {
+public class AndroidInstanceFactory {
 
-    public static IGrammar getAndroidGrammar(@IntRange(from = 0, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
+    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
         switch (grammar) {
-//            case GRAMMAR_HORIZONTAL_RULES:
-//                return new HorizontalRulesGrammar(rxMDConfiguration);
             case GRAMMAR_BLOCK_QUOTES:
                 return new BlockQuotesGrammar(rxMDConfiguration);
             case GRAMMAR_CENTER_ALIGN:
@@ -30,24 +45,17 @@ public class AndroidInstanceFactory implements IFactory {
                 return new InlineCodeGrammar(rxMDConfiguration);
             case GRAMMAR_STRIKE_THROUGH:
                 return new StrikeThroughGrammar(rxMDConfiguration);
-//            case GRAMMAR_FOOTNOTE:
-//                return new FootnoteGrammar(rxMDConfiguration);
-//            case GRAMMAR_IMAGE:
-//                return new ImageGrammar(rxMDConfiguration);
-//            case GRAMMAR_HYPERLINK:
-//                return new HyperLinkGrammar(rxMDConfiguration);
-//            case GRAMMAR_TODO:
-//                return new TodoGrammar(rxMDConfiguration);
-//            case GRAMMAR_TODO_DONE:
-//                return new TodoDoneGrammar(rxMDConfiguration);
             case GRAMMAR_CODE:
                 return new CodeGrammar(rxMDConfiguration);
-//            case GRAMMAR_UNORDER_LIST:
-//                return new UnOrderListGrammar(rxMDConfiguration);
-//            case GRAMMAR_ORDER_LIST:
-//                return new OrderListGrammar(rxMDConfiguration);
-//            case GRAMMAR_BACKSLASH:
-//                return new BackslashGrammar(rxMDConfiguration);
+            case GRAMMAR_UNORDER_LIST:
+            case GRAMMAR_ORDER_LIST:
+            case GRAMMAR_TODO:
+            case GRAMMAR_IMAGE:
+            case GRAMMAR_TODO_DONE:
+            case GRAMMAR_HYPERLINK:
+            case GRAMMAR_BACKSLASH:
+            case GRAMMAR_FOOTNOTE:
+            case GRAMMAR_HORIZONTAL_RULES:
             default:
                 return new NormalGrammar(rxMDConfiguration);
         }
