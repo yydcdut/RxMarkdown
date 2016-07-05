@@ -1,6 +1,10 @@
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -16,8 +20,19 @@ import java.util.ArrayList;
 /**
  * Created by yuyidong on 16/5/20.
  */
-public class RxMDEditText extends EditText {
+public class RxMDEditText extends EditText implements Handler.Callback {
     private static final String TAG = "yuyidong_RxMDEditText";
+
+    private static final int MSG_BEFORE_TEXT_CHANGED = 1;
+    private static final int MSG_ON_TEXT_CHANGED = 2;
+    private static final int MSG_AFTER_TEXT_CHANGED = 3;
+    private static final int MSG_FORMAT = 4;
+    private Handler mHandler;
+
+    private static final String BUNDLE_CHAR_SEQUENCE = "bundle_char_sequence";
+    private static final String BUNDLE_START = "bundle_start";
+    private static final String BUNDLE_BEFORE = "bundle_before";
+    private static final String BUNDLE_AFTER = "bundle_after";
 
     private AbsGrammarFactory mGrammarFactory;
     private RxMDConfiguration mRxMDConfiguration;
@@ -28,20 +43,27 @@ public class RxMDEditText extends EditText {
 
     public RxMDEditText(Context context) {
         super(context);
+        mHandler = new Handler(this);
     }
 
     public RxMDEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mHandler = new Handler(this);
     }
 
     public RxMDEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mHandler = new Handler(this);
     }
 
     private TextWatcher mEditTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-            sendBeforeTextChanged(s, start, before, after);
+            if (isMainThread()) {
+                sendBeforeTextChanged(s, start, before, after);
+            } else {
+                sendMessage(MSG_BEFORE_TEXT_CHANGED, s, start, before, after);
+            }
             if (shouldFormat) {
                 return;
             }
@@ -50,7 +72,11 @@ public class RxMDEditText extends EditText {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int after) {
-            sendOnTextChanged(s, start, before, after);
+            if (isMainThread()) {
+                sendOnTextChanged(s, start, before, after);
+            } else {
+                sendMessage(MSG_ON_TEXT_CHANGED, s, start, before, after);
+            }
             if (shouldFormat) {
                 return;
             }
@@ -59,13 +85,21 @@ public class RxMDEditText extends EditText {
 
         @Override
         public void afterTextChanged(final Editable s) {
+            Log.i("yuyidong", "shouldFormat--->" + shouldFormat);
             if (shouldFormat) {
-                removeTextChangedListener(mEditTextWatcher);
-                format();
-                addTextChangedListener(mEditTextWatcher);
+                CharSequence charSequence = format();
+                if (isMainThread()) {
+                    setEditableText(charSequence);
+                } else {
+                    sendMessage(MSG_FORMAT, charSequence, 0, 0, 0);
+                }
                 shouldFormat = false;
             }
-            sendAfterTextChanged(s);
+            if (!isMainThread()) {
+                sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
+            } else {
+                sendAfterTextChanged(s);
+            }
         }
     };
 
@@ -144,16 +178,22 @@ public class RxMDEditText extends EditText {
         if (mGrammarFactory == null) {
             return getText();
         }
-        long begin = System.currentTimeMillis();
         Editable editable = getText();
-        int selectionEnd = getSelectionEnd();
-        int selectionStart = getSelectionStart();
-        setText(mGrammarFactory.parse(editable));
-        setSelection(selectionStart, selectionEnd);
+        long begin = System.currentTimeMillis();
+        CharSequence charSequence = mGrammarFactory.parse(editable);
         if (mRxMDConfiguration.isDebug()) {
             Log.i(TAG, "finish-->" + (System.currentTimeMillis() - begin));
         }
-        return getText();
+        return charSequence;
+    }
+
+    private void setEditableText(CharSequence charSequence) {
+        int selectionEnd = getSelectionEnd();
+        int selectionStart = getSelectionStart();
+        removeTextChangedListener(mEditTextWatcher);
+        setText(charSequence);
+        addTextChangedListener(mEditTextWatcher);
+        setSelection(selectionStart, selectionEnd);
     }
 
     private boolean shouldFormat4BeforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -175,7 +215,8 @@ public class RxMDEditText extends EditText {
                     || deleteString.contains("]")
                     || deleteString.contains("`")
                     || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
-                    || ("#".equals(beforeString) || "#".equals(afterString))//*11*ss** --> **ss**
+                    || ("#".equals(beforeString) || "#".equals(afterString))//#12# ss(##12 ss) --> ## ss
+                    || ("*".equals(beforeString) || "*".equals(afterString))//*11*ss** --> **ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
                     || ("`".equals(beforeString) || "`".equals(afterString))) {//`1``(``1`)(```1)(1```) --> ```
 
@@ -212,13 +253,18 @@ public class RxMDEditText extends EditText {
                     || addString.contains("]")
                     || addString.contains("`")
                     || (addString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
-                    || ("#".equals(beforeString) || "#".equals(afterString))//**ss** --> *11*ss**
+                    || ("#".equals(beforeString) || "#".equals(afterString))//## ss --> #12# ss(##12 ss)
+                    || ("*".equals(beforeString) || "*".equals(afterString))//**ss** --> *11*ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
                     || ("`".equals(beforeString) || "`".equals(afterString))) {//``` --> `1``(``1`)(```1)(1```)
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isMainThread() {
+        return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
 
     public void clear() {
@@ -228,5 +274,54 @@ public class RxMDEditText extends EditText {
         int selectionStart = getSelectionStart();
         setText(editable.toString());
         setSelection(selectionStart, selectionEnd);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case MSG_BEFORE_TEXT_CHANGED:
+                Bundle bundle = msg.getData();
+                CharSequence s = bundle.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                int start = bundle.getInt(BUNDLE_START);
+                int before = bundle.getInt(BUNDLE_BEFORE);
+                int after = bundle.getInt(BUNDLE_AFTER);
+                sendBeforeTextChanged(s, start, before, after);
+                break;
+            case MSG_ON_TEXT_CHANGED:
+                Bundle bundle_ = msg.getData();
+                CharSequence s_ = bundle_.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                int start_ = bundle_.getInt(BUNDLE_START);
+                int before_ = bundle_.getInt(BUNDLE_BEFORE);
+                int after_ = bundle_.getInt(BUNDLE_AFTER);
+                sendOnTextChanged(s_, start_, before_, after_);
+                break;
+            case MSG_AFTER_TEXT_CHANGED:
+                Bundle bundle$ = msg.getData();
+                CharSequence s$ = bundle$.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                if (s$ instanceof Editable) {
+                    sendAfterTextChanged((Editable) s$);
+                } else {
+                    Log.i("yuyidong", "s$-->" + s$.getClass().getName());
+                }
+                break;
+            case MSG_FORMAT:
+                Bundle $bundle = msg.getData();
+                CharSequence $s = $bundle.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                setEditableText($s);
+                break;
+        }
+        return false;
+    }
+
+    public void sendMessage(int what, CharSequence s, int start, int before, int after) {
+        Message message = mHandler.obtainMessage();
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(BUNDLE_CHAR_SEQUENCE, s);
+        bundle.putInt(BUNDLE_START, start);
+        bundle.putInt(BUNDLE_BEFORE, before);
+        bundle.putInt(BUNDLE_AFTER, after);
+        message.what = what;
+        message.setData(bundle);
+        mHandler.sendMessage(message);
     }
 }

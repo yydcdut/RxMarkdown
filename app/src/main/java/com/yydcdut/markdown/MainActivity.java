@@ -27,6 +27,8 @@ import java.io.OutputStream;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RxMDEditText mEditText;
@@ -63,11 +65,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .build();
-        mEditText.setText(Const.MD_SAMPLE);
+        mEditText.setText(Const.MD_SAMPLE2);
         mObservable = RxMarkdown.live(mEditText)
                 .config(rxMDConfiguration)
                 .factory(EditFactory.create())
-                .intoObservable();
+                .intoObservable()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
         final long time = System.currentTimeMillis();
         mSubscription = mObservable
                 .subscribe(new Subscriber<CharSequence>() {
