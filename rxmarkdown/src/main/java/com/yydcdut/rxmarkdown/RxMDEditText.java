@@ -85,7 +85,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
         @Override
         public void afterTextChanged(final Editable s) {
-            Log.i("yuyidong", "shouldFormat--->" + shouldFormat);
             if (shouldFormat) {
                 CharSequence charSequence = format();
                 if (isMainThread()) {
@@ -98,7 +97,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             if (!isMainThread()) {
                 sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
             } else {
-                sendAfterTextChanged(s);
+                sendAfterTextChanged(getText());
             }
         }
     };
@@ -301,7 +300,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 if (s$ instanceof Editable) {
                     sendAfterTextChanged((Editable) s$);
                 } else {
-                    Log.i("yuyidong", "s$-->" + s$.getClass().getName());
+                    sendAfterTextChanged(getText());
                 }
                 break;
             case MSG_FORMAT:
