@@ -8,10 +8,14 @@ import android.text.style.AlignmentSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/4.
  */
 class CenterAlignGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_0_CENTER_ALIGN = "[";
+    protected static final String KEY_1_CENTER_ALIGN = "]";
 
     protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_1_CENTER_ALIGN;
 

@@ -2,12 +2,10 @@ package com.yydcdut.rxmarkdown.edit;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.Grammar;
-
 /**
  * Created by yuyidong on 16/6/28.
  */
-public class EditToken implements Grammar {
+public class EditToken {
     private final Object span;
     private final int start;
     private final int end;

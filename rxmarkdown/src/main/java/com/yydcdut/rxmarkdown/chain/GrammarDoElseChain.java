@@ -23,7 +23,6 @@ public class GrammarDoElseChain implements IChain {
     @NonNull
     @Override
     public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        boolean success = false;
         if (mGrammar.isMatch(charSequence)) {
             mGrammar.format(charSequence);
             boolean handled = false;

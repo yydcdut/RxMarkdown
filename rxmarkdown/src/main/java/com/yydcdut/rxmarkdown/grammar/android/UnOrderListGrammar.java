@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * Key 与 TodoDoneGrammar 和 TodoGrammar 有关联
  */
 class UnOrderListGrammar extends GrammarAdapter {
+    protected static final String KEY_0_UNORDER_LIST = "* ";
+    protected static final String KEY_1_UNORDER_LIST = "+ ";
+    protected static final String KEY_2_UNORDER_LIST = "- ";
+
     private static final String KEY_HEADER = "  ";
 
     private static final String KEY_IGNORE_0 = "- [ ] ";

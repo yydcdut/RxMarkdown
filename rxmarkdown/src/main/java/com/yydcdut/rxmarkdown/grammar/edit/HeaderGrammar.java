@@ -6,7 +6,6 @@ import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,35 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/6/30.
  */
 class HeaderGrammar extends EditGrammarAdapter {
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.CenterAlignGrammar#KEY_0_CENTER_ALIGN}
+     */
+    private static final String KEY_0_CENTER_ALIGN = "[";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_0_HEADER}
+     */
+    private static final String KEY_0_HEADER = "# ";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_1_HEADER}
+     */
+    private static final String KEY_1_HEADER = "## ";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_2_HEADER}
+     */
+    private static final String KEY_2_HEADER = "### ";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_3_HEADER}
+     */
+    private static final String KEY_3_HEADER = "#### ";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_4_HEADER}
+     */
+    private static final String KEY_4_HEADER = "##### ";
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_5_HEADER}
+     */
+    private static final String KEY_5_HEADER = "###### ";
+
 
     HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -56,31 +84,31 @@ class HeaderGrammar extends EditGrammarAdapter {
     }
 
     private Object getSpan(String match) {
-        if (match.startsWith(IGrammar.KEY_0_CENTER_ALIGN)) {
-            if (match.contains(IGrammar.KEY_5_HEADER)) {
+        if (match.startsWith(KEY_0_CENTER_ALIGN)) {
+            if (match.contains(KEY_5_HEADER)) {
                 return new RelativeSizeSpan(1.1f);
-            } else if (match.contains(IGrammar.KEY_4_HEADER)) {
+            } else if (match.contains(KEY_4_HEADER)) {
                 return new RelativeSizeSpan(1.2f);
-            } else if (match.contains(IGrammar.KEY_3_HEADER)) {
+            } else if (match.contains(KEY_3_HEADER)) {
                 return new RelativeSizeSpan(1.3f);
-            } else if (match.contains(IGrammar.KEY_2_HEADER)) {
+            } else if (match.contains(KEY_2_HEADER)) {
                 return new RelativeSizeSpan(1.4f);
-            } else if (match.contains(IGrammar.KEY_1_HEADER)) {
+            } else if (match.contains(KEY_1_HEADER)) {
                 return new RelativeSizeSpan(1.5f);
-            } else if (match.contains(IGrammar.KEY_0_HEADER)) {
+            } else if (match.contains(KEY_0_HEADER)) {
                 return new RelativeSizeSpan(1.6f);
             }
-        } else if (match.startsWith(IGrammar.KEY_5_HEADER)) {
+        } else if (match.startsWith(KEY_5_HEADER)) {
             return new RelativeSizeSpan(1.1f);
-        } else if (match.startsWith(IGrammar.KEY_4_HEADER)) {
+        } else if (match.startsWith(KEY_4_HEADER)) {
             return new RelativeSizeSpan(1.2f);
-        } else if (match.startsWith(IGrammar.KEY_3_HEADER)) {
+        } else if (match.startsWith(KEY_3_HEADER)) {
             return new RelativeSizeSpan(1.3f);
-        } else if (match.startsWith(IGrammar.KEY_2_HEADER)) {
+        } else if (match.startsWith(KEY_2_HEADER)) {
             return new RelativeSizeSpan(1.4f);
-        } else if (match.startsWith(IGrammar.KEY_1_HEADER)) {
+        } else if (match.startsWith(KEY_1_HEADER)) {
             return new RelativeSizeSpan(1.5f);
-        } else if (match.startsWith(IGrammar.KEY_0_HEADER)) {
+        } else if (match.startsWith(KEY_0_HEADER)) {
             return new RelativeSizeSpan(1.6f);
         } else {
             return new RelativeSizeSpan(1.0f);

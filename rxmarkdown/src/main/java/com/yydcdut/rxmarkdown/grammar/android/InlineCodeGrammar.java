@@ -9,10 +9,14 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/13.
  */
 class InlineCodeGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_INLINE_CODE = "`";
+
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_INLINE_CODE;
 
     private int mColor;

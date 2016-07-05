@@ -5,10 +5,19 @@ import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
+import static com.yydcdut.rxmarkdown.grammar.android.CenterAlignGrammar.KEY_1_CENTER_ALIGN;
+import static com.yydcdut.rxmarkdown.grammar.android.FootnoteGrammar.KEY_1_FOOTNOTE;
+import static com.yydcdut.rxmarkdown.grammar.android.HyperLinkGrammar.KEY_0_HYPER_LINK;
+import static com.yydcdut.rxmarkdown.grammar.android.HyperLinkGrammar.KEY_2_HYPER_LINK;
+import static com.yydcdut.rxmarkdown.grammar.android.ImageGrammar.KEY_2_IMAGE;
+import static com.yydcdut.rxmarkdown.grammar.android.InlineCodeGrammar.KEY_INLINE_CODE;
+import static com.yydcdut.rxmarkdown.grammar.android.ItalicGrammar.KEY_ITALIC;
+
 /**
  * Created by yuyidong on 16/6/20.
  */
 class BackslashGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_BACKSLASH = "\\";
 
     protected static final String KEY_ENCODE = "@%7DF16dgf%jy@po&";
     protected static final String KEY_ENCODE_1 = "%4usyHDlL&@D%";

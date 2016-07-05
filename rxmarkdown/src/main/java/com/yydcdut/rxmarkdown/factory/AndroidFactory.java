@@ -16,8 +16,9 @@ import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
  * Created by yuyidong on 16/5/12.
  */
 public class AndroidFactory extends AbsGrammarFactory {
-    protected IChain mLineChain;
-    protected IChain mTotalChain;
+    private RxMDConfiguration mRxMDConfiguration;
+    private IChain mLineChain;
+    private IChain mTotalChain;
 
     private AndroidFactory() {
         super();
@@ -112,9 +113,8 @@ public class AndroidFactory extends AbsGrammarFactory {
         return AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_BACKSLASH, rxMDConfiguration);
     }
 
-    @Override
     public void init(@NonNull RxMDConfiguration rxMDConfiguration) {
-        super.init(rxMDConfiguration);
+        mRxMDConfiguration = rxMDConfiguration;
         mTotalChain = new MultiGrammarsChain(
                 getCodeGrammar(rxMDConfiguration),
                 getUnOrderListGrammar(rxMDConfiguration),
@@ -154,7 +154,13 @@ public class AndroidFactory extends AbsGrammarFactory {
 
     @NonNull
     @Override
-    public CharSequence parse(@NonNull CharSequence charSequence) {
+    public CharSequence parse(@NonNull CharSequence charSequence, @NonNull RxMDConfiguration rxMDConfiguration) {
+        if (rxMDConfiguration == null) {
+            return charSequence;
+        }
+        if (mTotalChain == null || mLineChain == null || mRxMDConfiguration == null || mRxMDConfiguration != rxMDConfiguration) {
+            init(rxMDConfiguration);
+        }
         SpannableStringBuilder ssb = new SpannableStringBuilder(charSequence);
         ssb = parseTotal(mTotalChain, ssb);
         ssb = parseByLine(mLineChain, ssb);

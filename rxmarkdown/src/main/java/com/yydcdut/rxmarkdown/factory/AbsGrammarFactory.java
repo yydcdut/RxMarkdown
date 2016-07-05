@@ -9,13 +9,8 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  * Created by yuyidong on 16/5/12.
  */
 public abstract class AbsGrammarFactory {
-    protected RxMDConfiguration mRxMDConfiguration;
 
     protected AbsGrammarFactory() {
-    }
-
-    public void init(@NonNull RxMDConfiguration rxMDConfiguration) {
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     protected abstract IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
@@ -53,5 +48,5 @@ public abstract class AbsGrammarFactory {
     protected abstract IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     @NonNull
-    public abstract CharSequence parse(@NonNull CharSequence charSequence);
+    public abstract CharSequence parse(@NonNull CharSequence charSequence, @NonNull RxMDConfiguration rxMDConfiguration);
 }

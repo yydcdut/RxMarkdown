@@ -109,25 +109,39 @@ public class EditFactory extends AbsGrammarFactory {
         return null;
     }
 
+    private List<IGrammar> mGrammarList;
+    private RxMDConfiguration mRxMDConfiguration;
+
+    private void init(RxMDConfiguration rxMDConfiguration) {
+        mRxMDConfiguration = rxMDConfiguration;
+        mGrammarList = new ArrayList<>();
+        mGrammarList.add(getBoldGrammar(mRxMDConfiguration));
+        mGrammarList.add(getItalicGrammar(mRxMDConfiguration));
+        mGrammarList.add(getStrikeThroughGrammar(mRxMDConfiguration));
+        mGrammarList.add(getInlineCodeGrammar(mRxMDConfiguration));
+        mGrammarList.add(getCenterAlignGrammar(mRxMDConfiguration));
+        mGrammarList.add(getHeaderGrammar(mRxMDConfiguration));
+        mGrammarList.add(getBlockQuotesGrammar(mRxMDConfiguration));
+        mGrammarList.add(getCodeGrammar(mRxMDConfiguration));
+    }
+
     @NonNull
     @Override
-    public CharSequence parse(@NonNull CharSequence charSequence) {
+    public CharSequence parse(@NonNull CharSequence charSequence, @NonNull RxMDConfiguration rxMDConfiguration) {
         if (!(charSequence instanceof Editable)) {
             return charSequence;
         }
-        if (mRxMDConfiguration == null) {
+        if (rxMDConfiguration == null) {
             return charSequence;
+        }
+        if (mGrammarList == null || mRxMDConfiguration == null || mRxMDConfiguration != rxMDConfiguration) {
+            init(rxMDConfiguration);
         }
         Editable editable = (Editable) charSequence;
         List<EditToken> list = new ArrayList<>();
-        list.addAll(getBoldGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getItalicGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getStrikeThroughGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getInlineCodeGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getCenterAlignGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getHeaderGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getBlockQuotesGrammar(mRxMDConfiguration).format(editable));
-        list.addAll(getCodeGrammar(mRxMDConfiguration).format(editable));
+        for (IGrammar iGrammar : mGrammarList) {
+            list.addAll(iGrammar.format(editable));
+        }
         Editable newEditable = Editable.Factory.getInstance().newEditable(editable.toString());
         for (EditToken editToken : list) {
             newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

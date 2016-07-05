@@ -12,6 +12,9 @@ import com.yydcdut.rxmarkdown.span.MDTodoDoneSpan;
  * Key 与 UnOrderListGrammar 有关联
  */
 class TodoDoneGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_0_TODO_DONE = "- [x] ";
+    protected static final String KEY_1_TODO_DONE = "- [X] ";
+
     private static final int START_POSITION = 6;
 
     private int mColor;

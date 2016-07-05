@@ -9,10 +9,15 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/13.
  */
 class FootnoteGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_0_FOOTNOTE = "[^";
+    protected static final String KEY_1_FOOTNOTE = "]";
+
     protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
     protected static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
 

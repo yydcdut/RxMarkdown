@@ -21,15 +21,13 @@ public class MultiGrammarsChain implements IChain {
     @NonNull
     @Override
     public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        boolean handled = false;
         for (IGrammar iGrammar : mGrammars) {
             if (iGrammar.isMatch(charSequence)) {
                 charSequence = iGrammar.format(charSequence);
-                handled |= true;
             }
         }
         if (mNextHandleGrammar != null) {
-            return true | mNextHandleGrammar.handleGrammar(charSequence);
+            return mNextHandleGrammar.handleGrammar(charSequence);
         } else {
             return false;
         }

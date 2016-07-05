@@ -13,7 +13,7 @@ import rx.functions.Func1;
  * Created by yuyidong on 16/5/3.
  */
 public class RxMarkdown {
-    private static final String TAG = "yuyidong_RxMarkdown";
+    private static final String TAG = RxMarkdown.class.getName();
     private String mContent;
     private RxMDEditText mRxMDEditText;
     private Context mContext;
@@ -56,9 +56,8 @@ public class RxMarkdown {
                         public CharSequence call(String s) {
                             if (mAbsGrammarFactory != null) {
                                 RxMDConfiguration config = getRxMDConfiguration();
-                                mAbsGrammarFactory.init(config);
                                 long time = System.currentTimeMillis();
-                                CharSequence charSequence = mAbsGrammarFactory.parse(s);
+                                CharSequence charSequence = mAbsGrammarFactory.parse(s, config);
                                 if (config.isDebug()) {
                                     Log.i(TAG, "spend time --->" + (System.currentTimeMillis() - time));
                                 }

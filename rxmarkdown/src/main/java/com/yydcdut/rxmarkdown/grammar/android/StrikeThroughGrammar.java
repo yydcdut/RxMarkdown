@@ -9,10 +9,13 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/13.
  */
 class StrikeThroughGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_STRIKE_THROUGH = "~~";
 
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + "~";
 

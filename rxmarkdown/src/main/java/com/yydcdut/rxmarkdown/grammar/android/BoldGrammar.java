@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/3.
  */
 class BoldGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_BOLD = "**";
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "*";
 

@@ -16,6 +16,11 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/6/30.
  */
 class BlockQuotesGrammar extends EditGrammarAdapter {
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.android.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     */
+    protected static final String KEY_BLOCK_QUOTES = "> ";
+
     private int mColor;
 
     BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

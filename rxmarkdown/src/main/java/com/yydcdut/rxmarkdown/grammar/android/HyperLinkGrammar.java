@@ -9,10 +9,16 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/14.
  */
 class HyperLinkGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_0_HYPER_LINK = "[";
+    protected static final String KEY_1_HYPER_LINK = "](";
+    protected static final String KEY_2_HYPER_LINK = ")";
+
     private static final String PLACE_HOLDER = " ";
 
     protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";

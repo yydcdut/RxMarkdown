@@ -10,10 +10,16 @@ import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/15.
  */
 class ImageGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_0_IMAGE = "![";
+    protected static final String KEY_1_IMAGE = "](";
+    protected static final String KEY_2_IMAGE = ")";
+
     private static final String PLACE_HOLDER_2 = " ";
 
     protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "!";

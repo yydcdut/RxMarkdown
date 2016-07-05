@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/17.
  */
 class CodeGrammar extends GrammarAdapter {
+    protected static final String KEY_CODE = "```";
+
     private int mColor;
 
     public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

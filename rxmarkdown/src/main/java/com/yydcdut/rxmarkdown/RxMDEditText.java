@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by yuyidong on 16/5/20.
  */
 public class RxMDEditText extends EditText implements Handler.Callback {
-    private static final String TAG = "yuyidong_RxMDEditText";
+    private static final String TAG = RxMDEditText.class.getName();
 
     private static final int MSG_BEFORE_TEXT_CHANGED = 1;
     private static final int MSG_ON_TEXT_CHANGED = 2;
@@ -161,7 +161,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     protected void setFactoryAndConfig(@NonNull AbsGrammarFactory absGrammarFactory,
                                        @NonNull RxMDConfiguration rxMDConfiguration) {
         mGrammarFactory = absGrammarFactory;
-        mGrammarFactory.init(rxMDConfiguration);
         mRxMDConfiguration = rxMDConfiguration;
         super.addTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
@@ -179,7 +178,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         }
         Editable editable = getText();
         long begin = System.currentTimeMillis();
-        CharSequence charSequence = mGrammarFactory.parse(editable);
+        CharSequence charSequence = mGrammarFactory.parse(editable, mRxMDConfiguration);
         if (mRxMDConfiguration.isDebug()) {
             Log.i(TAG, "finish-->" + (System.currentTimeMillis() - begin));
         }

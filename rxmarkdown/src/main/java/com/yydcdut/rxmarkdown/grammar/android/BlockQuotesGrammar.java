@@ -11,6 +11,10 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
  * Created by yuyidong on 16/5/4.
  */
 class BlockQuotesGrammar extends AbsAndroidGrammar {
+    /**
+     * {@link com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     */
+    protected static final String KEY_BLOCK_QUOTES = "> ";
     private int mColor;
 
     BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

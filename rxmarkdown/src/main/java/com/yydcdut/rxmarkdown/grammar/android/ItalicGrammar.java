@@ -10,10 +10,14 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 import java.util.regex.Pattern;
 
+import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
+
 /**
  * Created by yuyidong on 16/5/3.
  */
 class ItalicGrammar extends AbsAndroidGrammar {
+    protected static final String KEY_ITALIC = "*";
+
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_ITALIC;
 
     ItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
