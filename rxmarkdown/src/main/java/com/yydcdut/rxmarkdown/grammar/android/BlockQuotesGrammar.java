@@ -39,8 +39,8 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
         if (nested == 0) {
             return ssb;
         }
-        ssb = ssb.delete(0, nested * KEY_BLOCK_QUOTES.length() - 1);
-        ssb.setSpan(new MDQuoteSpan(mColor, nested, false), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.replace(0, nested * KEY_BLOCK_QUOTES.length() - 1, getHolder(nested));
+        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         marginSSBLeft(ssb, 20);
         return ssb;
     }
@@ -70,5 +70,13 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
             ++nested;
         }
         return nested;
+    }
+
+    private String getHolder(int nested) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 1; i < nested; i++) {
+            stringBuilder.append("   ");
+        }
+        return stringBuilder.toString();
     }
 }

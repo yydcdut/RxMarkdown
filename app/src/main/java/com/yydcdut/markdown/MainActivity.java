@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .build();
-        mEditText.setText(Const.MD_SAMPLE2);
+        mEditText.setText(Const.MD_SAMPLE);
         mObservable = RxMarkdown.live(mEditText)
                 .config(rxMDConfiguration)
                 .factory(EditFactory.create())

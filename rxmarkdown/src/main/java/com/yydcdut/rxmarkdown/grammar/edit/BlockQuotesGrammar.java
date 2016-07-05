@@ -41,7 +41,7 @@ class BlockQuotesGrammar extends EditGrammarAdapter {
             }
             int index = content.indexOf(match);
             int length = match.length();
-            editTokenList.add(new EditToken(new MDQuoteSpan(mColor, nested, true), index, index + length));
+            editTokenList.add(new EditToken(new MDQuoteSpan(mColor, nested), index, index + length));
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < length; i++) {
                 sb.append(" ");
