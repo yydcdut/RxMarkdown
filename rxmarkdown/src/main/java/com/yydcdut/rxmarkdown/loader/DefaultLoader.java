@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.loader;
 
 import android.content.Context;
@@ -14,12 +29,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * The default loader, if user doesn't set loader.
+ * <p>
  * Created by yuyidong on 16/6/27.
  */
 public class DefaultLoader implements RxMDImageLoader {
 
     private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param context Context
+     */
     public DefaultLoader(Context context) {
         mContext = context;
     }
@@ -46,22 +68,13 @@ public class DefaultLoader implements RxMDImageLoader {
 
     @Nullable
     private static byte[] http(@NonNull String http) throws IOException {
-        HttpURLConnection httpURLConnection = null;
-        ByteArrayOutputStream out = null;
-        byte[] bytes = null;
-        try {
-            URL url = new URL(http);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setReadTimeout(5000);
-            InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
-            bytes = getBytes(in);
-        } finally {
-            closeStream(out);
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
+        URL url = new URL(http);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setReadTimeout(5000);
+        InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
+        byte[] bytes = getBytes(in);
+        httpURLConnection.disconnect();
         return bytes;
     }
 
@@ -100,8 +113,7 @@ public class DefaultLoader implements RxMDImageLoader {
         while ((i = inputStream.read()) != -1) {
             out.write(i);
         }
-        byte[] bytes = out.toByteArray();
-        return bytes;
+        return out.toByteArray();
     }
 
     private static void closeStream(@Nullable Closeable closeable) {

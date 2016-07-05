@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
@@ -12,11 +27,15 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
 
 /**
+ * The implementation of grammar for strike through.
+ * Grammar:
+ * "~~content~~"
+ * <p>
  * Created by yuyidong on 16/5/13.
  */
 class StrikeThroughGrammar extends AbsAndroidGrammar {
-    protected static final String KEY_STRIKE_THROUGH = "~~";
 
+    protected static final String KEY_STRIKE_THROUGH = "~~";
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + "~";
 
     StrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
@@ -35,7 +54,7 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
+        int index;
         while (true) {
             String text = ssb.toString();
             index = text.indexOf(KEY_BACKSLASH_VALUE);
@@ -50,13 +69,13 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        return complex(text, ssb);
+        return parse(text, ssb);
     }
 
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index = -1;
+        int index;
         while (true) {
             String text = ssb.toString();
             index = text.indexOf(BackslashGrammar.KEY_ENCODE);
@@ -68,8 +87,15 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    /**
+     * parse
+     *
+     * @param text the original content,the class type is {@link String}
+     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @return the content after parsing
+     */
     @NonNull
-    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -97,6 +123,15 @@ class StrikeThroughGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    /**
+     * find the position of next "~~"
+     * ignore the "~~" in inline code grammar
+     *
+     * @param tmpTotal the original content, the class type is {@link String}
+     * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
+     * @param tmp      the content that has parsed
+     * @return the next position of "~~"
+     */
     private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY_STRIKE_THROUGH);

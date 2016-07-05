@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
@@ -18,6 +33,8 @@ import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import java.util.ArrayList;
 
 /**
+ * RxMDEditText, live preview.
+ * <p>
  * Created by yuyidong on 16/5/20.
  */
 public class RxMDEditText extends EditText implements Handler.Callback {
@@ -41,16 +58,34 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     private boolean shouldFormat = false;
 
+    /**
+     * Constructor
+     *
+     * @param context {@link EditText}
+     */
     public RxMDEditText(Context context) {
         super(context);
         mHandler = new Handler(this);
     }
 
+    /**
+     * Constructor
+     *
+     * @param context {@link EditText}
+     * @param attrs   {@link EditText}
+     */
     public RxMDEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mHandler = new Handler(this);
     }
 
+    /**
+     * Constructor
+     *
+     * @param context      {@link EditText}
+     * @param attrs        {@link EditText}
+     * @param defStyleAttr {@link EditText}
+     */
     public RxMDEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mHandler = new Handler(this);
@@ -278,34 +313,34 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case MSG_BEFORE_TEXT_CHANGED:
-                Bundle bundle = msg.getData();
-                CharSequence s = bundle.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                int start = bundle.getInt(BUNDLE_START);
-                int before = bundle.getInt(BUNDLE_BEFORE);
-                int after = bundle.getInt(BUNDLE_AFTER);
-                sendBeforeTextChanged(s, start, before, after);
+                Bundle bundle0 = msg.getData();
+                CharSequence s0 = bundle0.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                int start0 = bundle0.getInt(BUNDLE_START);
+                int before0 = bundle0.getInt(BUNDLE_BEFORE);
+                int after0 = bundle0.getInt(BUNDLE_AFTER);
+                sendBeforeTextChanged(s0, start0, before0, after0);
                 break;
             case MSG_ON_TEXT_CHANGED:
-                Bundle bundle_ = msg.getData();
-                CharSequence s_ = bundle_.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                int start_ = bundle_.getInt(BUNDLE_START);
-                int before_ = bundle_.getInt(BUNDLE_BEFORE);
-                int after_ = bundle_.getInt(BUNDLE_AFTER);
-                sendOnTextChanged(s_, start_, before_, after_);
+                Bundle bundle1 = msg.getData();
+                CharSequence s1 = bundle1.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                int start1 = bundle1.getInt(BUNDLE_START);
+                int before1 = bundle1.getInt(BUNDLE_BEFORE);
+                int after1 = bundle1.getInt(BUNDLE_AFTER);
+                sendOnTextChanged(s1, start1, before1, after1);
                 break;
             case MSG_AFTER_TEXT_CHANGED:
-                Bundle bundle$ = msg.getData();
-                CharSequence s$ = bundle$.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                if (s$ instanceof Editable) {
-                    sendAfterTextChanged((Editable) s$);
+                Bundle bundle2 = msg.getData();
+                CharSequence s2 = bundle2.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                if (s2 instanceof Editable) {
+                    sendAfterTextChanged((Editable) s2);
                 } else {
                     sendAfterTextChanged(getText());
                 }
                 break;
             case MSG_FORMAT:
-                Bundle $bundle = msg.getData();
-                CharSequence $s = $bundle.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                setEditableText($s);
+                Bundle bundle3 = msg.getData();
+                CharSequence s3 = bundle3.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                setEditableText(s3);
                 break;
         }
         return false;

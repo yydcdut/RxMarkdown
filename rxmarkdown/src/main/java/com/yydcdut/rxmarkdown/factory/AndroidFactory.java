@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.factory;
 
 import android.support.annotation.NonNull;
@@ -13,6 +28,10 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
 
 /**
+ * This factory's purpose is parsing content <b>correctly</b>, as the same time, it destroys the integrity of the content.
+ * This factory will delete the key words of markdown grammar in content.
+ * So, hope that it will be used in TextView, not in EditText.
+ * <p>
  * Created by yuyidong on 16/5/12.
  */
 public class AndroidFactory extends AbsGrammarFactory {
@@ -24,7 +43,12 @@ public class AndroidFactory extends AbsGrammarFactory {
         super();
     }
 
-    public static AndroidFactory create() {
+    /**
+     * get AndroidFactory object
+     *
+     * @return {@link AbsGrammarFactory}
+     */
+    public static AbsGrammarFactory create() {
         return new AndroidFactory();
     }
 
@@ -90,7 +114,7 @@ public class AndroidFactory extends AbsGrammarFactory {
 
     @Override
     protected IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return AndroidInstanceFactory.getAndroidGrammar((GRAMMAR_FOOTNOTE), rxMDConfiguration);
+        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_FOOTNOTE, rxMDConfiguration);
     }
 
     @Override
@@ -113,7 +137,7 @@ public class AndroidFactory extends AbsGrammarFactory {
         return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_BACKSLASH, rxMDConfiguration);
     }
 
-    public void init(@NonNull RxMDConfiguration rxMDConfiguration) {
+    private void init(@NonNull RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;
         mTotalChain = new MultiGrammarsChain(
                 getCodeGrammar(rxMDConfiguration),

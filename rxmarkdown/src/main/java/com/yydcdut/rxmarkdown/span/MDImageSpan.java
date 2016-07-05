@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.span;
 
 import android.content.Context;
@@ -22,6 +37,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * image grammar span
+ * <p>
  * Created by yuyidong on 16/5/16.
  */
 public class MDImageSpan extends DynamicDrawableSpan {
@@ -44,10 +61,25 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return d;
     }
 
+    /**
+     * Constructor
+     *
+     * @param uri             the image url
+     * @param width           the display width
+     * @param height          the display height
+     * @param rxMDImageLoader loader
+     */
     public MDImageSpan(String uri, int width, int height, RxMDImageLoader rxMDImageLoader) {
         this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]), rxMDImageLoader);
     }
 
+    /**
+     * Constructor
+     *
+     * @param uri             the image url
+     * @param placeHolder     the place holder drawable
+     * @param rxMDImageLoader loader
+     */
     private MDImageSpan(String uri, Drawable placeHolder, RxMDImageLoader rxMDImageLoader) {
         super(ALIGN_BOTTOM);
         getUrl(uri);
@@ -68,6 +100,11 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return mActualDrawable;
     }
 
+    /**
+     * invoke when view created
+     *
+     * @param view the view
+     */
     public void onAttach(@NonNull View view) {
         mIsAttached = true;
         if (mAttachedView != view) {
@@ -99,8 +136,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
                 if (bytes == null) {
                     return mPlaceHolder;
                 }
-                Drawable drawable = getDrawable(bytes);
-                return drawable;
+                return getDrawable(bytes);
             }
 
             @Override
@@ -157,10 +193,12 @@ public class MDImageSpan extends DynamicDrawableSpan {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sampleSize;
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-        Drawable drawable = createBitmapDrawable(bitmap);
-        return drawable;
+        return createBitmapDrawable(bitmap);
     }
 
+    /**
+     * invoke when view destroyed
+     */
     public void onDetach() {
         if (!mIsAttached) {
             return;

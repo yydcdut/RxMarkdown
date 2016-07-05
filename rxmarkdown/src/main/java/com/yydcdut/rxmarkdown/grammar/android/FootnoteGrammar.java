@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
@@ -12,9 +27,14 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
 
 /**
+ * The implementation of grammar for footnote.
+ * Grammar:
+ * "content[^footnote]"
+ * <p>
  * Created by yuyidong on 16/5/13.
  */
 class FootnoteGrammar extends AbsAndroidGrammar {
+
     protected static final String KEY_0_FOOTNOTE = "[^";
     protected static final String KEY_1_FOOTNOTE = "]";
 
@@ -37,7 +57,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
+        int index0;
         while (true) {
             String text = ssb.toString();
             index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
@@ -46,7 +66,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashGrammar.KEY_ENCODE);
         }
-        int index2 = -1;
+        int index2;
         while (true) {
             String text = ssb.toString();
             index2 = text.indexOf(KEY_BACKSLASH_VALUE_2);
@@ -61,13 +81,13 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        return complex(text, ssb);
+        return parse(text, ssb);
     }
 
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
+        int index0;
         while (true) {
             String text = ssb.toString();
             index0 = text.indexOf(BackslashGrammar.KEY_ENCODE);
@@ -76,7 +96,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index0, index0 + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
         }
-        int index2 = -1;
+        int index2;
         while (true) {
             String text = ssb.toString();
             index2 = text.indexOf(BackslashGrammar.KEY_ENCODE_2);
@@ -88,7 +108,14 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
-    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    /**
+     * parse
+     *
+     * @param text the original content,the class type is {@link String}
+     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @return the content after parsing
+     */
+    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -116,6 +143,15 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    /**
+     * find the "[" position
+     * ignore the "[" in inline code grammar,
+     *
+     * @param tmpTotal the original content, the class type is {@link String}
+     * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
+     * @param tmp      the content that has parsed
+     * @return the  position of "["
+     */
     private int findBeginPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY_0_FOOTNOTE);
@@ -132,6 +168,15 @@ class FootnoteGrammar extends AbsAndroidGrammar {
         }
     }
 
+    /**
+     * find the "]" position
+     * ignore the "]" in inline code grammar,
+     *
+     * @param tmpTotal the original content, the class type is {@link String}
+     * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
+     * @param tmp      the content that has parsed
+     * @return the  position of "]"
+     */
     private int findEndPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(KEY_1_FOOTNOTE);

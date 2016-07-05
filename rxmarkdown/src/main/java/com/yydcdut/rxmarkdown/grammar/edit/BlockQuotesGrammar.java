@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.edit;
 
 import android.support.annotation.NonNull;
@@ -13,9 +28,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * The implementation of grammar for block quotes.
+ * Grammar:
+ * "> "
+ * <p>
  * Created by yuyidong on 16/6/30.
  */
 class BlockQuotesGrammar extends EditGrammarAdapter {
+
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.android.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
      * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
@@ -62,10 +82,10 @@ class BlockQuotesGrammar extends EditGrammarAdapter {
     }
 
     /**
-     * 有一个 "> " 就算嵌套一层
+     * calculate nested, one "> ", nest++
      *
-     * @param text
-     * @return
+     * @param text the content
+     * @return nested number of content
      */
     private static int calculateNested(@NonNull String text) {
         int nested = 0;

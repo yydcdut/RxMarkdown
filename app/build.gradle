@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
     compile project(':rxmarkdown')
 
     compile 'com.squareup.okhttp:okhttp:2.4.0'

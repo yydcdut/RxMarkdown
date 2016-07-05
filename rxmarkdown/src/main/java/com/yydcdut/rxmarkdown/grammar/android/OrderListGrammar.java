@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.graphics.Color;
@@ -13,11 +28,15 @@ import com.yydcdut.rxmarkdown.span.MDBulletSpan;
 import java.util.ArrayList;
 
 /**
+ * The implementation of grammar for order list.
+ * Grammar:
+ * "1. "
+ * <p>
  * Created by yuyidong on 16/5/22.
  */
 class OrderListGrammar extends GrammarAdapter {
-    private static final String KEY_HEADER = "  ";
 
+    private static final String KEY_HEADER = "  ";
     private static final char DOT = '.';
 
     OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
@@ -45,7 +64,6 @@ class OrderListGrammar extends GrammarAdapter {
     @Override
     public CharSequence format(@NonNull CharSequence charSequence) {
         if (!(charSequence instanceof SpannableStringBuilder)) {
-            Log.wtf("NestedOrderListGrammar", "charSequence 类型 " + charSequence.getClass().getName());
             return charSequence;
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
@@ -116,11 +134,11 @@ class OrderListGrammar extends GrammarAdapter {
         if (text.length() < 3) {
             return false;
         }
-        if (TextUtils.isDigitsOnly(text.charAt(0) + "")) {
+        if (TextUtils.isDigitsOnly(String.valueOf(text.charAt(0)))) {
             int dotPosition = 1;
             for (int i = 1; i < text.length(); i++) {
                 char c = text.charAt(i);
-                if (TextUtils.isDigitsOnly(c + "")) {
+                if (TextUtils.isDigitsOnly(String.valueOf(c))) {
                     continue;
                 } else {
                     dotPosition = i;
@@ -131,17 +149,21 @@ class OrderListGrammar extends GrammarAdapter {
             if (dot == DOT) {
                 if (text.charAt(dotPosition + 1) == ' ') {
                     return true;
-                } else {
-                    return false;
                 }
-            } else {
                 return false;
             }
+            return false;
         } else {
             return false;
         }
     }
 
+    /**
+     * calculate nested
+     *
+     * @param text the content
+     * @return nested number of content
+     */
     private int calculateNested(@NonNull String text) {
         if (text.length() < 3) {
             return -1;
@@ -163,11 +185,18 @@ class OrderListGrammar extends GrammarAdapter {
         return nested;
     }
 
+    /**
+     * calculate the key number
+     *
+     * @param text   the content
+     * @param nested the nested number
+     * @return the key number
+     */
     private int calculateNumber(@NonNull String text, int nested) {
         if (text.length() < 3) {
             return -1;
         }
-        int number = -1;
+        int number;
         String s = text.substring(nested * KEY_HEADER.length(), text.length());
         if (TextUtils.isDigitsOnly(s.substring(0, 1))) {
             number = Integer.parseInt(s.substring(0, 1));
@@ -185,15 +214,24 @@ class OrderListGrammar extends GrammarAdapter {
         return number;
     }
 
+    /**
+     * set key number
+     *
+     * @param nested         the nested number
+     * @param start          start position
+     * @param line           the content
+     * @param ssb            the content
+     * @param number         the key number
+     * @param originalNumber the original number
+     */
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
-        ssb.delete(start, start + nested * KEY_HEADER.length() + (originalNumber + "").length());
-        ssb.insert(start, number + "");
+        ssb.delete(start, start + nested * KEY_HEADER.length() + String.valueOf(originalNumber).length());
+        ssb.insert(start, String.valueOf(number));
         ssb.setSpan(new MDBulletSpan(10, Color.TRANSPARENT, nested),
                 start,
-                start + line.length() - (nested * KEY_HEADER.length() + (originalNumber + "").length()),
+                start + line.length() - (nested * KEY_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-
 
     private static class NestedOrderListBean {
         final int start;

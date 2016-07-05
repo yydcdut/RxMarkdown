@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
@@ -13,9 +28,14 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
 
 /**
+ * The implementation of grammar for image.
+ * Grammar:
+ * "![image](http://image.jpg)"
+ * <p>
  * Created by yuyidong on 16/5/15.
  */
 class ImageGrammar extends AbsAndroidGrammar {
+
     protected static final String KEY_0_IMAGE = "![";
     protected static final String KEY_1_IMAGE = "](";
     protected static final String KEY_2_IMAGE = ")";
@@ -47,7 +67,7 @@ class ImageGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
+        int index0;
         while (true) {
             String text = ssb.toString();
             index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
@@ -56,7 +76,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashGrammar.KEY_ENCODE);
         }
-        int index2 = -1;
+        int index2;
         while (true) {
             String text = ssb.toString();
             index2 = text.indexOf(KEY_BACKSLASH_VALUE_2);
@@ -65,7 +85,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), BackslashGrammar.KEY_ENCODE_2);
         }
-        int index4 = -1;
+        int index4;
         while (true) {
             String text = ssb.toString();
             index4 = text.indexOf(KEY_BACKSLASH_VALUE_4);
@@ -80,13 +100,13 @@ class ImageGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        return complex(text, ssb);
+        return parse(text, ssb);
     }
 
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0 = -1;
+        int index0;
         while (true) {
             String text = ssb.toString();
             index0 = text.indexOf(BackslashGrammar.KEY_ENCODE);
@@ -95,7 +115,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index0, index0 + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
         }
-        int index2 = -1;
+        int index2;
         while (true) {
             String text = ssb.toString();
             index2 = text.indexOf(BackslashGrammar.KEY_ENCODE_2);
@@ -104,7 +124,7 @@ class ImageGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index2, index2 + BackslashGrammar.KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
         }
-        int index4 = -1;
+        int index4;
         while (true) {
             String text = ssb.toString();
             index4 = text.indexOf(BackslashGrammar.KEY_ENCODE_4);
@@ -116,8 +136,15 @@ class ImageGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    /**
+     * parse
+     *
+     * @param text the original content,the class type is {@link String}
+     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @return the content after parsing
+     */
     @NonNull
-    private SpannableStringBuilder complex(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -161,6 +188,14 @@ class ImageGrammar extends AbsAndroidGrammar {
         return ssb;
     }
 
+    /**
+     * replace the key words
+     *
+     * @param content     the original content
+     * @param target      the key words
+     * @param replacement the replacement string
+     * @return
+     */
     @NonNull
     private String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
         if (target == null) {

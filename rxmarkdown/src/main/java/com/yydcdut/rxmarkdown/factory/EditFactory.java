@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.factory;
 
 import android.support.annotation.NonNull;
@@ -13,14 +28,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This factory's purpose is parsing content <b>quickly</b>, as the same time, it doesn't support all grammars.
+ * So, hope that it will be used in EditText.
+ * <p>
  * Created by yuyidong on 16/7/2.
  */
 public class EditFactory extends AbsGrammarFactory {
 
+    private List<IGrammar> mGrammarList;
+    private RxMDConfiguration mRxMDConfiguration;
+
     private EditFactory() {
     }
 
-    public static EditFactory create() {
+    /**
+     * get EditFactory object
+     *
+     * @return {@link AbsGrammarFactory}
+     */
+    public static AbsGrammarFactory create() {
         return new EditFactory();
     }
 
@@ -108,9 +134,6 @@ public class EditFactory extends AbsGrammarFactory {
     protected IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
     }
-
-    private List<IGrammar> mGrammarList;
-    private RxMDConfiguration mRxMDConfiguration;
 
     private void init(RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;

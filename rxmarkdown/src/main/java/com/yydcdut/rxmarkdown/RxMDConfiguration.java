@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
@@ -9,6 +24,8 @@ import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
 /**
+ * The display configuration of RxMarkdown
+ * <p>
  * Created by yuyidong on 16/6/22.
  */
 public class RxMDConfiguration {
@@ -38,13 +55,33 @@ public class RxMDConfiguration {
 
     private boolean isDebug = true;
 
-    public RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
-                             float header1RelativeSize, float header2RelativeSize,
-                             float header3RelativeSize, float header4RelativeSize,
-                             float header5RelativeSize, float header6RelativeSize,
-                             int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
-                             int todoColor, int todoDoneColor, int unOrderListColor,
-                             RxMDImageLoader rxMDImageLoader, boolean isDebug) {
+    /**
+     * Constructor
+     *
+     * @param defaultImageSize     default image size
+     * @param blockQuotesColor     block quotes color
+     * @param header1RelativeSize  header1 relative size
+     * @param header2RelativeSize  header2 relative size
+     * @param header3RelativeSize  header3 relative size
+     * @param header4RelativeSize  header4 relative size
+     * @param header5RelativeSize  header5 relative size
+     * @param header6RelativeSize  header6 relative size
+     * @param horizontalRulesColor horizontal rules color
+     * @param inlineCodeBgColor    inline code bg color
+     * @param codeBgColor          code bg color
+     * @param todoColor            to do color
+     * @param todoDoneColor        to do done color
+     * @param unOrderListColor     unorder list color
+     * @param rxMDImageLoader      loader
+     * @param isDebug              debug
+     */
+    private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
+                              float header1RelativeSize, float header2RelativeSize,
+                              float header3RelativeSize, float header4RelativeSize,
+                              float header5RelativeSize, float header6RelativeSize,
+                              int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
+                              int todoColor, int todoDoneColor, int unOrderListColor,
+                              RxMDImageLoader rxMDImageLoader, boolean isDebug) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -63,70 +100,153 @@ public class RxMDConfiguration {
         this.isDebug = isDebug;
     }
 
+    /**
+     * get image default size
+     *
+     * @return the array size is 2, [width, height]
+     */
     public final int[] getDefaultImageSize() {
         return defaultImageSize;
     }
 
+    /**
+     * get block quote color
+     *
+     * @return the color
+     */
     public final int getBlockQuotesColor() {
         return blockQuotesColor;
     }
 
+    /**
+     * get header1 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader1RelativeSize() {
         return header1RelativeSize;
     }
 
+    /**
+     * get header2 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader2RelativeSize() {
         return header2RelativeSize;
     }
 
+    /**
+     * get header3 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader3RelativeSize() {
         return header3RelativeSize;
     }
 
+    /**
+     * get header4 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader4RelativeSize() {
         return header4RelativeSize;
     }
 
+    /**
+     * get header5 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader5RelativeSize() {
         return header5RelativeSize;
     }
 
+    /**
+     * get header6 relative size
+     *
+     * @return the size relative to current text
+     */
     public final float getHeader6RelativeSize() {
         return header6RelativeSize;
     }
 
+    /**
+     * get horizontal rules color
+     *
+     * @return the color
+     */
     public final int getHorizontalRulesColor() {
         return horizontalRulesColor;
     }
 
+    /**
+     * get inline code background color
+     *
+     * @return the color
+     */
     public final int getInlineCodeBgColor() {
         return inlineCodeBgColor;
     }
 
+    /**
+     * get code background color
+     *
+     * @return the color
+     */
     public final int getCodeBgColor() {
         return codeBgColor;
     }
 
+    /**
+     * get to do color
+     *
+     * @return the color
+     */
     public final int getTodoColor() {
         return todoColor;
     }
 
+    /**
+     * get done color
+     *
+     * @return the color
+     */
     public final int getTodoDoneColor() {
         return todoDoneColor;
     }
 
+    /**
+     * get unorder list color
+     *
+     * @return the color
+     */
     public final int getUnOrderListColor() {
         return unOrderListColor;
     }
 
+    /**
+     * get loader
+     *
+     * @return {@link RxMDImageLoader}
+     */
     public RxMDImageLoader getRxMDImageLoader() {
         return rxMDImageLoader;
     }
 
+    /**
+     * whether is debug or not
+     *
+     * @return TRUE:debug
+     */
     public boolean isDebug() {
         return isDebug;
     }
 
+    /**
+     * the build of configuration
+     */
     public static class Builder {
 
         private int[] defaultImageSize;
@@ -163,6 +283,11 @@ public class RxMDConfiguration {
 
         private boolean isDebug = true;
 
+        /**
+         * Constructor
+         *
+         * @param context Context
+         */
         public Builder(@NonNull Context context) {
             defaultImageSize = new int[]{100, 100};
             blockQuotesColor = Color.LTGRAY;
@@ -181,86 +306,189 @@ public class RxMDConfiguration {
             rxMDImageLoader = new DefaultLoader(context);
         }
 
+        /**
+         * set image default size
+         *
+         * @param width  the default width to display
+         * @param height the default height to display
+         * @return self
+         */
         public Builder setDefaultImageSize(int width, int height) {
             defaultImageSize = new int[]{width, height};
             return this;
         }
 
+        /**
+         * set block quote color
+         *
+         * @param blockQuotesColor the color
+         * @return self
+         */
         public Builder setBlockQuotesColor(@ColorInt int blockQuotesColor) {
             this.blockQuotesColor = blockQuotesColor;
             return this;
         }
 
+        /**
+         * set header h1 relative size
+         *
+         * @param header1RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader1RelativeSize(float header1RelativeSize) {
             this.header1RelativeSize = header1RelativeSize;
             return this;
         }
 
+        /**
+         * set header h2 relative size
+         *
+         * @param header2RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader2RelativeSize(float header2RelativeSize) {
             this.header2RelativeSize = header2RelativeSize;
             return this;
         }
 
+        /**
+         * set header h3 relative size
+         *
+         * @param header3RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader3RelativeSize(float header3RelativeSize) {
             this.header3RelativeSize = header3RelativeSize;
             return this;
         }
 
+        /**
+         * set header h4 relative size
+         *
+         * @param header4RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader4RelativeSize(float header4RelativeSize) {
             this.header4RelativeSize = header4RelativeSize;
             return this;
         }
 
+        /**
+         * set header h5 relative size
+         *
+         * @param header5RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader5RelativeSize(float header5RelativeSize) {
             this.header5RelativeSize = header5RelativeSize;
             return this;
         }
 
+        /**
+         * set header h6 relative size
+         *
+         * @param header6RelativeSize relative to current text size
+         * @return self
+         */
         public Builder setHeader6RelativeSize(float header6RelativeSize) {
             this.header6RelativeSize = header6RelativeSize;
             return this;
         }
 
+        /**
+         * set horizontal rules color
+         *
+         * @param horizontalRulesColor the color
+         * @return self
+         */
         public Builder setHorizontalRulesColor(@ColorInt int horizontalRulesColor) {
             this.horizontalRulesColor = horizontalRulesColor;
             return this;
         }
 
+        /**
+         * set inline code background color
+         *
+         * @param inlineCodeBgColor the color
+         * @return self
+         */
         public Builder setInlineCodeBgColor(@ColorInt int inlineCodeBgColor) {
             this.inlineCodeBgColor = inlineCodeBgColor;
             return this;
         }
 
+        /**
+         * set code background color
+         *
+         * @param codeBgColor the color
+         * @return self
+         */
         public Builder setCodeBgColor(@ColorInt int codeBgColor) {
             this.codeBgColor = codeBgColor;
             return this;
         }
 
+        /**
+         * set done color
+         *
+         * @param todoDoneColor the color
+         * @return self
+         */
         public Builder setTodoDoneColor(@ColorInt int todoDoneColor) {
             this.todoDoneColor = todoDoneColor;
             return this;
         }
 
+        /**
+         * set to do color
+         *
+         * @param todoColor the color
+         * @return self
+         */
         public Builder setTodoColor(@ColorInt int todoColor) {
             this.todoColor = todoColor;
             return this;
         }
 
+        /**
+         * set unorder list color
+         *
+         * @param unOrderListColor the color
+         * @return self
+         */
         public Builder setUnOrderListColor(int unOrderListColor) {
             this.unOrderListColor = unOrderListColor;
             return this;
         }
 
+        /**
+         * set loader
+         *
+         * @param rxMDImageLoader the loader
+         * @return self
+         */
         public Builder setRxMDImageLoader(RxMDImageLoader rxMDImageLoader) {
             this.rxMDImageLoader = rxMDImageLoader;
             return this;
         }
 
+        /**
+         * whether debug or not
+         * default is true
+         *
+         * @param debug
+         * @return self
+         */
         public Builder setDebug(boolean debug) {
             isDebug = debug;
             return this;
         }
 
+        /**
+         * get RxMDConfiguration
+         *
+         * @return RxMDConfiguration
+         */
         public RxMDConfiguration build() {
             return new RxMDConfiguration(
                     defaultImageSize, blockQuotesColor,

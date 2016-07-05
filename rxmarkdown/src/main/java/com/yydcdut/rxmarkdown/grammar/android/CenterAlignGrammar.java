@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2016 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
@@ -11,9 +26,15 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSLASH;
 
 /**
+ * The implementation of grammar for center align.
+ * It's not the real grammar in Markdown.
+ * Grammar:
+ * "[content]"
+ * <p>
  * Created by yuyidong on 16/5/4.
  */
 class CenterAlignGrammar extends AbsAndroidGrammar {
+
     protected static final String KEY_0_CENTER_ALIGN = "[";
     protected static final String KEY_1_CENTER_ALIGN = "]";
 
@@ -31,7 +52,7 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index1 = -1;
+        int index1;
         while (true) {
             String text = ssb.toString();
             index1 = text.indexOf(KEY_BACKSLASH_VALUE_1);
@@ -54,7 +75,7 @@ class CenterAlignGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index1 = -1;
+        int index1;
         while (true) {
             String text = ssb.toString();
             index1 = text.indexOf(BackslashGrammar.KEY_ENCODE_1);
