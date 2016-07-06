@@ -27,6 +27,7 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
  * Created by yuyidong on 16/5/12.
  */
 public abstract class AbsGrammarFactory {
+
     /**
      * for normal
      */
@@ -127,7 +128,7 @@ public abstract class AbsGrammarFactory {
     /**
      * Get block quotes grammar.
      * Grammar:
-     * "> "
+     * "&gt; "
      *
      * @param rxMDConfiguration configuration, need BlockQuotesColor
      * @return the interface {@link IGrammar} for block quotes grammar

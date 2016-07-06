@@ -1,8 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    resourcePrefix "rxmarkdown"
 
     defaultConfig {
         minSdkVersion 9
@@ -27,3 +30,83 @@ dependencies {
     provided 'com.android.support:support-annotations:23.3.0'
     provided 'io.reactivex:rxjava:1.1.5'
 }
+
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    def files = new File(projectDir.getPath() + File.separator + "libs" + File.separator).listFiles()
+//    def absolutePathArray = new String[files.length]
+//    for (int i = 0; i < files.length; i++) {
+//        absolutePathArray[i] = files[i].absolutePath
+//    }
+//    classpath += project.files(absolutePathArray)
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+//
+//version = "0.0.1"
+//
+//def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
+//def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'
+//
+//group = "com.yydcdut"
+//
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//bintray {
+//    user = properties.getProperty("bintray.user")
+//    key = properties.getProperty("bintray.apikey")
+//    configurations = ['archives']
+//    pkg {
+//        repo = "maven"
+//        name = "RxMarkdown"
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = ["Apache-2.0"]
+//        publish = true
+//    }
+//}
+//
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                name 'RxMarkdown'
+//                url siteUrl
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'yydcdut'
+//                        name 'yydcdut'
+//                        email '378040621@qq.com'
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//                }
+//            }
+//        }
+//    }
+//}

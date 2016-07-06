@@ -32,8 +32,8 @@ public interface RxMDImageLoader {
      * load in thread
      *
      * @param url the url
-     * @return
-     * @throws IOException
+     * @return the image byte array
+     * @throws IOException the IOException
      */
     @Nullable
     byte[] loadSync(@NonNull String url) throws IOException;

@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 /**
- * RxMDTextView cooperate with {@link com.yydcdut.rxmarkdown.grammar.android.ImageGrammar}.
+ * RxMDTextView cooperate with com.yydcdut.rxmarkdown.grammar.android.ImageGrammar.
  * <p>
  * Created by yuyidong on 16/5/16.
  */
