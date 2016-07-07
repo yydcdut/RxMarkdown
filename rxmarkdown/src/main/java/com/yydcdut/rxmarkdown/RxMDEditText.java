@@ -16,19 +16,23 @@
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
+import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
 
 import java.util.ArrayList;
 
@@ -91,6 +95,18 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         mHandler = new Handler(this);
     }
 
+    /**
+     * clear markdown format
+     */
+    public void clear() {
+        removeTextChangedListener(mEditTextWatcher);
+        Editable editable = getText();
+        int selectionEnd = getSelectionEnd();
+        int selectionStart = getSelectionStart();
+        setText(editable.toString());
+        setSelection(selectionStart, selectionEnd);
+    }
+
     private TextWatcher mEditTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -107,7 +123,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int after) {
-            Log.i("yuyidong", after + "  ");
             if (isMainThread()) {
                 sendOnTextChanged(s, start, before, after);
             } else {
@@ -301,18 +316,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
 
-    /**
-     * clear markdown format
-     */
-    public void clear() {
-        removeTextChangedListener(mEditTextWatcher);
-        Editable editable = getText();
-        int selectionEnd = getSelectionEnd();
-        int selectionStart = getSelectionStart();
-        setText(editable.toString());
-        setSelection(selectionStart, selectionEnd);
-    }
-
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -360,5 +363,50 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         message.what = what;
         message.setData(bundle);
         mHandler.sendMessage(message);
+    }
+
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        super.onSelectionChanged(selStart, selEnd);
+        setAllHorizontalRulesTextColor();
+        removeCurrentHorizontalRulesTextColor(selStart, selEnd);
+    }
+
+    private void setAllHorizontalRulesTextColor() {
+        MDHorizontalRulesSpan[] spans = getText().getSpans(0, getText().length(), MDHorizontalRulesSpan.class);
+        if (spans.length > 0) {
+            for (MDHorizontalRulesSpan span : spans) {
+                int start = getText().getSpanStart(span);
+                int end = getText().getSpanEnd(span);
+                if (!existForegroundColorSpan(start, end)) {
+                    int textColor = getCurrentTextColor();
+                    getText().setSpan(new ForegroundColorSpan(
+                                    Color.argb(51,
+                                            Color.red(textColor),
+                                            Color.green(textColor),
+                                            Color.blue(textColor))),
+                            start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+    }
+
+    private void removeCurrentHorizontalRulesTextColor(int selStart, int selEnd) {
+        MDHorizontalRulesSpan[] spans = getText().getSpans(selStart, selEnd, MDHorizontalRulesSpan.class);
+        if (spans.length > 0) {
+            for (MDHorizontalRulesSpan span : spans) {
+                int start = getText().getSpanStart(span);
+                int end = getText().getSpanEnd(span);
+                ForegroundColorSpan[] foregroundColorSpans = getText().getSpans(start, end, ForegroundColorSpan.class);
+                for (ForegroundColorSpan foregroundColorSpan : foregroundColorSpans) {
+                    getText().removeSpan(foregroundColorSpan);
+                }
+            }
+        }
+    }
+
+    private boolean existForegroundColorSpan(int start, int end) {
+        ForegroundColorSpan[] foregroundColorSpans = getText().getSpans(start, end, ForegroundColorSpan.class);
+        return foregroundColorSpans != null ? foregroundColorSpans.length == 0 ? false : true : false;
     }
 }

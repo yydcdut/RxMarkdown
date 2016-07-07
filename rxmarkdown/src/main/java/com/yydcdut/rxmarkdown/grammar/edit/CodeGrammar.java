@@ -64,7 +64,7 @@ class CodeGrammar extends EditGrammarAdapter {
                 index = content.indexOf(match);
                 char c4 = content.charAt(index + 3);
                 int length = match.length();
-                content.replace(index, index + length, getPlaceHolder(getPlaceHolder(match)));
+                content.replace(index, index + length, getPlaceHolder(match));
                 if (c4 != '\n') {
                     index = 0;
                     i--;
@@ -81,7 +81,7 @@ class CodeGrammar extends EditGrammarAdapter {
             } else {
                 int currentIndex = content.indexOf(match);
                 int length = match.length();
-                content.replace(currentIndex, currentIndex + length, getPlaceHolder(getPlaceHolder(match)));
+                content.replace(currentIndex, currentIndex + length, getPlaceHolder(match));
                 char c4 = content.charAt(currentIndex + 3);
                 char c0 = content.charAt(index - 1);
                 if (c0 != '\n' || c4 != '\n') {

@@ -52,7 +52,7 @@ public class EditFactory extends AbsGrammarFactory {
 
     @Override
     protected IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_HORIZONTAL_RULES, rxMDConfiguration);
     }
 
     @Override
@@ -146,6 +146,7 @@ public class EditFactory extends AbsGrammarFactory {
         mGrammarList.add(getHeaderGrammar(mRxMDConfiguration));
         mGrammarList.add(getBlockQuotesGrammar(mRxMDConfiguration));
         mGrammarList.add(getCodeGrammar(mRxMDConfiguration));
+        mGrammarList.add(getHorizontalRulesGrammar(mRxMDConfiguration));
     }
 
     @NonNull

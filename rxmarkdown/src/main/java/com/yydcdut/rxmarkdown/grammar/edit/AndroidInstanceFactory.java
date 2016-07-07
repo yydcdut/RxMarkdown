@@ -74,6 +74,8 @@ public class AndroidInstanceFactory {
                 return new StrikeThroughGrammar(rxMDConfiguration);
             case GRAMMAR_CODE:
                 return new CodeGrammar(rxMDConfiguration);
+            case GRAMMAR_HORIZONTAL_RULES:
+                return new HorizontalRulesGrammar(rxMDConfiguration);
             case GRAMMAR_UNORDER_LIST:
             case GRAMMAR_ORDER_LIST:
             case GRAMMAR_TODO:
@@ -82,7 +84,6 @@ public class AndroidInstanceFactory {
             case GRAMMAR_HYPERLINK:
             case GRAMMAR_BACKSLASH:
             case GRAMMAR_FOOTNOTE:
-            case GRAMMAR_HORIZONTAL_RULES:
             default:
                 return new NormalGrammar(rxMDConfiguration);
         }
