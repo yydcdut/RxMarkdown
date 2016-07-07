@@ -1,4 +1,4 @@
-package com.yydcdut.markdown;
+package com.yydcdut.markdowndemo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.yydcdut.markdown.loader.OKLoader;
+import com.yydcdut.markdowndemo.loader.OKLoader;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;

@@ -107,6 +107,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int after) {
+            Log.i("yuyidong", after + "  ");
             if (isMainThread()) {
                 sendOnTextChanged(s, start, before, after);
             } else {
@@ -240,14 +241,14 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             if (start + before + 1 <= s.length()) {
                 afterString = s.subSequence(start + before, start + before + 1).toString();
             }
-            if (deleteString.contains("*")
-                    || deleteString.contains("#")
-                    || deleteString.contains("~")
-                    || deleteString.contains(">")
-                    || deleteString.contains("[")
-                    || deleteString.contains("]")
-                    || deleteString.contains("`")
-                    || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
+            if (deleteString.contains("*")//bold && italic
+                    || deleteString.contains("#")//header
+                    || deleteString.contains("~")//strike through
+                    || deleteString.contains(">")//block quote
+                    || deleteString.contains("[")//center align
+                    || deleteString.contains("]")//center align
+                    || deleteString.contains("`")//inline code && code
+                    || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))//"> " && "## "
                     || ("#".equals(beforeString) || "#".equals(afterString))//#12# ss(##12 ss) --> ## ss
                     || ("*".equals(beforeString) || "*".equals(afterString))//*11*ss** --> **ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
@@ -278,14 +279,14 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             if (start > 0) {
                 beforeString = s.subSequence(start - 1, start).toString();
             }
-            if (addString.contains("*")
-                    || addString.contains("#")
-                    || addString.contains("~")
-                    || addString.contains(">")
-                    || addString.contains("[")
-                    || addString.contains("]")
-                    || addString.contains("`")
-                    || (addString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))
+            if (addString.contains("*")//bold && italic
+                    || addString.contains("#")//header
+                    || addString.contains("~")//strike through
+                    || addString.contains(">")//block quote
+                    || addString.contains("[")//center align
+                    || addString.contains("]")//center align
+                    || addString.contains("`")//inline code && code
+                    || (addString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))//"> " && "## "
                     || ("#".equals(beforeString) || "#".equals(afterString))//## ss --> #12# ss(##12 ss)
                     || ("*".equals(beforeString) || "*".equals(afterString))//**ss** --> *11*ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
@@ -300,6 +301,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
 
+    /**
+     * clear markdown format
+     */
     public void clear() {
         removeTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
@@ -346,7 +350,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         return false;
     }
 
-    public void sendMessage(int what, CharSequence s, int start, int before, int after) {
+    private void sendMessage(int what, CharSequence s, int start, int before, int after) {
         Message message = mHandler.obtainMessage();
         Bundle bundle = new Bundle();
         bundle.putCharSequence(BUNDLE_CHAR_SEQUENCE, s);

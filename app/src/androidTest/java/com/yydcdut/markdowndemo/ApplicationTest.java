@@ -1,4 +1,4 @@
-package com.yydcdut.markdown;
+package com.yydcdut.markdowndemo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
