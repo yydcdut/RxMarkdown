@@ -267,6 +267,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || ("#".equals(beforeString) || "#".equals(afterString))//#12# ss(##12 ss) --> ## ss
                     || ("*".equals(beforeString) || "*".equals(afterString))//*11*ss** --> **ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
+                    || ("-".equals(beforeString) || "-".equals(afterString))//1---(-1--)(--1-)(---1) --> ---
                     || ("`".equals(beforeString) || "`".equals(afterString))) {//`1``(``1`)(```1)(1```) --> ```
 
                 return true;
@@ -305,6 +306,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || ("#".equals(beforeString) || "#".equals(afterString))//## ss --> #12# ss(##12 ss)
                     || ("*".equals(beforeString) || "*".equals(afterString))//**ss** --> *11*ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
+                    || ("-".equals(beforeString) || "-".equals(afterString))//--- --> 1---(-1--)(--1-)(---1)
                     || ("`".equals(beforeString) || "`".equals(afterString))) {//``` --> `1``(``1`)(```1)(1```)
                 return true;
             }
