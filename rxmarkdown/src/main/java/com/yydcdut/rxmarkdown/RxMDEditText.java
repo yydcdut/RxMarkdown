@@ -16,7 +16,7 @@
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,13 +26,14 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.yydcdut.rxmarkdown.edit.HRAlphaController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.factory.AndroidFactory;
+import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private ArrayList<TextWatcher> mListeners;
 
     private boolean shouldFormat = false;
+    private boolean mHasImageInText;
+
+    private HRAlphaController mHRAlphaController;
 
     /**
      * Constructor
@@ -69,7 +73,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
      */
     public RxMDEditText(Context context) {
         super(context);
-        mHandler = new Handler(this);
+        init();
     }
 
     /**
@@ -80,8 +84,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
      */
     public RxMDEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mHandler = new Handler(this);
+        init();
     }
+
 
     /**
      * Constructor
@@ -92,7 +97,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
      */
     public RxMDEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
         mHandler = new Handler(this);
+        mHRAlphaController = new HRAlphaController(this);
     }
 
     /**
@@ -132,6 +142,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 return;
             }
             shouldFormat = shouldFormat4OnTextChanged(s, start, before, after);
+            checkNewLineInput(s, start, before, after);
         }
 
         @Override
@@ -370,45 +381,87 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        setAllHorizontalRulesTextColor();
-        removeCurrentHorizontalRulesTextColor(selStart, selEnd);
+        mHRAlphaController.onSelectionChanged(selStart, selEnd);
     }
 
-    private void setAllHorizontalRulesTextColor() {
-        MDHorizontalRulesSpan[] spans = getText().getSpans(0, getText().length(), MDHorizontalRulesSpan.class);
-        if (spans.length > 0) {
-            for (MDHorizontalRulesSpan span : spans) {
-                int start = getText().getSpanStart(span);
-                int end = getText().getSpanEnd(span);
-                if (!existForegroundColorSpan(start, end)) {
-                    int textColor = getCurrentTextColor();
-                    getText().setSpan(new ForegroundColorSpan(
-                                    Color.argb(51,
-                                            Color.red(textColor),
-                                            Color.green(textColor),
-                                            Color.blue(textColor))),
-                            start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private void checkNewLineInput(CharSequence s, int start, int before, int after) {
+        if (after != 1 || before != 0) {
+            return;
+        }
+        CharSequence charSequence = s.subSequence(start, start + 1);
+        if (charSequence.charAt(0) == '\n') {
+        }
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        if (mGrammarFactory instanceof AndroidFactory) {
+            if (mHasImageInText) {
+                onDetach();
+                mHasImageInText = false;
+            }
+            if (text instanceof Spanned) {
+                MDImageSpan[] spans = ((Spanned) text).getSpans(0, text.length(), MDImageSpan.class);
+                mHasImageInText = spans.length > 0;
+                for (MDImageSpan image : spans) {
+                    image.onAttach(this);
                 }
+            }
+        }
+        super.setText(text, type);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        onAttach();
+    }
+
+    final void onAttach() {
+        MDImageSpan[] images = getImages();
+        for (MDImageSpan image : images) {
+            image.onAttach(this);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        onDetach();
+    }
+
+    @Override
+    public void onStartTemporaryDetach() {
+        super.onStartTemporaryDetach();
+        onDetach();
+    }
+
+    @Override
+    public void invalidateDrawable(Drawable dr) {
+        if (mGrammarFactory instanceof AndroidFactory && mHasImageInText) {
+            invalidate();
+        } else {
+            super.invalidateDrawable(dr);
+        }
+    }
+
+    private void onDetach() {
+        if (mGrammarFactory instanceof AndroidFactory) {
+            MDImageSpan[] images = getImages();
+            for (MDImageSpan image : images) {
+                Drawable drawable = image.getDrawable();
+                if (drawable != null) {
+                    unscheduleDrawable(drawable);
+                }
+                image.onDetach();
             }
         }
     }
 
-    private void removeCurrentHorizontalRulesTextColor(int selStart, int selEnd) {
-        MDHorizontalRulesSpan[] spans = getText().getSpans(selStart, selEnd, MDHorizontalRulesSpan.class);
-        if (spans.length > 0) {
-            for (MDHorizontalRulesSpan span : spans) {
-                int start = getText().getSpanStart(span);
-                int end = getText().getSpanEnd(span);
-                ForegroundColorSpan[] foregroundColorSpans = getText().getSpans(start, end, ForegroundColorSpan.class);
-                for (ForegroundColorSpan foregroundColorSpan : foregroundColorSpans) {
-                    getText().removeSpan(foregroundColorSpan);
-                }
-            }
+    private MDImageSpan[] getImages() {
+        if (mGrammarFactory instanceof AndroidFactory && mHasImageInText && length() > 0) {
+            return (getText()).getSpans(0, length(), MDImageSpan.class);
         }
-    }
-
-    private boolean existForegroundColorSpan(int start, int end) {
-        ForegroundColorSpan[] foregroundColorSpans = getText().getSpans(start, end, ForegroundColorSpan.class);
-        return foregroundColorSpans != null ? foregroundColorSpans.length == 0 ? false : true : false;
+        return new MDImageSpan[0];
     }
 }
