@@ -15,7 +15,6 @@
  */
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -23,7 +22,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.span.MDBulletSpan;
+import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
 
 import java.util.ArrayList;
 
@@ -36,9 +35,21 @@ import java.util.ArrayList;
  */
 class OrderListGrammar extends GrammarAdapter {
 
-    private static final String KEY_HEADER = "  ";
+    /**
+     * see com.yydcdut.rxmarkdown.grammar.edit.OrderListGrammar
+     * used UnOrderListGrammar
+     */
+    public static final String KEY_HEADER = " ";
+    /**
+     * see com.yydcdut.rxmarkdown.grammar.edit.OrderListGrammar
+     */
     private static final char DOT = '.';
 
+    /**
+     * Constructor
+     *
+     * @param rxMDConfiguration RxMDConfiguration
+     */
     OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
     }
 
@@ -174,7 +185,7 @@ class OrderListGrammar extends GrammarAdapter {
                 break;
             }
             String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
-            if (KEY_HEADER.equals(sub)) {//还是"  "
+            if (KEY_HEADER.equals(sub)) {//还是" "
                 nested++;
             } else if (check(text.substring(nested * KEY_HEADER.length(), text.length()))) {
                 return nested;
@@ -227,7 +238,7 @@ class OrderListGrammar extends GrammarAdapter {
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + String.valueOf(originalNumber).length());
         ssb.insert(start, String.valueOf(number));
-        ssb.setSpan(new MDBulletSpan(10, Color.TRANSPARENT, nested),
+        ssb.setSpan(new MDOrderListSpan(10, nested, number),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

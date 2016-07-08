@@ -16,30 +16,34 @@
 package com.yydcdut.rxmarkdown.span;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.style.BulletSpan;
 
 /**
- * unorder list grammar span
+ * order list grammar span
  * <p>
- * Created by yuyidong on 16/5/21.
+ * Created by yuyidong on 16/7/8.
  */
-public class MDBulletSpan extends BulletSpan {
-    private int mNested = 0;
+public class MDOrderListSpan extends BulletSpan {
+
+    private int mNumber;
+    private int mNested;
     private static final int NESTED_MARGIN_LENGTH = 9;
     private static final int GAP_WIDTH_PLUS = 10;
 
     /**
      * Constructor
      *
-     * @param gapWidth {@link MDBulletSpan}
-     * @param color    {@link MDBulletSpan}
+     * @param gapWidth {@link MDUnOrderListSpan}
      * @param nested   the nested number
+     * @param number   the number of order list
      */
-    public MDBulletSpan(int gapWidth, int color, int nested) {
-        super(gapWidth, color);
+    public MDOrderListSpan(int gapWidth, int nested, int number) {
+        super(gapWidth, Color.TRANSPARENT);
         mNested = nested;
+        mNumber = number;
     }
 
     @Override
@@ -50,5 +54,23 @@ public class MDBulletSpan extends BulletSpan {
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout l) {
         super.drawLeadingMargin(c, p, x + (mNested + 1) * NESTED_MARGIN_LENGTH, dir, top, baseline, bottom, text, start, end, first, l);
+    }
+
+    /**
+     * get order list number
+     *
+     * @return the list number
+     */
+    public int getNumber() {
+        return mNumber;
+    }
+
+    /**
+     * get list nested
+     *
+     * @return the nested number
+     */
+    public int getNested() {
+        return mNested;
     }
 }

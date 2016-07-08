@@ -76,8 +76,10 @@ public class AndroidInstanceFactory {
                 return new CodeGrammar(rxMDConfiguration);
             case GRAMMAR_HORIZONTAL_RULES:
                 return new HorizontalRulesGrammar(rxMDConfiguration);
-            case GRAMMAR_UNORDER_LIST:
             case GRAMMAR_ORDER_LIST:
+                return new OrderListGrammar(rxMDConfiguration);
+            case GRAMMAR_UNORDER_LIST:
+                return new UnOrderListGrammar(rxMDConfiguration);
             case GRAMMAR_TODO:
             case GRAMMAR_IMAGE:
             case GRAMMAR_TODO_DONE:

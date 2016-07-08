@@ -72,12 +72,12 @@ public class EditFactory extends AbsGrammarFactory {
 
     @Override
     protected IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_ORDER_LIST, rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return AndroidInstanceFactory.getAndroidGrammar(GRAMMAR_UNORDER_LIST, rxMDConfiguration);
     }
 
     @Override
@@ -147,6 +147,8 @@ public class EditFactory extends AbsGrammarFactory {
         mGrammarList.add(getBlockQuotesGrammar(mRxMDConfiguration));
         mGrammarList.add(getCodeGrammar(mRxMDConfiguration));
         mGrammarList.add(getHorizontalRulesGrammar(mRxMDConfiguration));
+        mGrammarList.add(getOrderListGrammar(mRxMDConfiguration));
+        mGrammarList.add(getUnOrderListGrammar(mRxMDConfiguration));
     }
 
     @NonNull
@@ -172,5 +174,4 @@ public class EditFactory extends AbsGrammarFactory {
         }
         return newEditable;
     }
-
 }

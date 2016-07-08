@@ -21,10 +21,11 @@ import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.span.MDBulletSpan;
+import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 
 import java.util.ArrayList;
 
+import static com.yydcdut.rxmarkdown.grammar.android.OrderListGrammar.KEY_HEADER;
 import static com.yydcdut.rxmarkdown.grammar.android.TodoDoneGrammar.KEY_0_TODO_DONE;
 import static com.yydcdut.rxmarkdown.grammar.android.TodoDoneGrammar.KEY_1_TODO_DONE;
 import static com.yydcdut.rxmarkdown.grammar.android.TodoGrammar.KEY_TODO;
@@ -45,8 +46,6 @@ class UnOrderListGrammar extends GrammarAdapter {
     protected static final String KEY_0_UNORDER_LIST = "* ";
     protected static final String KEY_1_UNORDER_LIST = "+ ";
     protected static final String KEY_2_UNORDER_LIST = "- ";
-
-    private static final String KEY_HEADER = "  ";
 
     private static final String KEY_IGNORE_0 = KEY_TODO;
     private static final String KEY_IGNORE_1 = KEY_0_TODO_DONE;
@@ -168,7 +167,7 @@ class UnOrderListGrammar extends GrammarAdapter {
      */
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + START_POSITION);
-        ssb.setSpan(new MDBulletSpan(10, mColor, nested),
+        ssb.setSpan(new MDUnOrderListSpan(10, mColor, nested),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + START_POSITION),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

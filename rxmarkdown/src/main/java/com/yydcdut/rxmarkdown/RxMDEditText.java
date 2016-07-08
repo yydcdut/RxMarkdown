@@ -31,6 +31,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.yydcdut.rxmarkdown.edit.HRAlphaController;
+import com.yydcdut.rxmarkdown.edit.ListController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
@@ -49,6 +50,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private static final int MSG_ON_TEXT_CHANGED = 2;
     private static final int MSG_AFTER_TEXT_CHANGED = 3;
     private static final int MSG_FORMAT = 4;
+    private static final int MSG_LIST = 5;
     private Handler mHandler;
 
     private static final String BUNDLE_CHAR_SEQUENCE = "bundle_char_sequence";
@@ -65,6 +67,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private boolean mHasImageInText;
 
     private HRAlphaController mHRAlphaController;
+    private ListController mListController;
 
     /**
      * Constructor
@@ -87,7 +90,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         init();
     }
 
-
     /**
      * Constructor
      *
@@ -103,6 +105,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private void init() {
         mHandler = new Handler(this);
         mHRAlphaController = new HRAlphaController(this);
+        mListController = new ListController(this, mEditTextWatcher);
     }
 
     /**
@@ -118,6 +121,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private TextWatcher mEditTextWatcher = new TextWatcher() {
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int before, int after) {
             if (isMainThread()) {
@@ -142,7 +146,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 return;
             }
             shouldFormat = shouldFormat4OnTextChanged(s, start, before, after);
-            checkNewLineInput(s, start, before, after);
+            if (!shouldFormat) {
+                if (mListController == null) {
+                    mListController = new ListController(RxMDEditText.this, this);
+                }
+                mListController.onTextChanged(s, start, before, after);
+            }
         }
 
         @Override
@@ -155,11 +164,17 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     sendMessage(MSG_FORMAT, charSequence, 0, 0, 0);
                 }
                 shouldFormat = false;
-            }
-            if (!isMainThread()) {
-                sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
             } else {
+                if (isMainThread()) {
+                    mListController.afterTextChanged(s);
+                } else {
+                    sendMessage(MSG_LIST, s, 0, 0, 0);
+                }
+            }
+            if (isMainThread()) {
                 sendAfterTextChanged(getText());
+            } else {
+                sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
             }
         }
     };
@@ -167,7 +182,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     public void addTextChangedListener(TextWatcher watcher) {
         if (watcher == mEditTextWatcher) {
-            super.addTextChangedListener(mEditTextWatcher);
+            super.addTextChangedListener(watcher);
         } else {
             if (mListeners == null) {
                 mListeners = new ArrayList<>();
@@ -179,7 +194,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     public void removeTextChangedListener(TextWatcher watcher) {
         if (watcher == mEditTextWatcher) {
-            super.removeTextChangedListener(mEditTextWatcher);
+            super.removeTextChangedListener(watcher);
         } else {
             if (mListeners != null) {
                 int i = mListeners.indexOf(watcher);
@@ -224,6 +239,10 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                                        @NonNull RxMDConfiguration rxMDConfiguration) {
         mGrammarFactory = absGrammarFactory;
         mRxMDConfiguration = rxMDConfiguration;
+        if (mListController == null) {
+            mListController = new ListController(this, mEditTextWatcher);
+        }
+        mListController.setRxMDConfiguration(mRxMDConfiguration);
         super.addTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
         if (!TextUtils.isEmpty(editable)) {
@@ -274,13 +293,15 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || deleteString.contains("[")//center align
                     || deleteString.contains("]")//center align
                     || deleteString.contains("`")//inline code && code
+                    || deleteString.contains(".")//order && unorder list
                     || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))//"> " && "## "
                     || ("#".equals(beforeString) || "#".equals(afterString))//#12# ss(##12 ss) --> ## ss
                     || ("*".equals(beforeString) || "*".equals(afterString))//*11*ss** --> **ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
                     || ("-".equals(beforeString) || "-".equals(afterString))//1---(-1--)(--1-)(---1) --> ---
-                    || ("`".equals(beforeString) || "`".equals(afterString))) {//`1``(``1`)(```1)(1```) --> ```
-
+                    || ("`".equals(beforeString) || "`".equals(afterString))//`1``(``1`)(```1)(1```) --> ```
+                    || (deleteString.startsWith(" ") && ".".equals(beforeString))//1. sss --> 1.s
+                    || (".".equals(afterString) || deleteString.contains("."))) {//1. sss -->  .sss(1 sss)
                 return true;
             }
         }
@@ -292,16 +313,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             String addString;
             String beforeString = null;
             String afterString = null;
-            if (after - before >= 0) {
-                addString = s.subSequence(start, start + (after - before)).toString();
-                if (start + (after - before) + 1 <= s.length()) {
-                    afterString = s.subSequence(start + (after - before), start + (after - before) + 1).toString();
-                }
-            } else {
-                addString = s.subSequence(start, start + (before - after)).toString();
-                if (start + (after - before) + 1 <= s.length()) {
-                    afterString = s.subSequence(start + (before - after), start + (before - after) + 1).toString();
-                }
+            addString = s.subSequence(start, start + Math.abs(after - before)).toString();
+            if (start + (after - before) + 1 <= s.length()) {
+                afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
             }
             if (start > 0) {
                 beforeString = s.subSequence(start - 1, start).toString();
@@ -318,11 +332,25 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || ("*".equals(beforeString) || "*".equals(afterString))//**ss** --> *11*ss**
                     || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
                     || ("-".equals(beforeString) || "-".equals(afterString))//--- --> 1---(-1--)(--1-)(---1)
-                    || ("`".equals(beforeString) || "`".equals(afterString))) {//``` --> `1``(``1`)(```1)(1```)
+                    || ("`".equals(beforeString) || "`".equals(afterString))//``` --> `1``(``1`)(```1)(1```)
+                    || (".".equals(beforeString) || ".".equals(afterString))//1. sss -->1.s sss(1s. sss)
+                    || (nextOneIsDot(s, start + Math.abs(after - before)))) {//11. sss --> 1s1. sss(s11. sss)
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean nextOneIsDot(CharSequence s, int next) {
+        if (next + 1 > s.length()) {
+            return false;
+        }
+        CharSequence charSequence = s.subSequence(next, next + 1).toString();
+        if (TextUtils.isDigitsOnly(charSequence)) {
+            return nextOneIsDot(s, next + 1);
+        } else {
+            return ".".equals(charSequence);
+        }
     }
 
     private boolean isMainThread() {
@@ -362,6 +390,15 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 CharSequence s3 = bundle3.getCharSequence(BUNDLE_CHAR_SEQUENCE);
                 setEditableText(s3);
                 break;
+            case MSG_LIST:
+                Bundle bundle4 = msg.getData();
+                CharSequence s4 = bundle4.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                if (s4 instanceof Editable) {
+                    mListController.afterTextChanged((Editable) s4);
+                } else {
+                    mListController.afterTextChanged(getText());
+                }
+                break;
         }
         return false;
     }
@@ -381,16 +418,10 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
+        if (mHRAlphaController == null) {
+            mHRAlphaController = new HRAlphaController(this);
+        }
         mHRAlphaController.onSelectionChanged(selStart, selEnd);
-    }
-
-    private void checkNewLineInput(CharSequence s, int start, int before, int after) {
-        if (after != 1 || before != 0) {
-            return;
-        }
-        CharSequence charSequence = s.subSequence(start, start + 1);
-        if (charSequence.charAt(0) == '\n') {
-        }
     }
 
     @Override
