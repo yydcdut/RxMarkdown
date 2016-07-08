@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.edit.HRAlphaController;
+import com.yydcdut.rxmarkdown.edit.HRTransparentController;
 import com.yydcdut.rxmarkdown.edit.ListController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
@@ -66,7 +66,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private boolean shouldFormat = false;
     private boolean mHasImageInText;
 
-    private HRAlphaController mHRAlphaController;
+    private HRTransparentController mHRTransparentController;
     private ListController mListController;
 
     /**
@@ -104,7 +104,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     private void init() {
         mHandler = new Handler(this);
-        mHRAlphaController = new HRAlphaController(this);
+        mHRTransparentController = new HRTransparentController(this);
         mListController = new ListController(this, mEditTextWatcher);
     }
 
@@ -418,10 +418,10 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        if (mHRAlphaController == null) {
-            mHRAlphaController = new HRAlphaController(this);
+        if (mHRTransparentController == null) {
+            mHRTransparentController = new HRTransparentController(this);
         }
-        mHRAlphaController.onSelectionChanged(selStart, selEnd);
+        mHRTransparentController.onSelectionChanged(selStart, selEnd);
     }
 
     @Override

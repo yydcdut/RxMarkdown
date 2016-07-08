@@ -31,10 +31,10 @@ import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class HRAlphaController {
+public class HRTransparentController {
     private RxMDEditText mRxMDEditText;
 
-    public HRAlphaController(@NonNull RxMDEditText rxMDEditText) {
+    public HRTransparentController(@NonNull RxMDEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
     }
 
