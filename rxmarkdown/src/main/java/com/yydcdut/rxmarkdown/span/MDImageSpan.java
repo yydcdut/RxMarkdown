@@ -23,7 +23,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
@@ -35,6 +34,12 @@ import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * image grammar span
@@ -122,30 +127,46 @@ public class MDImageSpan extends DynamicDrawableSpan {
 
     private void submitRequest() {
         mIsRequestSubmitted = true;
-        AsyncTask<String, Void, Drawable> asyncTask = new AsyncTask<String, Void, Drawable>() {
+        Observable.just(mImageUri)
+                .observeOn(Schedulers.io())
+                .map(new Func1<String, byte[]>() {
+                    @Override
+                    public byte[] call(String url) {
+                        byte[] bytes = null;
+                        try {
+                            bytes = mRxMDImageLoader.loadSync(getUrl(url));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return bytes;
+                    }
+                })
+                .map(new Func1<byte[], Drawable>() {
+                    @Override
+                    public Drawable call(byte[] bytes) {
+                        if (bytes == null) {
+                            return mPlaceHolder;
+                        }
+                        return getDrawable(bytes);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Drawable>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            protected Drawable doInBackground(String... params) {
-                String url = params[0];
-                byte[] bytes = new byte[0];
-                try {
-                    bytes = mRxMDImageLoader.loadSync(getUrl(url));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (bytes == null) {
-                    return mPlaceHolder;
-                }
-                return getDrawable(bytes);
-            }
+                    }
 
-            @Override
-            protected void onPostExecute(Drawable drawable) {
-                setImageWithIntrinsicBounds(drawable);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-        };
-        asyncTask.execute(mImageUri);
+                    @Override
+                    public void onNext(Drawable drawable) {
+                        setImageWithIntrinsicBounds(drawable);
+                    }
+                });
     }
 
     private void setImageWithIntrinsicBounds(@NonNull Drawable drawable) {
