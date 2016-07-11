@@ -50,7 +50,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private static final int MSG_ON_TEXT_CHANGED = 2;
     private static final int MSG_AFTER_TEXT_CHANGED = 3;
     private static final int MSG_FORMAT = 4;
-    private static final int MSG_LIST = 5;
+    private static final int MSG_LIST_BEFORE_TEXT_CHANGED = 5;
+    private static final int MSG_LIST_ON_TEXT_CHANGED = 6;
+    private static final int MSG_LIST_AFTER_TEXT_CHANGED = 7;
     private Handler mHandler;
 
     private static final String BUNDLE_CHAR_SEQUENCE = "bundle_char_sequence";
@@ -133,6 +135,16 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 return;
             }
             shouldFormat = shouldFormat4BeforeTextChanged(s, start, before, after);
+            if (!shouldFormat) {
+                if (mListController == null) {
+                    mListController = new ListController(RxMDEditText.this, this);
+                }
+                if (isMainThread()) {
+                    mListController.beforeTextChanged(s, start, before, after);
+                } else {
+                    sendMessage(MSG_LIST_BEFORE_TEXT_CHANGED, s, start, before, after);
+                }
+            }
         }
 
         @Override
@@ -147,10 +159,11 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             }
             shouldFormat = shouldFormat4OnTextChanged(s, start, before, after);
             if (!shouldFormat) {
-                if (mListController == null) {
-                    mListController = new ListController(RxMDEditText.this, this);
+                if (isMainThread()) {
+                    mListController.onTextChanged(s, start, before, after);
+                } else {
+                    sendMessage(MSG_LIST_ON_TEXT_CHANGED, s, start, before, after);
                 }
-                mListController.onTextChanged(s, start, before, after);
             }
         }
 
@@ -168,7 +181,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 if (isMainThread()) {
                     mListController.afterTextChanged(s);
                 } else {
-                    sendMessage(MSG_LIST, s, 0, 0, 0);
+                    sendMessage(MSG_LIST_AFTER_TEXT_CHANGED, s, 0, 0, 0);
                 }
             }
             if (isMainThread()) {
@@ -333,8 +346,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
                     || ("-".equals(beforeString) || "-".equals(afterString))//--- --> 1---(-1--)(--1-)(---1)
                     || ("`".equals(beforeString) || "`".equals(afterString))//``` --> `1``(``1`)(```1)(1```)
-                    || (".".equals(beforeString) || ".".equals(afterString))//1. sss -->1.s sss(1s. sss)
-                    || (nextOneIsDot(s, start + Math.abs(after - before)))) {//11. sss --> 1s1. sss(s11. sss)
+                    || (".".equals(beforeString) || ".".equals(afterString))) {//1. sss -->1.s sss(1s. sss)
                 return true;
             }
         }
@@ -390,11 +402,27 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 CharSequence s3 = bundle3.getCharSequence(BUNDLE_CHAR_SEQUENCE);
                 setEditableText(s3);
                 break;
-            case MSG_LIST:
+            case MSG_LIST_BEFORE_TEXT_CHANGED:
                 Bundle bundle4 = msg.getData();
                 CharSequence s4 = bundle4.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                if (s4 instanceof Editable) {
-                    mListController.afterTextChanged((Editable) s4);
+                int start4 = bundle4.getInt(BUNDLE_START);
+                int before4 = bundle4.getInt(BUNDLE_BEFORE);
+                int after4 = bundle4.getInt(BUNDLE_AFTER);
+                mListController.beforeTextChanged(s4, start4, before4, after4);
+                break;
+            case MSG_LIST_ON_TEXT_CHANGED:
+                Bundle bundle5 = msg.getData();
+                CharSequence s5 = bundle5.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                int start5 = bundle5.getInt(BUNDLE_START);
+                int before5 = bundle5.getInt(BUNDLE_BEFORE);
+                int after5 = bundle5.getInt(BUNDLE_AFTER);
+                mListController.onTextChanged(s5, start5, before5, after5);
+                break;
+            case MSG_LIST_AFTER_TEXT_CHANGED:
+                Bundle bundle6 = msg.getData();
+                CharSequence s6 = bundle6.getCharSequence(BUNDLE_CHAR_SEQUENCE);
+                if (s6 instanceof Editable) {
+                    mListController.afterTextChanged((Editable) s6);
                 } else {
                     mListController.afterTextChanged(getText());
                 }
