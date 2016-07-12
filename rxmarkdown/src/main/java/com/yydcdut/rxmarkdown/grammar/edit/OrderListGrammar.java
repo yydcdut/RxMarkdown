@@ -51,7 +51,7 @@ class OrderListGrammar extends EditGrammarAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        Pattern p = Pattern.compile("^( *)(\\d.*)\\. (.*?)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$", Pattern.MULTILINE);
         StringBuilder content = new StringBuilder(editable);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的

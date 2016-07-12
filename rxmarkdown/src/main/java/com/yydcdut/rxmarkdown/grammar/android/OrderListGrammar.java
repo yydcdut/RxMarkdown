@@ -238,7 +238,7 @@ class OrderListGrammar extends GrammarAdapter {
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
         ssb.delete(start, start + nested * KEY_HEADER.length() + String.valueOf(originalNumber).length());
         ssb.insert(start, String.valueOf(number));
-        ssb.setSpan(new MDOrderListSpan(10, nested, number),
+        ssb.setSpan(new MDOrderListSpan(30, nested, number),
                 start,
                 start + line.length() - (nested * KEY_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

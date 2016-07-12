@@ -18,12 +18,16 @@ package com.yydcdut.rxmarkdown.edit;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * RxMDEditText, order and unorder list controller.
@@ -67,7 +71,7 @@ public class ListController {
      * @param after  after changed number
      */
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null && (s instanceof Editable)) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
         Editable editable = (Editable) s;
@@ -76,26 +80,34 @@ public class ListController {
             if (beforeLinePosition == -1) {
                 beforeLinePosition = 0;
             }
-            MDOrderListSpan mdOrderListSpan = getOrderListSpan(mRxMDEditText.getText(), beforeLinePosition, true);
-            MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(mRxMDEditText.getText(), beforeLinePosition, true);
-            if (mdOrderListSpan != null) {
-                int spanStart = editable.getSpanStart(mdOrderListSpan);
-                int position = findNextNewLineChar(editable, start);
+            MDOrderListSpan mdBeginOrderListSpan = getOrderListSpan(editable, beforeLinePosition, true);
+            MDOrderListSpan mdEndOrderListSpan = getOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
+            MDUnOrderListSpan mdBeginUnOrderListSpan = getUnOrderListSpan(editable, beforeLinePosition, true);
+            MDUnOrderListSpan mdEndUnOrderListSpan = getUnOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
+            if (mdBeginOrderListSpan != null) {
+                int spanStart = editable.getSpanStart(mdBeginOrderListSpan);
+                int position = findNextNewLineChar(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (position == -1) {
                     position = editable.length();
                 }
-                mRxMDEditText.getText().removeSpan(mdOrderListSpan);
-                mRxMDEditText.getText().setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber()),
-                        spanStart, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (mdUnOrderListSpan != null) {
-                int spanStart = editable.getSpanStart(mdUnOrderListSpan);
-                int position = findNextNewLineChar(editable, start);
+                if (mdEndOrderListSpan != null) {
+                    editable.removeSpan(mdEndOrderListSpan);
+                }
+                editable.removeSpan(mdBeginOrderListSpan);
+                editable.setSpan(new MDOrderListSpan(10, mdBeginOrderListSpan.getNested(), mdBeginOrderListSpan.getNumber()),
+                        spanStart, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            } else if (mdBeginUnOrderListSpan != null) {
+                int spanStart = editable.getSpanStart(mdBeginUnOrderListSpan);
+                int position = findNextNewLineChar(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (position == -1) {
                     position = editable.length();
                 }
-                mRxMDEditText.getText().removeSpan(mdUnOrderListSpan);
-                mRxMDEditText.getText().setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested()),
-                        spanStart, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (mdEndUnOrderListSpan != null) {
+                    editable.removeSpan(mdEndUnOrderListSpan);
+                }
+                editable.removeSpan(mdBeginUnOrderListSpan);
+                editable.setSpan(new MDUnOrderListSpan(10, mdBeginUnOrderListSpan.getColor(), mdBeginUnOrderListSpan.getNested()),
+                        spanStart, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
         }
     }
@@ -114,8 +126,8 @@ public class ListController {
         }
         Editable editable = (Editable) s;
         if (checkNewLineInput(editable, start, before, after)) {
-            MDOrderListSpan mdOrderListSpan = getOrderListSpan(editable, start, false);
-            MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start, false);
+            MDOrderListSpan mdOrderListSpan = getOrderListSpan(editable, start - 1, false);//(start - 1), 不-1会出问题
+            MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start - 1, false);//(start - 1), 不-1会出问题
             if (mdOrderListSpan != null) {
                 updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan);
                 insertOrderList(editable, mdOrderListSpan, start);
@@ -123,10 +135,14 @@ public class ListController {
                 updateUnOrderListSpanBeforeNewLine(editable, start, mdUnOrderListSpan);
                 insertUnOrderList(editable, mdUnOrderListSpan, start);
             }
-        } else if (isEndOfListSpan(editable, start)) {
-            updateListSpanEnd(editable, start, before, after);
-        } else if (isBeginningOfListSpan(editable, start, before, after)) {
+        }
+//        else if (isEndOfListSpan(editable, start)) {
+//            updateListSpanEnd(editable, start, before, after);
+//        }
+        else if (isBeginningOfListSpan(editable, start, before, after)) {
             updateListSpanBeginning(editable, start, before, after);
+        } else if (isSatisfiedOrderListFormat(editable, start)) {
+            formatOrderList(editable, start);
         }
     }
 
@@ -170,7 +186,7 @@ public class ListController {
         editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber() + 1),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mRxMDEditText.addTextChangedListener(mTextWatcher);
     }
 
@@ -192,7 +208,7 @@ public class ListController {
         editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested()),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mRxMDEditText.addTextChangedListener(mTextWatcher);
     }
 
@@ -228,7 +244,7 @@ public class ListController {
         if (before != 1 || after != 0) {
             return false;
         }
-        if (editable.charAt(start - 1) == '\n') {
+        if (editable.charAt(start) == '\n') {
             return true;
         }
         return false;
@@ -272,7 +288,7 @@ public class ListController {
         }
         editable.removeSpan(mdOrderListSpan);
         editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber()),
-                startSpan, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                startSpan, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     /**
@@ -291,7 +307,7 @@ public class ListController {
         }
         editable.removeSpan(mdUnOrderListSpan);
         editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested()),
-                startSpan, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                startSpan, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
     /**
@@ -409,7 +425,7 @@ public class ListController {
             int endSpan = editable.getSpanEnd(mdOrderListSpan);
             editable.removeSpan(mdOrderListSpan);
             editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber()),
-                    startSpan, endSpan + (after - before), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    startSpan, endSpan + (after - before), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
     }
 
@@ -430,12 +446,13 @@ public class ListController {
             int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
             editable.removeSpan(mdUnOrderListSpan);
             editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested()),
-                    startSpan, endSpan + (after - before), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    startSpan, endSpan + (after - before), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
     }
 
     /**
      * check the position is beginning of list span
+     * "1. aaa" --> " 1. aaa"
      *
      * @param editable the text
      * @param start    the start position
@@ -448,12 +465,13 @@ public class ListController {
         MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListBeginning(editable, start, before, after);
         if (mdOrderListSpan != null) {
             int spanStart = editable.getSpanStart(mdOrderListSpan);
-            if (start <= spanStart || (start >= spanStart && start <= (spanStart + mdOrderListSpan.getNested()))) {
+            if (start <= spanStart ||
+                    (start >= spanStart && start <= (spanStart + mdOrderListSpan.getNested() + String.valueOf(mdOrderListSpan.getNumber()).length() + 2))) {//2 --> ". "
                 return true;
             }
         } else if (mdUnOrderListSpan != null) {
             int spanStart = editable.getSpanStart(mdUnOrderListSpan);
-            if (start <= spanStart || (start >= spanStart && start <= (spanStart + mdUnOrderListSpan.getNested()))) {
+            if (start <= spanStart || (start >= spanStart && start <= (spanStart + mdUnOrderListSpan.getNested() + 2))) {//2 --> "(-/+/*) "
                 return true;
             }
         }
@@ -518,6 +536,7 @@ public class ListController {
             int spanEnd = editable.getSpanEnd(mdOrderListSpan);
             int position = findBeforeNewLineChar(editable, start) + 1;
             if (!isOrderList(editable, position, false)) {
+                editable.removeSpan(mdOrderListSpan);
                 return;
             }
             if (position == -1) {
@@ -529,7 +548,7 @@ public class ListController {
             }
             editable.removeSpan(mdOrderListSpan);
             editable.setSpan(new MDOrderListSpan(10, nested, mdOrderListSpan.getNumber()),
-                    position, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    position, spanEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         } else if (mdUnOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
             int position = findBeforeNewLineChar(editable, start) + 1;
@@ -545,7 +564,7 @@ public class ListController {
             }
             editable.removeSpan(mdUnOrderListSpan);
             editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), nested),
-                    position, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    position, spanEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
     }
 
@@ -601,12 +620,35 @@ public class ListController {
     }
 
     /**
-     * check the text is order list format
+     * calculate order list number
+     *
+     * @param s      the text
+     * @param next   the start position
+     * @param number current list number
+     * @return the list number
+     */
+    private static int calculateOrderListNumber(CharSequence s, int next, int number) {
+        if (next + 1 > s.length()) {
+            return number;
+        }
+        CharSequence cs = s.subSequence(next, next + 1);
+        if (TextUtils.isDigitsOnly(cs)) {
+            number = number * 10 + Integer.parseInt(String.valueOf(cs));
+            return calculateOrderListNumber(s, next + 1, number);
+        } else if (" ".equals(cs)) {
+            return calculateOrderListNumber(s, next + 1, number);
+        } else {
+            return number;
+        }
+    }
+
+    /**
+     * check the text is order list formatOrderList
      *
      * @param s        the text
      * @param next     the next position
      * @param isNumber is already judge number, so next is "." or number
-     * @return TRUE --> is order list format
+     * @return TRUE --> is order list formatOrderList
      */
     private static boolean isOrderList(CharSequence s, int next, boolean isNumber) {
         if (next + 1 > s.length()) {
@@ -631,12 +673,12 @@ public class ListController {
     }
 
     /**
-     * check the text is unorder list format
+     * check the text is unorder list formatOrderList
      *
      * @param s      the text
      * @param next   the next position
      * @param hasKey is already judge the key(*\+\-)
-     * @return TRUE --> is unorder list format
+     * @return TRUE --> is unorder list formatOrderList
      */
     private static boolean isUnOrderList(CharSequence s, int next, boolean hasKey) {
         if (next + 1 > s.length()) {
@@ -659,5 +701,41 @@ public class ListController {
                 return false;
             }
         }
+    }
+
+    /**
+     * check whether satisfy the order list formatOrderList
+     * additional premise, there doesn't contain order list span
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @return TRUE --> satisfied
+     */
+    private static boolean isSatisfiedOrderListFormat(Editable editable, int start) {
+        int startPosition = findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = findNextNewLineChar(editable, start);
+        MDOrderListSpan[] mdOrderListSpans = editable.getSpans(startPosition, endPosition, MDOrderListSpan.class);
+        if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
+            return false;
+        }
+        CharSequence charSequence = editable.subSequence(startPosition, endPosition);
+        Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$");
+        Matcher m = p.matcher(charSequence);
+        return m.matches();
+    }
+
+    /**
+     * formatOrderList to the order list
+     *
+     * @param editable
+     * @param start
+     */
+    private static void formatOrderList(Editable editable, int start) {
+        int startPosition = findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = findNextNewLineChar(editable, start);
+        int nested = calculateNested(editable, startPosition, 0);
+        int number = calculateOrderListNumber(editable, startPosition + nested, 0);
+        editable.setSpan(new MDOrderListSpan(10, nested, number),
+                startPosition, endPosition, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 }
