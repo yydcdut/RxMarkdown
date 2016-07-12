@@ -353,18 +353,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         return false;
     }
 
-    private boolean nextOneIsDot(CharSequence s, int next) {
-        if (next + 1 > s.length()) {
-            return false;
-        }
-        CharSequence charSequence = s.subSequence(next, next + 1).toString();
-        if (TextUtils.isDigitsOnly(charSequence)) {
-            return nextOneIsDot(s, next + 1);
-        } else {
-            return ".".equals(charSequence);
-        }
-    }
-
     private boolean isMainThread() {
         return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
