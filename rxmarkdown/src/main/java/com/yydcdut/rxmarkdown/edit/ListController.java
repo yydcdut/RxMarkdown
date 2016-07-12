@@ -131,14 +131,14 @@ public class ListController {
     }
 
     /**
-     * invoke when afterTextChanged
+     * the text that automatic filling after enter "\n"
      *
-     * @param editable
+     * @param nested      the nested number
+     * @param isOrderList is order list or unorder list
+     * @param number      if order list, the list number
+     * @return the text
      */
-    public void afterTextChanged(Editable editable) {
-    }
-
-    private String getNestedString(int nested, boolean isOrderList, int number) {
+    private static String getNestedString(int nested, boolean isOrderList, int number) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < nested; i++) {
             sb.append(" ");
@@ -155,9 +155,9 @@ public class ListController {
     /**
      * 1. aaa --> 1. aaa\n2.
      *
-     * @param editable
-     * @param mdOrderListSpan
-     * @param start
+     * @param editable        the editable
+     * @param mdOrderListSpan the order list span
+     * @param start           start position
      */
     private void insertOrderList(Editable editable, MDOrderListSpan mdOrderListSpan, int start) {
         mRxMDEditText.removeTextChangedListener(mTextWatcher);
@@ -177,9 +177,9 @@ public class ListController {
     /**
      * - aaa --> - aaa\n-
      *
-     * @param editable
-     * @param mdUnOrderListSpan
-     * @param start
+     * @param editable          the editable
+     * @param mdUnOrderListSpan the unorder list span
+     * @param start             start position
      */
     private void insertUnOrderList(Editable editable, MDUnOrderListSpan mdUnOrderListSpan, int start) {
         mRxMDEditText.removeTextChangedListener(mTextWatcher);
@@ -196,7 +196,16 @@ public class ListController {
         mRxMDEditText.addTextChangedListener(mTextWatcher);
     }
 
-    private boolean checkNewLineInput(Editable editable, int start, int before, int after) {
+    /**
+     * checking the input character is '\n'
+     *
+     * @param editable the editable after finishing inputting
+     * @param start    the start position
+     * @param before   delete text's number
+     * @param after    add text's number
+     * @return whether input character is '\n'
+     */
+    private static boolean checkNewLineInput(Editable editable, int start, int before, int after) {
         if (after != 1 || before != 0 || start >= editable.length()) {
             return false;
         }
@@ -206,7 +215,16 @@ public class ListController {
         return false;
     }
 
-    private boolean checkLineDelete(Editable editable, int start, int before, int after) {
+    /**
+     * checking the delete character is '\n'
+     *
+     * @param editable the editable after finishing deleting
+     * @param start    the start position
+     * @param before   delete text's number
+     * @param after    add text's number
+     * @return whether delete character is '\n'
+     */
+    private static boolean checkLineDelete(Editable editable, int start, int before, int after) {
         if (before != 1 || after != 0) {
             return false;
         }
@@ -216,8 +234,16 @@ public class ListController {
         return false;
     }
 
+    /**
+     * get the order list span, if there isn't contains order list span, return null
+     *
+     * @param editable  the text
+     * @param start     the start position
+     * @param beginning whether calculate from beginning
+     * @return
+     */
     @Nullable
-    private MDOrderListSpan getOrderListSpan(Editable editable, int start, boolean beginning) {
+    private static MDOrderListSpan getOrderListSpan(Editable editable, int start, boolean beginning) {
         MDOrderListSpan[] mdOrderListSpans;
         if (beginning) {
             mdOrderListSpans = editable.getSpans(start, start + 1, MDOrderListSpan.class);
@@ -233,11 +259,11 @@ public class ListController {
     /**
      * 1. aaa --> 1. a\n2. aa
      *
-     * @param editable
-     * @param start
-     * @param mdOrderListSpan
+     * @param editable        the text
+     * @param start           the start position
+     * @param mdOrderListSpan the order list span
      */
-    private void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan) {
+    private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan) {
         int position = findNextNewLineChar(editable, start);
         int startSpan = editable.getSpanStart(mdOrderListSpan);
         int endSpan = editable.getSpanEnd(mdOrderListSpan);
@@ -252,11 +278,11 @@ public class ListController {
     /**
      * - aaa --> - a\n- aa
      *
-     * @param editable
-     * @param start
-     * @param mdUnOrderListSpan
+     * @param editable          the text
+     * @param start             the start position
+     * @param mdUnOrderListSpan the order list span
      */
-    private void updateUnOrderListSpanBeforeNewLine(Editable editable, int start, MDUnOrderListSpan mdUnOrderListSpan) {
+    private static void updateUnOrderListSpanBeforeNewLine(Editable editable, int start, MDUnOrderListSpan mdUnOrderListSpan) {
         int position = findNextNewLineChar(editable, start);
         int startSpan = editable.getSpanStart(mdUnOrderListSpan);
         int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
@@ -268,8 +294,16 @@ public class ListController {
                 startSpan, position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    /**
+     * get the unorder list span, if there isn't contains unorder list span, return null
+     *
+     * @param editable  the text
+     * @param start     the start position
+     * @param beginning whether calculate from beginning
+     * @return
+     */
     @Nullable
-    private MDUnOrderListSpan getUnOrderListSpan(Editable editable, int start, boolean beginning) {
+    private static MDUnOrderListSpan getUnOrderListSpan(Editable editable, int start, boolean beginning) {
         MDUnOrderListSpan[] mdUnOrderListSpans;
         if (beginning) {
             mdUnOrderListSpans = editable.getSpans(start, start + 1, MDUnOrderListSpan.class);
@@ -282,7 +316,16 @@ public class ListController {
         return null;
     }
 
-    private boolean isEndOfListSpan(Editable editable, int start) {
+    /**
+     * check the position is end of list(order and unorder) span
+     * 1. aaa\n --> 1. aaas\n
+     * + aaa\n --> + aaas\n
+     *
+     * @param editable the text
+     * @param start    the position
+     * @return TRUE --> end of list span
+     */
+    private static boolean isEndOfListSpan(Editable editable, int start) {
         if (start - 1 < 0) {
             return false;
         }
@@ -294,9 +337,17 @@ public class ListController {
         return bool;
     }
 
-    private boolean isEndOfOrderListSpan(Editable editable, int start) {
+    /**
+     * check the position is end of order list span
+     * 1. aaa\n --> 1. aaas\n
+     *
+     * @param editable the text
+     * @param start    the position
+     * @return TRUE --> end of list span
+     */
+    private static boolean isEndOfOrderListSpan(Editable editable, int start) {
         MDOrderListSpan[] mdOrderListSpans = editable.getSpans(start - 1, start, MDOrderListSpan.class);
-        if (mdOrderListSpans != null & mdOrderListSpans.length > 0) {
+        if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             MDOrderListSpan mdOrderListSpan = mdOrderListSpans[0];
             int endSpan = editable.getSpanEnd(mdOrderListSpan);
             if (endSpan == start) {
@@ -307,9 +358,17 @@ public class ListController {
         return false;
     }
 
-    private boolean isEndOfUnOrderListSpan(Editable editable, int start) {
+    /**
+     * check the position is end of unorder list span
+     * + aaa\n --> + aaas\n
+     *
+     * @param editable the text
+     * @param start    the position
+     * @return TRUE --> end of list span
+     */
+    private static boolean isEndOfUnOrderListSpan(Editable editable, int start) {
         MDUnOrderListSpan[] mdUnOrderListSpans = editable.getSpans(start - 1, start, MDUnOrderListSpan.class);
-        if (mdUnOrderListSpans != null & mdUnOrderListSpans.length > 0) {
+        if (mdUnOrderListSpans != null && mdUnOrderListSpans.length > 0) {
             MDUnOrderListSpan mdUnOrderListSpan = mdUnOrderListSpans[0];
             int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
             if (endSpan == start) {
@@ -320,15 +379,31 @@ public class ListController {
         return false;
     }
 
-    private void updateListSpanEnd(Editable editable, int start, int before, int after) {
+    /**
+     * if it's the end of list span, update the span range
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     */
+    private static void updateListSpanEnd(Editable editable, int start, int before, int after) {
         updateOrderListSpanEnd(editable, start, before, after);
         updateUnOrderListSpanEnd(editable, start, before, after);
     }
 
-    private void updateOrderListSpanEnd(Editable editable, int start, int before, int after) {
+    /**
+     * if it's the end of order list span, update the span range
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     */
+    private static void updateOrderListSpanEnd(Editable editable, int start, int before, int after) {
         //加载末尾的情况
         MDOrderListSpan[] mdOrderListSpans = editable.getSpans(start - 1, start, MDOrderListSpan.class);
-        if (mdOrderListSpans != null & mdOrderListSpans.length > 0) {
+        if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             MDOrderListSpan mdOrderListSpan = mdOrderListSpans[0];
             int startSpan = editable.getSpanStart(mdOrderListSpan);
             int endSpan = editable.getSpanEnd(mdOrderListSpan);
@@ -338,10 +413,18 @@ public class ListController {
         }
     }
 
-    private void updateUnOrderListSpanEnd(Editable editable, int start, int before, int after) {
+    /**
+     * if it's the end of unorder list span, update the span range
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     */
+    private static void updateUnOrderListSpanEnd(Editable editable, int start, int before, int after) {
         //加载末尾的情况
         MDUnOrderListSpan[] mdUnOrderListSpans = editable.getSpans(start - 1, start, MDUnOrderListSpan.class);
-        if (mdUnOrderListSpans != null & mdUnOrderListSpans.length > 0) {
+        if (mdUnOrderListSpans != null && mdUnOrderListSpans.length > 0) {
             MDUnOrderListSpan mdUnOrderListSpan = mdUnOrderListSpans[0];
             int startSpan = editable.getSpanStart(mdUnOrderListSpan);
             int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
@@ -351,7 +434,16 @@ public class ListController {
         }
     }
 
-    private boolean isBeginningOfListSpan(Editable editable, int start, int before, int after) {
+    /**
+     * check the position is beginning of list span
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     * @return TRUE --> at the beginning
+     */
+    private static boolean isBeginningOfListSpan(Editable editable, int start, int before, int after) {
         MDOrderListSpan mdOrderListSpan = getOrderListBeginning(editable, start, before, after);
         MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListBeginning(editable, start, before, after);
         if (mdOrderListSpan != null) {
@@ -368,8 +460,17 @@ public class ListController {
         return false;
     }
 
+    /**
+     * get the order list span, if there doesn't contain, return null
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     * @return the order list span or null
+     */
     @Nullable
-    private MDOrderListSpan getOrderListBeginning(Editable editable, int start, int before, int after) {
+    private static MDOrderListSpan getOrderListBeginning(Editable editable, int start, int before, int after) {
         if (start + 1 > editable.length()) {
             return null;
         }
@@ -381,8 +482,17 @@ public class ListController {
         return null;
     }
 
+    /**
+     * get the unorder list span, if there doesn't contain, return null
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     * @return the unorder list span or null
+     */
     @Nullable
-    private MDUnOrderListSpan getUnOrderListBeginning(Editable editable, int start, int before, int after) {
+    private static MDUnOrderListSpan getUnOrderListBeginning(Editable editable, int start, int before, int after) {
         if (start + 1 > editable.length()) {
             return null;
         }
@@ -393,7 +503,15 @@ public class ListController {
         return null;
     }
 
-    private void updateListSpanBeginning(Editable editable, int start, int before, int after) {
+    /**
+     * "1. aaa" --> " 1. aaa"
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     */
+    private static void updateListSpanBeginning(Editable editable, int start, int before, int after) {
         MDOrderListSpan mdOrderListSpan = getOrderListBeginning(editable, start, before, after);
         MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListBeginning(editable, start, before, after);
         if (mdOrderListSpan != null) {
@@ -447,6 +565,13 @@ public class ListController {
         return -1;
     }
 
+    /**
+     * find '\n' before "start" position
+     *
+     * @param s     text
+     * @param start start position
+     * @return the '\n' position
+     */
     private static int findBeforeNewLineChar(CharSequence s, int start) {
         for (int i = start; i > 0; i--) {
             if (s.charAt(i) == '\n') {
@@ -456,17 +581,33 @@ public class ListController {
         return -2;
     }
 
+    /**
+     * calculate nested number
+     *
+     * @param s             the text
+     * @param next          the next position
+     * @param currentNested current nested number
+     * @return the nested number
+     */
     private static int calculateNested(CharSequence s, int next, int currentNested) {
         if (next + 1 > s.length()) {
             return -1;
         }
         if (s.charAt(next) == ' ') {
-            return calculateNested(s, next + 1, ++currentNested);
+            return calculateNested(s, next + 1, currentNested + 1);
         } else {
             return currentNested;
         }
     }
 
+    /**
+     * check the text is order list format
+     *
+     * @param s        the text
+     * @param next     the next position
+     * @param isNumber is already judge number, so next is "." or number
+     * @return TRUE --> is order list format
+     */
     private static boolean isOrderList(CharSequence s, int next, boolean isNumber) {
         if (next + 1 > s.length()) {
             return false;
@@ -489,6 +630,14 @@ public class ListController {
         }
     }
 
+    /**
+     * check the text is unorder list format
+     *
+     * @param s      the text
+     * @param next   the next position
+     * @param hasKey is already judge the key(*\+\-)
+     * @return TRUE --> is unorder list format
+     */
     private static boolean isUnOrderList(CharSequence s, int next, boolean hasKey) {
         if (next + 1 > s.length()) {
             return false;

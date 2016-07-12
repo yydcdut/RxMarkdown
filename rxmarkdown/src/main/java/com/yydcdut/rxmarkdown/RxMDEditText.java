@@ -52,7 +52,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private static final int MSG_FORMAT = 4;
     private static final int MSG_LIST_BEFORE_TEXT_CHANGED = 5;
     private static final int MSG_LIST_ON_TEXT_CHANGED = 6;
-    private static final int MSG_LIST_AFTER_TEXT_CHANGED = 7;
     private Handler mHandler;
 
     private static final String BUNDLE_CHAR_SEQUENCE = "bundle_char_sequence";
@@ -177,12 +176,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     sendMessage(MSG_FORMAT, charSequence, 0, 0, 0);
                 }
                 shouldFormat = false;
-            } else {
-                if (isMainThread()) {
-                    mListController.afterTextChanged(s);
-                } else {
-                    sendMessage(MSG_LIST_AFTER_TEXT_CHANGED, s, 0, 0, 0);
-                }
             }
             if (isMainThread()) {
                 sendAfterTextChanged(getText());
@@ -406,14 +399,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 int after5 = bundle5.getInt(BUNDLE_AFTER);
                 mListController.onTextChanged(s5, start5, before5, after5);
                 break;
-            case MSG_LIST_AFTER_TEXT_CHANGED:
-                Bundle bundle6 = msg.getData();
-                CharSequence s6 = bundle6.getCharSequence(BUNDLE_CHAR_SEQUENCE);
-                if (s6 instanceof Editable) {
-                    mListController.afterTextChanged((Editable) s6);
-                } else {
-                    mListController.afterTextChanged(getText());
-                }
+            default:
                 break;
         }
         return false;
