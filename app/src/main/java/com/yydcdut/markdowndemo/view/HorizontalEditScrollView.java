@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import com.yydcdut.markdowndemo.R;
 import com.yydcdut.markdowndemo.controller.CenterAlignController;
 import com.yydcdut.markdowndemo.controller.HeaderController;
+import com.yydcdut.markdowndemo.controller.HorizontalRulesController;
 import com.yydcdut.markdowndemo.controller.StyleController;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
@@ -23,6 +24,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
     private HeaderController mHeaderController;
     private StyleController mStyleController;
     private CenterAlignController mCenterAlignController;
+    private HorizontalRulesController mHorizontalRulesController;
 
     public HorizontalEditScrollView(Context context) {
         this(context, null);
@@ -43,6 +45,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         mHeaderController = new HeaderController(rxMDEditText, rxMDConfiguration);
         mStyleController = new StyleController(rxMDEditText, rxMDConfiguration);
         mCenterAlignController = new CenterAlignController(rxMDEditText, rxMDConfiguration);
+        mHorizontalRulesController = new HorizontalRulesController(rxMDEditText, rxMDConfiguration);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         findViewById(R.id.img_bold).setOnClickListener(this);
         findViewById(R.id.img_italic).setOnClickListener(this);
         findViewById(R.id.img_center_align).setOnClickListener(this);
+        findViewById(R.id.img_horizontal_rules).setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +95,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
                 break;
             case R.id.img_center_align:
                 mCenterAlignController.doCenter();
+                break;
+            case R.id.img_horizontal_rules:
+                mHorizontalRulesController.doHorizontalRules();
                 break;
         }
     }
