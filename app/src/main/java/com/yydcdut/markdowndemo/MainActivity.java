@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.RxMarkdown;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Observable<CharSequence> mObservable;
     private Subscription mSubscription;
+    private HorizontalEditScrollView mHorizontalEditScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFloatingActionButton.setOnClickListener(this);
 
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
+        mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesColor(0xff33b5e5)
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .build();
+        mHorizontalEditScrollView.setEditTextAndConfig(mEditText, rxMDConfiguration);
         mEditText.setText(Const.MD_SAMPLE);
         mObservable = RxMarkdown.live(mEditText)
                 .config(rxMDConfiguration)
@@ -160,9 +164,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             OutputStream outputStream = null;
             InputStream inputStream = null;
             try {
-                outputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + File.separator + "tv_cheers.png");
+                outputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + File.separator + "b.jpg");
                 AssetManager assetManager = getAssets();
-                inputStream = assetManager.open("tv_cheers.png");
+                inputStream = assetManager.open("b.jpg");
                 byte[] buffer = new byte[1024];
                 int read = 0;
                 while ((read = inputStream.read(buffer)) != -1) {

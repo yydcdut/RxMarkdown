@@ -13,6 +13,14 @@
         android:id="@+id/edit_md"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/scroll_edit"
         android:gravity="left|top"
         android:text="Hello World!"/>
+
+    <com.yydcdut.markdowndemo.view.HorizontalEditScrollView
+        android:id="@+id/scroll_edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true">
+    </com.yydcdut.markdowndemo.view.HorizontalEditScrollView>
 </RelativeLayout>
