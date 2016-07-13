@@ -77,9 +77,6 @@ public class ListController {
         Editable editable = (Editable) s;
         if (checkLineDelete(editable, start, before, after)) {
             int beforeLinePosition = findBeforeNewLineChar(editable, start - 1) + 1;
-            if (beforeLinePosition == -1) {
-                beforeLinePosition = 0;
-            }
             MDOrderListSpan mdBeginOrderListSpan = getOrderListSpan(editable, beforeLinePosition, true);
             MDOrderListSpan mdEndOrderListSpan = getOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
             MDUnOrderListSpan mdBeginUnOrderListSpan = getUnOrderListSpan(editable, beforeLinePosition, true);
@@ -539,9 +536,6 @@ public class ListController {
                 editable.removeSpan(mdOrderListSpan);
                 return;
             }
-            if (position == -1) {
-                return;
-            }
             int nested = calculateNested(editable, position, 0);
             if (nested == -1) {
                 return;
@@ -552,9 +546,6 @@ public class ListController {
         } else if (mdUnOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
             int position = findBeforeNewLineChar(editable, start) + 1;
-            if (position == -1) {
-                return;
-            }
             if (!isUnOrderList(editable, position, false)) {
                 return;
             }
@@ -592,12 +583,12 @@ public class ListController {
      * @return the '\n' position
      */
     private static int findBeforeNewLineChar(CharSequence s, int start) {
-        for (int i = start; i > 0; i--) {
+        for (int i = start - 1; i > 0; i--) {
             if (s.charAt(i) == '\n') {
                 return i;
             }
         }
-        return -2;
+        return -1;
     }
 
     /**
