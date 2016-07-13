@@ -75,9 +75,21 @@ class HeaderGrammar extends EditGrammarAdapter {
      */
     private static final String KEY_5_HEADER = "###### ";
 
+    private float mHeader1RelativeSize;
+    private float mHeader2RelativeSize;
+    private float mHeader3RelativeSize;
+    private float mHeader4RelativeSize;
+    private float mHeader5RelativeSize;
+    private float mHeader6RelativeSize;
 
     HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
+        mHeader1RelativeSize = rxMDConfiguration.getHeader1RelativeSize();
+        mHeader2RelativeSize = rxMDConfiguration.getHeader2RelativeSize();
+        mHeader3RelativeSize = rxMDConfiguration.getHeader3RelativeSize();
+        mHeader4RelativeSize = rxMDConfiguration.getHeader4RelativeSize();
+        mHeader5RelativeSize = rxMDConfiguration.getHeader5RelativeSize();
+        mHeader6RelativeSize = rxMDConfiguration.getHeader6RelativeSize();
     }
 
     @NonNull
@@ -122,30 +134,30 @@ class HeaderGrammar extends EditGrammarAdapter {
     private Object getSpan(String match) {
         if (match.startsWith(KEY_0_CENTER_ALIGN)) {
             if (match.contains(KEY_5_HEADER)) {
-                return new RelativeSizeSpan(1.1f);
+                return new RelativeSizeSpan(mHeader6RelativeSize);
             } else if (match.contains(KEY_4_HEADER)) {
-                return new RelativeSizeSpan(1.2f);
+                return new RelativeSizeSpan(mHeader5RelativeSize);
             } else if (match.contains(KEY_3_HEADER)) {
-                return new RelativeSizeSpan(1.3f);
+                return new RelativeSizeSpan(mHeader4RelativeSize);
             } else if (match.contains(KEY_2_HEADER)) {
-                return new RelativeSizeSpan(1.4f);
+                return new RelativeSizeSpan(mHeader3RelativeSize);
             } else if (match.contains(KEY_1_HEADER)) {
-                return new RelativeSizeSpan(1.5f);
+                return new RelativeSizeSpan(mHeader2RelativeSize);
             } else if (match.contains(KEY_0_HEADER)) {
-                return new RelativeSizeSpan(1.6f);
+                return new RelativeSizeSpan(mHeader1RelativeSize);
             }
         } else if (match.startsWith(KEY_5_HEADER)) {
-            return new RelativeSizeSpan(1.1f);
+            return new RelativeSizeSpan(mHeader6RelativeSize);
         } else if (match.startsWith(KEY_4_HEADER)) {
-            return new RelativeSizeSpan(1.2f);
+            return new RelativeSizeSpan(mHeader5RelativeSize);
         } else if (match.startsWith(KEY_3_HEADER)) {
-            return new RelativeSizeSpan(1.3f);
+            return new RelativeSizeSpan(mHeader4RelativeSize);
         } else if (match.startsWith(KEY_2_HEADER)) {
-            return new RelativeSizeSpan(1.4f);
+            return new RelativeSizeSpan(mHeader3RelativeSize);
         } else if (match.startsWith(KEY_1_HEADER)) {
-            return new RelativeSizeSpan(1.5f);
+            return new RelativeSizeSpan(mHeader2RelativeSize);
         } else if (match.startsWith(KEY_0_HEADER)) {
-            return new RelativeSizeSpan(1.6f);
+            return new RelativeSizeSpan(mHeader1RelativeSize);
         } else {
             return new RelativeSizeSpan(1.0f);
         }
