@@ -83,8 +83,8 @@ class CodeGrammar extends EditGrammarAdapter {
                 int length = match.length();
                 content.replace(currentIndex, currentIndex + length, getPlaceHolder(match));
                 char c4 = content.charAt(currentIndex + 3);
-                char c0 = content.charAt(index - 1);
-                if (c0 != '\n' || c4 != '\n') {
+                char c0 = content.charAt(index == 0 ? index : index - 1);
+                if ((index != 0 && c0 != '\n') || c4 != '\n') {
                     i--;
                     continue;
                 } else {
