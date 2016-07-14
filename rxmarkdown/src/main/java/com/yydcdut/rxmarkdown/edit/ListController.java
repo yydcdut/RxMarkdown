@@ -278,6 +278,9 @@ public class ListController {
      */
     private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan) {
         int position = findNextNewLineChar(editable, start);
+        if (position == -1) {
+            position = editable.length();
+        }
         int startSpan = editable.getSpanStart(mdOrderListSpan);
         int endSpan = editable.getSpanEnd(mdOrderListSpan);
         if (endSpan <= position) {
@@ -297,6 +300,9 @@ public class ListController {
      */
     private static void updateUnOrderListSpanBeforeNewLine(Editable editable, int start, MDUnOrderListSpan mdUnOrderListSpan) {
         int position = findNextNewLineChar(editable, start);
+        if (position == -1) {
+            position = editable.length();
+        }
         int startSpan = editable.getSpanStart(mdUnOrderListSpan);
         int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
         if (endSpan <= position) {
@@ -705,6 +711,9 @@ public class ListController {
     private static boolean isSatisfiedOrderListFormat(Editable editable, int start) {
         int startPosition = findBeforeNewLineChar(editable, start) + 1;//略过\n
         int endPosition = findNextNewLineChar(editable, start);
+        if (endPosition == -1) {
+            endPosition = editable.length();
+        }
         MDOrderListSpan[] mdOrderListSpans = editable.getSpans(startPosition, endPosition, MDOrderListSpan.class);
         if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             return false;
@@ -724,6 +733,9 @@ public class ListController {
     private static void formatOrderList(Editable editable, int start) {
         int startPosition = findBeforeNewLineChar(editable, start) + 1;//略过\n
         int endPosition = findNextNewLineChar(editable, start);
+        if (endPosition == -1) {
+            endPosition = editable.length();
+        }
         int nested = calculateNested(editable, startPosition, 0);
         int number = calculateOrderListNumber(editable, startPosition + nested, 0);
         editable.setSpan(new MDOrderListSpan(10, nested, number),

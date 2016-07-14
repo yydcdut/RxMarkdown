@@ -63,6 +63,11 @@ class HorizontalRulesGrammar extends EditGrammarAdapter {
             int index = content.indexOf(match);
             int length = match.length();
             content.replace(index, index + length, getPlaceHolder(match));
+            if (index + 3 >= content.length()) {
+                //到最后了
+                editTokenList.add(new EditToken(new MDHorizontalRulesSpan(mColor), index, index + length));
+                continue;
+            }
             char c4 = content.charAt(index + 3);
             if (c4 != '\n') {
                 i--;
