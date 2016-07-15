@@ -162,7 +162,7 @@ public class ListController {
             sb.append(String.valueOf(number + 1));
             sb.append(". ");
         } else {
-            sb.append("+ ");
+            sb.append("* ");
         }
         return sb.toString();
     }
@@ -262,8 +262,14 @@ public class ListController {
      */
     private static boolean checkLineHeaderPosition(Editable editable, int start, int before, int after) {
         if (start == 0 || findBeforeNewLineChar(editable, start) + 1 == start) {
-            if (getOrderListSpan(editable, start, false) != null ||
-                    getUnOrderListSpan(editable, start, false) != null) {
+            int end = findNextNewLineChar(editable, start);
+            if (end == -1) {
+                end = editable.length();
+            }
+            if (getOrderListSpan(editable, start, true) != null ||
+                    getUnOrderListSpan(editable, start, true) != null ||
+                    getOrderListSpan(editable, start + 1 > end ? start : end, true) != null ||
+                    getUnOrderListSpan(editable, start + 1 > end ? start : end, true) != null) {
                 //交给isBeginningOfListSpan()去处理
                 return false;
             }

@@ -23,6 +23,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
+import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +172,12 @@ public class EditFactory extends AbsGrammarFactory {
         }
         Editable newEditable = Editable.Factory.getInstance().newEditable(editable.toString());
         for (EditToken editToken : list) {
-            newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (editToken.getSpan() instanceof MDUnOrderListSpan ||
+                    editToken.getSpan() instanceof MDOrderListSpan) {
+                newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            } else {
+                newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
         return newEditable;
     }

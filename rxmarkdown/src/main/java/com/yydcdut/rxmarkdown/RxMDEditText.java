@@ -340,7 +340,8 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     || ("-".equals(beforeString) || "-".equals(afterString))//--- --> 1---(-1--)(--1-)(---1)
                     || ("`".equals(beforeString) || "`".equals(afterString))//``` --> `1``(``1`)(```1)(1```)
                     || (".".equals(beforeString) || ".".equals(afterString))//1. sss -->1.s sss(1s. sss)
-                    || (addString.contains("---") || addString.contains("***"))) {//horizontal rules
+                    || (addString.contains("---") || addString.contains("***"))//horizontal rules
+                    || (addString.contains(" ") && afterString.equals("+"))) {//"+ ss" --> "  + ss"
                 return true;
             }
         }

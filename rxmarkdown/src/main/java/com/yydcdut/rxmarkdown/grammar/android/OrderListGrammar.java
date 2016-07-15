@@ -176,7 +176,7 @@ class OrderListGrammar extends GrammarAdapter {
      * @return nested number of content
      */
     private int calculateNested(@NonNull String text) {
-        if (text.length() < 3) {
+        if (text.length() < 2) {
             return -1;
         }
         int nested = 0;

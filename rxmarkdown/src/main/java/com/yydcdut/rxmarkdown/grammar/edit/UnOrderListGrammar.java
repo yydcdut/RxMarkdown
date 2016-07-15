@@ -92,7 +92,7 @@ public class UnOrderListGrammar extends EditGrammarAdapter {
     }
 
     private int calculateNested(String text) {
-        if (text.length() < 3) {
+        if (text.length() < 2) {
             return -1;
         }
         int nested = 0;
