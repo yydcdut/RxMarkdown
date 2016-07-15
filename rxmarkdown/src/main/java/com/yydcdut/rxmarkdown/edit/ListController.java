@@ -132,6 +132,8 @@ public class ListController {
                 updateUnOrderListSpanBeforeNewLine(editable, start, mdUnOrderListSpan);
                 insertUnOrderList(editable, mdUnOrderListSpan, start);
             }
+        } else if (checkLineHeaderPosition(editable, start, before, after)) {
+            updateLineHeaderList(editable, start, before, after);
         }
 //        else if (isEndOfListSpan(editable, start)) {
 //            updateListSpanEnd(editable, start, before, after);
@@ -245,6 +247,66 @@ public class ListController {
             return true;
         }
         return false;
+    }
+
+    /**
+     * checking the start position is the head of line, and starts with order or unorder list key
+     * aaa --> 1. aaa
+     * aaa --> - aaa
+     *
+     * @param editable the editable after inputting
+     * @param start    the start position
+     * @param before   delete text's number
+     * @param after    add text's number
+     * @return whether it is the head of line and starts with order or unorder list key
+     */
+    private static boolean checkLineHeaderPosition(Editable editable, int start, int before, int after) {
+        if (start == 0 || findBeforeNewLineChar(editable, start) + 1 == start) {
+            if (getOrderListSpan(editable, start, false) != null ||
+                    getUnOrderListSpan(editable, start, false) != null) {
+                //交给isBeginningOfListSpan()去处理
+                return false;
+            }
+            boolean bool = isUnOrderList(editable, start, false);
+            if (bool) {
+                return bool;
+            }
+            return isOrderList(editable, start, false);
+        }
+        return false;
+    }
+
+    /**
+     * add order and unorder list span
+     * aaa --> 1. aaa
+     * aaa --> - aaa
+     *
+     * @param editable the editable after inputting
+     * @param start    the start position
+     * @param before   delete text's number
+     * @param after    add text's number
+     */
+    private void updateLineHeaderList(Editable editable, int start, int before, int after) {
+        int position = findNextNewLineChar(editable, start);
+        if (position == -1) {
+            position = editable.length();
+        }
+        int nested = calculateNested(editable, start, 0);
+        if (nested == -1) {
+            return;
+        }
+        if (isOrderList(editable, start, false)) {
+            int number = calculateOrderListNumber(editable, start, 0);
+            editable.setSpan(new MDOrderListSpan(10, nested, number),
+                    start,
+                    position,
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        } else if (isUnOrderList(editable, start, false)) {
+            editable.setSpan(new MDUnOrderListSpan(10, mRxMDConfiguration.getUnOrderListColor(), nested),
+                    start,
+                    position,
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        }
     }
 
     /**
@@ -553,6 +615,7 @@ public class ListController {
             int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
             int position = findBeforeNewLineChar(editable, start) + 1;
             if (!isUnOrderList(editable, position, false)) {
+                editable.removeSpan(mdUnOrderListSpan);
                 return;
             }
             int nested = calculateNested(editable, position, 0);
