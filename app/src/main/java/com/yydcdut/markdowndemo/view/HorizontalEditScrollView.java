@@ -9,9 +9,12 @@ import android.widget.FrameLayout;
 
 import com.yydcdut.markdowndemo.R;
 import com.yydcdut.markdowndemo.controller.CenterAlignController;
+import com.yydcdut.markdowndemo.controller.CodeController;
 import com.yydcdut.markdowndemo.controller.HeaderController;
 import com.yydcdut.markdowndemo.controller.HorizontalRulesController;
+import com.yydcdut.markdowndemo.controller.StrikeThroughController;
 import com.yydcdut.markdowndemo.controller.StyleController;
+import com.yydcdut.markdowndemo.controller.TodoController;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 
@@ -25,6 +28,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
     private StyleController mStyleController;
     private CenterAlignController mCenterAlignController;
     private HorizontalRulesController mHorizontalRulesController;
+    private TodoController mTodoController;
+    private StrikeThroughController mStrikeThroughController;
+    private CodeController mCodeController;
 
     public HorizontalEditScrollView(Context context) {
         this(context, null);
@@ -46,6 +52,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         mStyleController = new StyleController(rxMDEditText, rxMDConfiguration);
         mCenterAlignController = new CenterAlignController(rxMDEditText, rxMDConfiguration);
         mHorizontalRulesController = new HorizontalRulesController(rxMDEditText, rxMDConfiguration);
+        mTodoController = new TodoController(rxMDEditText, rxMDConfiguration);
+        mStrikeThroughController = new StrikeThroughController(rxMDEditText, rxMDConfiguration);
+        mCodeController = new CodeController(rxMDEditText, rxMDConfiguration);
     }
 
     @Override
@@ -61,6 +70,11 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         findViewById(R.id.img_italic).setOnClickListener(this);
         findViewById(R.id.img_center_align).setOnClickListener(this);
         findViewById(R.id.img_horizontal_rules).setOnClickListener(this);
+        findViewById(R.id.img_todo).setOnClickListener(this);
+        findViewById(R.id.img_todo_done).setOnClickListener(this);
+        findViewById(R.id.img_strike_through).setOnClickListener(this);
+        findViewById(R.id.img_inline_code).setOnClickListener(this);
+        findViewById(R.id.img_code).setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +112,21 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
                 break;
             case R.id.img_horizontal_rules:
                 mHorizontalRulesController.doHorizontalRules();
+                break;
+            case R.id.img_todo:
+                mTodoController.doTodo();
+                break;
+            case R.id.img_todo_done:
+                mTodoController.doTodoDone();
+                break;
+            case R.id.img_strike_through:
+                mStrikeThroughController.doStrikeThrough();
+                break;
+            case R.id.img_inline_code:
+                mCodeController.doInlineCode();
+                break;
+            case R.id.img_code:
+                mCodeController.doCode();
                 break;
         }
     }

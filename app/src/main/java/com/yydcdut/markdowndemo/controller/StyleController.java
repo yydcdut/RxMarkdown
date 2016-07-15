@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 
-
 /**
  * Created by yuyidong on 16/7/13.
  */

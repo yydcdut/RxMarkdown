@@ -25,6 +25,9 @@ public class CenterAlignController {
         int position1 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), end) + 1;
         if (position0 == position1) {
             int position2 = Utils.findNextNewLineChar(mRxMDEditText.getText(), end);
+            if (position2 == -1) {
+                position2 = mRxMDEditText.length();
+            }
             Editable editable = mRxMDEditText.getText();
             if ("[".equals(editable.subSequence(position0, position0 + 1).toString()) &&
                     "]".equals(editable.subSequence(position2 - 1, position2).toString())) {
