@@ -44,6 +44,7 @@ public class UnOrderListGrammar extends EditGrammarAdapter {
     private static final String IGNORE_0 = "- [x]";
     private static final String IGNORE_1 = "- [X]";
     private static final String IGNORE_2 = "- [ ]";
+    private static final String PLACE_HOLDER_IGNORE = "     ";
 
     private int mColor;
 
@@ -58,6 +59,7 @@ public class UnOrderListGrammar extends EditGrammarAdapter {
         List<EditToken> editTokenList = new ArrayList<>();
         List<String> matchList = new ArrayList<>();//找到的
         StringBuilder content = new StringBuilder(editable);
+        replaceTodo(content);
         //+ sss
         Pattern p0 = Pattern.compile("^( *)(\\+ )(.*?)$", Pattern.MULTILINE);
         Matcher m0 = p0.matcher(content);
@@ -68,12 +70,7 @@ public class UnOrderListGrammar extends EditGrammarAdapter {
         Pattern p1 = Pattern.compile("^( *)(\\- )(.*?)$", Pattern.MULTILINE);
         Matcher m1 = p1.matcher(content);
         while (m1.find()) {
-            String match = m1.group();
-            if (!(match.startsWith(IGNORE_0) ||
-                    match.startsWith(IGNORE_1) ||
-                    match.startsWith(IGNORE_2))) {
-                matchList.add(match);
-            }
+            matchList.add(m1.group());
         }
         //* sss
         Pattern p2 = Pattern.compile("^( *)(\\* )(.*?)$", Pattern.MULTILINE);
@@ -108,5 +105,29 @@ public class UnOrderListGrammar extends EditGrammarAdapter {
             }
         }
         return nested;
+    }
+
+    private void replaceTodo(StringBuilder stringBuilder) {
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_0);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_0.length(), PLACE_HOLDER_IGNORE);
+        }
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_1);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_1.length(), PLACE_HOLDER_IGNORE);
+        }
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_2);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_2.length(), PLACE_HOLDER_IGNORE);
+        }
     }
 }
