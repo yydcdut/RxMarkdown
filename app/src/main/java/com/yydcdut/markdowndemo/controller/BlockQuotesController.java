@@ -9,7 +9,6 @@ import com.yydcdut.rxmarkdown.RxMDEditText;
 /**
  * Created by yuyidong on 16/7/15.
  */
-
 public class BlockQuotesController {
     private RxMDEditText mRxMDEditText;
     private RxMDConfiguration mRxMDConfiguration;
