@@ -89,6 +89,11 @@ class OrderListGrammar extends GrammarAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
+            if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+                list.add(new NestedOrderListBean(currentLineIndex, false, lines[i], -1, -1, -1));
+                currentLineIndex += (lines[i] + "\n").length();
+                continue;
+            }
             int number = calculateNumber(lines[i], nested);
             //判断上文
             if (i - 1 < 0 || i - 1 >= list.size()) {
