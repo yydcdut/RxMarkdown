@@ -44,8 +44,11 @@ import static com.yydcdut.rxmarkdown.grammar.android.TodoGrammar.KEY_TODO;
 class UnOrderListGrammar extends GrammarAdapter {
 
     protected static final String KEY_0_UNORDER_LIST = "* ";
+    protected static final String KEY_0_UNORDER_LIST_CHAR = "*";
     protected static final String KEY_1_UNORDER_LIST = "+ ";
+    protected static final String KEY_1_UNORDER_LIST_CHAR = "+";
     protected static final String KEY_2_UNORDER_LIST = "- ";
+    protected static final String KEY_2_UNORDER_LIST_CHAR = "-";
 
     private static final String KEY_IGNORE_0 = KEY_TODO;
     private static final String KEY_IGNORE_1 = KEY_0_TODO_DONE;
@@ -92,6 +95,11 @@ class UnOrderListGrammar extends GrammarAdapter {
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
             if (lines[i].startsWith(KEY_IGNORE_0) || lines[i].startsWith(KEY_IGNORE_1) || lines[i].startsWith(KEY_IGNORE_2)) {
+                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                currentLineIndex += (lines[i] + "\n").length();
+                continue;
+            }
+            if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -148,7 +156,9 @@ class UnOrderListGrammar extends GrammarAdapter {
             String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
             if (KEY_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (KEY_0_UNORDER_LIST.equals(sub) || KEY_1_UNORDER_LIST.equals(sub) || KEY_2_UNORDER_LIST.equals(sub)) {
+            } else if (KEY_0_UNORDER_LIST_CHAR.equals(sub) ||
+                    KEY_1_UNORDER_LIST_CHAR.equals(sub) ||
+                    KEY_2_UNORDER_LIST_CHAR.equals(sub)) {
                 return nested;
             } else {
                 return -1;

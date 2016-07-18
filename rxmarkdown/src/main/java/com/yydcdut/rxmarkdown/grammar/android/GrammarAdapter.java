@@ -17,9 +17,11 @@ package com.yydcdut.rxmarkdown.grammar.android;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.edit.EditToken;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +37,21 @@ abstract class GrammarAdapter implements IGrammar {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         return new ArrayList<>();
+    }
+
+    /**
+     * check whether exists code span
+     *
+     * @param ssb   the text
+     * @param start the start position
+     * @param end   the end position
+     * @return TRUE --> exist
+     */
+    protected boolean existCodeSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
+        MDCodeSpan[] mdCodeSpans = ssb.getSpans(start, end, MDCodeSpan.class);
+        if (mdCodeSpans != null && mdCodeSpans.length > 0) {
+            return true;
+        }
+        return false;
     }
 }
