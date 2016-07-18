@@ -701,6 +701,7 @@ public class ListController {
     /**
      * whether change nested number
      * 11. aa --> 1. aa
+     * " 1. aa" --> "1. aa"
      *
      * @param editable the text
      * @param start    the start position
