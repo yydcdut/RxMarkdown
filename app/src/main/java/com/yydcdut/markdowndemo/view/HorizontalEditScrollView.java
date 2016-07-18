@@ -13,6 +13,7 @@ import com.yydcdut.markdowndemo.controller.CenterAlignController;
 import com.yydcdut.markdowndemo.controller.CodeController;
 import com.yydcdut.markdowndemo.controller.HeaderController;
 import com.yydcdut.markdowndemo.controller.HorizontalRulesController;
+import com.yydcdut.markdowndemo.controller.ListController;
 import com.yydcdut.markdowndemo.controller.StrikeThroughController;
 import com.yydcdut.markdowndemo.controller.StyleController;
 import com.yydcdut.markdowndemo.controller.TodoController;
@@ -34,6 +35,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
     private StrikeThroughController mStrikeThroughController;
     private CodeController mCodeController;
     private BlockQuotesController mBlockQuotesController;
+    private ListController mListController;
 
     public HorizontalEditScrollView(Context context) {
         this(context, null);
@@ -59,6 +61,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         mStrikeThroughController = new StrikeThroughController(rxMDEditText, rxMDConfiguration);
         mCodeController = new CodeController(rxMDEditText, rxMDConfiguration);
         mBlockQuotesController = new BlockQuotesController(rxMDEditText, rxMDConfiguration);
+        mListController = new ListController(rxMDEditText, rxMDConfiguration);
     }
 
     @Override
@@ -81,6 +84,8 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         findViewById(R.id.img_code).setOnClickListener(this);
         findViewById(R.id.img_block_quote).setOnClickListener(this);
         findViewById(R.id.img_block_quote).setOnLongClickListener(this);
+        findViewById(R.id.img_unorder_list).setOnClickListener(this);
+        findViewById(R.id.img_order_list).setOnClickListener(this);
     }
 
     @Override
@@ -136,6 +141,11 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
                 break;
             case R.id.img_block_quote:
                 mBlockQuotesController.doBlockQuotes();
+                break;
+            case R.id.img_unorder_list:
+                mListController.doUnOrderList();
+                break;
+            case R.id.img_order_list:
                 break;
         }
     }
