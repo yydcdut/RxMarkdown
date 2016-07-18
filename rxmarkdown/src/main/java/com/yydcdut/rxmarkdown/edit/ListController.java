@@ -110,6 +110,7 @@ public class ListController {
             }
         } else {
             mNeedFormat = checkDeleteOrderListSpan(editable, start, before, after);
+            mNeedFormat |= checkDeleteUnOrderListSpan(editable, start, before, after);
         }
     }
 
@@ -719,6 +720,32 @@ public class ListController {
         }
         int position = findBeforeNewLineChar(editable, start) + 1;
         int totalPosition = position + mdOrderListSpan.getNested() + mdOrderListSpan.getNumber() / 10 + 1;
+        if (totalPosition >= start && start <= position) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * whether change nested number
+     * " + aa" --> "+ aa"
+     *
+     * @param editable the text
+     * @param start    the start position
+     * @param before   the delete number
+     * @param after    the add number
+     * @return TRUE --> should change nested number
+     */
+    private static boolean checkDeleteUnOrderListSpan(Editable editable, int start, int before, int after) {
+        if (before == 0) {
+            return false;
+        }
+        MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start, true);
+        if (mdUnOrderListSpan == null) {
+            return false;
+        }
+        int position = findBeforeNewLineChar(editable, start) + 1;
+        int totalPosition = position + mdUnOrderListSpan.getNested();
         if (totalPosition >= start && start <= position) {
             return true;
         }
