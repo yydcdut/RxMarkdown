@@ -21,8 +21,9 @@ public class StyleController {
     public void doBold() {
         int start = mRxMDEditText.getSelectionStart();
         int end = mRxMDEditText.getSelectionEnd();
-        if (start == end) {//整个段落
-            Toast.makeText(mRxMDEditText.getContext(), "没有选中文字", Toast.LENGTH_SHORT).show();
+        if (start == end) {
+            mRxMDEditText.getText().insert(start, "****");
+            mRxMDEditText.setSelection(start + 2, end + 2);
         } else if (end - start > 4) {//选中了4个以上
             int position0 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), start) + 1;
             int position00 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), end) + 1;
@@ -51,8 +52,9 @@ public class StyleController {
     public void doItalic() {
         int start = mRxMDEditText.getSelectionStart();
         int end = mRxMDEditText.getSelectionEnd();
-        if (start == end) {//整个段落
-            Toast.makeText(mRxMDEditText.getContext(), "没有选中文字", Toast.LENGTH_SHORT).show();
+        if (start == end) {
+            mRxMDEditText.getText().insert(start, "**");
+            mRxMDEditText.setSelection(start + 1, end + 1);
         } else if (end - start > 2) {//选中了4个以上
             int position0 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), start) + 1;
             int position00 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), end) + 1;

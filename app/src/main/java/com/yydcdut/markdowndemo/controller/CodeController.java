@@ -22,7 +22,8 @@ public class CodeController {
         int start = mRxMDEditText.getSelectionStart();
         int end = mRxMDEditText.getSelectionEnd();
         if (start == end) {
-            Toast.makeText(mRxMDEditText.getContext(), "没有选中文字", Toast.LENGTH_SHORT).show();
+            mRxMDEditText.getText().insert(start, "``");
+            mRxMDEditText.setSelection(start + 1, end + 1);
         } else if (end - start > 2) {//选中了4个以上
             int position0 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), start) + 1;
             int position00 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), end) + 1;

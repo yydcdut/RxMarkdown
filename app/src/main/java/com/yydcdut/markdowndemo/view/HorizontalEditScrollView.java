@@ -146,6 +146,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
                 mListController.doUnOrderList();
                 break;
             case R.id.img_order_list:
+                mListController.doOrderList();
                 break;
         }
     }
