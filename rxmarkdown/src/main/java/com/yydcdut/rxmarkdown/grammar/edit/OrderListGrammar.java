@@ -127,7 +127,7 @@ class OrderListGrammar extends EditGrammarAdapter {
     private static int findTrueIndex(String match, StringBuilder content) {
         int index = content.indexOf(match);
         int length = match.length();
-        if (index + length > content.length()) {
+        if (index + length >= content.length()) {
             return index;
         }
         char c = content.charAt(index + length);
