@@ -50,6 +50,9 @@ public class RxMDConfiguration {
     private final int todoDoneColor;
     @ColorInt
     private int unOrderListColor;
+    @ColorInt
+    private int linkColor;
+    private boolean isLinkUnderline;
 
     private RxMDImageLoader rxMDImageLoader;
 
@@ -72,6 +75,8 @@ public class RxMDConfiguration {
      * @param todoColor            to do color
      * @param todoDoneColor        to do done color
      * @param unOrderListColor     unorder list color
+     * @param linkColor            link color
+     * @param isLinkUnderline      link underline
      * @param rxMDImageLoader      loader
      * @param isDebug              debug
      */
@@ -81,6 +86,7 @@ public class RxMDConfiguration {
                               float header5RelativeSize, float header6RelativeSize,
                               int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
                               int todoColor, int todoDoneColor, int unOrderListColor,
+                              int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, boolean isDebug) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
@@ -96,6 +102,8 @@ public class RxMDConfiguration {
         this.todoColor = todoColor;
         this.todoDoneColor = todoDoneColor;
         this.unOrderListColor = unOrderListColor;
+        this.linkColor = linkColor;
+        this.isLinkUnderline = isLinkUnderline;
         this.rxMDImageLoader = rxMDImageLoader;
         this.isDebug = isDebug;
     }
@@ -227,6 +235,24 @@ public class RxMDConfiguration {
     }
 
     /**
+     * get link color
+     *
+     * @return the color
+     */
+    public int getLinkColor() {
+        return linkColor;
+    }
+
+    /**
+     * whether link underline
+     *
+     * @return whether link underline
+     */
+    public boolean isLinkUnderline() {
+        return isLinkUnderline;
+    }
+
+    /**
      * get loader
      *
      * @return {@link RxMDImageLoader}
@@ -279,6 +305,10 @@ public class RxMDConfiguration {
         @ColorInt
         private int unOrderListColor;
 
+        @ColorInt
+        private int linkColor;
+        private boolean isLinkUnderline;
+
         private RxMDImageLoader rxMDImageLoader;
 
         private boolean isDebug = true;
@@ -303,6 +333,8 @@ public class RxMDConfiguration {
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
             unOrderListColor = Color.BLACK;
+            linkColor = Color.RED;
+            isLinkUnderline = true;
             rxMDImageLoader = new DefaultLoader(context);
         }
 
@@ -462,6 +494,28 @@ public class RxMDConfiguration {
         }
 
         /**
+         * set link color
+         *
+         * @param linkColor the color
+         * @return self
+         */
+        public Builder setLinkColor(int linkColor) {
+            this.linkColor = linkColor;
+            return this;
+        }
+
+        /**
+         * is link underline
+         *
+         * @param linkUnderline boolean, whether link underline
+         * @return self
+         */
+        public Builder setLinkUnderline(boolean linkUnderline) {
+            isLinkUnderline = linkUnderline;
+            return this;
+        }
+
+        /**
          * set loader
          *
          * @param rxMDImageLoader the loader
@@ -499,8 +553,9 @@ public class RxMDConfiguration {
                     header5RelativeSize,
                     header6RelativeSize,
                     horizontalRulesColor, inlineCodeBgColor, codeBgColor,
-                    todoColor, todoDoneColor, unOrderListColor, rxMDImageLoader,
-                    isDebug);
+                    todoColor, todoDoneColor, unOrderListColor,
+                    linkColor, isLinkUnderline,
+                    rxMDImageLoader, isDebug);
         }
     }
 }

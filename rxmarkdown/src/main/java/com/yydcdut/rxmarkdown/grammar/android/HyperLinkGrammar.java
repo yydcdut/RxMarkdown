@@ -18,9 +18,9 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.URLSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.span.MDURLSpan;
 
 import java.util.regex.Pattern;
 
@@ -45,8 +45,13 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + "]";
     protected static final String KEY_BACKSLASH_VALUE_3 = KEY_BACKSLASH + ")";
 
+    private int mColor;
+    private boolean isUnderLine;
+
     HyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
+        mColor = rxMDConfiguration.getLinkColor();
+        isUnderLine = rxMDConfiguration.isLinkUnderline();
     }
 
     @Override
@@ -163,7 +168,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
                 tmpTotal = tmpTotal.substring(positionCenter + KEY_1_HYPER_LINK.length(), tmpTotal.length());
                 int positionFooter = tmpTotal.indexOf(KEY_2_HYPER_LINK);
                 String link = tmpTotal.substring(0, positionFooter);
-                ssb.setSpan(new URLSpan(link), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDURLSpan(link, mColor, isUnderLine), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY_1_HYPER_LINK.length() + link.length() + KEY_2_HYPER_LINK.length());
                 tmpTotal = tmpTotal.substring(positionFooter + KEY_2_HYPER_LINK.length(), tmpTotal.length());
             } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {
