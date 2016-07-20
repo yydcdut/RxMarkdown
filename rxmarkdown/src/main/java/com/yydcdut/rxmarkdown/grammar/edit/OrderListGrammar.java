@@ -59,7 +59,7 @@ class OrderListGrammar extends EditGrammarAdapter {
             matchList.add(m.group());
         }
         for (String match : matchList) {
-            int index = content.indexOf(match);
+            int index = findTrueIndex(match, content);
             int length = match.length();
             int nested = calculateNested(match);
             int number = calculateNumber(match, nested);
@@ -115,5 +115,26 @@ class OrderListGrammar extends EditGrammarAdapter {
             return number;
         }
         return number;
+    }
+
+    /**
+     * find true index position
+     *
+     * @param match   String,match text
+     * @param content StringBuilder, the total text
+     * @return the index position
+     */
+    private static int findTrueIndex(String match, StringBuilder content) {
+        int index = content.indexOf(match);
+        int length = match.length();
+        if (index + length > content.length()) {
+            return index;
+        }
+        char c = content.charAt(index + length);
+        if (c == '\n') {
+            return index;
+        }
+        content.replace(index, index + length, getPlaceHolder(match));
+        return findTrueIndex(match, content);
     }
 }

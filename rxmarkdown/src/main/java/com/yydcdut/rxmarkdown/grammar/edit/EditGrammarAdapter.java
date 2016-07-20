@@ -42,7 +42,7 @@ abstract class EditGrammarAdapter implements IGrammar {
         return charSequence;
     }
 
-    protected String getPlaceHolder(String matchString) {
+    protected static String getPlaceHolder(String matchString) {
         int length = matchString.length();
         StringBuilder placeHolder = new StringBuilder();
         for (int i = 0; i < length; i++) {
