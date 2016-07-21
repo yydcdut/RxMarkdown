@@ -15,12 +15,10 @@ import java.io.ByteArrayOutputStream;
  */
 
 public class UILLoader implements RxMDImageLoader {
-    private static boolean sIsInit;
 
     public UILLoader(Context context) {
-        if (!sIsInit) {
+        if (!ImageLoader.getInstance().isInited()) {
             init(context);
-            sIsInit = true;
         }
     }
 

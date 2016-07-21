@@ -1,5 +1,6 @@
 package com.yydcdut.markdowndemo;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -195,5 +196,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             return null;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mHorizontalEditScrollView.handleResult(requestCode, resultCode, data);
     }
 }

@@ -1,6 +1,7 @@
 package com.yydcdut.markdowndemo.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.yydcdut.markdowndemo.controller.CenterAlignController;
 import com.yydcdut.markdowndemo.controller.CodeController;
 import com.yydcdut.markdowndemo.controller.HeaderController;
 import com.yydcdut.markdowndemo.controller.HorizontalRulesController;
+import com.yydcdut.markdowndemo.controller.ImageController;
 import com.yydcdut.markdowndemo.controller.ListController;
 import com.yydcdut.markdowndemo.controller.StrikeThroughController;
 import com.yydcdut.markdowndemo.controller.StyleController;
@@ -36,6 +38,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
     private CodeController mCodeController;
     private BlockQuotesController mBlockQuotesController;
     private ListController mListController;
+    private ImageController mImageController;
 
     public HorizontalEditScrollView(Context context) {
         this(context, null);
@@ -62,6 +65,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         mCodeController = new CodeController(rxMDEditText, rxMDConfiguration);
         mBlockQuotesController = new BlockQuotesController(rxMDEditText, rxMDConfiguration);
         mListController = new ListController(rxMDEditText, rxMDConfiguration);
+        mImageController = new ImageController(rxMDEditText, rxMDConfiguration);
     }
 
     @Override
@@ -86,6 +90,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         findViewById(R.id.img_block_quote).setOnLongClickListener(this);
         findViewById(R.id.img_unorder_list).setOnClickListener(this);
         findViewById(R.id.img_order_list).setOnClickListener(this);
+        findViewById(R.id.img_photo).setOnClickListener(this);
     }
 
     @Override
@@ -148,6 +153,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
             case R.id.img_order_list:
                 mListController.doOrderList();
                 break;
+            case R.id.img_photo:
+                mImageController.doImage();
+                break;
         }
     }
 
@@ -160,4 +168,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         }
         return true;
     }
+
+    public void handleResult(int requestCode, int resultCode, Intent data) {
+        mImageController.handleResult(requestCode, resultCode, data);
+    }
+
 }
