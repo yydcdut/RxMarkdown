@@ -3,7 +3,6 @@ package com.yydcdut.markdowndemo.controller;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -14,7 +13,6 @@ import com.yydcdut.rxmarkdown.RxMDEditText;
 /**
  * Created by yuyidong on 16/7/21.
  */
-
 public class LinkController {
     private LinkDialogView mLinkDialogView;
     private RxMDEditText mRxMDEditText;
@@ -64,8 +62,6 @@ public class LinkController {
 
     private void doRealLink(String description, String link) {
         int start = mRxMDEditText.getSelectionStart();
-        int end = mRxMDEditText.getSelectionEnd();
-        Log.i("yuyidong", "start-->" + start + "  end-->" + end);
         if (TextUtils.isEmpty(description)) {
             mRxMDEditText.getText().insert(start, "[](" + link + ")");
             mRxMDEditText.setSelection(start + 2);
