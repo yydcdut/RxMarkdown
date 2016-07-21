@@ -1,31 +1,32 @@
 package com.yydcdut.markdowndemo.controller;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.yydcdut.markdowndemo.view.ImageDialogView;
+import com.yydcdut.markdowndemo.view.LinkDialogView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
- * Created by yuyidong on 16/7/20.
+ * Created by yuyidong on 16/7/21.
  */
-public class ImageController {
-    private ImageDialogView mImageDialogView;
+
+public class LinkController {
+    private LinkDialogView mLinkDialogView;
     private RxMDEditText mRxMDEditText;
     private RxMDConfiguration mRxMDConfiguration;
 
     private AlertDialog mAlertDialog;
 
-    public ImageController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public LinkController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
         mRxMDEditText = rxMDEditText;
         mRxMDConfiguration = rxMDConfiguration;
-        mImageDialogView = new ImageDialogView(mRxMDEditText.getContext());
-        mImageDialogView.setLayoutParams(new LinearLayout.LayoutParams(
+        mLinkDialogView = new LinkDialogView(rxMDEditText.getContext());
+        mLinkDialogView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
     }
@@ -34,26 +35,20 @@ public class ImageController {
         if (mAlertDialog == null) {
             initDialog();
         }
-        mImageDialogView.clear();
+        mLinkDialogView.clear();
         mAlertDialog.show();
-    }
-
-    public void handleResult(int requestCode, int resultCode, Intent data) {
-        mImageDialogView.handleResult(requestCode, resultCode, data);
     }
 
     private void initDialog() {
         mAlertDialog = new AlertDialog.Builder(mRxMDEditText.getContext())
-                .setView(mImageDialogView)
+                .setView(mLinkDialogView)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        int width = mImageDialogView.getImageWidth();
-                        int height = mImageDialogView.getImageHeight();
-                        String path = mImageDialogView.getPath();
-                        String description = mImageDialogView.getDescription();
-                        doRealImage(width, height, path, description);
+                        String description = mLinkDialogView.getDescription();
+                        String link = mLinkDialogView.getLink();
+                        doRealLink(description, link);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -62,18 +57,20 @@ public class ImageController {
                         dialog.dismiss();
                     }
                 })
+                .setTitle("Link")
                 .setCancelable(false)
                 .create();
     }
 
-    private void doRealImage(int width, int height, String path, String description) {
+    private void doRealLink(String description, String link) {
         int start = mRxMDEditText.getSelectionStart();
+        int end = mRxMDEditText.getSelectionEnd();
+        Log.i("yuyidong", "start-->" + start + "  end-->" + end);
         if (TextUtils.isEmpty(description)) {
-            mRxMDEditText.getText().insert(start, "![](" + path + "/" + width + "$" + height + ")");
+            mRxMDEditText.getText().insert(start, "[](" + link + ")");
             mRxMDEditText.setSelection(start + 2);
         } else {
-            mRxMDEditText.getText().insert(start, "![" + description + "](" + path + "/" + width + "$" + height + ")");
+            mRxMDEditText.getText().insert(start, "[" + description + "](" + link + ")");
         }
     }
-
 }

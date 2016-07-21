@@ -15,6 +15,7 @@ import com.yydcdut.markdowndemo.controller.CodeController;
 import com.yydcdut.markdowndemo.controller.HeaderController;
 import com.yydcdut.markdowndemo.controller.HorizontalRulesController;
 import com.yydcdut.markdowndemo.controller.ImageController;
+import com.yydcdut.markdowndemo.controller.LinkController;
 import com.yydcdut.markdowndemo.controller.ListController;
 import com.yydcdut.markdowndemo.controller.StrikeThroughController;
 import com.yydcdut.markdowndemo.controller.StyleController;
@@ -39,6 +40,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
     private BlockQuotesController mBlockQuotesController;
     private ListController mListController;
     private ImageController mImageController;
+    private LinkController mLinkController;
 
     public HorizontalEditScrollView(Context context) {
         this(context, null);
@@ -66,6 +68,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         mBlockQuotesController = new BlockQuotesController(rxMDEditText, rxMDConfiguration);
         mListController = new ListController(rxMDEditText, rxMDConfiguration);
         mImageController = new ImageController(rxMDEditText, rxMDConfiguration);
+        mLinkController = new LinkController(rxMDEditText, rxMDConfiguration);
     }
 
     @Override
@@ -90,6 +93,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         findViewById(R.id.img_block_quote).setOnLongClickListener(this);
         findViewById(R.id.img_unorder_list).setOnClickListener(this);
         findViewById(R.id.img_order_list).setOnClickListener(this);
+        findViewById(R.id.img_link).setOnClickListener(this);
         findViewById(R.id.img_photo).setOnClickListener(this);
     }
 
@@ -152,6 +156,9 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
                 break;
             case R.id.img_order_list:
                 mListController.doOrderList();
+                break;
+            case R.id.img_link:
+                mLinkController.doImage();
                 break;
             case R.id.img_photo:
                 mImageController.doImage();
