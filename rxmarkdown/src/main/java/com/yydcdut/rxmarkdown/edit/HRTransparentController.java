@@ -22,7 +22,12 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+
+import java.util.List;
 
 /**
  * RxMDEditText, horizontal rules controller.
@@ -31,13 +36,82 @@ import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class HRTransparentController {
+public class HRTransparentController extends AbsEditController {
     private RxMDEditText mRxMDEditText;
 
+    /**
+     * Constructor
+     *
+     * @param rxMDEditText RxMDEditText
+     */
     public HRTransparentController(@NonNull RxMDEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int before, int after) {
+        super.beforeTextChanged(s, start, before, after);
+        if (before == 0 || mRxMDConfiguration == null) {
+            return;
+        }
+        String deleteString = s.subSequence(start, start + before).toString();
+        String beforeString = null;
+        String afterString = null;
+        if (start > 0) {
+            beforeString = s.subSequence(start - 1, start).toString();
+        }
+        if (start + before + 1 <= s.length()) {
+            afterString = s.subSequence(start + before, start + before + 1).toString();
+        }
+        //1---(-1--)(--1-)(---1) --> ---
+        if (deleteString.contains("-") || deleteString.contains("*") ||
+                ("-".equals(beforeString) || "-".equals(afterString)) ||
+                ("*".equals(beforeString) || "*".equals(afterString))) {
+            shouldFormat = true;
+        }
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int after) {
+        if (mRxMDConfiguration == null) {
+            return;
+        }
+        if (!(s instanceof Editable)) {
+            return;
+        }
+        if (shouldFormat) {
+            format((Editable) s, start);
+            return;
+        }
+        if (after == 0) {
+            return;
+        }
+        String addString;
+        String beforeString = null;
+        String afterString = null;
+        addString = s.subSequence(start, start + Math.abs(after - before)).toString();
+        if (start + (after - before) + 1 <= s.length()) {
+            afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
+        }
+        if (start > 0) {
+            beforeString = s.subSequence(start - 1, start).toString();
+        }
+        //--- --> 1---(-1--)(--1-)(---1)
+        if ((addString.contains("-") || addString.contains("*")) ||
+                ("-".equals(beforeString) || "-".equals(afterString)) ||
+                ("*".equals(beforeString) || "*".equals(afterString))) {
+            format((Editable) s, start);
+        }
+    }
+
+    private void format(Editable editable, int start) {
+        EditUtils.removeSpans(editable, start, MDHorizontalRulesSpan.class);
+        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HORIZONTAL_RULES, mRxMDConfiguration);
+        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
+        EditUtils.setSpans(editable, editTokenList);
+    }
+
+    @Override
     public void onSelectionChanged(int selStart, int selEnd) {
         setAllHorizontalRulesTextColor();
         removeCurrentHorizontalRulesTextColor(selStart, selEnd);

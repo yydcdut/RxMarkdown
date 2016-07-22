@@ -31,7 +31,11 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.yydcdut.rxmarkdown.edit.HRTransparentController;
+import com.yydcdut.rxmarkdown.edit.HeaderController;
+import com.yydcdut.rxmarkdown.edit.IEditController;
 import com.yydcdut.rxmarkdown.edit.ListController;
+import com.yydcdut.rxmarkdown.edit.StrikeThroughController;
+import com.yydcdut.rxmarkdown.edit.StyleController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.factory.AndroidFactory;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
@@ -49,9 +53,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private static final int MSG_BEFORE_TEXT_CHANGED = 1;
     private static final int MSG_ON_TEXT_CHANGED = 2;
     private static final int MSG_AFTER_TEXT_CHANGED = 3;
-    private static final int MSG_FORMAT = 4;
-    private static final int MSG_LIST_BEFORE_TEXT_CHANGED = 5;
-    private static final int MSG_LIST_ON_TEXT_CHANGED = 6;
+    private static final int MSG_INIT_FORMAT = 4;
+    private static final int MSG_FORMAT_BEFORE_TEXT_CHANGED = 5;
+    private static final int MSG_FORMAT_ON_TEXT_CHANGED = 6;
     private Handler mHandler;
 
     private static final String BUNDLE_CHAR_SEQUENCE = "bundle_char_sequence";
@@ -64,11 +68,10 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     private ArrayList<TextWatcher> mListeners;
 
-    private boolean shouldFormat = false;
     private boolean mHasImageInText;
+    private boolean mInitFormat;
 
-    private HRTransparentController mHRTransparentController;
-    private ListController mListController;
+    private ArrayList<IEditController> mEditControllerList;
 
     /**
      * Constructor
@@ -105,8 +108,44 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     private void init() {
         mHandler = new Handler(this);
-        mHRTransparentController = new HRTransparentController(this);
-        mListController = new ListController(this, mEditTextWatcher);
+        initControllerList();
+    }
+
+    private void initControllerList() {
+        mEditControllerList = new ArrayList<>();
+        mEditControllerList.add(new ListController(this, mEditTextWatcher));
+        mEditControllerList.add(new StyleController());
+        mEditControllerList.add(new HRTransparentController(this));
+        mEditControllerList.add(new HeaderController());
+        mEditControllerList.add(new StrikeThroughController());
+        setControllerConfig(mRxMDConfiguration);
+    }
+
+    private void setControllerConfig(@NonNull RxMDConfiguration rxMDConfiguration) {
+        if (mEditControllerList == null) {
+            return;
+        }
+        for (IEditController controller : mEditControllerList) {
+            controller.setRxMDConfiguration(rxMDConfiguration);
+        }
+    }
+
+    private void beforeTextChanged4Controller(CharSequence s, int start, int before, int after) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.beforeTextChanged(s, start, before, after);
+        }
+    }
+
+    private void onTextChanged4Controller(CharSequence s, int start, int before, int after) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.onTextChanged(s, start, before, after);
+        }
+    }
+
+    private void onSelectionChanged4Controller(int selStart, int selEnd) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.onSelectionChanged(selStart, selEnd);
+        }
     }
 
     /**
@@ -130,19 +169,16 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             } else {
                 sendMessage(MSG_BEFORE_TEXT_CHANGED, s, start, before, after);
             }
-            if (shouldFormat) {
+            if (mEditControllerList == null) {
+                initControllerList();
+            }
+            if (mInitFormat) {
                 return;
             }
-            shouldFormat = shouldFormat4BeforeTextChanged(s, start, before, after);
-            if (!shouldFormat) {
-                if (mListController == null) {
-                    mListController = new ListController(RxMDEditText.this, this);
-                }
-                if (isMainThread()) {
-                    mListController.beforeTextChanged(s, start, before, after);
-                } else {
-                    sendMessage(MSG_LIST_BEFORE_TEXT_CHANGED, s, start, before, after);
-                }
+            if (isMainThread()) {
+                beforeTextChanged4Controller(s, start, before, after);
+            } else {
+                sendMessage(MSG_FORMAT_BEFORE_TEXT_CHANGED, s, start, before, after);
             }
         }
 
@@ -153,29 +189,26 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             } else {
                 sendMessage(MSG_ON_TEXT_CHANGED, s, start, before, after);
             }
-            if (shouldFormat) {
+            if (mInitFormat) {
                 return;
             }
-            shouldFormat = shouldFormat4OnTextChanged(s, start, before, after);
-            if (!shouldFormat) {
-                if (isMainThread()) {
-                    mListController.onTextChanged(s, start, before, after);
-                } else {
-                    sendMessage(MSG_LIST_ON_TEXT_CHANGED, s, start, before, after);
-                }
+            if (isMainThread()) {
+                onTextChanged4Controller(s, start, before, after);
+            } else {
+                sendMessage(MSG_FORMAT_ON_TEXT_CHANGED, s, start, before, after);
             }
         }
 
         @Override
         public void afterTextChanged(final Editable s) {
-            if (shouldFormat) {
+            if (mInitFormat) {
                 CharSequence charSequence = format();
                 if (isMainThread()) {
                     setEditableText(charSequence);
                 } else {
-                    sendMessage(MSG_FORMAT, charSequence, 0, 0, 0);
+                    sendMessage(MSG_INIT_FORMAT, charSequence, 0, 0, 0);
                 }
-                shouldFormat = false;
+                mInitFormat = false;
             }
             if (isMainThread()) {
                 sendAfterTextChanged(getText());
@@ -245,14 +278,15 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                                        @NonNull RxMDConfiguration rxMDConfiguration) {
         mGrammarFactory = absGrammarFactory;
         mRxMDConfiguration = rxMDConfiguration;
-        if (mListController == null) {
-            mListController = new ListController(this, mEditTextWatcher);
+        if (mEditControllerList == null) {
+            initControllerList();
+        } else {
+            setControllerConfig(mRxMDConfiguration);
         }
-        mListController.setRxMDConfiguration(mRxMDConfiguration);
         super.addTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
         if (!TextUtils.isEmpty(editable)) {
-            shouldFormat = true;
+            mInitFormat = true;
             mEditTextWatcher.beforeTextChanged("", 0, 0, editable.length());
             mEditTextWatcher.onTextChanged(editable, 0, 0, editable.length());
             mEditTextWatcher.afterTextChanged(editable);
@@ -380,26 +414,26 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                     sendAfterTextChanged(getText());
                 }
                 break;
-            case MSG_FORMAT:
+            case MSG_INIT_FORMAT:
                 Bundle bundle3 = msg.getData();
                 CharSequence s3 = bundle3.getCharSequence(BUNDLE_CHAR_SEQUENCE);
                 setEditableText(s3);
                 break;
-            case MSG_LIST_BEFORE_TEXT_CHANGED:
+            case MSG_FORMAT_BEFORE_TEXT_CHANGED:
                 Bundle bundle4 = msg.getData();
                 CharSequence s4 = bundle4.getCharSequence(BUNDLE_CHAR_SEQUENCE);
                 int start4 = bundle4.getInt(BUNDLE_START);
                 int before4 = bundle4.getInt(BUNDLE_BEFORE);
                 int after4 = bundle4.getInt(BUNDLE_AFTER);
-                mListController.beforeTextChanged(s4, start4, before4, after4);
+                beforeTextChanged4Controller(s4, start4, before4, after4);
                 break;
-            case MSG_LIST_ON_TEXT_CHANGED:
+            case MSG_FORMAT_ON_TEXT_CHANGED:
                 Bundle bundle5 = msg.getData();
                 CharSequence s5 = bundle5.getCharSequence(BUNDLE_CHAR_SEQUENCE);
                 int start5 = bundle5.getInt(BUNDLE_START);
                 int before5 = bundle5.getInt(BUNDLE_BEFORE);
                 int after5 = bundle5.getInt(BUNDLE_AFTER);
-                mListController.onTextChanged(s5, start5, before5, after5);
+                onTextChanged4Controller(s5, start5, before5, after5);
                 break;
             default:
                 break;
@@ -422,10 +456,10 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        if (mHRTransparentController == null) {
-            mHRTransparentController = new HRTransparentController(this);
+        if (mEditControllerList == null) {
+            initControllerList();
         }
-        mHRTransparentController.onSelectionChanged(selStart, selEnd);
+        onSelectionChanged4Controller(selStart, selEnd);
     }
 
     @Override
