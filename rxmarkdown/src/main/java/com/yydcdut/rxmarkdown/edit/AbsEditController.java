@@ -25,6 +25,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * Created by yuyidong on 16/7/21.
  */
 abstract class AbsEditController implements IEditController {
+
     protected RxMDConfiguration mRxMDConfiguration;
     protected boolean shouldFormat = false;
 

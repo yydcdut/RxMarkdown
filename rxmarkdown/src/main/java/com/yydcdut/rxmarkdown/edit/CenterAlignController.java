@@ -16,7 +16,7 @@
 package com.yydcdut.rxmarkdown.edit;
 
 import android.text.Editable;
-import android.text.style.RelativeSizeSpan;
+import android.text.style.AlignmentSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
@@ -25,13 +25,14 @@ import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
 import java.util.List;
 
 /**
- * RxMDEditText, header controller.
+ * RxMDEditText, center align controller.
  * <p>
- * Created by yuyidong on 16/7/21.
+ * Created by yuyidong on 16/7/22.
  */
-public class HeaderController extends AbsEditController {
+public class CenterAlignController extends AbsEditController {
 
-    private static final String KEY = "#";
+    private static final String KEY0 = "[";
+    private static final String KEY1 = "]";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -40,23 +41,14 @@ public class HeaderController extends AbsEditController {
             return;
         }
         String deleteString = s.subSequence(start, start + before).toString();
-        String beforeString = null;
-        String afterString = null;
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(start + before, start + before + 1).toString();
-        }
-        //#12# ss(##12 ss) --> ## ss
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (deleteString.contains(KEY0) || deleteString.contains(KEY1)) {
             shouldFormat = true;
         }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null && !(s instanceof Editable)) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
         if (shouldFormat) {
@@ -67,24 +59,15 @@ public class HeaderController extends AbsEditController {
             return;
         }
         String addString;
-        String beforeString = null;
-        String afterString = null;
         addString = s.subSequence(start, start + Math.abs(after - before)).toString();
-        if (start + (after - before) + 1 <= s.length()) {
-            afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
-        }
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        //## ss --> #12# ss(##12 ss)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (addString.contains(KEY0) || addString.contains(KEY1)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, RelativeSizeSpan.class);
-        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
+        EditUtils.removeSpans(editable, start, AlignmentSpan.Standard.class);
+        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_CENTER_ALIGN, mRxMDConfiguration);
         List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }

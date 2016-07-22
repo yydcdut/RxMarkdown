@@ -31,6 +31,8 @@ import java.util.List;
  */
 public class StrikeThroughController extends AbsEditController {
 
+    private static final String KEY = "~";
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
         super.beforeTextChanged(s, start, before, after);
@@ -47,17 +49,14 @@ public class StrikeThroughController extends AbsEditController {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //~11~ss~~ --> ~~ss~~
-        if (deleteString.contains("~") || "~".equals(beforeString) || "~".equals(afterString)) {
+        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             shouldFormat = true;
         }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null) {
-            return;
-        }
-        if (!(s instanceof Editable)) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
         if (shouldFormat) {
@@ -78,7 +77,7 @@ public class StrikeThroughController extends AbsEditController {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //~~ss~~ --> ~11~ss~~
-        if (addString.contains("~") || "~".equals(beforeString) || "~".equals(afterString)) {
+        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
         }
     }

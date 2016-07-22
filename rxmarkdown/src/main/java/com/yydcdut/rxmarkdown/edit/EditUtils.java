@@ -125,12 +125,4 @@ class EditUtils {
         }
         return matchEditTokenList;
     }
-
-    protected static <T> boolean isContainedSpan(Editable editable, int start, int before, Class<T> clazz) {
-        T[] ts = editable.getSpans(start, start + before, clazz);
-        if (ts != null && ts.length > 0) {
-            return true;
-        }
-        return false;
-    }
 }

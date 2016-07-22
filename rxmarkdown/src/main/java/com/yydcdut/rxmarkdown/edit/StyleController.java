@@ -32,8 +32,7 @@ import java.util.List;
  */
 public class StyleController extends AbsEditController {
 
-    public StyleController() {
-    }
+    private static final String KEY = "*";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -51,17 +50,17 @@ public class StyleController extends AbsEditController {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //*11*ss** --> **ss**
-        if (deleteString.contains("*") || "*".equals(beforeString) || "*".equals(afterString)) {
+        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             shouldFormat = true;
         }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
-        if (shouldFormat && s instanceof Editable) {
+        if (shouldFormat) {
             format((Editable) s, start);
             return;
         }
@@ -79,10 +78,8 @@ public class StyleController extends AbsEditController {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //**ss** --> *11*ss**
-        if (addString.contains("*") || "*".equals(beforeString) || "*".equals(afterString)) {
-            if (s instanceof Editable) {
-                format((Editable) s, start);
-            }
+        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+            format((Editable) s, start);
         }
     }
 

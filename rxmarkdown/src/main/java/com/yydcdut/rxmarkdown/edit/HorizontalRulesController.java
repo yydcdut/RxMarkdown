@@ -36,7 +36,11 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class HRTransparentController extends AbsEditController {
+public class HorizontalRulesController extends AbsEditController {
+
+    private static final String KEY0 = "-";
+    private static final String KEY1 = "*";
+
     private RxMDEditText mRxMDEditText;
 
     /**
@@ -44,7 +48,7 @@ public class HRTransparentController extends AbsEditController {
      *
      * @param rxMDEditText RxMDEditText
      */
-    public HRTransparentController(@NonNull RxMDEditText rxMDEditText) {
+    public HorizontalRulesController(@NonNull RxMDEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
     }
 
@@ -64,19 +68,16 @@ public class HRTransparentController extends AbsEditController {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //1---(-1--)(--1-)(---1) --> ---
-        if (deleteString.contains("-") || deleteString.contains("*") ||
-                ("-".equals(beforeString) || "-".equals(afterString)) ||
-                ("*".equals(beforeString) || "*".equals(afterString))) {
+        if (deleteString.contains(KEY0) || deleteString.contains(KEY1) ||
+                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
+                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
             shouldFormat = true;
         }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null) {
-            return;
-        }
-        if (!(s instanceof Editable)) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
         if (shouldFormat) {
@@ -97,9 +98,9 @@ public class HRTransparentController extends AbsEditController {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //--- --> 1---(-1--)(--1-)(---1)
-        if ((addString.contains("-") || addString.contains("*")) ||
-                ("-".equals(beforeString) || "-".equals(afterString)) ||
-                ("*".equals(beforeString) || "*".equals(afterString))) {
+        if ((addString.contains(KEY0) || addString.contains(KEY1)) ||
+                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
+                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
             format((Editable) s, start);
         }
     }

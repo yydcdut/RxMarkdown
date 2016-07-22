@@ -16,22 +16,22 @@
 package com.yydcdut.rxmarkdown.edit;
 
 import android.text.Editable;
-import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.List;
 
 /**
- * RxMDEditText, header controller.
+ * RxMDEditText, code controller.
  * <p>
- * Created by yuyidong on 16/7/21.
+ * Created by yuyidong on 16/7/22.
  */
-public class HeaderController extends AbsEditController {
+public class CodeController extends AbsEditController {
 
-    private static final String KEY = "#";
+    private static final String KEY = "`";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -48,7 +48,7 @@ public class HeaderController extends AbsEditController {
         if (start + before + 1 <= s.length()) {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
-        //#12# ss(##12 ss) --> ## ss
+        //`1``(``1`)(```1)(1```) --> ```
         if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             shouldFormat = true;
         }
@@ -76,16 +76,16 @@ public class HeaderController extends AbsEditController {
         if (start > 0) {
             beforeString = s.subSequence(start - 1, start).toString();
         }
-        //## ss --> #12# ss(##12 ss)
+        //``` --> `1``(``1`)(```1)(1```)
         if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, RelativeSizeSpan.class);
+        EditUtils.removeSpans(editable, start, MDCodeSpan.class);
         IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
+        List<EditToken> editTokenList = iGrammar.format(editable);
         EditUtils.setSpans(editable, editTokenList);
     }
 }

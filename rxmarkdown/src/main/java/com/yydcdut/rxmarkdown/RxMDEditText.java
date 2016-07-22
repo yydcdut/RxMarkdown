@@ -30,9 +30,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.edit.HRTransparentController;
+import com.yydcdut.rxmarkdown.edit.BlockQuotesController;
+import com.yydcdut.rxmarkdown.edit.CenterAlignController;
+import com.yydcdut.rxmarkdown.edit.CodeController;
 import com.yydcdut.rxmarkdown.edit.HeaderController;
+import com.yydcdut.rxmarkdown.edit.HorizontalRulesController;
 import com.yydcdut.rxmarkdown.edit.IEditController;
+import com.yydcdut.rxmarkdown.edit.InlineCodeController;
 import com.yydcdut.rxmarkdown.edit.ListController;
 import com.yydcdut.rxmarkdown.edit.StrikeThroughController;
 import com.yydcdut.rxmarkdown.edit.StyleController;
@@ -113,10 +117,14 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     private void initControllerList() {
         mEditControllerList = new ArrayList<>();
-        mEditControllerList.add(new ListController(this, mEditTextWatcher));
+        mEditControllerList.add(new BlockQuotesController());
         mEditControllerList.add(new StyleController());
-        mEditControllerList.add(new HRTransparentController(this));
+        mEditControllerList.add(new CenterAlignController());
+        mEditControllerList.add(new CodeController());
         mEditControllerList.add(new HeaderController());
+        mEditControllerList.add(new HorizontalRulesController(this));
+        mEditControllerList.add(new InlineCodeController());
+        mEditControllerList.add(new ListController(this, mEditTextWatcher));
         mEditControllerList.add(new StrikeThroughController());
         setControllerConfig(mRxMDConfiguration);
     }
@@ -127,24 +135,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         }
         for (IEditController controller : mEditControllerList) {
             controller.setRxMDConfiguration(rxMDConfiguration);
-        }
-    }
-
-    private void beforeTextChanged4Controller(CharSequence s, int start, int before, int after) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.beforeTextChanged(s, start, before, after);
-        }
-    }
-
-    private void onTextChanged4Controller(CharSequence s, int start, int before, int after) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.onTextChanged(s, start, before, after);
-        }
-    }
-
-    private void onSelectionChanged4Controller(int selStart, int selEnd) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.onSelectionChanged(selStart, selEnd);
         }
     }
 
@@ -254,6 +244,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         }
     }
 
+    private void beforeTextChanged4Controller(CharSequence s, int start, int before, int after) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.beforeTextChanged(s, start, before, after);
+        }
+    }
+
     private void sendOnTextChanged(CharSequence s, int start, int before, int after) {
         if (mListeners != null) {
             final ArrayList<TextWatcher> list = mListeners;
@@ -261,6 +257,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             for (int i = 0; i < count; i++) {
                 list.get(i).onTextChanged(s, start, before, after);
             }
+        }
+    }
+
+    private void onTextChanged4Controller(CharSequence s, int start, int before, int after) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.onTextChanged(s, start, before, after);
         }
     }
 
@@ -313,73 +315,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         setText(charSequence);
         addTextChangedListener(mEditTextWatcher);
         setSelection(selectionStart, selectionEnd);
-    }
-
-    private boolean shouldFormat4BeforeTextChanged(CharSequence s, int start, int before, int after) {
-        if (before != 0) {
-            String deleteString = s.subSequence(start, start + before).toString();
-            String beforeString = null;
-            String afterString = null;
-            if (start > 0) {
-                beforeString = s.subSequence(start - 1, start).toString();
-            }
-            if (start + before + 1 <= s.length()) {
-                afterString = s.subSequence(start + before, start + before + 1).toString();
-            }
-            if (deleteString.contains("*")//bold && italic
-                    || deleteString.contains("#")//header
-                    || deleteString.contains("~")//strike through
-                    || deleteString.contains(">")//block quote
-                    || deleteString.contains("[")//center align
-                    || deleteString.contains("]")//center align
-                    || deleteString.contains("`")//inline code && code
-                    || deleteString.contains(".")//order && unorder list
-                    || (deleteString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))//"> " && "## "
-                    || ("#".equals(beforeString) || "#".equals(afterString))//#12# ss(##12 ss) --> ## ss
-                    || ("*".equals(beforeString) || "*".equals(afterString))//*11*ss** --> **ss**
-                    || ("~".equals(beforeString) || "~".equals(afterString))//~11~ss~~ --> ~~ss~~
-                    || ("-".equals(beforeString) || "-".equals(afterString))//1---(-1--)(--1-)(---1) --> ---
-                    || ("`".equals(beforeString) || "`".equals(afterString))//`1``(``1`)(```1)(1```) --> ```
-                    || (deleteString.startsWith(" ") && ".".equals(beforeString))//1. sss --> 1.s
-                    || (".".equals(afterString) || deleteString.contains("."))) {//1. sss -->  .sss(1 sss)
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean shouldFormat4OnTextChanged(CharSequence s, int start, int before, int after) {
-        if (after != 0) {
-            String addString;
-            String beforeString = null;
-            String afterString = null;
-            addString = s.subSequence(start, start + Math.abs(after - before)).toString();
-            if (start + (after - before) + 1 <= s.length()) {
-                afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
-            }
-            if (start > 0) {
-                beforeString = s.subSequence(start - 1, start).toString();
-            }
-            if (addString.contains("*")//bold && italic
-                    || addString.contains("#")//header
-                    || addString.contains("~")//strike through
-                    || addString.contains(">")//block quote
-                    || addString.contains("[")//center align
-                    || addString.contains("]")//center align
-                    || addString.contains("`")//inline code && code
-                    || (addString.startsWith(" ") && ("#".equals(beforeString) || ">".equals(beforeString)))//"> " && "## "
-                    || ("#".equals(beforeString) || "#".equals(afterString))//## ss --> #12# ss(##12 ss)
-                    || ("*".equals(beforeString) || "*".equals(afterString))//**ss** --> *11*ss**
-                    || ("~".equals(beforeString) || "~".equals(afterString))//~~ss~~ --> ~11~ss~~
-                    || ("-".equals(beforeString) || "-".equals(afterString))//--- --> 1---(-1--)(--1-)(---1)
-                    || ("`".equals(beforeString) || "`".equals(afterString))//``` --> `1``(``1`)(```1)(1```)
-                    || (".".equals(beforeString) || ".".equals(afterString))//1. sss -->1.s sss(1s. sss)
-                    || (addString.contains("---") || addString.contains("***"))//horizontal rules
-                    || (addString.contains(" ") && "+".equals(afterString))) {//"+ ss" --> "  + ss"
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean isMainThread() {
@@ -460,6 +395,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
             initControllerList();
         }
         onSelectionChanged4Controller(selStart, selEnd);
+    }
+
+    private void onSelectionChanged4Controller(int selStart, int selEnd) {
+        for (IEditController iEditController : mEditControllerList) {
+            iEditController.onSelectionChanged(selStart, selEnd);
+        }
     }
 
     @Override
