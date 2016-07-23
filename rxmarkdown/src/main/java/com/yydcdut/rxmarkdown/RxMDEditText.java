@@ -41,7 +41,7 @@ import com.yydcdut.rxmarkdown.edit.ListController;
 import com.yydcdut.rxmarkdown.edit.StrikeThroughController;
 import com.yydcdut.rxmarkdown.edit.StyleController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.factory.AndroidFactory;
+import com.yydcdut.rxmarkdown.factory.TextFactory;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.ArrayList;
@@ -405,7 +405,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        if (mGrammarFactory instanceof AndroidFactory) {
+        if (mGrammarFactory instanceof TextFactory) {
             if (mHasImageInText) {
                 onDetach();
                 mHasImageInText = false;
@@ -448,7 +448,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
 
     @Override
     public void invalidateDrawable(Drawable dr) {
-        if (mGrammarFactory instanceof AndroidFactory && mHasImageInText) {
+        if (mGrammarFactory instanceof TextFactory && mHasImageInText) {
             invalidate();
         } else {
             super.invalidateDrawable(dr);
@@ -456,7 +456,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private void onDetach() {
-        if (mGrammarFactory instanceof AndroidFactory) {
+        if (mGrammarFactory instanceof TextFactory) {
             MDImageSpan[] images = getImages();
             for (MDImageSpan image : images) {
                 Drawable drawable = image.getDrawable();
@@ -469,7 +469,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private MDImageSpan[] getImages() {
-        if (mGrammarFactory instanceof AndroidFactory && mHasImageInText && length() > 0) {
+        if (mGrammarFactory instanceof TextFactory && mHasImageInText && length() > 0) {
             return (getText()).getSpans(0, length(), MDImageSpan.class);
         }
         return new MDImageSpan[0];

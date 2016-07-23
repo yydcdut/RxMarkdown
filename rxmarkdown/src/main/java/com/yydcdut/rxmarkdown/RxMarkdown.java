@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
+import com.yydcdut.rxmarkdown.factory.TextFactory;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -101,7 +102,7 @@ public class RxMarkdown {
     /**
      * set factory
      *
-     * @param absGrammarFactory {@link com.yydcdut.rxmarkdown.factory.AndroidFactory} and {@link com.yydcdut.rxmarkdown.factory.EditFactory}
+     * @param absGrammarFactory {@link TextFactory} and {@link com.yydcdut.rxmarkdown.factory.EditFactory}
      * @return this(RxMarkdown)
      */
     public RxMarkdown factory(AbsGrammarFactory absGrammarFactory) {

@@ -34,12 +34,12 @@ import com.yydcdut.rxmarkdown.grammar.android.AndroidInstanceFactory;
  * <p>
  * Created by yuyidong on 16/5/12.
  */
-public class AndroidFactory extends AbsGrammarFactory {
+public class TextFactory extends AbsGrammarFactory {
     private RxMDConfiguration mRxMDConfiguration;
     private IChain mLineChain;
     private IChain mTotalChain;
 
-    private AndroidFactory() {
+    private TextFactory() {
         super();
     }
 
@@ -49,7 +49,7 @@ public class AndroidFactory extends AbsGrammarFactory {
      * @return {@link AbsGrammarFactory}
      */
     public static AbsGrammarFactory create() {
-        return new AndroidFactory();
+        return new TextFactory();
     }
 
     @Override

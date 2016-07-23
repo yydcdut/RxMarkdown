@@ -16,7 +16,7 @@ import com.yydcdut.markdowndemo.loader.OKLoader;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.factory.AndroidFactory;
+import com.yydcdut.rxmarkdown.factory.TextFactory;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
 import rx.Subscriber;
@@ -75,20 +75,17 @@ public class ShowActivity extends AppCompatActivity {
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content, this)
                 .config(rxMDConfiguration)
-                .factory(AndroidFactory.create())
+                .factory(TextFactory.create())
                 .intoObservable()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CharSequence>() {
                     @Override
                     public void onCompleted() {
-                        Snackbar.make(textView, "onCompleted " + (System.currentTimeMillis() - beginTime) + "ms", Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Snackbar.make(textView, "onError  " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        e.printStackTrace();
                     }
 
                     @Override
