@@ -1,12 +1,20 @@
 # RxMarkdown
 
-RxMarkdown is an Android library that helps you display simple markdown text in `android.widget.EditText` or `android.widget.TextView` .
+RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView` .
 
 It is backed by RxJava, implementing complicated APIs as handy reactive observables.
 
 中文：[README-zh-rCN.md](./README-zh-rCN.md)
 
 ## Support Grammar 
+
+RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditFactory` .
+
+`TextFactory` : Supports most of the markdown grammars，but it will destroy the integrity of the content. So, it applies to render in `TextView` .
+
+`EditFactory` : Supports some grammars，and it won't destroy the integrity of the content, the parsing speed is faster than `TextFactory` , So, it applies to real-time preview in `EditText` .
+
+### TextFactory
 
 - [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
 - [x] BlockQuote `>  `
@@ -29,10 +37,149 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 - [x] Todo `- [ ] ` / `- [x] `
 - [ ] Table `| Table | Table |`
 
-### Other Grammar
+#### Other Grammar
 
 - [x] Center Align `[]`
-- [ ] UnderLine `to be confirmed`​
+
+### TextFactory
+
+- [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
+- [x] BlockQuote `>  `
+- [x] Nested BlockQuote `> >  `
+- [x] Emphasis Bold `**`
+- [x] Emphasis Italic `*`
+- [x] Nested Bold && Italic
+- [x] Ordered List `1. `
+- [x] Nested Ordered List
+- [x] UnOrdered List `* ` /  `+ ` / `- `
+- [x] Nested UnOrdered List
+- [ ] Image `![]()`
+- [ ] Hyper Link `[]()`
+- [x] Inline Code 
+- [x] Code 
+- [ ] Backslash `\`
+- [x] Horizontal Rules `***` / `*****` / `---` / `-----------------`
+- [x] Strike Through `~~` 
+- [ ] Footnote `[^]`
+- [ ] Todo `- [ ] ` / `- [x] `
+- [ ] Table `| Table | Table |`
+
+#### Other Grammar
+
+- [x] Center Align `[]`
+
+
+### HtmlFactory
+
+//TODO
+
+## Quick Start
+
+### Gradle
+
+```groovy
+compile 'com.yydcdut:rxmarkdown:0.0.2'
+
+compile 'io.reactivex:rxandroid:1.2.0'
+compile 'io.reactivex:rxjava:1.1.5'
+```
+
+### Configuration
+
+All options in Configuration builder are optional. Use only those you really want to customize.
+
+```java
+RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
+        .setDefaultImageSize(100, 100)//default image width & height
+        .setBlockQuotesColor(Color.LTGRAY)//default color of block quotes
+        .setHeader1RelativeSize(1.6f)//default relative size of header1
+        .setHeader2RelativeSize(1.5f)//default relative size of header2
+        .setHeader3RelativeSize(1.4f)//default relative size of header3
+        .setHeader4RelativeSize(1.3f)//default relative size of header4
+        .setHeader5RelativeSize(1.2f)//default relative size of header5
+        .setHeader6RelativeSize(1.1f)//default relative size of header6
+        .setHorizontalRulesColor(Color.LTGRAY)//default color of horizontal rules's background
+        .setInlineCodeBgColor(Color.LTGRAY)//default color of inline code's background
+        .setCodeBgColor(Color.LTGRAY)//default color of code's background
+        .setTodoColor(Color.DKGRAY)//default color of todo
+        .setTodoDoneColor(Color.DKGRAY)//default color of done
+        .setUnOrderListColor(Color.BLACK)//default color of unorder list
+        .setLinkColor(Color.RED)//default color of link text
+        .setLinkUnderline(true)//default value of whether displays link underline
+        .setRxMDImageLoader(new DefaultLoader(context))//default image loader
+        .setDebug(true)//default value of debug
+        .build();
+```
+
+### Use
+
+* `EditText` , live preview :
+
+  ```java
+  RxMarkdown.live(rxMDEditText)
+          .config(rxMDConfiguration)
+          .factory(EditFactory.create())
+          .intoObservable()
+          .subscribe();
+  ```
+
+
+* cancel real-time preview :
+
+  ```java
+  rxMDEditText.clear();
+  ```
+
+* `TextView` render :
+
+  ```java
+  RxMarkdown.with(content, this)
+          .config(rxMDConfiguration)
+          .factory(TextFactory.create())
+          .intoObservable()
+          .subscribeOn(Schedulers.computation())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new Subscriber<CharSequence>() {
+              @Override
+              public void onCompleted() {}
+
+              @Override
+              public void onError(Throwable e) {}
+
+              @Override
+              public void onNext(CharSequence charSequence) {
+                  rxMDTextView.setText(charSequence, TextView.BufferType.SPANNABLE);
+              }
+          });
+  ```
+
+### Note
+
+#### RxMDImageLoader
+
+* Acceptable URIs examples 
+
+  ```c
+  "http://web.com/image.png" // from Web
+  "file:///mnt/sdcard/image.png" // from SD card
+  "content://media/external/images/media/1" // from content provider
+  "assets://image.png" // from assets
+  "drawable://" + R.drawable.img // from drawables (non-9patch images)
+  ```
+
+* Custom image loader
+
+  ```java
+  public class MDLoader implements RxMDImageLoader {}
+  ```
+
+#### Image Size
+
+The image of 320 pixels width and 320 pixels height will display on the screen :
+
+```markdown
+![image](http://web.com/image.png/320$320)
+```
 
 
 # Branch Status
