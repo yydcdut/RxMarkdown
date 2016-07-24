@@ -57,7 +57,7 @@ public class MultiGrammarsChain implements IChain {
 
     /**
      * @param nextHandleGrammar the next chain
-     * @return
+     * @return boolean
      * @deprecated
      */
     @Override

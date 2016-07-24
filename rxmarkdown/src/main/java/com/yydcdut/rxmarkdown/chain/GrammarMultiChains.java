@@ -69,7 +69,7 @@ public class GrammarMultiChains implements IChain {
 
     /**
      * @param nextHandleGrammar the next chain
-     * @return
+     * @return boolean
      * @deprecated
      */
     @Override

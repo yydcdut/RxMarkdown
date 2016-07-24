@@ -81,7 +81,7 @@ public class RxMarkdown {
      * get RxMarkdown object.
      * Live preview in {@link RxMDEditText}.
      *
-     * @param rxMDEditText
+     * @param rxMDEditText RxMDEditText
      * @return RxMarkdown object
      */
     public static RxMarkdown live(RxMDEditText rxMDEditText) {

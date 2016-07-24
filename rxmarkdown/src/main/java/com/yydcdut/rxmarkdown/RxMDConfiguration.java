@@ -530,7 +530,7 @@ public class RxMDConfiguration {
          * whether debug or not
          * default is true
          *
-         * @param debug
+         * @param debug boolean
          * @return self
          */
         public Builder setDebug(boolean debug) {
