@@ -6,6 +6,10 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 
 中文：[README-zh-rCN.md](./README-zh-rCN.md)
 
+Demo apk : [DOWNLOAD](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.apk?raw=true)
+
+![RxMarkdown.gif](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/rxmarkdown.gif)
+
 ## Support Grammar 
 
 RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditFactory` .
@@ -41,7 +45,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 
 - [x] Center Align `[]`
 
-### TextFactory
+### EditFactory
 
 - [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
 - [x] BlockQuote `>  `
@@ -78,7 +82,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.2'
+compile 'com.yydcdut:rxmarkdown:0.0.3'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -181,10 +185,9 @@ The image of 320 pixels width and 320 pixels height will display on the screen :
 ![image](http://web.com/image.png/320$320)
 ```
 
-
 # Branch Status
 
-RxMarkdown is now developing in branch 'master'. 
+RxMarkdown is now developing in branch 'dev'. 
 
 # License
 

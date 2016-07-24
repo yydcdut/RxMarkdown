@@ -4,6 +4,10 @@ RxMarkdown 是一个运用 RxJava API 在 `android.widget.TextView` 或 `android
 
 注：RxMarkdown 暂时不支持 HTML 标签。
 
+Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.apk?raw=true)
+
+![RxMarkdown.gif](http://7xs03u.com1.z0.glb.clouddn.com/rxmarkdown.gif)
+
 ## 支持语法
 
 RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` 和 `EditFactory` 。
@@ -76,7 +80,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 ### 引用
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.2'
+compile 'com.yydcdut:rxmarkdown:0.0.3'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -180,13 +184,9 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 ![image](http://web.com/image.png/320$320)
 ```
 
-
-
 # 分支情况
 
-RxMarkdown 现在在 'master' 分支进行开发。
-
-开发中....... 
+RxMarkdown 现在在 'dev' 分支进行开发。
 
 # License
 
