@@ -84,7 +84,7 @@ public class CodeController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, MDCodeSpan.class);
-        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
+        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_CODE, mRxMDConfiguration);
         List<EditToken> editTokenList = iGrammar.format(editable);
         EditUtils.setSpans(editable, editTokenList);
     }
