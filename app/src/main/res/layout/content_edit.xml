@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.yydcdut.markdowndemo.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_edit">
 
     <com.yydcdut.rxmarkdown.RxMDEditText
         android:id="@+id/edit_md"

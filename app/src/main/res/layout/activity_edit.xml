@@ -20,30 +20,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/content_edit"/>
 
-        <Button
-            android:id="@+id/btn_edit_show"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Edit and Show"
-            android:textAllCaps="false"/>
-
-
-        <Button
-            android:id="@+id/btn_compare"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Compare"
-            android:textAllCaps="false"/>
-
-    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="64dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:src="@drawable/ic_visibility_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
-

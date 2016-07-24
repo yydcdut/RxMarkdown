@@ -42,6 +42,7 @@ public class ShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Show");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RxMDTextView textView = (RxMDTextView) findViewById(R.id.txt_md_show);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -70,7 +71,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
-//                .setRxMDImageLoader(rxMDImageLoader)
+                .setRxMDImageLoader(rxMDImageLoader)
                 .build();
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content, this)
@@ -101,9 +102,6 @@ public class ShowActivity extends AppCompatActivity {
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }
