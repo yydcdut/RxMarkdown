@@ -79,7 +79,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 
 ## Quick Start
 
-### Gradle
+### Setup
 
 ```groovy
 compile 'com.yydcdut:rxmarkdown:0.0.3'
@@ -115,7 +115,7 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
         .build();
 ```
 
-### Use
+### Usage
 
 * `EditText` , live preview :
 
@@ -166,7 +166,6 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
   ```c
   "http://web.com/image.png" // from Web
   "file:///mnt/sdcard/image.png" // from SD card
-  "content://media/external/images/media/1" // from content provider
   "assets://image.png" // from assets
   "drawable://" + R.drawable.img // from drawables (non-9patch images)
   ```
@@ -174,7 +173,13 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 * Custom image loader
 
   ```java
-  public class MDLoader implements RxMDImageLoader {}
+  public class MDLoader implements RxMDImageLoader {
+      @Nullable
+      @Override
+      public byte[] loadSync(@NonNull String url) throws IOException {
+          return new byte[0];
+      }
+  }
   ```
 
 #### Image Size
@@ -184,10 +189,6 @@ The image of 320 pixels width and 320 pixels height will display on the screen :
 ```markdown
 ![image](http://web.com/image.png/320$320)
 ```
-
-# Branch Status
-
-RxMarkdown is now developing in branch 'dev'. 
 
 # License
 

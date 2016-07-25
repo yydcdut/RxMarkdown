@@ -165,7 +165,6 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
   ```c
   "http://web.com/image.png" // from Web
   "file:///mnt/sdcard/image.png" // from SD card
-  "content://media/external/images/media/1" // from content provider
   "assets://image.png" // from assets
   "drawable://" + R.drawable.img // from drawables (non-9patch images)
   ```
@@ -173,7 +172,13 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 * 自定义 imageLoader
 
   ```java
-  public class MDLoader implements RxMDImageLoader {}
+  public class MDLoader implements RxMDImageLoader {
+      @Nullable
+      @Override
+      public byte[] loadSync(@NonNull String url) throws IOException {
+          return new byte[0];
+      }
+  }
   ```
 
 #### 图片尺寸
@@ -183,10 +188,6 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 ```markdown
 ![image](http://web.com/image.png/320$320)
 ```
-
-# 分支情况
-
-RxMarkdown 现在在 'dev' 分支进行开发。
 
 # License
 
