@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
+import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
@@ -55,6 +56,7 @@ public class RxMDConfiguration {
     private boolean isLinkUnderline;
 
     private RxMDImageLoader rxMDImageLoader;
+    private OnLinkClickCallback onLinkClickCallback;
 
     private boolean isDebug = true;
 
@@ -78,6 +80,7 @@ public class RxMDConfiguration {
      * @param linkColor            link color
      * @param isLinkUnderline      link underline
      * @param rxMDImageLoader      loader
+     * @param onLinkClickCallback  lick click callback
      * @param isDebug              debug
      */
     private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
@@ -87,7 +90,8 @@ public class RxMDConfiguration {
                               int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int linkColor, boolean isLinkUnderline,
-                              RxMDImageLoader rxMDImageLoader, boolean isDebug) {
+                              RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
+                              boolean isDebug) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -105,6 +109,7 @@ public class RxMDConfiguration {
         this.linkColor = linkColor;
         this.isLinkUnderline = isLinkUnderline;
         this.rxMDImageLoader = rxMDImageLoader;
+        this.onLinkClickCallback = onLinkClickCallback;
         this.isDebug = isDebug;
     }
 
@@ -262,6 +267,15 @@ public class RxMDConfiguration {
     }
 
     /**
+     * get link click callback
+     *
+     * @return {@link OnLinkClickCallback}
+     */
+    public OnLinkClickCallback getOnLinkClickCallback() {
+        return onLinkClickCallback;
+    }
+
+    /**
      * whether is debug or not
      *
      * @return TRUE:debug
@@ -311,6 +325,8 @@ public class RxMDConfiguration {
 
         private RxMDImageLoader rxMDImageLoader;
 
+        private OnLinkClickCallback mOnLinkClickCallback;
+
         private boolean isDebug = true;
 
         /**
@@ -336,6 +352,7 @@ public class RxMDConfiguration {
             linkColor = Color.RED;
             isLinkUnderline = true;
             rxMDImageLoader = new DefaultLoader(context);
+            mOnLinkClickCallback = null;
         }
 
         /**
@@ -527,6 +544,16 @@ public class RxMDConfiguration {
         }
 
         /**
+         * set link click callback
+         *
+         * @param onLinkClickCallback OnLinkClickCallback, the callback
+         */
+        public Builder setOnLinkClickCallback(OnLinkClickCallback onLinkClickCallback) {
+            mOnLinkClickCallback = onLinkClickCallback;
+            return this;
+        }
+
+        /**
          * whether debug or not
          * default is true
          *
@@ -555,7 +582,8 @@ public class RxMDConfiguration {
                     horizontalRulesColor, inlineCodeBgColor, codeBgColor,
                     todoColor, todoDoneColor, unOrderListColor,
                     linkColor, isLinkUnderline,
-                    rxMDImageLoader, isDebug);
+                    rxMDImageLoader, mOnLinkClickCallback,
+                    isDebug);
         }
     }
 }

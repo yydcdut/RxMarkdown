@@ -2,6 +2,7 @@ package com.yydcdut.markdowndemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -10,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yydcdut.markdowndemo.loader.OKLoader;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
+import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.factory.TextFactory;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
@@ -72,6 +76,14 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .setRxMDImageLoader(rxMDImageLoader)
+                .setLinkColor(Color.BLUE)
+                .setLinkUnderline(false)
+                .setOnLinkClickCallback(new OnLinkClickCallback() {
+                    @Override
+                    public void onLinkClicked(View view, String link) {
+                        Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .build();
         final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content, this)
