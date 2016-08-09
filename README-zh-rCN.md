@@ -1,10 +1,16 @@
 # RxMarkdown
 
+[![License](http://img.shields.io/:license-apache-blue.svg)](LICENSE.txt) [![API](https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=9)  [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxMarkdown-green.svg?style=true)](https://android-arsenal.com/details/1/3967)
+
 RxMarkdown 是一个运用 RxJava API 在 `android.widget.TextView` 或 `android.widget.EditText` 中编辑和（实时）预览基本 markdown 语法的 Android 库。 
 
 注：RxMarkdown 暂时不支持 HTML 标签。
 
 Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.apk?raw=true)
+
+二维码 : [传送门](http://fir.im/nh4c)
+
+更新日志 : [传送门](./CHANGELOG.md)
 
 ![RxMarkdown.gif](http://7xs03u.com1.z0.glb.clouddn.com/rxmarkdown.gif)
 
@@ -80,7 +86,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 ### 引用
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.3'
+compile 'com.yydcdut:rxmarkdown:0.0.4'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -112,6 +118,12 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
         .setLinkUnderline(true)//default value of whether displays link underline
         .setRxMDImageLoader(new DefaultLoader(context))//default image loader
         .setDebug(true)//default value of debug
+        .setOnLinkClickCallback(new OnLinkClickCallback() {//link click callback
+        	@Override
+        	public void onLinkClicked(View view, String link) {
+        		Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+        	}
+        })
         .build();
 ```
 

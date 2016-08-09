@@ -1,5 +1,7 @@
 # RxMarkdown
 
+[![License](http://img.shields.io/:license-apache-blue.svg)](LICENSE.txt) [![API](https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=9)  [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxMarkdown-green.svg?style=true)](https://android-arsenal.com/details/1/3967)
+
 RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView` .
 
 It is backed by RxJava, implementing complicated APIs as handy reactive observables.
@@ -7,6 +9,10 @@ It is backed by RxJava, implementing complicated APIs as handy reactive observab
 中文：[README-zh-rCN.md](./README-zh-rCN.md)
 
 Demo apk : [DOWNLOAD](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.apk?raw=true)
+
+QR Code : [CLICK](http://fir.im/nh4c)
+
+Change Log : [SEE](./CHANGELOG.md)
 
 ![RxMarkdown.gif](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/rxmarkdown.gif)
 
@@ -82,7 +88,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Setup
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.3'
+compile 'com.yydcdut:rxmarkdown:0.0.4'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -112,6 +118,11 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
         .setLinkUnderline(true)//default value of whether displays link underline
         .setRxMDImageLoader(new DefaultLoader(context))//default image loader
         .setDebug(true)//default value of debug
+        .setOnLinkClickCallback(new OnLinkClickCallback() {//link click callback
+        	@Override
+        	public void onLinkClicked(View view, String link) {
+        	}
+        })
         .build();
 ```
 
