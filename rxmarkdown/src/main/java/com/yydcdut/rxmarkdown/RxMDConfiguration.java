@@ -547,6 +547,7 @@ public class RxMDConfiguration {
          * set link click callback
          *
          * @param onLinkClickCallback OnLinkClickCallback, the callback
+         * @return self
          */
         public Builder setOnLinkClickCallback(OnLinkClickCallback onLinkClickCallback) {
             mOnLinkClickCallback = onLinkClickCallback;
