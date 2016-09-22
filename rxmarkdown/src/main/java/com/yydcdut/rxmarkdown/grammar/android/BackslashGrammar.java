@@ -52,6 +52,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
     @Override
     boolean isMatch(@NonNull String text) {
         if (text.contains(BoldGrammar.KEY_BACKSLASH_VALUE) ||
+                text.contains(BoldGrammar.KEY_BACKSLASH_VALUE_1) ||
                 text.contains(CenterAlignGrammar.KEY_BACKSLASH_VALUE_1) ||
                 text.contains(FootnoteGrammar.KEY_BACKSLASH_VALUE_0) ||
                 text.contains(FootnoteGrammar.KEY_BACKSLASH_VALUE_2) ||
@@ -88,6 +89,14 @@ class BackslashGrammar extends AbsAndroidGrammar {
                 break;
             }
             ssb.replace(index, index + BoldGrammar.KEY_BACKSLASH_VALUE.length(), "*");
+        }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(BoldGrammar.KEY_BACKSLASH_VALUE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + BoldGrammar.KEY_BACKSLASH_VALUE_1.length(), "_");
         }
         //----------  BoldGrammar  ----------
         //----------  CenterAlignGrammar  ----------

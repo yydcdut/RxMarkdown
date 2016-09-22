@@ -29,14 +29,17 @@ import java.util.regex.Pattern;
  * The implementation of grammar for bold.
  * Grammar:
  * "**content**"
+ * "__content__"
  * <p>
  * Created by yuyidong on 16/5/3.
  */
 class BoldGrammar extends AbsAndroidGrammar {
 
-    protected static final String KEY_BOLD = "**";
+    private static final String KEY_BOLD = "**";
+    private static final String KEY_BOLD_1 = "__";
 
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "*";
+    protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + "_";
 
     BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -44,11 +47,18 @@ class BoldGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(KEY_BOLD)) {
+        if (!text.contains(KEY_BOLD) && !text.contains(KEY_BOLD_1)) {
             return false;
         }
+        boolean match = false;
         Pattern pattern = Pattern.compile(".*[\\*]{2}.*[\\*]{2}.*");
-        return pattern.matcher(text).matches();
+        Pattern pattern1 = Pattern.compile(".*[_]{2}.*[_]{2}.*");
+        match |= pattern.matcher(text).matches();
+        if (match) {
+            return true;
+        }
+        match |= pattern1.matcher(text).matches();
+        return match;
     }
 
     @NonNull
@@ -63,14 +73,22 @@ class BoldGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), BackslashGrammar.KEY_ENCODE);
         }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE_1.length(), BackslashGrammar.KEY_ENCODE_1);
+        }
         return ssb;
     }
 
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
-        return parse(text, ssb);
+        ssb = parse(KEY_BOLD, ssb.toString(), ssb);
+        return parse(KEY_BOLD_1, ssb.toString(), ssb);
     }
 
     @NonNull
@@ -85,64 +103,72 @@ class BoldGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index, index + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
         }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(BackslashGrammar.KEY_ENCODE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + BackslashGrammar.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+        }
         return ssb;
     }
 
     /**
      * parse
      *
+     * @param key  {@link BoldGrammar#KEY_BOLD} or {@link BoldGrammar#KEY_BOLD_1}
      * @param text the original content,the class type is {@link String}
      * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
      * @return the content after parsing
      */
-    @NonNull
-    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull String key, @NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
-            int positionHeader = findPosition(tmpTotal, ssb, tmp);
+            int positionHeader = findPosition(key, tmpTotal, ssb, tmp);
             if (positionHeader == -1) {
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + KEY_BOLD.length(), tmpTotal.length());
-            int positionFooter = findPosition(tmpTotal, ssb, tmp);
+            tmpTotal = tmpTotal.substring(positionHeader + key.length(), tmpTotal.length());
+            int positionFooter = findPosition(key, tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + KEY_BOLD.length());
+                ssb.delete(tmp.length(), tmp.length() + key.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new StyleSpan(Typeface.BOLD), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_BOLD.length());
+                ssb.delete(tmp.length(), tmp.length() + key.length());
             } else {
-                tmp.append(KEY_BOLD);
+                tmp.append(key);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + KEY_BOLD.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + key.length(), tmpTotal.length());
         }
         return ssb;
     }
 
     /**
-     * find the position of next "**"
-     * ignore the "**" in inline code grammar,
+     * find the position of next "**" or "__"
+     * ignore the "**" and "__" in inline code grammar,
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
      * @param tmp      the content that has parsed
-     * @return the next position of "**"
+     * @return the next position of "**" or "__"
      */
-    private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
+    private int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_BOLD);
+        int position = tmpTmpTotal.indexOf(key);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_BOLD.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, key.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$$").append(tmpTmpTotal.substring(position + KEY_BOLD.length(), tmpTmpTotal.length()));
-                return findPosition(sb.toString(), ssb, tmp);
+                        .append("$$").append(tmpTmpTotal.substring(position + key.length(), tmpTmpTotal.length()));
+                return findPosition(key, sb.toString(), ssb, tmp);
             } else {
                 return position;
             }

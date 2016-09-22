@@ -216,6 +216,7 @@ public abstract class AbsGrammarFactory {
      * Get bold grammar.
      * Grammar:
      * "**content**"
+     * "__content__"
      *
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for bold grammar
