@@ -31,13 +31,17 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * The implementation of grammar for italic.
  * Grammar:
  * "*content*"
+ * "_content_"
  * <p>
  * Created by yuyidong on 16/5/3.
  */
 class ItalicGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_ITALIC = "*";
+    protected static final String KEY_ITALIC_1 = "_";
+
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_ITALIC;
+    protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_ITALIC_1;
 
     ItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -45,11 +49,18 @@ class ItalicGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(KEY_ITALIC)) {
+        if (!text.contains(KEY_ITALIC) && !text.contains(KEY_ITALIC_1)) {
             return false;
         }
+        boolean match = false;
         Pattern pattern = Pattern.compile(".*[\\*]{1}.*[\\*]{1}.*");
-        return pattern.matcher(text).matches();
+        Pattern pattern1 = Pattern.compile(".*[_]{1}.*[_]{1}.*");
+        match |= pattern.matcher(text).matches();
+        if (match) {
+            return true;
+        }
+        match |= pattern1.matcher(text).matches();
+        return match;
     }
 
     @NonNull
@@ -64,14 +75,22 @@ class ItalicGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), BackslashGrammar.KEY_ENCODE);
         }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + KEY_BACKSLASH_VALUE_1.length(), BackslashGrammar.KEY_ENCODE_1);
+        }
         return ssb;
     }
 
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
-        return parse(text, ssb);
+        ssb = parse(KEY_ITALIC, ssb.toString(), ssb);
+        return parse(KEY_ITALIC_1, ssb.toString(), ssb);
     }
 
     @NonNull
@@ -86,41 +105,50 @@ class ItalicGrammar extends AbsAndroidGrammar {
             }
             ssb.replace(index, index + BackslashGrammar.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
         }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(BackslashGrammar.KEY_ENCODE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + BackslashGrammar.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+        }
         return ssb;
     }
 
     /**
      * parse
      *
+     * @param key  {@link ItalicGrammar#KEY_ITALIC} or {@link ItalicGrammar#KEY_ITALIC_1}
      * @param text the original content,the class type is {@link String}
      * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
      * @return the content after parsing
      */
     @NonNull
-    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull String key, @NonNull String text, @NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
-            int positionHeader = findPosition(tmpTotal, ssb, tmp);
+            int positionHeader = findPosition(key, tmpTotal, ssb, tmp);
             if (positionHeader == -1) {
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + KEY_ITALIC.length(), tmpTotal.length());
-            int positionFooter = findPosition(tmpTotal, ssb, tmp);
+            tmpTotal = tmpTotal.substring(positionHeader + key.length(), tmpTotal.length());
+            int positionFooter = findPosition(key, tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + KEY_ITALIC.length());
+                ssb.delete(tmp.length(), tmp.length() + key.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new StyleSpan(Typeface.ITALIC), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_ITALIC.length());
+                ssb.delete(tmp.length(), tmp.length() + key.length());
             } else {
-                tmp.append(KEY_ITALIC);
+                tmp.append(key);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + KEY_ITALIC.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + key.length(), tmpTotal.length());
         }
         return ssb;
     }
@@ -134,16 +162,16 @@ class ItalicGrammar extends AbsAndroidGrammar {
      * @param tmp      the content that has parsed
      * @return the next position of "*"
      */
-    private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
+    private int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_ITALIC);
+        int position = tmpTmpTotal.indexOf(key);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_ITALIC.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, key.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$").append(tmpTmpTotal.substring(position + KEY_ITALIC.length(), tmpTmpTotal.length()));
-                return findPosition(sb.toString(), ssb, tmp);
+                        .append("$").append(tmpTmpTotal.substring(position + key.length(), tmpTmpTotal.length()));
+                return findPosition(key, sb.toString(), ssb, tmp);
             } else {
                 return position;
             }

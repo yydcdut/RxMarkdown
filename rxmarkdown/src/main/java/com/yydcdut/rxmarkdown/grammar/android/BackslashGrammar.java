@@ -20,14 +20,6 @@ import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
-import static com.yydcdut.rxmarkdown.grammar.android.CenterAlignGrammar.KEY_1_CENTER_ALIGN;
-import static com.yydcdut.rxmarkdown.grammar.android.FootnoteGrammar.KEY_1_FOOTNOTE;
-import static com.yydcdut.rxmarkdown.grammar.android.HyperLinkGrammar.KEY_0_HYPER_LINK;
-import static com.yydcdut.rxmarkdown.grammar.android.HyperLinkGrammar.KEY_2_HYPER_LINK;
-import static com.yydcdut.rxmarkdown.grammar.android.ImageGrammar.KEY_2_IMAGE;
-import static com.yydcdut.rxmarkdown.grammar.android.InlineCodeGrammar.KEY_INLINE_CODE;
-import static com.yydcdut.rxmarkdown.grammar.android.ItalicGrammar.KEY_ITALIC;
-
 /**
  * The implementation of grammar for back slash.
  * Grammar:
@@ -64,6 +56,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
                 text.contains(ImageGrammar.KEY_BACKSLASH_VALUE_4) ||
                 text.contains(InlineCodeGrammar.KEY_BACKSLASH_VALUE) ||
                 text.contains(ItalicGrammar.KEY_BACKSLASH_VALUE) ||
+                text.contains(ItalicGrammar.KEY_BACKSLASH_VALUE_1) ||
                 text.contains(StrikeThroughGrammar.KEY_BACKSLASH_VALUE)) {
             return true;
         } else {
@@ -106,7 +99,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + CenterAlignGrammar.KEY_BACKSLASH_VALUE_1.length(), KEY_1_CENTER_ALIGN);
+            ssb.replace(index, index + CenterAlignGrammar.KEY_BACKSLASH_VALUE_1.length(), CenterAlignGrammar.KEY_1_CENTER_ALIGN);
         }
         //----------  CenterAlignGrammar  ----------
         //----------  FootnoteGrammar  ----------
@@ -124,7 +117,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + FootnoteGrammar.KEY_BACKSLASH_VALUE_2.length(), KEY_1_FOOTNOTE);
+            ssb.replace(index, index + FootnoteGrammar.KEY_BACKSLASH_VALUE_2.length(), FootnoteGrammar.KEY_1_FOOTNOTE);
         }
         //----------  FootnoteGrammar  ----------
         //----------  HyperLinkGrammar  ----------
@@ -134,7 +127,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + HyperLinkGrammar.KEY_BACKSLASH_VALUE_0.length(), KEY_0_HYPER_LINK);
+            ssb.replace(index, index + HyperLinkGrammar.KEY_BACKSLASH_VALUE_0.length(), HyperLinkGrammar.KEY_0_HYPER_LINK);
         }
         while (true) {
             String text = ssb.toString();
@@ -150,7 +143,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + HyperLinkGrammar.KEY_BACKSLASH_VALUE_3.length(), KEY_2_HYPER_LINK);
+            ssb.replace(index, index + HyperLinkGrammar.KEY_BACKSLASH_VALUE_3.length(), HyperLinkGrammar.KEY_2_HYPER_LINK);
         }
         //----------  HyperLinkGrammar  ----------
         //----------  ImageGrammar  ----------
@@ -176,7 +169,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ImageGrammar.KEY_BACKSLASH_VALUE_4.length(), KEY_2_IMAGE);
+            ssb.replace(index, index + ImageGrammar.KEY_BACKSLASH_VALUE_4.length(), ImageGrammar.KEY_2_IMAGE);
         }
         //----------  ImageGrammar  ----------
         //----------  InlineCodeGrammar  ----------
@@ -186,7 +179,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + InlineCodeGrammar.KEY_BACKSLASH_VALUE.length(), KEY_INLINE_CODE);
+            ssb.replace(index, index + InlineCodeGrammar.KEY_BACKSLASH_VALUE.length(), InlineCodeGrammar.KEY_INLINE_CODE);
         }
         //----------  InlineCodeGrammar  ----------
         //----------  ItalicGrammar  ----------
@@ -196,7 +189,15 @@ class BackslashGrammar extends AbsAndroidGrammar {
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ItalicGrammar.KEY_BACKSLASH_VALUE.length(), KEY_ITALIC);
+            ssb.replace(index, index + ItalicGrammar.KEY_BACKSLASH_VALUE.length(), ItalicGrammar.KEY_ITALIC);
+        }
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(ItalicGrammar.KEY_BACKSLASH_VALUE_1);
+            if (index == -1) {
+                break;
+            }
+            ssb.replace(index, index + ItalicGrammar.KEY_BACKSLASH_VALUE_1.length(), ItalicGrammar.KEY_ITALIC_1);
         }
         //----------  ItalicGrammar  ----------
         //----------  StrikeThroughGrammar  ----------
