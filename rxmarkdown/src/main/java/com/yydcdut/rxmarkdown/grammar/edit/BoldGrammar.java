@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
  * The implementation of grammar for bold.
  * Grammar:
  * "**content**"
+ * "__content__"
  * <p>
  * Created by yuyidong on 16/6/29.
  */
@@ -45,8 +46,15 @@ class BoldGrammar extends EditGrammarAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
+        editTokenList.addAll(parse(editable, "(\\*\\*)(.*?)(\\*\\*)"));
+        editTokenList.addAll(parse(editable, "(__)(.*?)(__)"));
+        return editTokenList;
+    }
+
+    private List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern) {
+        List<EditToken> editTokenList = new ArrayList<>();
         StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("(\\*\\*)(.*?)(\\*\\*)");
+        Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         while (m.find()) {

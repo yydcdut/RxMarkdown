@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
  * The implementation of grammar for italic.
  * Grammar:
  * "*content*"
+ * "_content_"
  * <p>
  * Created by yuyidong on 16/6/29.
  */
@@ -46,8 +47,16 @@ class ItalicGrammar extends EditGrammarAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        StringBuilder content = new StringBuilder(editable.toString().replace("**", "  "));
-        Pattern p = Pattern.compile("(\\*)(.*?)(\\*)");
+        editTokenList.addAll(parse(editable, "(\\*)(.*?)(\\*)"));
+        editTokenList.addAll(parse(editable, "(_)(.*?)(_)"));
+        return editTokenList;
+    }
+
+    private List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern) {
+        List<EditToken> editTokenList = new ArrayList<>();
+        String text = editable.toString().replace("**", "  ");
+        StringBuilder content = new StringBuilder(text.replace("__", "  "));
+        Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         while (m.find()) {
