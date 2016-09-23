@@ -86,7 +86,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 ### 引用
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.5'
+compile 'com.yydcdut:rxmarkdown:0.0.7'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'

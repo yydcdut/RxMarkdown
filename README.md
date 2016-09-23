@@ -88,7 +88,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Setup
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.5'
+compile 'com.yydcdut:rxmarkdown:0.0.7'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
