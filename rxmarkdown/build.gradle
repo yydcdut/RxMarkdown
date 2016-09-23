@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 22
@@ -58,7 +58,7 @@ dependencies {
 //    archives sourcesJar
 //}
 //
-//version = "0.0.5"
+//version = "0.0.6"
 //
 //def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
 //def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'
