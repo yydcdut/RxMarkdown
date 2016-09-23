@@ -29,8 +29,8 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
 - [x] BlockQuote `>  `
 - [x] Nested BlockQuote `> >  `
-- [x] Emphasis Bold `**`
-- [x] Emphasis Italic `*`
+- [x] Emphasis Bold `**` `__`
+- [x] Emphasis Italic `*` `_`
 - [x] Nested Bold && Italic
 - [x] Ordered List `1. `
 - [x] Nested Ordered List
@@ -56,8 +56,8 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [x] Header `# ` / `## ` / `### ` / `#### ` / `##### ` / `####### `
 - [x] BlockQuote `>  `
 - [x] Nested BlockQuote `> >  `
-- [x] Emphasis Bold `**`
-- [x] Emphasis Italic `*`
+- [x] Emphasis Bold `**` `__`
+- [x] Emphasis Italic `*` `_`
 - [x] Nested Bold && Italic
 - [x] Ordered List `1. `
 - [x] Nested Ordered List
