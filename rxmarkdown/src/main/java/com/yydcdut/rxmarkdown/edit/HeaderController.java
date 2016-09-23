@@ -20,7 +20,7 @@ import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class HeaderController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, RelativeSizeSpan.class);
-        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
+        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
         List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }

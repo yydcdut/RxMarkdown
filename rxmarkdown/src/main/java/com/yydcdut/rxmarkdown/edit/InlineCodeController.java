@@ -20,7 +20,7 @@ import android.text.style.BackgroundColorSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class InlineCodeController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, BackgroundColorSpan.class);
-        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_INLINE_CODE, mRxMDConfiguration);
+        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_INLINE_CODE, mRxMDConfiguration);
         List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }

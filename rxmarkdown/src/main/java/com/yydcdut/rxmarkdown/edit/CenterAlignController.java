@@ -20,7 +20,7 @@ import android.text.style.AlignmentSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
 
 import java.util.List;
 
@@ -67,7 +67,7 @@ public class CenterAlignController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, AlignmentSpan.Standard.class);
-        IGrammar iGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_CENTER_ALIGN, mRxMDConfiguration);
+        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_CENTER_ALIGN, mRxMDConfiguration);
         List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }

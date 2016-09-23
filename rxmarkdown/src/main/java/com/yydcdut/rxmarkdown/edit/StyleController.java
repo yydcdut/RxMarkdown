@@ -20,7 +20,7 @@ import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.grammar.edit.AndroidInstanceFactory;
+import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +88,8 @@ public class StyleController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, StyleSpan.class);
-        IGrammar boldGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_BOLD, mRxMDConfiguration);
-        IGrammar italicGrammar = AndroidInstanceFactory.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_ITALIC, mRxMDConfiguration);
+        IGrammar boldGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_BOLD, mRxMDConfiguration);
+        IGrammar italicGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_ITALIC, mRxMDConfiguration);
         List<EditToken> editTokenList = new ArrayList<>();
         editTokenList.addAll(EditUtils.getMatchedEditTokenList(editable, boldGrammar.format(editable), start));
         editTokenList.addAll(EditUtils.getMatchedEditTokenList(editable, italicGrammar.format(editable), start));

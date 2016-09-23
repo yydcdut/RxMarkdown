@@ -44,9 +44,9 @@ import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNORDER_L
  * <p>
  * Created by yuyidong on 16/7/2.
  */
-public class AndroidInstanceFactory {
+public class EditGrammarFacade {
 
-    private AndroidInstanceFactory() {
+    private EditGrammarFacade() {
     }
 
     /**
