@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.TypefaceSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
@@ -115,6 +116,7 @@ class InlineCodeGrammar extends AbsAndroidGrammar {
                 ssb.delete(tmp.length(), tmp.length() + KEY_INLINE_CODE.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new BackgroundColorSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new TypefaceSpan("monospace"), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY_INLINE_CODE.length());
             } else {
                 tmp.append(KEY_INLINE_CODE);

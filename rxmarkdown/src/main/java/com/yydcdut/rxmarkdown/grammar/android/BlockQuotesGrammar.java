@@ -18,8 +18,11 @@ package com.yydcdut.rxmarkdown.grammar.android;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
+import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 
 /**
@@ -35,13 +38,51 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
      * {@link com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
      * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
      */
-    protected static final String KEY_BLOCK_QUOTES = "> ";
+    protected static final String KEY_BLOCK_QUOTES = ">";
+    private static final int NESTING_MARGIN = 25;
+    private final int mBackgroundColor;
+    private final float mRelativeSize;
+    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
 
     private int mColor;
 
     BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getBlockQuotesColor();
+        mBackgroundColor = rxMDConfiguration.getBlockquoteBgColor();
+        mRelativeSize = rxMDConfiguration.getBlockquoteRelativeSize();
+        mColorFetcher = rxMDConfiguration.getBlockquoteBackgroundNestedColorFetcher() == null ?
+                new BlockquoteBackgroundNestedColorFetcher() {
+                    @Override
+                    public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
+                        return mBackgroundColor;
+                    }
+                } : rxMDConfiguration.getBlockquoteBackgroundNestedColorFetcher();
+
+    }
+
+    /**
+     * calculate nested, one "> ", nest++
+     *
+     * @param text the content
+     * @return nested number of content
+     */
+    private static int calculateNested(@NonNull String text) {//有一个 "> " 就算嵌套一层
+
+        int nested = 0;
+        int i = 0;
+        while (i < text.length()) {
+            if (text.charAt(i) == '>') {
+                ++nested;
+            } else {
+                break;
+            }
+            i++;
+            while (i < text.length() && text.charAt(i) == ' ') {
+                i++;
+            }
+        }
+        return nested;
     }
 
     @Override
@@ -61,13 +102,32 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+
         int nested = calculateNested(ssb.toString());
         if (nested == 0) {
             return ssb;
         }
-        ssb.replace(0, nested * KEY_BLOCK_QUOTES.length() - 1, getHolder(nested));
-        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        marginSSBLeft(ssb, 20);
+
+        // calculate the first non-blockquote and non-whitespace character
+        int i = 0;
+        while (i < ssb.length()) {
+            if (ssb.charAt(i) == '>' || ssb.charAt(i) == ' ') {
+                i++;
+            } else {
+                break;
+            }
+        }
+
+        ssb.delete(0, i);
+        if (ssb.length() == 0) {
+            ssb.append(' ');
+        }
+        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
+        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, mColorFetcher), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
+        if (mRelativeSize > 1f || mRelativeSize < 1f) {
+            ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        marginSSBLeft(ssb, nested * NESTING_MARGIN);
         return ssb;
     }
 
@@ -75,41 +135,5 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
         return ssb;
-    }
-
-    /**
-     * calculate nested, one "> ", nest++
-     *
-     * @param text the content
-     * @return nested number of content
-     */
-    private static int calculateNested(@NonNull String text) {//有一个 "> " 就算嵌套一层
-
-        int nested = 0;
-        while (true) {
-            if ((nested + 1) * KEY_BLOCK_QUOTES.length() > text.length()) {
-                break;
-            }
-            String sub = text.substring(nested * KEY_BLOCK_QUOTES.length(), (nested + 1) * KEY_BLOCK_QUOTES.length());
-            if (!KEY_BLOCK_QUOTES.equals(sub)) {
-                break;
-            }
-            ++nested;
-        }
-        return nested;
-    }
-
-    /**
-     * get place holder
-     *
-     * @param nested the nested number
-     * @return the place holder based on nested number
-     */
-    private String getHolder(int nested) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 1; i < nested; i++) {
-            stringBuilder.append("   ");
-        }
-        return stringBuilder.toString();
     }
 }
