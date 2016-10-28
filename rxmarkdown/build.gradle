@@ -1,5 +1,16 @@
+apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+// until a PR is accepted by the author, don't clash with artifact group
+group = "com.inin.purecloud.android.yydcdut"
+
+def majorAndMinor = System.getenv("BUILD_NAME") ? System.getenv("BUILD_NAME") : "0.8"
+def buildNumber = System.getenv("BUILD_NUMBER") ? System.getenv("BUILD_NUMBER") : "0"
+def suffix = System.getenv("BUILD_NAME") ? "" : "-SNAPSHOT"
+
+version = majorAndMinor + "." + buildNumber + suffix
 
 android {
     compileSdkVersion 22
@@ -10,7 +21,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName version
     }
     buildTypes {
         release {
@@ -57,12 +68,6 @@ artifacts {
     archives sourcesJar
 }
 
-//def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
-//def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'
-
-group = "com.yydcdut"
-version = "0.0.5"
-
 publishing {
     publications {
         maven(MavenPublication) {
@@ -92,6 +97,26 @@ publishing {
         mavenLocal()
     }
 }
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = "${artifactory_repo}"
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications('maven')
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+        }
+    }
+}
+
+//def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
+//def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'
 
 //
 //Properties properties = new Properties()
