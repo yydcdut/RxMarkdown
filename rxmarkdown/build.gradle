@@ -41,6 +41,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
 }
 
+/*
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -66,6 +67,7 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
+*/
 
 publishing {
     publications {
