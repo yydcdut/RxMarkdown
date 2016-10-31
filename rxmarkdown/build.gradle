@@ -96,15 +96,14 @@ publishing {
         mavenLocal()
     }
 }
-
 artifactory {
-    contextUrl = "${artifactory_contextUrl}"
+    contextUrl = System.getenv("artifactory_contextUrl")// "${artifactory_contextUrl}"
     //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
-            repoKey = "${artifactory_repo}"
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
+            repoKey = System.getenv("artifactory_repo")
+            username = System.getenv("artifactory_user")
+            password = System.getenv("artifactory_password")
             maven = true
         }
         defaults {
