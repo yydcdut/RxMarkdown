@@ -12,13 +12,13 @@ def suffix = System.getenv("BUILD_NAME") ? "" : "-SNAPSHOT"
 version = majorAndMinor + "." + buildNumber + suffix
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
     resourcePrefix "rxmarkdown"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName version
     }
