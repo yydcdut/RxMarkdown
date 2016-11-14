@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
+import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
@@ -39,6 +40,7 @@ public class RxMDConfiguration {
     private final float header4RelativeSize;
     private final float header5RelativeSize;
     private final float header6RelativeSize;
+    private final float blockquoteRelativeSize;
     @ColorInt
     private final int horizontalRulesColor;
     @ColorInt
@@ -50,11 +52,14 @@ public class RxMDConfiguration {
     @ColorInt
     private final int todoDoneColor;
     @ColorInt
+    private final int blockquoteBgColor;
+    private final BlockquoteBackgroundNestedColorFetcher colorFetcher;
+    @ColorInt
     private int unOrderListColor;
     @ColorInt
     private int linkColor;
     private boolean isLinkUnderline;
-
+    private boolean isAppendNewlineAfterLastLine;
     private RxMDImageLoader rxMDImageLoader;
     private OnLinkClickCallback onLinkClickCallback;
 
@@ -63,35 +68,39 @@ public class RxMDConfiguration {
     /**
      * Constructor
      *
-     * @param defaultImageSize     default image size
-     * @param blockQuotesColor     block quotes color
-     * @param header1RelativeSize  header1 relative size
-     * @param header2RelativeSize  header2 relative size
-     * @param header3RelativeSize  header3 relative size
-     * @param header4RelativeSize  header4 relative size
-     * @param header5RelativeSize  header5 relative size
-     * @param header6RelativeSize  header6 relative size
-     * @param horizontalRulesColor horizontal rules color
-     * @param inlineCodeBgColor    inline code bg color
-     * @param codeBgColor          code bg color
-     * @param todoColor            to do color
-     * @param todoDoneColor        to do done color
-     * @param unOrderListColor     unorder list color
-     * @param linkColor            link color
-     * @param isLinkUnderline      link underline
-     * @param rxMDImageLoader      loader
-     * @param onLinkClickCallback  lick click callback
-     * @param isDebug              debug
+     * @param defaultImageSize             default image size
+     * @param blockQuotesColor             block quotes color
+     * @param header1RelativeSize          header1 relative size
+     * @param header2RelativeSize          header2 relative size
+     * @param header3RelativeSize          header3 relative size
+     * @param header4RelativeSize          header4 relative size
+     * @param header5RelativeSize          header5 relative size
+     * @param header6RelativeSize          header6 relative size
+     * @param blockquoteRelativeSize
+     * @param horizontalRulesColor         horizontal rules color
+     * @param inlineCodeBgColor            inline code bg color
+     * @param codeBgColor                  code bg color
+     * @param todoColor                    to do color
+     * @param todoDoneColor                to do done color
+     * @param unOrderListColor             unorder list color
+     * @param blockquoteBgColor            blockquote background color
+     * @param linkColor                    link color
+     * @param isLinkUnderline              link underline
+     * @param rxMDImageLoader              loader
+     * @param onLinkClickCallback          lick click callback
+     * @param isDebug                      debug
+     * @param isAppendNewlineAfterLastLine add newline after last line
+     * @param colorFetcher
      */
     private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
                               float header1RelativeSize, float header2RelativeSize,
                               float header3RelativeSize, float header4RelativeSize,
                               float header5RelativeSize, float header6RelativeSize,
-                              int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
+                              float blockquoteRelativeSize, int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
                               int todoColor, int todoDoneColor, int unOrderListColor,
-                              int linkColor, boolean isLinkUnderline,
+                              int blockquoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
-                              boolean isDebug) {
+                              boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -100,17 +109,21 @@ public class RxMDConfiguration {
         this.header4RelativeSize = header4RelativeSize;
         this.header5RelativeSize = header5RelativeSize;
         this.header6RelativeSize = header6RelativeSize;
+        this.blockquoteRelativeSize = blockquoteRelativeSize;
         this.horizontalRulesColor = horizontalRulesColor;
         this.inlineCodeBgColor = inlineCodeBgColor;
         this.codeBgColor = codeBgColor;
         this.todoColor = todoColor;
         this.todoDoneColor = todoDoneColor;
         this.unOrderListColor = unOrderListColor;
+        this.blockquoteBgColor = blockquoteBgColor;
         this.linkColor = linkColor;
         this.isLinkUnderline = isLinkUnderline;
         this.rxMDImageLoader = rxMDImageLoader;
         this.onLinkClickCallback = onLinkClickCallback;
         this.isDebug = isDebug;
+        this.isAppendNewlineAfterLastLine = isAppendNewlineAfterLastLine;
+        this.colorFetcher = colorFetcher;
     }
 
     /**
@@ -186,6 +199,15 @@ public class RxMDConfiguration {
     }
 
     /**
+     * get blockquote relative size
+     *
+     * @return the size relative to current text
+     */
+    public final float getBlockquoteRelativeSize() {
+        return blockquoteRelativeSize;
+    }
+
+    /**
      * get horizontal rules color
      *
      * @return the color
@@ -240,6 +262,15 @@ public class RxMDConfiguration {
     }
 
     /**
+     * get blockquote background color
+     *
+     * @return the color
+     */
+    public final int getBlockquoteBgColor() {
+        return blockquoteBgColor;
+    }
+
+    /**
      * get link color
      *
      * @return the color
@@ -284,6 +315,26 @@ public class RxMDConfiguration {
         return isDebug;
     }
 
+
+    /**
+     * whether to append a newline character to the last line of the parsed text
+     *
+     * @return <code>true</code> if newline should be appended
+     */
+    public boolean isAppendNewlineAfterLastLine() {
+        return isAppendNewlineAfterLastLine;
+    }
+
+    /**
+     * Get the color fetcher for background colors for nested blockquote levels.
+     * If not set, the standard background color will be used.
+     *
+     * @return the fetcher
+     */
+    public BlockquoteBackgroundNestedColorFetcher getBlockquoteBackgroundNestedColorFetcher() {
+        return colorFetcher;
+    }
+
     /**
      * the build of configuration
      */
@@ -300,6 +351,8 @@ public class RxMDConfiguration {
         private float header4RelativeSize;
         private float header5RelativeSize;
         private float header6RelativeSize;
+
+        private float blockquoteRelativeSize;
 
         @ColorInt
         private int horizontalRulesColor;
@@ -320,6 +373,9 @@ public class RxMDConfiguration {
         private int unOrderListColor;
 
         @ColorInt
+        private int blockquoteBgColor;
+
+        @ColorInt
         private int linkColor;
         private boolean isLinkUnderline;
 
@@ -328,6 +384,10 @@ public class RxMDConfiguration {
         private OnLinkClickCallback mOnLinkClickCallback;
 
         private boolean isDebug = true;
+
+        private boolean isAppendNewlineAfterLastLine;
+
+        private BlockquoteBackgroundNestedColorFetcher colorFetcher = null;
 
         /**
          * Constructor
@@ -343,16 +403,19 @@ public class RxMDConfiguration {
             header4RelativeSize = 1.3f;
             header5RelativeSize = 1.2f;
             header6RelativeSize = 1.1f;
+            blockquoteRelativeSize = 1f;
             horizontalRulesColor = Color.LTGRAY;
             inlineCodeBgColor = Color.LTGRAY;
             codeBgColor = Color.LTGRAY;
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
             unOrderListColor = Color.BLACK;
+            blockquoteBgColor = Color.TRANSPARENT;
             linkColor = Color.RED;
             isLinkUnderline = true;
             rxMDImageLoader = new DefaultLoader(context);
             mOnLinkClickCallback = null;
+            isAppendNewlineAfterLastLine = true;
         }
 
         /**
@@ -445,6 +508,17 @@ public class RxMDConfiguration {
         }
 
         /**
+         * set the blockquote relative size compared to standard size
+         *
+         * @param blockquoteRelativeSize the size
+         * @return self
+         */
+        public Builder setBlockquoteRelativeSize(float blockquoteRelativeSize) {
+            this.blockquoteRelativeSize = blockquoteRelativeSize;
+            return this;
+        }
+
+        /**
          * set horizontal rules color
          *
          * @param horizontalRulesColor the color
@@ -511,6 +585,17 @@ public class RxMDConfiguration {
         }
 
         /**
+         * set the blockquote background color
+         *
+         * @param blockquoteBgColor the color
+         * @return self
+         */
+        public Builder setBlockquoteBgColor(int blockquoteBgColor) {
+            this.blockquoteBgColor = blockquoteBgColor;
+            return this;
+        }
+
+        /**
          * set link color
          *
          * @param linkColor the color
@@ -567,6 +652,22 @@ public class RxMDConfiguration {
         }
 
         /**
+         * whether to append a newline character to the last line of the parsed text
+         *
+         * @param append <code>true if newline should be appended</code>
+         * @return self
+         */
+        public Builder setAppendNewlineAfterLastLine(boolean append) {
+            isAppendNewlineAfterLastLine = append;
+            return this;
+        }
+
+        public Builder setBlockquoteBackgroundNestedColorFetcher(BlockquoteBackgroundNestedColorFetcher colorFetcher) {
+            this.colorFetcher = colorFetcher;
+            return this;
+        }
+
+        /**
          * get RxMDConfiguration
          *
          * @return RxMDConfiguration
@@ -580,11 +681,12 @@ public class RxMDConfiguration {
                     header4RelativeSize,
                     header5RelativeSize,
                     header6RelativeSize,
-                    horizontalRulesColor, inlineCodeBgColor, codeBgColor,
+                    blockquoteRelativeSize, horizontalRulesColor, inlineCodeBgColor, codeBgColor,
                     todoColor, todoDoneColor, unOrderListColor,
-                    linkColor, isLinkUnderline,
+                    blockquoteBgColor, linkColor, isLinkUnderline,
                     rxMDImageLoader, mOnLinkClickCallback,
-                    isDebug);
+                    isDebug, isAppendNewlineAfterLastLine, colorFetcher);
         }
+
     }
 }

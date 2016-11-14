@@ -15,20 +15,20 @@
  */
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import android.support.annotation.NonNull;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.LeadingMarginSpan;
-import android.text.style.URLSpan;
-
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
+
+import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.LeadingMarginSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.URLSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,16 @@ import java.util.List;
 abstract class AbsAndroidGrammar implements IGrammar {
 
     public AbsAndroidGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    }
+
+    /**
+     * set content margin left.
+     *
+     * @param ssb   the content
+     * @param every the distance that margin left
+     */
+    protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
+        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     @Override
@@ -113,16 +123,6 @@ abstract class AbsAndroidGrammar implements IGrammar {
     abstract SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb);
 
     /**
-     * set content margin left.
-     *
-     * @param ssb   the content
-     * @param every the distance that margin left
-     */
-    protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
-        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-    }
-
-    /**
      * check whether contains inline code grammar
      *
      * @param ssb       the content
@@ -131,7 +131,7 @@ abstract class AbsAndroidGrammar implements IGrammar {
      * @return TRUE: contains
      */
     protected boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
-        BackgroundColorSpan[] spans = ssb.getSpans(position, position + keyLength, BackgroundColorSpan.class);
+        TypefaceSpan[] spans = ssb.getSpans(position, position + keyLength, TypefaceSpan.class);
         if (spans.length == 0) {
             return false;
         }

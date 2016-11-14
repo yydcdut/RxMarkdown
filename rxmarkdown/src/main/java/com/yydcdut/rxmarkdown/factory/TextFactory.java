@@ -35,6 +35,7 @@ import com.yydcdut.rxmarkdown.grammar.android.AndroidGrammarFacade;
  * Created by yuyidong on 16/5/12.
  */
 public class TextFactory extends AbsGrammarFactory {
+    private static final String NEWLINE = "\n";
     private RxMDConfiguration mRxMDConfiguration;
     private IChain mLineChain;
     private IChain mTotalChain;
@@ -50,6 +51,11 @@ public class TextFactory extends AbsGrammarFactory {
      */
     public static AbsGrammarFactory create() {
         return new TextFactory();
+    }
+
+    private static SpannableStringBuilder parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
+        totalChain.handleGrammar(ssb);
+        return ssb;
     }
 
     @Override
@@ -191,12 +197,7 @@ public class TextFactory extends AbsGrammarFactory {
         return ssb;
     }
 
-    private static SpannableStringBuilder parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
-        totalChain.handleGrammar(ssb);
-        return ssb;
-    }
-
-    private static SpannableStringBuilder parseByLine(IChain lineChain, SpannableStringBuilder content) {
+    private SpannableStringBuilder parseByLine(IChain lineChain, SpannableStringBuilder content) {
         String text = content.toString();
         String[] lines = text.split("\n");
         SpannableStringBuilder[] ssbLines = new SpannableStringBuilder[lines.length];
@@ -205,9 +206,12 @@ public class TextFactory extends AbsGrammarFactory {
         for (int i = 0; i < lines.length; i++) {
             ssbLines[i] = (SpannableStringBuilder) content.subSequence(index, index + lines[i].length());
             lineChain.handleGrammar(ssbLines[i]);
-            ssbLines[i].append("\n");
+            index += (lines[i]).length();
+            if (i < lines.length - 1 || mRxMDConfiguration.isAppendNewlineAfterLastLine()) {
+                ssbLines[i].append(NEWLINE);
+                index += NEWLINE.length();
+            }
             ssb.append(ssbLines[i]);
-            index = index + (lines[i] + "\n").length();
         }
         return ssb;
     }
