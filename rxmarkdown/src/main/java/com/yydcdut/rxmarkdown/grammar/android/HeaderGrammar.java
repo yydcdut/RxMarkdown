@@ -122,7 +122,6 @@ class HeaderGrammar extends AbsAndroidGrammar {
             ssb.delete(0, KEY_0_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader1RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        marginSSBLeft(ssb, 10);
         return ssb;
     }
 
