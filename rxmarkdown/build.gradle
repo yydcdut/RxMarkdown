@@ -1,26 +1,15 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.artifactory'
-
-// until a PR is accepted by the author, don't clash with artifact group
-group = "com.inin.purecloud.android.yydcdut"
-
-def majorAndMinor = System.getenv("BUILD_NAME") ? System.getenv("BUILD_NAME") : "0.8"
-def buildNumber = System.getenv("BUILD_NUMBER") ? System.getenv("BUILD_NUMBER") : "0"
-def suffix = System.getenv("BUILD_NAME") ? "" : "-SNAPSHOT"
-
-version = majorAndMinor + "." + buildNumber + suffix
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
     resourcePrefix "rxmarkdown"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 1
-        versionName version
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -32,6 +21,7 @@ android {
     lintOptions {
         abortOnError false
     }
+
 }
 
 dependencies {
@@ -41,127 +31,4 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
 }
 
-/*
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    def files = new File(projectDir.getPath() + File.separator + "libs" + File.separator).listFiles()
-    def absolutePathArray = new String[files.length]
-    for (int i = 0; i < files.length; i++) {
-        absolutePathArray[i] = files[i].absolutePath
-    }
-    classpath += project.files(absolutePathArray)
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-*/
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            def libraryReleaseAarFile = file('build/outputs/aar/rxmarkdown-release.aar')
-            groupId group
-            artifactId 'rxmarkdown'
-            version version
-            artifact libraryReleaseAarFile
-
-            //The publication doesn't know about our dependencies, so we have to manually add them to the pom
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.compile.allDependencies.each {
-                    if (!it.name.equals("unspecified")) {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-        mavenLocal()
-    }
-}
-artifactory {
-    contextUrl = System.getenv("artifactory_contextUrl")// "${artifactory_contextUrl}"
-    //The base Artifactory URL if not overridden by the publisher/resolver
-    publish {
-        repository {
-            repoKey = System.getenv("artifactory_repo")
-            username = System.getenv("artifactory_user")
-            password = System.getenv("artifactory_password")
-            maven = true
-        }
-        defaults {
-            publications('maven')
-            publishPom = true //Publish generated POM files to Artifactory (true by default)
-        }
-    }
-}
-
-//def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
-//def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'
-
-//
-//Properties properties = new Properties()
-//properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//bintray {
-//    user = properties.getProperty("bintray.user")
-//    key = properties.getProperty("bintray.apikey")
-//    configurations = ['archives']
-//    pkg {
-//        repo = "maven"
-//        name = "RxMarkdown"
-//        websiteUrl = siteUrl
-//        vcsUrl = gitUrl
-//        licenses = ["Apache-2.0"]
-//        publish = true
-//    }
-//}
-//
-//install {
-//    repositories.mavenInstaller {
-//        // This generates POM.xml with proper parameters
-//        pom {
-//            project {
-//                packaging 'aar'
-//                name 'RxMarkdown'
-//                url siteUrl
-//                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id 'yydcdut'
-//                        name 'yydcdut'
-//                        email '378040621@qq.com'
-//                    }
-//                }
-//                scm {
-//                    connection gitUrl
-//                    developerConnection gitUrl
-//                    url siteUrl
-//                }
-//            }
-//        }
-//    }
-//}
+apply from: './publish.gradle'
