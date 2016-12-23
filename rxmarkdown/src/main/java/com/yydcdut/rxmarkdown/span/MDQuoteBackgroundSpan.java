@@ -5,15 +5,15 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.style.LineBackgroundSpan;
 
-import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
+import com.yydcdut.rxmarkdown.callback.BlockQuoteBackgroundNestedColorFetcher;
 
 public class MDQuoteBackgroundSpan implements LineBackgroundSpan {
     private final int nestingLevel;
     private final int nestingMargin;
-    private final BlockquoteBackgroundNestedColorFetcher colorFetcher;
+    private final BlockQuoteBackgroundNestedColorFetcher colorFetcher;
     private Rect rect = new Rect();
 
-    public MDQuoteBackgroundSpan(int nestingLevel, int nestingMargin, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
+    public MDQuoteBackgroundSpan(int nestingLevel, int nestingMargin, BlockQuoteBackgroundNestedColorFetcher colorFetcher) {
         this.nestingLevel = nestingLevel;
         this.nestingMargin = nestingMargin;
         this.colorFetcher = colorFetcher;

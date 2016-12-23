@@ -21,7 +21,7 @@ import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
+import com.yydcdut.rxmarkdown.callback.BlockQuoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 
@@ -42,22 +42,22 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
     private static final int NESTING_MARGIN = 25;
     private final int mBackgroundColor;
     private final float mRelativeSize;
-    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
+    private final BlockQuoteBackgroundNestedColorFetcher mColorFetcher;
 
     private int mColor;
 
     BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getBlockQuotesColor();
-        mBackgroundColor = rxMDConfiguration.getBlockquoteBgColor();
-        mRelativeSize = rxMDConfiguration.getBlockquoteRelativeSize();
-        mColorFetcher = rxMDConfiguration.getBlockquoteBackgroundNestedColorFetcher() == null ?
-                new BlockquoteBackgroundNestedColorFetcher() {
+        mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor();
+        mRelativeSize = rxMDConfiguration.getBlockQuoteRelativeSize();
+        mColorFetcher = rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher() == null ?
+                new BlockQuoteBackgroundNestedColorFetcher() {
                     @Override
                     public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
                         return mBackgroundColor;
                     }
-                } : rxMDConfiguration.getBlockquoteBackgroundNestedColorFetcher();
+                } : rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher();
 
     }
 
