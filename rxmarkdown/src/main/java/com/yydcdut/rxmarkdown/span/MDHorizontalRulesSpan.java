@@ -18,7 +18,6 @@ package com.yydcdut.rxmarkdown.span;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
 
@@ -29,6 +28,7 @@ import android.text.style.QuoteSpan;
  */
 public class MDHorizontalRulesSpan extends QuoteSpan {
     private final int mColor;
+    private int mHeight;
 
     /**
      * Constructor
@@ -36,6 +36,7 @@ public class MDHorizontalRulesSpan extends QuoteSpan {
     public MDHorizontalRulesSpan() {
         super();
         mColor = 0xff0000ff;
+        mHeight = -1;
     }
 
     /**
@@ -43,19 +44,10 @@ public class MDHorizontalRulesSpan extends QuoteSpan {
      *
      * @param color {@link QuoteSpan}
      */
-    public MDHorizontalRulesSpan(int color) {
+    public MDHorizontalRulesSpan(int color, int height) {
         super(color);
         mColor = color;
-    }
-
-    /**
-     * Constructor
-     *
-     * @param src {@link QuoteSpan}
-     */
-    public MDHorizontalRulesSpan(Parcel src) {
-        super(src);
-        mColor = src.readInt();
+        mHeight = height;
     }
 
     @Override
@@ -71,8 +63,13 @@ public class MDHorizontalRulesSpan extends QuoteSpan {
         int height = bottom - top;
         int width = layout.getWidth();
 
-        RectF rectF = new RectF(x, top + height * 2 / 5, x + width, bottom - height * 2 / 5);
-        c.drawRoundRect(rectF, height / 2, height / 2, p);
+        if (mHeight == -1) {
+            RectF rectF = new RectF(x, top + height * 2 / 5, x + width, bottom - height * 2 / 5);
+            c.drawRoundRect(rectF, height / 2, height / 2, p);
+        } else {
+            RectF rectF = new RectF(x, top + (height - mHeight) / 2, x + width, bottom - (height - mHeight) / 2);
+            c.drawRoundRect(rectF, mHeight / 2, mHeight / 2, p);
+        }
 
         p.setStyle(style);
         p.setColor(color);

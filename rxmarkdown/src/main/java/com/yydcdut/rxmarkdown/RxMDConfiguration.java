@@ -43,6 +43,7 @@ public class RxMDConfiguration {
     private final float blockQuoteRelativeSize;
     @ColorInt
     private final int horizontalRulesColor;
+    private int horizontalRulesHeight;
     @ColorInt
     private final int inlineCodeBgColor;
     @ColorInt
@@ -63,6 +64,7 @@ public class RxMDConfiguration {
     private RxMDImageLoader rxMDImageLoader;
     private OnLinkClickCallback onLinkClickCallback;
 
+
     private boolean isDebug = true;
 
     /**
@@ -76,27 +78,28 @@ public class RxMDConfiguration {
      * @param header4RelativeSize          header4 relative size
      * @param header5RelativeSize          header5 relative size
      * @param header6RelativeSize          header6 relative size
-     * @param blockQuoteRelativeSize
+     * @param blockQuoteRelativeSize       blockQuote relative size
      * @param horizontalRulesColor         horizontal rules color
+     * @param horizontalRulesHeight        horizontal rules height
      * @param inlineCodeBgColor            inline code bg color
      * @param codeBgColor                  code bg color
      * @param todoColor                    to do color
      * @param todoDoneColor                to do done color
      * @param unOrderListColor             unorder list color
-     * @param blockQuoteBgColor            blockquote background color
+     * @param blockQuoteBgColor            blockQuote background color
      * @param linkColor                    link color
      * @param isLinkUnderline              link underline
      * @param rxMDImageLoader              loader
      * @param onLinkClickCallback          lick click callback
      * @param isDebug                      debug
      * @param isAppendNewlineAfterLastLine add newline after last line
-     * @param colorFetcher
+     * @param colorFetcher                 the nested blockQuote color callback
      */
     private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
                               float header1RelativeSize, float header2RelativeSize,
                               float header3RelativeSize, float header4RelativeSize,
                               float header5RelativeSize, float header6RelativeSize,
-                              float blockQuoteRelativeSize, int horizontalRulesColor, int inlineCodeBgColor, int codeBgColor,
+                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight, int inlineCodeBgColor, int codeBgColor,
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
@@ -111,6 +114,7 @@ public class RxMDConfiguration {
         this.header6RelativeSize = header6RelativeSize;
         this.blockQuoteRelativeSize = blockQuoteRelativeSize;
         this.horizontalRulesColor = horizontalRulesColor;
+        this.horizontalRulesHeight = horizontalRulesHeight;
         this.inlineCodeBgColor = inlineCodeBgColor;
         this.codeBgColor = codeBgColor;
         this.todoColor = todoColor;
@@ -214,6 +218,15 @@ public class RxMDConfiguration {
      */
     public final int getHorizontalRulesColor() {
         return horizontalRulesColor;
+    }
+
+    /**
+     * get horizontal rules height
+     *
+     * @return
+     */
+    public int getHorizontalRulesHeight() {
+        return horizontalRulesHeight;
     }
 
     /**
@@ -356,6 +369,7 @@ public class RxMDConfiguration {
 
         @ColorInt
         private int horizontalRulesColor;
+        private int horizontalRulesHeight;
 
         @ColorInt
         private int inlineCodeBgColor;
@@ -389,6 +403,7 @@ public class RxMDConfiguration {
 
         private BlockQuoteBackgroundNestedColorFetcher colorFetcher = null;
 
+
         /**
          * Constructor
          *
@@ -405,6 +420,7 @@ public class RxMDConfiguration {
             header6RelativeSize = 1.1f;
             blockQuoteRelativeSize = 1f;
             horizontalRulesColor = Color.LTGRAY;
+            horizontalRulesHeight = -1;
             inlineCodeBgColor = Color.LTGRAY;
             codeBgColor = Color.LTGRAY;
             todoColor = Color.DKGRAY;
@@ -526,6 +542,17 @@ public class RxMDConfiguration {
          */
         public Builder setHorizontalRulesColor(@ColorInt int horizontalRulesColor) {
             this.horizontalRulesColor = horizontalRulesColor;
+            return this;
+        }
+
+        /**
+         * set horizontal rules height
+         *
+         * @param horizontalRulesHeight
+         * @return self
+         */
+        public Builder setHorizontalRulesHeight(int horizontalRulesHeight) {
+            this.horizontalRulesHeight = horizontalRulesHeight;
             return this;
         }
 
@@ -662,6 +689,12 @@ public class RxMDConfiguration {
             return this;
         }
 
+        /**
+         * set nested block quote background color
+         *
+         * @param colorFetcher the callback
+         * @return self
+         */
         public Builder setBlockquoteBackgroundNestedColorFetcher(BlockQuoteBackgroundNestedColorFetcher colorFetcher) {
             this.colorFetcher = colorFetcher;
             return this;
@@ -681,7 +714,7 @@ public class RxMDConfiguration {
                     header4RelativeSize,
                     header5RelativeSize,
                     header6RelativeSize,
-                    blockQuoteRelativeSize, horizontalRulesColor, inlineCodeBgColor, codeBgColor,
+                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight, inlineCodeBgColor, codeBgColor,
                     todoColor, todoDoneColor, unOrderListColor,
                     blockQuoteBgColor, linkColor, isLinkUnderline,
                     rxMDImageLoader, mOnLinkClickCallback,

@@ -43,10 +43,12 @@ import java.util.regex.Pattern;
 class HorizontalRulesGrammar extends EditGrammarAdapter {
 
     private int mColor;
+    private int mHeight;
 
     HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getHorizontalRulesColor();
+        mHeight = rxMDConfiguration.getHorizontalRulesHeight();
     }
 
     @NonNull
@@ -63,7 +65,7 @@ class HorizontalRulesGrammar extends EditGrammarAdapter {
             int index = content.indexOf(match);
             int length = match.length();
             content.replace(index, index + length, getPlaceHolder(match));
-            editTokenList.add(new EditToken(new MDHorizontalRulesSpan(mColor), index, index + length));
+            editTokenList.add(new EditToken(new MDHorizontalRulesSpan(mColor, mHeight), index, index + length));
         }
         return editTokenList;
     }

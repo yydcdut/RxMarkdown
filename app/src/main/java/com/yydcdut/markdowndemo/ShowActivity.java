@@ -76,6 +76,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .setRxMDImageLoader(rxMDImageLoader)
+                .setHorizontalRulesHeight(1)
                 .setLinkColor(Color.BLUE)
                 .setLinkUnderline(false)
                 .setOnLinkClickCallback(new OnLinkClickCallback() {

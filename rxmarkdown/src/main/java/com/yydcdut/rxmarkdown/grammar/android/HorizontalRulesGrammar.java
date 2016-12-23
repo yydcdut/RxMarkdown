@@ -44,10 +44,12 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     private static final char KEY_SINGLE_1 = '-';
 
     private int mColor;
+    private int mHeight;
 
     HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getHorizontalRulesColor();
+        mHeight = rxMDConfiguration.getHorizontalRulesHeight();
     }
 
     @Override
@@ -70,7 +72,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         ssb.replace(0, ssb.length(), " ");
-        ssb.setSpan(new MDHorizontalRulesSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new MDHorizontalRulesSpan(mColor, mHeight), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 
