@@ -43,6 +43,7 @@ public class MDHorizontalRulesSpan extends QuoteSpan {
      * Constructor
      *
      * @param color {@link QuoteSpan}
+     * @param height the horizontal rules' height
      */
     public MDHorizontalRulesSpan(int color, int height) {
         super(color);
