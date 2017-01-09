@@ -28,11 +28,11 @@ public class ListController {
             if (mdUnOrderListSpan != null) {
                 if (mdUnOrderListSpan.getNested() == 0) {
                     mRxMDEditText.getText().delete(position, position + "* ".length());
-                    mRxMDEditText.getText().removeSpan(mdUnOrderListSpan);
+//                    mRxMDEditText.getText().removeSpan(mdUnOrderListSpan);
                     return;
                 }
                 mRxMDEditText.getText().delete(position, position + 1);
-                mRxMDEditText.getText().removeSpan(mdUnOrderListSpan);
+//                mRxMDEditText.getText().removeSpan(mdUnOrderListSpan);
                 return;
             }
             mRxMDEditText.getText().insert(position, "* ");
