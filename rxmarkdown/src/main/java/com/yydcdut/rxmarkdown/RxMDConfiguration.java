@@ -20,7 +20,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.callback.BlockQuoteBackgroundNestedColorFetcher;
+import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
@@ -54,7 +54,7 @@ public class RxMDConfiguration {
     private final int todoDoneColor;
     @ColorInt
     private final int blockQuoteBgColor;
-    private final BlockQuoteBackgroundNestedColorFetcher colorFetcher;
+    private final BlockquoteBackgroundNestedColorFetcher colorFetcher;
     @ColorInt
     private int unOrderListColor;
     @ColorInt
@@ -103,7 +103,7 @@ public class RxMDConfiguration {
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
-                              boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockQuoteBackgroundNestedColorFetcher colorFetcher) {
+                              boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -344,7 +344,7 @@ public class RxMDConfiguration {
      *
      * @return the fetcher
      */
-    public BlockQuoteBackgroundNestedColorFetcher getBlockQuoteBackgroundNestedColorFetcher() {
+    public BlockquoteBackgroundNestedColorFetcher getBlockQuoteBackgroundNestedColorFetcher() {
         return colorFetcher;
     }
 
@@ -401,7 +401,7 @@ public class RxMDConfiguration {
 
         private boolean isAppendNewlineAfterLastLine;
 
-        private BlockQuoteBackgroundNestedColorFetcher colorFetcher = null;
+        private BlockquoteBackgroundNestedColorFetcher colorFetcher = null;
 
 
         /**
@@ -695,7 +695,7 @@ public class RxMDConfiguration {
          * @param colorFetcher the callback
          * @return self
          */
-        public Builder setBlockquoteBackgroundNestedColorFetcher(BlockQuoteBackgroundNestedColorFetcher colorFetcher) {
+        public Builder setBlockquoteBackgroundNestedColorFetcher(BlockquoteBackgroundNestedColorFetcher colorFetcher) {
             this.colorFetcher = colorFetcher;
             return this;
         }
