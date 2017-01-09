@@ -208,24 +208,25 @@ class ImageGrammar extends AbsAndroidGrammar {
         if (matchStart == -1) {
             return content;
         }
+        int contentLength = content.length();
         int targetLength = target.length();
         if (targetLength == 0) {
-            int resultLength = content.length() + (content.length() + 1) * replacement.length();
+            int resultLength = contentLength + (contentLength + 1) * replacement.length();
             StringBuilder result = new StringBuilder(resultLength);
             result.append(replacement);
-            for (int i = 0; i != content.length(); ++i) {
+            for (int i = 0; i != contentLength; ++i) {
                 result.append(content.charAt(i));
                 result.append(replacement);
             }
             return result.toString();
         }
-        StringBuilder result = new StringBuilder(content.length());
+        StringBuilder result = new StringBuilder(contentLength);
         for (int i = 0; i < matchStart; ++i) {
             result.append(content.charAt(i));
         }
         result.append(replacement);
         int over = matchStart + targetLength;
-        for (int i = over; i < content.length(); ++i) {
+        for (int i = over; i < contentLength; ++i) {
             result.append(content.charAt(i));
         }
         return result.toString();

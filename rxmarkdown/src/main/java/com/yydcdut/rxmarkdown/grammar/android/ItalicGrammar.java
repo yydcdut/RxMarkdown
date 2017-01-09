@@ -126,6 +126,7 @@ class ItalicGrammar extends AbsAndroidGrammar {
      */
     @NonNull
     private SpannableStringBuilder parse(@NonNull String key, @NonNull String text, @NonNull SpannableStringBuilder ssb) {
+        int keyLength = key.length();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -136,19 +137,19 @@ class ItalicGrammar extends AbsAndroidGrammar {
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + key.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionHeader + keyLength, tmpTotal.length());
             int positionFooter = findPosition(key, tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + key.length());
+                ssb.delete(tmp.length(), tmp.length() + keyLength);
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new StyleSpan(Typeface.ITALIC), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + key.length());
+                ssb.delete(tmp.length(), tmp.length() + keyLength);
             } else {
                 tmp.append(key);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + key.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + keyLength, tmpTotal.length());
         }
         return ssb;
     }
