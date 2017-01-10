@@ -71,6 +71,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private RxMDConfiguration mRxMDConfiguration;
 
     private ArrayList<TextWatcher> mListeners;
+    private EditTextWatcher mEditTextWatcher;
 
     private boolean mHasImageInText;
     private boolean mInitFormat;
@@ -111,6 +112,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private void init() {
+        mEditTextWatcher = new EditTextWatcher();
         mHandler = new Handler(this);
         initControllerList();
     }
@@ -150,7 +152,31 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         setSelection(selectionStart, selectionEnd);
     }
 
-    private TextWatcher mEditTextWatcher = new TextWatcher() {
+    public class EditTextWatcher implements TextWatcher {
+
+        public void doBeforeTextChanged(CharSequence s, int start, int before, int after) {
+            if (isMainThread()) {
+                sendBeforeTextChanged(s, start, before, after);
+            } else {
+                sendMessage(MSG_BEFORE_TEXT_CHANGED, s, start, before, after);
+            }
+        }
+
+        public void doOnTextChanged(CharSequence s, int start, int before, int after) {
+            if (isMainThread()) {
+                sendOnTextChanged(s, start, before, after);
+            } else {
+                sendMessage(MSG_ON_TEXT_CHANGED, s, start, before, after);
+            }
+        }
+
+        public void doAfterTextChanged(final Editable s) {
+            if (isMainThread()) {
+                sendAfterTextChanged(getText());
+            } else {
+                sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
+            }
+        }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -206,7 +232,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 sendMessage(MSG_AFTER_TEXT_CHANGED, s, 0, 0, 0);
             }
         }
-    };
+    }
 
     @Override
     public void addTextChangedListener(TextWatcher watcher) {
