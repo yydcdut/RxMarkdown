@@ -487,15 +487,23 @@ public class ListController extends AbsEditController {
      */
     @Nullable
     private static MDOrderListSpan getOrderListBeginning(Editable editable, int start, int before, int after) {
-        if (start + 1 > editable.length()) {
+        if (before != 0) {
+            MDOrderListSpan[] mdOrderListSpans = editable.getSpans(start, start, MDOrderListSpan.class);
+            if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
+                return mdOrderListSpans[0];
+            }
+            return null;
+        } else {
+            if (start + 1 > editable.length()) {
+                return null;
+            }
+            int addNumber = Math.abs(after - before);//增加了多少
+            MDOrderListSpan[] mdOrderListSpans = editable.getSpans(start + addNumber, start + addNumber + 1, MDOrderListSpan.class);
+            if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
+                return mdOrderListSpans[0];
+            }
             return null;
         }
-        int addNumber = Math.abs(after - before);//增加了多少
-        MDOrderListSpan[] mdOrderListSpans = editable.getSpans(start + addNumber, start + addNumber + 1, MDOrderListSpan.class);
-        if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
-            return mdOrderListSpans[0];
-        }
-        return null;
     }
 
     /**
@@ -730,8 +738,8 @@ public class ListController extends AbsEditController {
             return false;
         }
         int position = EditUtils.findBeforeNewLineChar(editable, start) + 1;
-        int totalPosition = position + mdOrderListSpan.getNested() + mdOrderListSpan.getNumber() / 10 + 1;
-        if (totalPosition >= start && start <= position) {
+        int totalPosition = position + mdOrderListSpan.getNested() + String.valueOf(mdOrderListSpan.getNumber()).length() + " ".length();
+        if (totalPosition >= start || start <= position) {
             return true;
         }
         return false;
