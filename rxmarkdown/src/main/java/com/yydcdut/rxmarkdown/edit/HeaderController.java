@@ -66,19 +66,10 @@ public class HeaderController extends AbsEditController {
         if (after == 0) {
             return;
         }
-        String addString;
-        String beforeString = null;
-        String afterString = null;
-        addString = s.subSequence(start, start + Math.abs(after - before)).toString();
-        if (start + (after - before) + 1 <= s.length()) {
-            afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
-        }
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        //## ss --> #12# ss(##12 ss)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
-            format((Editable) s, start);
+
+        int bnl = EditUtils.findBeforeNewLineChar(s, start);
+        if (s.subSequence(bnl + 1, bnl + 2).toString().equals(KEY)) {
+            format((Editable) s, bnl + 1);
         }
     }
 
