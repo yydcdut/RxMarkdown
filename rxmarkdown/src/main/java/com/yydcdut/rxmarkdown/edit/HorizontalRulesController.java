@@ -90,7 +90,7 @@ public class HorizontalRulesController extends AbsEditController {
         String addString;
         String beforeString = null;
         String afterString = null;
-        addString = s.subSequence(start, after).toString();
+        addString = s.subSequence(start, start + after).toString();
         if (start + 1 <= s.length()) {
             afterString = s.subSequence(start, start + 1).toString();
         }
