@@ -80,6 +80,11 @@ public class HeaderController extends AbsEditController {
         if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
         }
+
+//        int bnl = EditUtils.findBeforeNewLineChar(s, start);
+//        if (s.subSequence(bnl + 1, bnl + 2).toString().equals(KEY)) {
+//            format((Editable) s, bnl + 1);
+//        }
     }
 
     private void format(Editable editable, int start) {
