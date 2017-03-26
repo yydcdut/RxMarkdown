@@ -122,25 +122,20 @@ public class ListController extends AbsEditController {
             MDOrderListSpan mdOrderListSpan = getOrderListSpan(editable, start, false);
             MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start, false);
             if (mdOrderListSpan != null) {
-                //// TODO: 2017/1/9 判断上一行是否有内容
                 int startOfSpan = editable.getSpanStart(mdOrderListSpan);
                 int endOfSpan = editable.getSpanEnd(mdOrderListSpan);
                 int nested = mdOrderListSpan.getNested();
-                if (endOfSpan - startOfSpan > ". ".length() + String.valueOf(mdOrderListSpan.getNumber()).length()) {
-                    updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan);
+                if (endOfSpan - startOfSpan > ". ".length() + String.valueOf(mdOrderListSpan.getNumber()).length() + nested + 1) {
+                    updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan, false);
                     insertOrderList(editable, mdOrderListSpan, start);
                 } else {
-
+                    deleteOrderListByEnter(editable, mdOrderListSpan, start, before, after, nested, startOfSpan, endOfSpan);
                 }
             } else if (mdUnOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdUnOrderListSpan);
                 int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
                 int nested = mdUnOrderListSpan.getNested();
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = spanStart; i < spanEnd; i++) {
-                    stringBuilder.append(editable.charAt(i));
-                }
-                if (spanEnd - spanStart > 3 + nested) {
+                if (spanEnd - spanStart > 3 + nested) {//包括\n
                     updateUnOrderListSpanBeforeNewLine(editable, start, mdUnOrderListSpan, false);
                     insertUnOrderList(editable, mdUnOrderListSpan, start);
                 } else {
@@ -208,6 +203,44 @@ public class ListController extends AbsEditController {
             mRxMDEditText.addTextChangedListener(mTextWatcher);
         } else {
             updateUnOrderListSpanBeforeNewLine(editable, start, mdUnOrderListSpan, true);
+            mRxMDEditText.removeTextChangedListener(mTextWatcher);
+            mTextWatcher.doBeforeTextChanged(editable, start + after - 1, 1, 0);
+            editable.delete(start + after - 1, start + after);//delete '\n'
+            mTextWatcher.doOnTextChanged(editable, start + after - 1, 1, 0);
+            mTextWatcher.doAfterTextChanged(editable);
+            mTextWatcher.doBeforeTextChanged(editable, spanStart, 1, 0);
+            editable.delete(spanStart, spanStart + 1);//decrease nested
+            mTextWatcher.doOnTextChanged(editable, spanStart, 1, 0);
+            mTextWatcher.doAfterTextChanged(editable);
+            mRxMDEditText.addTextChangedListener(mTextWatcher);
+        }
+    }
+
+    /**
+     * when entering '\n', if this line is empty order list, delete this line or decrease the nested number
+     *
+     * @param editable        the editable
+     * @param mdOrderListSpan the order list span
+     * @param start           the start position
+     * @param before          delete text's number
+     * @param after           add text's number
+     * @param nested          the nested number
+     * @param spanStart       the beginning of span
+     * @param spanEnd         the end of span
+     */
+    private void deleteOrderListByEnter(Editable editable, MDOrderListSpan mdOrderListSpan,
+                                        int start, int before, int after,
+                                        int nested, int spanStart, int spanEnd) {
+        if (nested == 0) {
+            editable.removeSpan(mdOrderListSpan);
+            mRxMDEditText.removeTextChangedListener(mTextWatcher);
+            mTextWatcher.doBeforeTextChanged(editable, start, (spanEnd - spanStart), 0);
+            editable.delete(spanStart, spanEnd);
+            mTextWatcher.doOnTextChanged(editable, start, (spanEnd - spanStart), 0);
+            mTextWatcher.doAfterTextChanged(editable);
+            mRxMDEditText.addTextChangedListener(mTextWatcher);
+        } else {
+            updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan, true);
             mRxMDEditText.removeTextChangedListener(mTextWatcher);
             mTextWatcher.doBeforeTextChanged(editable, start + after - 1, 1, 0);
             editable.delete(start + after - 1, start + after);//delete '\n'
@@ -392,7 +425,7 @@ public class ListController extends AbsEditController {
      * @param start           the start position
      * @param mdOrderListSpan the order list span
      */
-    private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan) {
+    private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan, boolean nestedDecrease) {
         int position = EditUtils.findNextNewLineCharCompat(editable, start);
         int startSpan = editable.getSpanStart(mdOrderListSpan);
         int endSpan = editable.getSpanEnd(mdOrderListSpan);
@@ -400,7 +433,11 @@ public class ListController extends AbsEditController {
             return;
         }
         editable.removeSpan(mdOrderListSpan);
-        editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber()),
+        int nested = mdOrderListSpan.getNested();
+        if (nestedDecrease && nested > 0) {
+            nested--;
+        }
+        editable.setSpan(new MDOrderListSpan(10, nested, mdOrderListSpan.getNumber()),
                 startSpan, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     }
 
