@@ -15,8 +15,10 @@
  */
 package com.yydcdut.rxmarkdown.grammar.edit;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.Spannable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
@@ -58,6 +60,7 @@ class UnOrderListGrammar extends EditGrammarAdapter {
 
     @NonNull
     @Override
+    @SuppressLint("WrongConstant")
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         List<String> matchList = new ArrayList<>();//找到的
@@ -85,7 +88,7 @@ class UnOrderListGrammar extends EditGrammarAdapter {
             int index = content.indexOf(match);
             int length = match.length();
             int nested = calculateNested(match);
-            editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested), index, index + length));
+            editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
             content.replace(index, index + length, getPlaceHolder(match));
         }
         return editTokenList;
