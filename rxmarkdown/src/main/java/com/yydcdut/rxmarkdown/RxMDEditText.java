@@ -41,7 +41,7 @@ import com.yydcdut.rxmarkdown.edit.ListController;
 import com.yydcdut.rxmarkdown.edit.StrikeThroughController;
 import com.yydcdut.rxmarkdown.edit.StyleController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.factory.TextFactory;
+import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.ArrayList;

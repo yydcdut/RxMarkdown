@@ -13,15 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.yydcdut.rxmarkdown.factory;
+package com.yydcdut.rxmarkdown.grammar.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
+import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,87 +51,87 @@ public class EditFactory extends AbsGrammarFactory {
 
     @Override
     protected IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_HORIZONTAL_RULES, rxMDConfiguration);
+        return new HeaderGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_BLOCK_QUOTES, rxMDConfiguration);
+        return new BlockQuotesGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_ORDER_LIST, rxMDConfiguration);
+        return new OrderListGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_UNORDER_LIST, rxMDConfiguration);
+        return new UnOrderListGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_CENTER_ALIGN, rxMDConfiguration);
+        return new CenterAlignGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_HEADER_LINE, rxMDConfiguration);
+        return new HeaderGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_BOLD, rxMDConfiguration);
+        return new BoldGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_ITALIC, rxMDConfiguration);
+        return new ItalicGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_INLINE_CODE, rxMDConfiguration);
+        return new InlineCodeGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_STRIKE_THROUGH, rxMDConfiguration);
+        return new StrikeThroughGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_CODE, rxMDConfiguration);
+        return new CodeGrammar(rxMDConfiguration);
     }
 
     @Override
     protected IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_NORMAL, rxMDConfiguration);
+        return new NormalGrammar(rxMDConfiguration);
     }
 
     private void init(RxMDConfiguration rxMDConfiguration) {

@@ -15,8 +15,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.factory.EditFactory;
-import com.yydcdut.rxmarkdown.factory.TextFactory;
+import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
+import com.yydcdut.rxmarkdown.grammar.edit.EditFactory;
 
 import rx.Subscriber;
 

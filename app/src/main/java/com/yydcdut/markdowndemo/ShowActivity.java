@@ -20,7 +20,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
-import com.yydcdut.rxmarkdown.factory.TextFactory;
+import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 
 import rx.Subscriber;
