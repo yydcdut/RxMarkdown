@@ -29,11 +29,6 @@ import com.yydcdut.rxmarkdown.grammar.IGrammar;
 public abstract class AbsGrammarFactory {
 
     /**
-     * for normal
-     */
-    public static final int GRAMMAR_NORMAL = -1;
-
-    /**
      * for horizontal rules
      */
     public static final int GRAMMAR_HORIZONTAL_RULES = 0;
