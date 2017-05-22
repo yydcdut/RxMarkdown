@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class BlockQuotesGrammar extends EditGrammarAdapter {
+public class BlockQuotesGrammar extends EditGrammarAdapter {
 
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.android.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
@@ -44,7 +44,7 @@ class BlockQuotesGrammar extends EditGrammarAdapter {
 
     private int mColor;
 
-    BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getBlockQuotesColor();
     }

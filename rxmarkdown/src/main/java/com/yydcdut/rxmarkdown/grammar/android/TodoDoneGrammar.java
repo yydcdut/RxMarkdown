@@ -31,7 +31,7 @@ import com.yydcdut.rxmarkdown.span.MDTodoDoneSpan;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class TodoDoneGrammar extends AbsAndroidGrammar {
+public class TodoDoneGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_TODO_DONE = "- [x] ";
     protected static final String KEY_1_TODO_DONE = "- [X] ";
@@ -42,7 +42,7 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    TodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public TodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getTodoDoneColor();
     }

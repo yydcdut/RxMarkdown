@@ -39,7 +39,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * <p>
  * Created by yuyidong on 16/5/20.
  */
-class HeaderGrammar extends AbsAndroidGrammar {
+public class HeaderGrammar extends AbsAndroidGrammar {
 
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_0_HEADER}
@@ -73,7 +73,7 @@ class HeaderGrammar extends AbsAndroidGrammar {
     private float mHeader5RelativeSize;
     private float mHeader6RelativeSize;
 
-    HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mHeader1RelativeSize = rxMDConfiguration.getHeader1RelativeSize();
         mHeader2RelativeSize = rxMDConfiguration.getHeader2RelativeSize();

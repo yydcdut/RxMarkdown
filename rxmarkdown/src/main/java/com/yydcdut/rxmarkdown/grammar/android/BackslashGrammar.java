@@ -27,7 +27,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * <p>
  * Created by yuyidong on 16/6/20.
  */
-class BackslashGrammar extends AbsAndroidGrammar {
+public class BackslashGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_BACKSLASH = "\\";
 
@@ -37,7 +37,7 @@ class BackslashGrammar extends AbsAndroidGrammar {
     protected static final String KEY_ENCODE_3 = "%hsyRjh34l%%2@";
     protected static final String KEY_ENCODE_4 = "&@da&U56ec%k%QW@";
 
-    BackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public BackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

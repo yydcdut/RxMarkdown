@@ -35,9 +35,9 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class StrikeThroughGrammar extends EditGrammarAdapter {
+public class StrikeThroughGrammar extends EditGrammarAdapter {
 
-    StrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public StrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

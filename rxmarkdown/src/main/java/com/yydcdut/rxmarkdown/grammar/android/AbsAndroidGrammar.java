@@ -15,12 +15,6 @@
  */
 package com.yydcdut.rxmarkdown.grammar.android;
 
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.edit.EditToken;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
-import com.yydcdut.rxmarkdown.span.MDImageSpan;
-
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
@@ -29,6 +23,12 @@ import android.text.TextUtils;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
+
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.edit.EditToken;
+import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDImageSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/13.
  */
-abstract class AbsAndroidGrammar implements IGrammar {
+public abstract class AbsAndroidGrammar implements IGrammar {
 
     public AbsAndroidGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
     }

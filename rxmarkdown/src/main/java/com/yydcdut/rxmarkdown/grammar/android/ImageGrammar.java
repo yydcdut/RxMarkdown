@@ -34,7 +34,7 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/15.
  */
-class ImageGrammar extends AbsAndroidGrammar {
+public class ImageGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_IMAGE = "![";
     protected static final String KEY_1_IMAGE = "](";
@@ -49,7 +49,7 @@ class ImageGrammar extends AbsAndroidGrammar {
     private int[] mSize;
     private RxMDImageLoader mRxMDImageLoader;
 
-    ImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public ImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mSize = rxMDConfiguration.getDefaultImageSize();
         mRxMDImageLoader = rxMDConfiguration.getRxMDImageLoader();

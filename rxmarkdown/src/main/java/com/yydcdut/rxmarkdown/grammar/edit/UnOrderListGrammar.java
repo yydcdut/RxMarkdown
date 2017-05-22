@@ -42,7 +42,7 @@ import static com.yydcdut.rxmarkdown.grammar.edit.OrderListGrammar.KEY_HEADER;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-class UnOrderListGrammar extends EditGrammarAdapter {
+public class UnOrderListGrammar extends EditGrammarAdapter {
     private static final String IGNORE_0 = "- [x]";
     private static final String IGNORE_1 = "- [X]";
     private static final String IGNORE_2 = "- [ ]";
@@ -53,7 +53,7 @@ class UnOrderListGrammar extends EditGrammarAdapter {
 
     private int mColor;
 
-    UnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public UnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getUnOrderListColor();
     }

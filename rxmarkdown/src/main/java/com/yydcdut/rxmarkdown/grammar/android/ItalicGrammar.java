@@ -35,7 +35,7 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/3.
  */
-class ItalicGrammar extends AbsAndroidGrammar {
+public class ItalicGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_ITALIC = "*";
     protected static final String KEY_ITALIC_1 = "_";
@@ -43,7 +43,7 @@ class ItalicGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_ITALIC;
     protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_ITALIC_1;
 
-    ItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public ItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

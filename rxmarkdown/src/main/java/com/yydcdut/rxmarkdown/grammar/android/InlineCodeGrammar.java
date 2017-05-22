@@ -34,14 +34,14 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/13.
  */
-class InlineCodeGrammar extends AbsAndroidGrammar {
+public class InlineCodeGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_INLINE_CODE = "`";
     protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_INLINE_CODE;
 
     private int mColor;
 
-    InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getInlineCodeBgColor();
     }

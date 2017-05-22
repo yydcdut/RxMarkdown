@@ -34,10 +34,10 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class InlineCodeGrammar extends EditGrammarAdapter {
+public class InlineCodeGrammar extends EditGrammarAdapter {
     private int mColor;
 
-    InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getInlineCodeBgColor();
     }

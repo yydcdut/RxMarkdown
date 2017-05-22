@@ -36,7 +36,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/21.
  */
-class UnOrderListGrammar extends GrammarAdapter {
+public class UnOrderListGrammar extends GrammarAdapter {
 
     protected static final String KEY_0_UNORDER_LIST = "* ";
     protected static final String KEY_0_UNORDER_LIST_CHAR = "*";

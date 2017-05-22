@@ -34,7 +34,7 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/14.
  */
-class HyperLinkGrammar extends AbsAndroidGrammar {
+public class HyperLinkGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_HYPER_LINK = "[";
     protected static final String KEY_1_HYPER_LINK = "](";
@@ -50,7 +50,7 @@ class HyperLinkGrammar extends AbsAndroidGrammar {
     private boolean isUnderLine;
     private OnLinkClickCallback mOnLinkClickCallback;
 
-    HyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public HyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getLinkColor();
         isUnderLine = rxMDConfiguration.isLinkUnderline();

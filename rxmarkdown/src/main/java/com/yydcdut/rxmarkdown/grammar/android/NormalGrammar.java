@@ -25,7 +25,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-class NormalGrammar extends AbsAndroidGrammar {
+public class NormalGrammar extends AbsAndroidGrammar {
 
     NormalGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);

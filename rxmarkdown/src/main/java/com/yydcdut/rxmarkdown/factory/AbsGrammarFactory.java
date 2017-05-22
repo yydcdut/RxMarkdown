@@ -118,7 +118,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need HorizontalRulesColor
      * @return the interface {@link IGrammar} for horizontal rules grammar
      */
-    protected abstract IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get block quotes grammar.
@@ -128,7 +128,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need BlockQuotesColor
      * @return the interface {@link IGrammar} for block quotes grammar
      */
-    protected abstract IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get to do grammar.
@@ -138,7 +138,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need TodoColor
      * @return the interface {@link IGrammar} for to do grammar
      */
-    protected abstract IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get to do for "done" grammar.
@@ -150,7 +150,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need TodoDoneColor
      * @return the interface {@link IGrammar} for to do for "done" grammar
      */
-    protected abstract IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get order list grammar.
@@ -160,7 +160,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for to do for "done" grammar
      */
-    protected abstract IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get unorder list grammar.
@@ -174,7 +174,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need UnOrderListColor
      * @return the interface {@link IGrammar} for unorder list grammar
      */
-    protected abstract IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get center align grammar.
@@ -185,7 +185,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for center align grammar
      */
-    protected abstract IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get header grammar.
@@ -205,7 +205,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for header grammar
      */
-    protected abstract IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get bold grammar.
@@ -216,7 +216,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for bold grammar
      */
-    protected abstract IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get italic grammar.
@@ -226,7 +226,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for bold grammar
      */
-    protected abstract IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get inline code grammar.
@@ -236,7 +236,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need InlineCodeBgColor
      * @return the interface {@link IGrammar} for inline code grammar
      */
-    protected abstract IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get strike through grammar.
@@ -246,7 +246,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for strike through grammar
      */
-    protected abstract IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get footnote grammar.
@@ -256,7 +256,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for footnote grammar
      */
-    protected abstract IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get image grammar.
@@ -266,7 +266,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for image grammar
      */
-    protected abstract IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get hyper link grammar.
@@ -276,7 +276,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need nothing
      * @return the interface {@link IGrammar} for hyper link grammar
      */
-    protected abstract IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get code grammar.
@@ -288,7 +288,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need CodeBgColor
      * @return the interface {@link IGrammar} for code grammar
      */
-    protected abstract IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get back slash grammar.
@@ -298,7 +298,7 @@ public abstract class AbsGrammarFactory {
      * @param rxMDConfiguration configuration, need CodeBgColor
      * @return the interface {@link IGrammar} for back slash grammar
      */
-    protected abstract IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    public abstract IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * parse content

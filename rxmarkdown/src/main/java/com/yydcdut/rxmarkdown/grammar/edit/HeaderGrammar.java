@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class HeaderGrammar extends EditGrammarAdapter {
+public class HeaderGrammar extends EditGrammarAdapter {
 
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.android.CenterAlignGrammar#KEY_0_CENTER_ALIGN}
@@ -87,7 +87,7 @@ class HeaderGrammar extends EditGrammarAdapter {
     private float mHeader5RelativeSize;
     private float mHeader6RelativeSize;
 
-    HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public HeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mHeader1RelativeSize = rxMDConfiguration.getHeader1RelativeSize();
         mHeader2RelativeSize = rxMDConfiguration.getHeader2RelativeSize();

@@ -33,14 +33,14 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-class CenterAlignGrammar extends AbsAndroidGrammar {
+public class CenterAlignGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_CENTER_ALIGN = "[";
     protected static final String KEY_1_CENTER_ALIGN = "]";
 
     protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_1_CENTER_ALIGN;
 
-    CenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public CenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

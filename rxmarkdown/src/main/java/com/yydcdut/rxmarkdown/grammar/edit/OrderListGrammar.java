@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-class OrderListGrammar extends EditGrammarAdapter {
+public class OrderListGrammar extends EditGrammarAdapter {
 
     /**
      * see com.yydcdut.rxmarkdown.grammar.android.OrderListGrammar
@@ -45,7 +45,7 @@ class OrderListGrammar extends EditGrammarAdapter {
      */
     public static final String KEY_HEADER = " ";
 
-    OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

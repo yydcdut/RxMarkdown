@@ -40,12 +40,12 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/7/7.
  */
-class HorizontalRulesGrammar extends EditGrammarAdapter {
+public class HorizontalRulesGrammar extends EditGrammarAdapter {
 
     private int mColor;
     private int mHeight;
 
-    HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getHorizontalRulesColor();
         mHeight = rxMDConfiguration.getHorizontalRulesHeight();

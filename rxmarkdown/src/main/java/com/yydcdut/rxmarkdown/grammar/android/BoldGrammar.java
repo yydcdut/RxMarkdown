@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/5/3.
  */
-class BoldGrammar extends AbsAndroidGrammar {
+public class BoldGrammar extends AbsAndroidGrammar {
 
     private static final String KEY_BOLD = "**";
     private static final String KEY_BOLD_1 = "__";
@@ -41,7 +41,7 @@ class BoldGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE = BackslashGrammar.KEY_BACKSLASH + "*";
     protected static final String KEY_BACKSLASH_VALUE_1 = BackslashGrammar.KEY_BACKSLASH + "_";
 
-    BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

@@ -36,11 +36,11 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class CodeGrammar extends EditGrammarAdapter {
+public class CodeGrammar extends EditGrammarAdapter {
 
     private int mColor;
 
-    CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getCodeBgColor();
     }

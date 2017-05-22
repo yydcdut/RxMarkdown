@@ -32,7 +32,7 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-class BlockQuotesGrammar extends AbsAndroidGrammar {
+public class BlockQuotesGrammar extends AbsAndroidGrammar {
 
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
@@ -46,7 +46,7 @@ class BlockQuotesGrammar extends AbsAndroidGrammar {
 
     private int mColor;
 
-    BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public BlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getBlockQuotesColor();
         mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor();

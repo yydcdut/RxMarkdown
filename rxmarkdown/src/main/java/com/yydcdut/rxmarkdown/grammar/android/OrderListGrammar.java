@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/22.
  */
-class OrderListGrammar extends GrammarAdapter {
+public class OrderListGrammar extends GrammarAdapter {
 
     /**
      * see com.yydcdut.rxmarkdown.grammar.edit.OrderListGrammar
@@ -50,7 +50,7 @@ class OrderListGrammar extends GrammarAdapter {
      *
      * @param rxMDConfiguration RxMDConfiguration
      */
-    OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public OrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
     }
 
     @Override

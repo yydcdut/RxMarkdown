@@ -31,9 +31,9 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/2.
  */
-class NormalGrammar implements IGrammar {
+public class NormalGrammar implements IGrammar {
 
-    NormalGrammar(@Nullable RxMDConfiguration rxMDConfiguration) {
+    public NormalGrammar(@Nullable RxMDConfiguration rxMDConfiguration) {
     }
 
     @Override

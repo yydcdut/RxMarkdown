@@ -35,7 +35,7 @@ import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
  * <p>
  * Created by yuyidong on 16/5/15.
  */
-class HorizontalRulesGrammar extends AbsAndroidGrammar {
+public class HorizontalRulesGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_HORIZONTAL_RULES = "***";
     protected static final String KEY_1_HORIZONTAL_RULES = "---";
@@ -46,7 +46,7 @@ class HorizontalRulesGrammar extends AbsAndroidGrammar {
     private int mColor;
     private int mHeight;
 
-    HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public HorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getHorizontalRulesColor();
         mHeight = rxMDConfiguration.getHorizontalRulesHeight();

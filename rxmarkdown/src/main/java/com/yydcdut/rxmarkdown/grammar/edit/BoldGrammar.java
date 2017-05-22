@@ -36,9 +36,9 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/29.
  */
-class BoldGrammar extends EditGrammarAdapter {
+public class BoldGrammar extends EditGrammarAdapter {
 
-    BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

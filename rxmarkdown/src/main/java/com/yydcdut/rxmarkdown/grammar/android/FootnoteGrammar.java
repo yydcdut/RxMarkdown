@@ -33,7 +33,7 @@ import static com.yydcdut.rxmarkdown.grammar.android.BackslashGrammar.KEY_BACKSL
  * <p>
  * Created by yuyidong on 16/5/13.
  */
-class FootnoteGrammar extends AbsAndroidGrammar {
+public class FootnoteGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_FOOTNOTE = "[^";
     protected static final String KEY_1_FOOTNOTE = "]";
@@ -41,7 +41,7 @@ class FootnoteGrammar extends AbsAndroidGrammar {
     protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
     protected static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
 
-    FootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public FootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 

@@ -31,7 +31,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/6/29.
  */
-abstract class GrammarAdapter implements IGrammar {
+public abstract class GrammarAdapter implements IGrammar {
 
     @NonNull
     @Override

@@ -30,14 +30,14 @@ import com.yydcdut.rxmarkdown.span.MDTodoSpan;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class TodoGrammar extends AbsAndroidGrammar {
+public class TodoGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_TODO = "- [ ] ";
     protected static final String KEY_1_TODO = "* [ ] ";
 
     private int mColor;
 
-    TodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public TodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getTodoColor();
     }
