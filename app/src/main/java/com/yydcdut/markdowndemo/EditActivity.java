@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +19,7 @@ import android.view.View;
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
-import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.grammar.edit.EditFactory;
+import com.yydcdut.rxmarkdown.prettify.PrettifyHighLighter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,8 +31,6 @@ import java.io.OutputStream;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by yuyidong on 16/7/23.
@@ -77,32 +75,36 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .setUnOrderListColor(0xff00ddff)
                 .build();
         mHorizontalEditScrollView.setEditTextAndConfig(mEditText, rxMDConfiguration);
-        mEditText.setText(Const.MD_SAMPLE);
-        mObservable = RxMarkdown.live(mEditText)
-                .config(rxMDConfiguration)
-                .factory(EditFactory.create())
-                .intoObservable()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread());
+//        mEditText.setText(Const.MD_SAMPLE);
+//        mObservable = RxMarkdown.live(mEditText)
+//                .config(rxMDConfiguration)
+//                .factory(EditFactory.create())
+//                .intoObservable()
+//                .subscribeOn(Schedulers.computation())
+//                .observeOn(AndroidSchedulers.mainThread());
         final long time = System.currentTimeMillis();
-        mSubscription = mObservable
-                .subscribe(new Subscriber<CharSequence>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(CharSequence charSequence) {
-                        Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
-                    }
-                });
+//        mSubscription = mObservable
+//                .subscribe(new Subscriber<CharSequence>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onNext(CharSequence charSequence) {
+//                        Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
+//                    }
+//                });
+        PrettifyHighLighter prettifyHighLighter = new PrettifyHighLighter();
+        SpannableStringBuilder ssss = new SpannableStringBuilder(Const.MD_SAMPLE);
+        SpannableStringBuilder ssb = prettifyHighLighter.highLight("java", ssss);
+        mEditText.setText(ssb);
 
         mAsyncTask = new EditActivity.DemoPictureAsyncTask().execute();
 
