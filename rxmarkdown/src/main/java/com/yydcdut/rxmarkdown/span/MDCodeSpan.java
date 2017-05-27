@@ -17,9 +17,12 @@ package com.yydcdut.rxmarkdown.span;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
+import android.util.Log;
 
 /**
  * code grammar span
@@ -30,6 +33,7 @@ public class MDCodeSpan extends QuoteSpan {
     private static final int GAP_WIDTH_PLUS = 15;
 
     private final int mColor;
+    private Drawable mDrawable;
 
     /**
      * Constructor
@@ -52,6 +56,31 @@ public class MDCodeSpan extends QuoteSpan {
     /**
      * Constructor
      *
+     * @param color       color {@link QuoteSpan}
+     * @param isBeginning whether it's the beginning line of the code
+     * @param isEnding    whether it's the ending line of the code
+     */
+    public MDCodeSpan(int color, boolean isBeginning, boolean isEnding) {
+        super(color);
+        mColor = color;
+        if (isBeginning || isEnding) {
+            GradientDrawable d = new GradientDrawable();
+            d.setColor(mColor);
+            if (isBeginning && !isEnding) {
+                Log.d("yuyidong", "1111111");
+                d.setCornerRadii(new float[]{10, 10, 10, 10, 0, 0, 0, 0});
+            } else if (!isBeginning && isEnding) {
+                d.setCornerRadii(new float[]{0, 0, 0, 0, 10, 10, 10, 10});
+            } else {
+                d.setCornerRadius(10);
+            }
+            mDrawable = d;
+        }
+    }
+
+    /**
+     * Constructor
+     *
      * @param src {@link QuoteSpan}
      */
     public MDCodeSpan(Parcel src) {
@@ -68,15 +97,17 @@ public class MDCodeSpan extends QuoteSpan {
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
                                   int top, int baseline, int bottom,
                                   CharSequence text, int start, int end, boolean first, Layout layout) {
-        Paint.Style style = p.getStyle();
-        int color = p.getColor();
-
-        p.setStyle(Paint.Style.FILL);
-        p.setColor(mColor);
-
-        c.drawRect(x, top, x + layout.getWidth(), bottom, p);
-
-        p.setStyle(style);
-        p.setColor(color);
+        if (mDrawable != null) {
+            mDrawable.setBounds(x, top, x + layout.getWidth(), bottom);
+            mDrawable.draw(c);
+        } else {
+            Paint.Style style = p.getStyle();
+            int color = p.getColor();
+            p.setStyle(Paint.Style.FILL);
+            p.setColor(mColor);
+            c.drawRect(x, top, x + layout.getWidth(), bottom, p);
+            p.setStyle(style);
+            p.setColor(color);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.yydcdut.rxmarkdown.prettify;
 
+import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -24,8 +25,8 @@ public class PrettifyHighLighter {
         mParser = new PrettifyParser();
     }
 
-    public SpannableStringBuilder highLight(String fileExtension, SpannableStringBuilder sourceCode) {
-        List<ParseResult> results = mParser.parse(fileExtension, sourceCode.toString());
+    public SpannableStringBuilder highLight(String language, SpannableStringBuilder sourceCode) {
+        List<ParseResult> results = mParser.parse(language, sourceCode.toString());
         for (ParseResult result : results) {
             String type = result.getStyleKeys().get(0);
             sourceCode.setSpan(new ForegroundColorSpan(getColor(type)), result.getOffset(), result.getOffset() + result.getLength(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -39,13 +40,22 @@ public class PrettifyHighLighter {
 
     private static Map<String, Integer> buildColorsMap() {
         Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("typ", 0xff87cefa);
-        map.put("kwd", 0xff00ff00);
-        map.put("lit", 0xffffff00);
-        map.put("com", 0xff999999);
-        map.put("str", 0xffff4500);
-        map.put("pun", 0xffeeeeee);
+        map.put("typ", 0xff660066);
+        map.put("kwd", 0xff000088);
+        map.put("lit", 0xff006666);
+        map.put("com", 0xff880000);
+        map.put("str", 0xff008800);
+        map.put("pun", 0xff666600);
+        map.put("tag", 0xff000088);
         map.put("pln", 0xff000000);
+        map.put("nocode", 0xff000000);
+        map.put("dec", 0xff000000);
+        map.put("atn", 0xff660066);
+        map.put("atv", 0xff008800);
+        map.put("opn", 0xff666600);
+        map.put("clo", 0xff666600);
+        map.put("var", 0xff660066);
+        map.put("fun", Color.RED);
         return map;
     }
 }

@@ -19,11 +19,13 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of grammar for code.
@@ -48,13 +50,7 @@ public class CodeGrammar extends GrammarAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        String text = charSequence.toString();
-        String newText = text.replace("\n", "*!!*@@*##*$$*%%*^^*&&***((*))*--*^^*++*$$*");
-        Pattern pattern = Pattern.compile(".*[```]{3}.*[```]{3}.*");
-        if (!pattern.matcher(newText).matches()) {
-            return false;
-        }
-        return calculateTotalKey(text) >= 2; //大于2就OK了
+        return find(charSequence.toString()).size() > 0;
     }
 
     @NonNull
@@ -64,56 +60,65 @@ public class CodeGrammar extends GrammarAdapter {
             return charSequence;
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
-        int index = 0;
         String text = charSequence.toString();
-        int totalKey = calculateTotalKey(text);
-        boolean needCareful = (totalKey % 2 == 1);
-        String[] lines = text.split("\n");
-        int currentKeyIndex = 0;
-        for (int i = 0; i < lines.length; i++) {
-            if (lines[i].equals(KEY_CODE)) {
-                currentKeyIndex++;
+        List<Pair<Integer, Integer>> list = find(text);
+        for (int i = list.size() - 1; i >= 0; i--) {
+            Pair<Integer, Integer> pair = list.get(i);
+            int start = pair.first;
+            int end = pair.second;
+            List<Integer> middleList = getMiddleNewLineCharPosition(ssb, start, end);
+            int current = start;
+            for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
+                int position = middleList.get(j);
+                ssb.setSpan(new MDCodeSpan(mColor, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                current = position + 1;
             }
-            if (currentKeyIndex % 2 == 0) {//非代码部分
-                if (KEY_CODE.equals(lines[i])) {
-                    ssb.delete(index, index + KEY_CODE.length() + ((i == lines.length - 1) ? 0 : "\n".length()));
-                    continue;
-                }
-            } else {//代码部分
-                if (needCareful && currentKeyIndex == totalKey) {
-                    break;
-                }
-                if (KEY_CODE.equals(lines[i])) {
-                    ssb.delete(index, index + KEY_CODE.length() + "\n".length());
-                    continue;
-                }
-                //中间如果有直接换行的，就删除掉
-                if ("".equals(lines[i])) {
-                    ssb.delete(index, index + "".length() + ((i == lines.length - 1) ? 0 : "\n".length()));
-                    continue;
-                }
-                int start = index;
-                int end = index + lines[i].length() + ((i == lines.length - 1) ? 0 : "\n".length());
-                ssb.setSpan(new MDCodeSpan(mColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                ssb.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            index += lines[i].length() + "\n".length();
+            ssb.delete(end, end + KEY_CODE.length() + (end + KEY_CODE.length() >= ssb.length() ? 0 : 1));
+            ssb.delete(start, findNextNewLineChar(ssb, start) + 1);
         }
         return ssb;
     }
 
-    /**
-     * calculate the content has how many "```"
-     *
-     * @param text the content
-     * @return the number of "```" in content
-     */
-    private int calculateTotalKey(@NonNull String text) {
+    private static List<Pair<Integer, Integer>> find(@NonNull String text) {
+        List<Pair<Integer, Integer>> list = new ArrayList<>();
         String[] lines = text.split("\n");
-        int number = 0;
+        int start = -1;
+        int end = -1;
+        int currentLength = 0;
         for (int i = 0; i < lines.length; i++) {
-            number += KEY_CODE.equals(lines[i]) ? 1 : 0;
+            if (lines[i].startsWith(KEY_CODE)) {
+                if (start == -1) {
+                    start = currentLength;
+                } else if (end == -1 && TextUtils.equals(lines[i], KEY_CODE)) {
+                    end = currentLength;
+                }
+                if (start != -1 && end != -1) {
+                    list.add(new Pair<>(start, end));
+                    start = -1;
+                    end = -1;
+                }
+            }
+            currentLength += lines[i].length() + "\n".length();
         }
-        return number;
+        return list;
+    }
+
+    private static int findNextNewLineChar(SpannableStringBuilder ssb, int start) {//todo utils
+        for (int i = start; i < ssb.length(); i++) {
+            if (ssb.charAt(i) == '\n') {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {//todo utils
+        List<Integer> list = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            if (ssb.charAt(i) == '\n') {
+                list.add(i);
+            }
+        }
+        return list;
     }
 }

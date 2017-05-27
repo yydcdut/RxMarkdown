@@ -1,12 +1,33 @@
 package com.yydcdut.rxmarkdown;
 
-import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 
 /**
  * Created by yuyidong on 16/5/14.
  */
 public class AndroidGrammarTest4App extends InstrumentationTestCase {
+//    private RxMDConfiguration mRxMDConfiguration;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+//        mRxMDConfiguration = new RxMDConfiguration.Builder(getInstrumentation().getContext())
+//                .setDefaultImageSize(50, 50)
+//                .setBlockQuotesColor(0xff33b5e5)
+//                .setHeader1RelativeSize(1.6f)
+//                .setHeader2RelativeSize(1.5f)
+//                .setHeader3RelativeSize(1.4f)
+//                .setHeader4RelativeSize(1.3f)
+//                .setHeader5RelativeSize(1.2f)
+//                .setHeader6RelativeSize(1.1f)
+//                .setHorizontalRulesColor(0xff99cc00)
+//                .setInlineCodeBgColor(0xffff4444)
+//                .setCodeBgColor(0x33999999)
+//                .setTodoColor(0xffaa66cc)
+//                .setTodoDoneColor(0xffff8800)
+//                .setUnOrderListColor(0xff00ddff)
+//                .build();
+    }
 
     public void testHyperLink() {
 //        String testString = "111](22[22](33333)";
@@ -217,10 +238,83 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //    }
 
     public void testCodeGrammar() {
-
+//        CodeGrammar codeGrammar = new CodeGrammar(mRxMDConfiguration);
+//        List<Pair<Integer, Integer>> list = codeGrammar.find(MD_SAMPLE);
+//        Log.d("yuyidong", "list-->" + list.size());
+//        for (Pair<Integer, Integer> pair : list) {
+//            Log.d("yuyidong", "pair-->" + pair.first + "    " + pair.second);
+//        }
     }
 
-    boolean isMatch(@NonNull String text) {
-        return false;
-    }
+//    static String MD_SAMPLE = "在这个**版本**中我们*增加test*了 `Markdown` 功能。`Markdown` 是~~一种使用纯文本编写的标记~~语言，可以产生格式![test](http://7xs03u.com1.z0.glb.clouddn.com/dex_dexopt_dex2oat.png/320$320)丰富的页面[^排版效果]，比如突出[标题](http://www.baidu.com)、居中、加粗、引用和生成列表。\n" +
+//            "\n" +
+//            "## **用法与规则：**\n" +
+////                    "\n" +
+////                    "你可以手动输入，也可以点击键盘上方的按钮快速输入 Markdown 符号。\n" +
+//            "\n" +
+//            "### **标题**\n" +
+//            "***\n" +
+//            "\n" +
+//            "```\n" +
+//            "test1\n" +
+//            "test2\n" +
+//            "test3\n" +
+//            "test4\n" +
+//            "```\n" +
+//            "\n" +
+//            "- [ ] 123\n" +
+//            "- [ ] 456\n" +
+//            "- [ ] 789\n" +
+//            "\n" +
+//            "- [x] 987\n" +
+//            "- [x] 654\n" +
+//            "- [x] 321\n" +
+//            "\n" +
+//            "例如：\n" +
+//            "# 一级标题\n" +
+//            "## 二级标题\n" +
+//            "### 三级标题\n" +
+//            "---\n" +
+//            "![test](file://" + Environment.getExternalStorageDirectory() + File.separator + "b.jpg/400$400" + ")\n" +
+//            "### **加粗功能**\n" +
+//            "使用一组星号“**”来加粗一段文字\n" +
+//            "\n" +
+//            "```\n" +
+//            "test1\n" +
+//            "test2\n" +
+//            "test3\n" +
+//            "test4\n" +
+//            "```" +
+//            "例如：\n" +
+//            "这是**加粗的文字**\n" +
+//            "\n" +
+//            "### **居中**\n" +
+//            "使用一对中括号“[文字]”来居中一段文字，也可![test](assets://bb.jpg/100$100)以和标题叠加使用\n" +
+//            "\n" +
+//            "例如：\n" +
+//            "[### 这是一个居中的标题]\n" +
+//            "\n" +
+//            "### **引用**\n" +
+//            "使用“> ”在段首来引用一段文字\n" +
+//            "\n" +
+//            "例如：\n" +
+//            "> 这是一段引用\n" +
+//            "> > > 这是一段引用\n" +
+//            "\n" +
+//            "### **无序列表**\n" +
+//            "使用 “-”、“*”或“+”加空格 来创建无序列表\n" +
+//            "\n" +
+//            "例如：\n" +
+//            "- 这是一个无序列表\n" +
+//            "+ 这是一个无序列表\n" +
+//            "* 这是一个无序列表\n" +
+//            "\n" +
+//            "### **有序列表**\n" +
+//            "使用 数字圆点加空格 如“1. ”、“2. ”来创建有序列表\n" +
+//            "\n" +
+//            "例如：\n" +
+//            "1. 这是一个有序列表\n" +
+//            "2. 这是一个有序列表\n" +
+//            "3. 这是一个有序列表";
+
 }
