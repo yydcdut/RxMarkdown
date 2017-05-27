@@ -22,12 +22,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
-import android.util.Log;
 
 /**
  * code grammar span
  * <p>
  * Created by yuyidong on 16/5/17.
+ * todo 非常耗时，异步？？？
  */
 public class MDCodeSpan extends QuoteSpan {
     private static final int GAP_WIDTH_PLUS = 15;
@@ -67,7 +67,6 @@ public class MDCodeSpan extends QuoteSpan {
             GradientDrawable d = new GradientDrawable();
             d.setColor(mColor);
             if (isBeginning && !isEnding) {
-                Log.d("yuyidong", "1111111");
                 d.setCornerRadii(new float[]{10, 10, 10, 10, 0, 0, 0, 0});
             } else if (!isBeginning && isEnding) {
                 d.setCornerRadii(new float[]{0, 0, 0, 0, 10, 10, 10, 10});
