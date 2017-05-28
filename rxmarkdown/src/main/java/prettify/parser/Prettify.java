@@ -501,10 +501,10 @@ public class Prettify {
          * job.sourceCode in order.
          *
          * @param job an object like <pre>{
-         *               sourceCode: {string} sourceText plain text,
-         *               basePos: {int} position of job.sourceCode in the larger chunk of
-         *                   sourceCode.
-         *            }</pre>
+         *                          sourceCode: {string} sourceText plain text,
+         *                          basePos: {int} position of job.sourceCode in the larger chunk of
+         *                              sourceCode.
+         *                       }</pre>
          */
         public void decorate(Job job) {
             String sourceCode = job.getSourceCode();

@@ -1,9 +1,13 @@
 package com.yydcdut.rxmarkdown.prettify;
 
-import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+
+import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.theme.Theme;
+import com.yydcdut.rxmarkdown.theme.ThemeDefault;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,42 +24,42 @@ public class PrettifyHighLighter {
     private Map<String, Integer> mColorMap;
     private Parser mParser;
 
-    public PrettifyHighLighter() {
-        mColorMap = buildColorsMap();
+    public PrettifyHighLighter(@NonNull RxMDConfiguration rxMDConfiguration) {
+        mColorMap = buildColorsMap(new ThemeDefault());
         mParser = new PrettifyParser();
     }
 
-    public SpannableStringBuilder highLight(String language, SpannableStringBuilder sourceCode) {
-        List<ParseResult> results = mParser.parse(language, sourceCode.toString());
+    public SpannableStringBuilder highLight(String language, SpannableStringBuilder sourceCode, int start, int end) {
+        List<ParseResult> results = mParser.parse(language, sourceCode.toString().substring(start, end));
         for (ParseResult result : results) {
             String type = result.getStyleKeys().get(0);
-            sourceCode.setSpan(new ForegroundColorSpan(getColor(type)), result.getOffset(), result.getOffset() + result.getLength(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sourceCode.setSpan(new ForegroundColorSpan(getColor(type)), start + result.getOffset(), start + result.getOffset() + result.getLength(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return sourceCode;
     }
 
     private int getColor(String type) {
-        return mColorMap.containsKey(type) ? mColorMap.get(type) : mColorMap.get("pln");
+        return mColorMap.containsKey(type) ? mColorMap.get(type) : mColorMap.get(Theme.CODE_PLN);
     }
 
-    private static Map<String, Integer> buildColorsMap() {
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("typ", 0xff660066);
-        map.put("kwd", 0xff000088);
-        map.put("lit", 0xff006666);
-        map.put("com", 0xff880000);
-        map.put("str", 0xff008800);
-        map.put("pun", 0xff666600);
-        map.put("tag", 0xff000088);
-        map.put("pln", 0xff000000);
-        map.put("nocode", 0xff000000);
-        map.put("dec", 0xff000000);
-        map.put("atn", 0xff660066);
-        map.put("atv", 0xff008800);
-        map.put("opn", 0xff666600);
-        map.put("clo", 0xff666600);
-        map.put("var", 0xff660066);
-        map.put("fun", Color.RED);
+    private static Map<String, Integer> buildColorsMap(Theme theme) {//todo utils
+        Map<String, Integer> map = new HashMap<>();
+        map.put(Theme.CODE_TYP, theme.getTypColor());
+        map.put(Theme.CODE_KWD, theme.getKwdColor());
+        map.put(Theme.CODE_LIT, theme.getLitColor());
+        map.put(Theme.CODE_COM, theme.getComColor());
+        map.put(Theme.CODE_STR, theme.getStrColor());
+        map.put(Theme.CODE_PUN, theme.getPunColor());
+        map.put(Theme.CODE_TAG, theme.getTagColor());
+        map.put(Theme.CODE_PLN, theme.getPlnColor());
+        map.put(Theme.CODE_DEC, theme.getDecColor());
+        map.put(Theme.CODE_ATN, theme.getAtnColor());
+        map.put(Theme.CODE_ATV, theme.getAtvColor());
+        map.put(Theme.CODE_OPN, theme.getOpnColor());
+        map.put(Theme.CODE_CLO, theme.getCloColor());
+        map.put(Theme.CODE_VAR, theme.getVarColor());
+        map.put(Theme.CODE_FUN, theme.getFunColor());
+        map.put(Theme.CODE_NOCODE, theme.getNocodeColor());
         return map;
     }
 }

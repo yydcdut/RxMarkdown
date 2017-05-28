@@ -49,8 +49,8 @@ public interface Const {
             "test3\n" +
             "test4\n" +
             "```" +
-            "例如：\n" +
-            "这是**加粗的文字**\n" +
+//            "例如：\n" +
+//            "这是**加粗的文字**\n" +
             "\n" +
             "### **居中**\n" +
             "使用一对中括号“[文字]”来居中一段文字，也可![test](assets://bb.jpg/100$100)以和标题叠加使用\n" +
@@ -76,6 +76,52 @@ public interface Const {
             "### **有序列表**\n" +
             "使用 数字圆点加空格 如“1. ”、“2. ”来创建有序列表\n" +
             "\n" +
+            "```\n" +
+            "public abstract class MemberIdsSection extends UniformItemSection {\n" +
+            "  /** {@inheritDoc} */\n" +
+            "    @Override\n" +
+            "    protected void orderItems() {\n" +
+            "        int idx = 0;\n" +
+            "\n" +
+            "        if (items().size() > DexFormat.MAX_MEMBER_IDX + 1) {\n" +
+            "            throw new DexIndexOverflowException(getTooManyMembersMessage());\n" +
+            "        }\n" +
+            "\n" +
+            "        for (Object i : items()) {\n" +
+            "            ((MemberIdItem) i).setIndex(idx);\n" +
+            "            idx++;\n" +
+            "        }\n" +
+            "    }\n" +
+            "\n" +
+            "    private String getTooManyMembersMessage() {\n" +
+            "        Map<String, AtomicInteger> membersByPackage = new TreeMap<String, AtomicInteger>();\n" +
+            "        for (Object member : items()) {\n" +
+            "            String packageName = ((MemberIdItem) member).getDefiningClass().getPackageName();\n" +
+            "            AtomicInteger count = membersByPackage.get(packageName);\n" +
+            "            if (count == null) {\n" +
+            "                count = new AtomicInteger();\n" +
+            "                membersByPackage.put(packageName, count);\n" +
+            "            }\n" +
+            "            count.incrementAndGet();\n" +
+            "        }\n" +
+            "\n" +
+            "        Formatter formatter = new Formatter();\n" +
+            "        try {\n" +
+            "            String memberType = this instanceof MethodIdsSection ? \"method\" : \"field\";\n" +
+            "            formatter.format(\"Too many %s references: %d; max is %d.%n\" +\n" +
+            "                    Main.getTooManyIdsErrorMessage() + \"%n\" +\n" +
+            "                    \"References by package:\",\n" +
+            "                    memberType, items().size(), DexFormat.MAX_MEMBER_IDX + 1);\n" +
+            "            for (Map.Entry<String, AtomicInteger> entry : membersByPackage.entrySet()) {\n" +
+            "                formatter.format(\"%n%6d %s\", entry.getValue().get(), entry.getKey());\n" +
+            "            }\n" +
+            "            return formatter.toString();\n" +
+            "        } finally {\n" +
+            "            formatter.close();\n" +
+            "        }\n" +
+            "    }\n" +
+            "}\n" +
+            "```\n" +
             "例如：\n" +
             "1. 这是一个有序列表\n" +
             "2. 这是一个有序列表\n" +

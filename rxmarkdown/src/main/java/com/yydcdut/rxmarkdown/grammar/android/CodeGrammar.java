@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.prettify.PrettifyHighLighter;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.ArrayList;
@@ -40,9 +41,11 @@ public class CodeGrammar extends GrammarAdapter {
     protected static final String KEY_CODE = "```";
 
     private int mColor;
+    private PrettifyHighLighter mPrettifyHighLighter;
 
     public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         mColor = rxMDConfiguration.getCodeBgColor();
+        mPrettifyHighLighter = new PrettifyHighLighter(rxMDConfiguration);
     }
 
     @Override
@@ -70,9 +73,13 @@ public class CodeGrammar extends GrammarAdapter {
             int current = start;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
                 int position = middleList.get(j);
+                if (position == current) {//处理只有换行符
+                    ssb.replace(position - 1, position, " ");
+                }
                 ssb.setSpan(new MDCodeSpan(mColor, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 current = position + 1;
             }
+            mPrettifyHighLighter.highLight("java", ssb, start, end);
             ssb.delete(end, end + KEY_CODE.length() + (end + KEY_CODE.length() >= ssb.length() ? 0 : 1));
             ssb.delete(start, findNextNewLineChar(ssb, start) + 1);
         }
