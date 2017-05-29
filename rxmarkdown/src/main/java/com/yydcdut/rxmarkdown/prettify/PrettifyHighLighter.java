@@ -7,7 +7,6 @@ import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.theme.Theme;
-import com.yydcdut.rxmarkdown.theme.ThemeDefault;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,7 @@ public class PrettifyHighLighter {
     private Parser mParser;
 
     public PrettifyHighLighter(@NonNull RxMDConfiguration rxMDConfiguration) {
-        mColorMap = buildColorsMap(new ThemeDefault());
+        mColorMap = buildColorsMap(rxMDConfiguration.getTheme());
         mParser = new PrettifyParser();
     }
 

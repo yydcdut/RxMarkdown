@@ -43,7 +43,7 @@ public interface Const {
             "### **加粗功能**\n" +
             "使用一组星号“**”来加粗一段文字\n" +
             "\n" +
-            "```\n" +
+            "```c\n" +
             "test1\n" +
             "test2\n" +
             "test3\n" +
@@ -76,7 +76,7 @@ public interface Const {
             "### **有序列表**\n" +
             "使用 数字圆点加空格 如“1. ”、“2. ”来创建有序列表\n" +
             "\n" +
-            "```\n" +
+            "```java\n" +
             "public abstract class MemberIdsSection extends UniformItemSection {\n" +
             "  /** {@inheritDoc} */\n" +
             "    @Override\n" +

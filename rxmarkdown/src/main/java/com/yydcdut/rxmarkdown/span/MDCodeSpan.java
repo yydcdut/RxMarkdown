@@ -27,13 +27,14 @@ import android.text.style.QuoteSpan;
  * code grammar span
  * <p>
  * Created by yuyidong on 16/5/17.
- * todo 非常耗时，异步？？？
  */
 public class MDCodeSpan extends QuoteSpan {
     private static final int GAP_WIDTH_PLUS = 15;
 
     private final int mColor;
     private Drawable mDrawable;
+
+    private String mLanguage;
 
     /**
      * Constructor
@@ -60,9 +61,10 @@ public class MDCodeSpan extends QuoteSpan {
      * @param isBeginning whether it's the beginning line of the code
      * @param isEnding    whether it's the ending line of the code
      */
-    public MDCodeSpan(int color, boolean isBeginning, boolean isEnding) {
+    public MDCodeSpan(int color, String language, boolean isBeginning, boolean isEnding) {
         super(color);
         mColor = color;
+        mLanguage = language;
         if (isBeginning || isEnding) {
             GradientDrawable d = new GradientDrawable();
             d.setColor(mColor);
@@ -75,6 +77,10 @@ public class MDCodeSpan extends QuoteSpan {
             }
             mDrawable = d;
         }
+    }
+
+    public String getLanguage() {
+        return mLanguage;
     }
 
     /**

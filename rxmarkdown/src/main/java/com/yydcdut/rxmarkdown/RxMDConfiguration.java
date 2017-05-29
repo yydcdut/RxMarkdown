@@ -24,6 +24,8 @@ import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.loader.DefaultLoader;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
+import com.yydcdut.rxmarkdown.theme.Theme;
+import com.yydcdut.rxmarkdown.theme.ThemeDefault;
 
 /**
  * The display configuration of RxMarkdown
@@ -47,7 +49,9 @@ public class RxMDConfiguration {
     @ColorInt
     private final int inlineCodeBgColor;
     @ColorInt
+    @Deprecated
     private final int codeBgColor;
+    private final Theme theme;
     @ColorInt
     private final int todoColor;
     @ColorInt
@@ -99,7 +103,7 @@ public class RxMDConfiguration {
                               float header1RelativeSize, float header2RelativeSize,
                               float header3RelativeSize, float header4RelativeSize,
                               float header5RelativeSize, float header6RelativeSize,
-                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight, int inlineCodeBgColor, int codeBgColor,
+                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight, int inlineCodeBgColor, int codeBgColor, Theme theme,
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
@@ -117,6 +121,7 @@ public class RxMDConfiguration {
         this.horizontalRulesHeight = horizontalRulesHeight;
         this.inlineCodeBgColor = inlineCodeBgColor;
         this.codeBgColor = codeBgColor;
+        this.theme = theme;
         this.todoColor = todoColor;
         this.todoDoneColor = todoDoneColor;
         this.unOrderListColor = unOrderListColor;
@@ -243,8 +248,18 @@ public class RxMDConfiguration {
      *
      * @return the color
      */
+    @Deprecated
     public final int getCodeBgColor() {
         return codeBgColor;
+    }
+
+    /**
+     * get code theme
+     *
+     * @return the theme
+     */
+    public Theme getTheme() {
+        return theme;
     }
 
     /**
@@ -375,7 +390,9 @@ public class RxMDConfiguration {
         private int inlineCodeBgColor;
 
         @ColorInt
+        @Deprecated
         private int codeBgColor;
+        private Theme mTheme;
 
         @ColorInt
         private int todoColor;
@@ -423,6 +440,7 @@ public class RxMDConfiguration {
             horizontalRulesHeight = -1;
             inlineCodeBgColor = Color.LTGRAY;
             codeBgColor = Color.LTGRAY;
+            mTheme = new ThemeDefault();
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
             unOrderListColor = Color.BLACK;
@@ -573,8 +591,20 @@ public class RxMDConfiguration {
          * @param codeBgColor the color
          * @return self
          */
+        @Deprecated
         public Builder setCodeBgColor(@ColorInt int codeBgColor) {
             this.codeBgColor = codeBgColor;
+            return this;
+        }
+
+        /**
+         * set code theme
+         *
+         * @param theme the code style
+         * @return self
+         */
+        public Builder setTheme(Theme theme) {
+            mTheme = theme;
             return this;
         }
 
@@ -714,7 +744,7 @@ public class RxMDConfiguration {
                     header4RelativeSize,
                     header5RelativeSize,
                     header6RelativeSize,
-                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight, inlineCodeBgColor, codeBgColor,
+                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight, inlineCodeBgColor, codeBgColor, mTheme,
                     todoColor, todoDoneColor, unOrderListColor,
                     blockQuoteBgColor, linkColor, isLinkUnderline,
                     rxMDImageLoader, mOnLinkClickCallback,
