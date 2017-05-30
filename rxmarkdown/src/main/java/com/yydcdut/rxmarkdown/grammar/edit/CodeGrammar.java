@@ -49,6 +49,7 @@ public class CodeGrammar extends EditGrammarAdapter {
     @NonNull
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
+        //todo 改成 \n 的判断
         List<EditToken> editTokenList = new ArrayList<>();
         StringBuilder content = new StringBuilder(editable);
         Pattern p = Pattern.compile("^```(.*)$", Pattern.MULTILINE);
