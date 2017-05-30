@@ -17,6 +17,7 @@ package com.yydcdut.rxmarkdown.grammar.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
@@ -42,7 +43,7 @@ public class CodeGrammar extends EditGrammarAdapter {
 
     public CodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getCodeBgColor();
+        mColor = rxMDConfiguration.getTheme().getBackgroundColor();
     }
 
     @NonNull
@@ -50,30 +51,25 @@ public class CodeGrammar extends EditGrammarAdapter {
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("^```$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile("^```(.*)$", Pattern.MULTILINE);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         while (m.find()) {
             matchList.add(m.group());
         }
         int size = matchList.size() % 2 == 0 ? matchList.size() : matchList.size() - 1;
-        int index = 0;
+        int start = 0;
         for (int i = 0; i < size; i++) {
             String match = matchList.get(i);
+            Log.d("yuyidong", "match---->" + match);
             if (i % 2 == 0) {
-                index = content.indexOf(match);
-                char c4 = content.charAt(index + 3);
-                int length = match.length();
-                content.replace(index, index + length, getPlaceHolder(match));
-                if (c4 != '\n') {
-                    index = 0;
-                    i--;
-                    continue;
-                }
-                if (index > 0) {
-                    char c0 = content.charAt(index - 1);
-                    if (c0 != '\n') {
-                        index = 0;
+                start = content.indexOf(match);
+                if (start > 0) {
+                    int length = match.length();
+                    content.replace(start, start + length, getPlaceHolder(match));
+                    char charOfEnd = content.charAt(start + length);
+                    if (charOfEnd != '\n') {
+                        start = 0;
                         i--;
                         continue;
                     }
@@ -83,12 +79,12 @@ public class CodeGrammar extends EditGrammarAdapter {
                 int length = match.length();
                 content.replace(currentIndex, currentIndex + length, getPlaceHolder(match));
                 char c4 = content.charAt(currentIndex + 3 >= content.length() ? content.length() - 1 : currentIndex + 3);
-                char c0 = content.charAt(index == 0 ? index : index - 1);
-                if ((index != 0 && c0 != '\n') || (c4 != '\n' && currentIndex + 3 != content.length())) {
+                char c0 = content.charAt(start == 0 ? start : start - 1);
+                if ((start != 0 && c0 != '\n') || (c4 != '\n' && currentIndex + 3 != content.length())) {
                     i--;
                     continue;
                 } else {
-                    editTokenList.add(new EditToken(new MDCodeSpan(mColor), index, currentIndex + length));
+                    editTokenList.add(new EditToken(new MDCodeSpan(mColor), start, currentIndex + length));
                 }
             }
         }

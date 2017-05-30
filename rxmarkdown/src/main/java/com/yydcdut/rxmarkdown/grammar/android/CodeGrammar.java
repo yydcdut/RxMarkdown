@@ -90,7 +90,7 @@ public class CodeGrammar extends GrammarAdapter {
         return ssb;
     }
 
-    private static List<Pair<Integer, Integer>> find(@NonNull String text) {
+    public static List<Pair<Integer, Integer>> find(@NonNull String text) {
         List<Pair<Integer, Integer>> list = new ArrayList<>();
         String[] lines = text.split("\n");
         int start = -1;
