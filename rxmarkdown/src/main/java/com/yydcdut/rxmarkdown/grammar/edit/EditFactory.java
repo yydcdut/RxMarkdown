@@ -51,7 +51,7 @@ public class EditFactory extends AbsGrammarFactory {
 
     @Override
     public IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HeaderGrammar(rxMDConfiguration);
+        return new HorizontalRulesGrammar(rxMDConfiguration);
     }
 
     @Override
