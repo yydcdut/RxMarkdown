@@ -17,6 +17,8 @@ package com.yydcdut.rxmarkdown.edit;
 
 import android.text.Editable;
 
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +90,18 @@ class EditUtils {
         int startPosition = findBeforeNewLineChar(editable, start) + 1;
         int endPosition = findNextNewLineCharCompat(editable, start);
         T[] ts = editable.getSpans(startPosition, endPosition, clazz);
-        for (T t : ts) {
-            editable.removeSpan(t);
+        if (clazz.isAssignableFrom(MDCodeSpan.class)) {
+            for (T t : ts) {
+                MDCodeSpan mdCodeSpan = ((MDCodeSpan) t);
+                while (mdCodeSpan != null) {
+                    editable.removeSpan(mdCodeSpan);
+                    mdCodeSpan = mdCodeSpan.getNext();
+                }
+            }
+        } else {
+            for (T t : ts) {
+                editable.removeSpan(t);
+            }
         }
     }
 

@@ -38,7 +38,7 @@ import java.util.List;
  * Created by yuyidong on 16/5/17.
  */
 public class CodeGrammar extends GrammarAdapter {
-    protected static final String KEY_CODE = "```";
+    public static final String KEY_CODE = "```";
 
     private int mColor;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
@@ -114,7 +114,7 @@ public class CodeGrammar extends GrammarAdapter {
         return list;
     }
 
-    private static int findNextNewLineChar(SpannableStringBuilder ssb, int start) {//todo utils
+    public static int findNextNewLineChar(SpannableStringBuilder ssb, int start) {//todo utils
         for (int i = start; i < ssb.length(); i++) {
             if (ssb.charAt(i) == '\n') {
                 return i;
@@ -123,7 +123,7 @@ public class CodeGrammar extends GrammarAdapter {
         return -1;
     }
 
-    private static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {//todo utils
+    public static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {//todo utils
         List<Integer> list = new ArrayList<>();
         for (int i = start; i < end; i++) {
             if (ssb.charAt(i) == '\n') {

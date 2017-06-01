@@ -35,6 +35,7 @@ public class MDCodeSpan extends QuoteSpan {
     private Drawable mDrawable;
 
     private String mLanguage;
+    private MDCodeSpan mNext;
 
     /**
      * Constructor
@@ -81,6 +82,14 @@ public class MDCodeSpan extends QuoteSpan {
 
     public String getLanguage() {
         return mLanguage;
+    }
+
+    public void setNext(MDCodeSpan next) {
+        mNext = next;
+    }
+
+    public MDCodeSpan getNext() {
+        return mNext;
     }
 
     /**

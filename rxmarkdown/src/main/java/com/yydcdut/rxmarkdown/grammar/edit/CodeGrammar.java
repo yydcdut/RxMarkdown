@@ -17,7 +17,9 @@ package com.yydcdut.rxmarkdown.grammar.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
@@ -25,8 +27,6 @@ import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The implementation of grammar for code.
@@ -49,44 +49,35 @@ public class CodeGrammar extends EditGrammarAdapter {
     @NonNull
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
-        //todo 改成 \n 的判断
         List<EditToken> editTokenList = new ArrayList<>();
-        StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("^```(.*)$", Pattern.MULTILINE);
-        Matcher m = p.matcher(content);
-        List<String> matchList = new ArrayList<>();//找到的
-        while (m.find()) {
-            matchList.add(m.group());
-        }
-        int size = matchList.size() % 2 == 0 ? matchList.size() : matchList.size() - 1;
-        int start = 0;
-        for (int i = 0; i < size; i++) {
-            String match = matchList.get(i);
-            Log.d("yuyidong", "match---->" + match);
-            if (i % 2 == 0) {
-                start = content.indexOf(match);
-                if (start > 0) {
-                    int length = match.length();
-                    content.replace(start, start + length, getPlaceHolder(match));
-                    char charOfEnd = content.charAt(start + length);
-                    if (charOfEnd != '\n') {
-                        start = 0;
-                        i--;
-                        continue;
-                    }
-                }
-            } else {
-                int currentIndex = content.indexOf(match);
-                int length = match.length();
-                content.replace(currentIndex, currentIndex + length, getPlaceHolder(match));
-                char c4 = content.charAt(currentIndex + 3 >= content.length() ? content.length() - 1 : currentIndex + 3);
-                char c0 = content.charAt(start == 0 ? start : start - 1);
-                if ((start != 0 && c0 != '\n') || (c4 != '\n' && currentIndex + 3 != content.length())) {
-                    i--;
-                    continue;
+        List<Pair<Integer, Integer>> list = com.yydcdut.rxmarkdown.grammar.android.CodeGrammar.find(editable.toString());
+        for (int i = list.size() - 1; i >= 0; i--) {
+            Pair<Integer, Integer> pair = list.get(i);
+            int start = pair.first;
+            int end = pair.second;
+            List<Integer> middleList = com.yydcdut.rxmarkdown.grammar.android.CodeGrammar.getMiddleNewLineCharPosition((SpannableStringBuilder) editable, start, end);
+            int current = start;
+            MDCodeSpan parentSpan = null;
+            for (int j = 0; j < middleList.size(); j++) {
+                int position = middleList.get(j);
+                MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
+                if (position == current) {//处理只有换行符
+                    editTokenList.add(new EditToken(mdCodeSpan, position - 1, position + 1, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
                 } else {
-                    editTokenList.add(new EditToken(new MDCodeSpan(mColor), start, currentIndex + length));
+                    editTokenList.add(new EditToken(mdCodeSpan, current, position, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
                 }
+                if (parentSpan != null) {
+                    parentSpan.setNext(mdCodeSpan);
+                }
+                parentSpan = mdCodeSpan;
+                current = position + 1;
+            }
+            MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
+            editTokenList.add(new EditToken(mdCodeSpan, end,
+                    end + com.yydcdut.rxmarkdown.grammar.android.CodeGrammar.KEY_CODE.length() + (end + com.yydcdut.rxmarkdown.grammar.android.CodeGrammar.KEY_CODE.length() >= editable.length() ? 0 : 1),
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE));
+            if (parentSpan != null) {
+                parentSpan.setNext(mdCodeSpan);
             }
         }
         return editTokenList;
