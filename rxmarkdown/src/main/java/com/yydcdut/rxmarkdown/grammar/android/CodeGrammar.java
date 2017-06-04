@@ -83,7 +83,9 @@ public class CodeGrammar extends GrammarAdapter {
                 ssb.setSpan(new MDCodeSpan(mColor, language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 current = position + 1;
             }
-            mPrettifyHighLighter.highLight(language, ssb, start, end);
+            if (!TextUtils.equals("", language)) {
+                mPrettifyHighLighter.highLight(language, ssb, start, end);
+            }
             ssb.delete(end, end + KEY_CODE.length() + (end + KEY_CODE.length() >= ssb.length() ? 0 : 1));
             ssb.delete(start, findNextNewLineChar(ssb, start) + 1);
         }
