@@ -80,14 +80,29 @@ public class MDCodeSpan extends QuoteSpan {
         }
     }
 
+    /**
+     * Code language
+     *
+     * @return code language
+     */
     public String getLanguage() {
         return mLanguage;
     }
 
+    /**
+     * for edit code, set next span
+     *
+     * @param next {@link MDCodeSpan}
+     */
     public void setNext(MDCodeSpan next) {
         mNext = next;
     }
 
+    /**
+     * for edit code, get next span
+     *
+     * @return {@link MDCodeSpan}
+     */
     public MDCodeSpan getNext() {
         return mNext;
     }
