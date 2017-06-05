@@ -117,8 +117,14 @@ class EditUtils {
         }
     }
 
-    protected static void setCodeSpan(Editable editable, List<EditToken> editTokens) {
-        for (EditToken editToken : editTokens) {
+    /**
+     * set spans for  code span
+     *
+     * @param editable      Editable, the text
+     * @param editTokenList List, the edit token collection
+     */
+    protected static void setCodeSpan(Editable editable, List<EditToken> editTokenList) {
+        for (EditToken editToken : editTokenList) {
             Object[] spans = editable.getSpans(editToken.getStart(), editToken.getEnd(), Object.class);
             for (Object o : spans) {
                 if (editToken.getStart() <= editable.getSpanStart(o) && editToken.getEnd() >= editable.getSpanEnd(o)) {
@@ -126,7 +132,7 @@ class EditUtils {
                 }
             }
         }
-        setSpans(editable, editTokens);
+        setSpans(editable, editTokenList);
     }
 
     /**
