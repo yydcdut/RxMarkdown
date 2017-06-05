@@ -117,6 +117,18 @@ class EditUtils {
         }
     }
 
+    protected static void setCodeSpan(Editable editable, List<EditToken> editTokens) {
+        for (EditToken editToken : editTokens) {
+            Object[] spans = editable.getSpans(editToken.getStart(), editToken.getEnd(), Object.class);
+            for (Object o : spans) {
+                if (editToken.getStart() <= editable.getSpanStart(o) && editToken.getEnd() >= editable.getSpanEnd(o)) {
+                    editable.removeSpan(o);
+                }
+            }
+        }
+        setSpans(editable, editTokens);
+    }
+
     /**
      * get matched edit token list
      *
