@@ -122,12 +122,12 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         mEditControllerList.add(new BlockQuotesController());
         mEditControllerList.add(new StyleController());
         mEditControllerList.add(new CenterAlignController());
-        mEditControllerList.add(new CodeController());
         mEditControllerList.add(new HeaderController());
         mEditControllerList.add(new HorizontalRulesController(this));
         mEditControllerList.add(new InlineCodeController());
         mEditControllerList.add(new StrikeThroughController());
         mEditControllerList.add(new ListController(this, mEditTextWatcher));
+        mEditControllerList.add(new CodeController());
         setControllerConfig(mRxMDConfiguration);
     }
 
