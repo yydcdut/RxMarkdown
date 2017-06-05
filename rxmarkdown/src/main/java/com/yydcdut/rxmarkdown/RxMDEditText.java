@@ -30,19 +30,19 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.edit.BlockQuotesController;
-import com.yydcdut.rxmarkdown.edit.CenterAlignController;
-import com.yydcdut.rxmarkdown.edit.CodeController;
-import com.yydcdut.rxmarkdown.edit.HeaderController;
-import com.yydcdut.rxmarkdown.edit.HorizontalRulesController;
-import com.yydcdut.rxmarkdown.edit.IEditController;
-import com.yydcdut.rxmarkdown.edit.InlineCodeController;
-import com.yydcdut.rxmarkdown.edit.ListController;
-import com.yydcdut.rxmarkdown.edit.StrikeThroughController;
-import com.yydcdut.rxmarkdown.edit.StyleController;
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
+import com.yydcdut.rxmarkdown.live.BlockQuotesController;
+import com.yydcdut.rxmarkdown.live.CenterAlignController;
+import com.yydcdut.rxmarkdown.live.CodeController;
+import com.yydcdut.rxmarkdown.live.HeaderController;
+import com.yydcdut.rxmarkdown.live.HorizontalRulesController;
+import com.yydcdut.rxmarkdown.live.IEditController;
+import com.yydcdut.rxmarkdown.live.InlineCodeController;
+import com.yydcdut.rxmarkdown.live.ListController;
+import com.yydcdut.rxmarkdown.live.StrikeThroughController;
+import com.yydcdut.rxmarkdown.live.StyleController;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
+import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import java.util.ArrayList;
 

@@ -20,8 +20,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
-import com.yydcdut.rxmarkdown.grammar.edit.EditFactory;
+import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import rx.Observable;
 import rx.functions.Func1;

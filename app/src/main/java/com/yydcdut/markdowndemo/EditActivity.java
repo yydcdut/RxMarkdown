@@ -19,7 +19,7 @@ import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.grammar.edit.EditFactory;
+import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;

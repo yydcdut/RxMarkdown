@@ -18,7 +18,7 @@ package com.yydcdut.rxmarkdown.factory;
 import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.IGrammar;
 
 /**
  * Abstract factory pattern.

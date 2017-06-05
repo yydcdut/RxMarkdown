@@ -17,7 +17,7 @@ package com.yydcdut.rxmarkdown.chain;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.IGrammar;
 
 /**
  * It is real chain of responsibility pattern.

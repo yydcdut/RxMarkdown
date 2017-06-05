@@ -20,8 +20,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
-import com.yydcdut.rxmarkdown.grammar.android.TextFactory;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
+import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
