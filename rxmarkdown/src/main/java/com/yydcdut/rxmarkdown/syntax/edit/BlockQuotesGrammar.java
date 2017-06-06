@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-public class BlockQuotesGrammar extends EditGrammarAdapter {
+class BlockQuotesGrammar extends EditGrammarAdapter {
 
     /**
      * {@link com.yydcdut.rxmarkdown.syntax.text.BlockQuotesGrammar#KEY_BLOCK_QUOTES}

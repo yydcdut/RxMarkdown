@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/29.
  */
-public class ItalicGrammar extends EditGrammarAdapter {
+class ItalicGrammar extends EditGrammarAdapter {
 
     public ItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);

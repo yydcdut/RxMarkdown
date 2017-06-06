@@ -31,7 +31,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/2.
  */
-public class NormalGrammar implements IGrammar {
+class NormalGrammar implements IGrammar {
 
     public NormalGrammar(@Nullable RxMDConfiguration rxMDConfiguration) {
     }

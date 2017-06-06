@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-public class HeaderGrammar extends EditGrammarAdapter {
+class HeaderGrammar extends EditGrammarAdapter {
 
     /**
      * {@link com.yydcdut.rxmarkdown.syntax.text.CenterAlignGrammar#KEY_0_CENTER_ALIGN}

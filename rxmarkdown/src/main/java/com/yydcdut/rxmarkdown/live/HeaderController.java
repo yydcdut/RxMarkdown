@@ -18,9 +18,7 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
-import com.yydcdut.rxmarkdown.syntax.edit.EditGrammarFacade;
+import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 
 import java.util.List;
 
@@ -89,8 +87,10 @@ public class HeaderController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, RelativeSizeSpan.class);
-        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HEADER_LINE, mRxMDConfiguration);
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
+        if (mGrammar == null) {
+            mGrammar = EditFactory.create().getHeaderGrammar(mRxMDConfiguration);
+        }
+        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }
 }

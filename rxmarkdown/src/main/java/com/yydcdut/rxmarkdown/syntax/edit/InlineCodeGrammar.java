@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-public class InlineCodeGrammar extends EditGrammarAdapter {
+class InlineCodeGrammar extends EditGrammarAdapter {
     private int mColor;
 
     public InlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {

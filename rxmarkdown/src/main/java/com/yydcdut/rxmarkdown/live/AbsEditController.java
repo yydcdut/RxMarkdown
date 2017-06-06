@@ -18,6 +18,7 @@ package com.yydcdut.rxmarkdown.live;
 import android.support.annotation.Nullable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.IGrammar;
 
 /**
  * abstract class to set RxMDConfiguration
@@ -28,6 +29,8 @@ abstract class AbsEditController implements IEditController {
 
     protected RxMDConfiguration mRxMDConfiguration;
     protected boolean shouldFormat = false;
+    protected IGrammar mGrammar;
+    protected IGrammar mGrammar0;
 
     @Override
     public void setRxMDConfiguration(@Nullable RxMDConfiguration rxMDConfiguration) {

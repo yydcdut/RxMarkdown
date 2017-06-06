@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/29.
  */
-public class BoldGrammar extends EditGrammarAdapter {
+class BoldGrammar extends EditGrammarAdapter {
 
     public BoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);

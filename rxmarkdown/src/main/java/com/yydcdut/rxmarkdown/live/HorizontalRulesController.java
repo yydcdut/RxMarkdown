@@ -22,10 +22,8 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDEditText;
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
-import com.yydcdut.rxmarkdown.syntax.edit.EditGrammarFacade;
+import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 
 import java.util.List;
 
@@ -107,8 +105,10 @@ public class HorizontalRulesController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, MDHorizontalRulesSpan.class);
-        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_HORIZONTAL_RULES, mRxMDConfiguration);
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
+        if (mGrammar == null) {
+            mGrammar = EditFactory.create().getHorizontalRulesGrammar(mRxMDConfiguration);
+        }
+        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }
 

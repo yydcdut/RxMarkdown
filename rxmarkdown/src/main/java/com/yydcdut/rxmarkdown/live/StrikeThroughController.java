@@ -18,9 +18,7 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.StrikethroughSpan;
 
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
-import com.yydcdut.rxmarkdown.syntax.edit.EditGrammarFacade;
+import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 
 import java.util.List;
 
@@ -84,8 +82,10 @@ public class StrikeThroughController extends AbsEditController {
 
     private void format(Editable editable, int start) {
         EditUtils.removeSpans(editable, start, StrikethroughSpan.class);
-        IGrammar iGrammar = EditGrammarFacade.getAndroidGrammar(AbsGrammarFactory.GRAMMAR_STRIKE_THROUGH, mRxMDConfiguration);
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, iGrammar.format(editable), start);
+        if (mGrammar == null) {
+            mGrammar = EditFactory.create().getStrikeThroughGrammar(mRxMDConfiguration);
+        }
+        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         EditUtils.setSpans(editable, editTokenList);
     }
 }

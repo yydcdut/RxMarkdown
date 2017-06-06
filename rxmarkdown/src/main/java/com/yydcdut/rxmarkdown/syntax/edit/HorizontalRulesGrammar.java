@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/7/7.
  */
-public class HorizontalRulesGrammar extends EditGrammarAdapter {
+class HorizontalRulesGrammar extends EditGrammarAdapter {
 
     private int mColor;
     private int mHeight;

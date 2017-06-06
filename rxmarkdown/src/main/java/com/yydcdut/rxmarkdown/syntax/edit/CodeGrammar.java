@@ -37,7 +37,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-public class CodeGrammar extends EditGrammarAdapter {
+class CodeGrammar extends EditGrammarAdapter {
 
     private int mColor;
 

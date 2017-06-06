@@ -26,7 +26,7 @@ import com.yydcdut.rxmarkdown.syntax.IGrammar;
  * <p>
  * Created by yuyidong on 16/6/29.
  */
-public abstract class EditGrammarAdapter implements IGrammar {
+abstract class EditGrammarAdapter implements IGrammar {
 
     EditGrammarAdapter(@NonNull RxMDConfiguration rxMDConfiguration) {
     }

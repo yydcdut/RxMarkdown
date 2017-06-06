@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-public class CenterAlignGrammar extends EditGrammarAdapter {
+class CenterAlignGrammar extends EditGrammarAdapter {
 
     public CenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
