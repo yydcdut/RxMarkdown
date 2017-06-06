@@ -36,7 +36,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/21.
  */
-class UnOrderListSyntax extends SyntaxListAndCodeAdapter {
+class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
 
     protected static final String KEY_0_UNORDER_LIST = "* ";
     protected static final String KEY_0_UNORDER_LIST_CHAR = "*";

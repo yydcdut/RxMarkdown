@@ -37,7 +37,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class CodeSyntax extends SyntaxListAndCodeAdapter {
+class CodeSyntax extends ListAndCodeSyntaxAdapter {
     public static final String KEY_CODE = "```";//todo {@see com.yydcdut.rxmarkdown.syntax.edit.CodeSyntax#KEY_CODE}
 
     private int mColor;

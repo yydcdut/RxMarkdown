@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/22.
  */
-class OrderListSyntax extends SyntaxListAndCodeAdapter {
+class OrderListSyntax extends ListAndCodeSyntaxAdapter {
 
     /**
      * see com.yydcdut.rxmarkdown.grammar.edit.OrderListSyntax
