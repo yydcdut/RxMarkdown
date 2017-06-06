@@ -17,7 +17,7 @@ package com.yydcdut.rxmarkdown.chain;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ import java.util.Arrays;
  * Created by yuyidong on 16/5/4.
  */
 public class MultiGrammarsChain implements IChain {
-    private IGrammar[] mGrammars;
+    private Syntax[] mGrammars;
 
     private IChain mNextHandleGrammar = null;
 
@@ -36,16 +36,16 @@ public class MultiGrammarsChain implements IChain {
      *
      * @param grammars the grammars
      */
-    public MultiGrammarsChain(@NonNull IGrammar... grammars) {
+    public MultiGrammarsChain(@NonNull Syntax... grammars) {
         mGrammars = grammars;
     }
 
     @NonNull
     @Override
     public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        for (IGrammar iGrammar : mGrammars) {
-            if (iGrammar.isMatch(charSequence)) {
-                iGrammar.format(charSequence);
+        for (Syntax syntax : mGrammars) {
+            if (syntax.isMatch(charSequence)) {
+                syntax.format(charSequence);
             }
         }
         if (mNextHandleGrammar != null) {

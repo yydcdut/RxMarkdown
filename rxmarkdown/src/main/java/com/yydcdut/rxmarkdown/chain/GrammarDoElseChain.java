@@ -17,7 +17,7 @@ package com.yydcdut.rxmarkdown.chain;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by yuyidong on 16/5/20.
  */
 public class GrammarDoElseChain implements IChain {
-    private IGrammar mGrammar;
+    private Syntax mGrammar;
 
     private IChain mNextHandleGrammar = null;
     private List<IChain> mNextHandleGrammarList = null;
@@ -39,7 +39,7 @@ public class GrammarDoElseChain implements IChain {
      *
      * @param grammar the grammar
      */
-    public GrammarDoElseChain(@NonNull IGrammar grammar) {
+    public GrammarDoElseChain(@NonNull Syntax grammar) {
         mGrammar = grammar;
     }
 

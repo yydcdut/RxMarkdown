@@ -28,8 +28,8 @@ import android.text.style.QuoteSpan;
 public class MDQuoteSpan extends QuoteSpan {
 
     /**
-     * see com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES
-     * see com.yydcdut.rxmarkdown.grammar.android.BlockQuotesGrammar#KEY_BLOCK_QUOTES
+     * see com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesSyntax#KEY_BLOCK_QUOTES
+     * see com.yydcdut.rxmarkdown.grammar.android.BlockQuotesSyntax#KEY_BLOCK_QUOTES
      */
     protected static final String KEY_BLOCK_QUOTES = "> ";
     private static final int QUOTE_WIDTH_PLUS = 2;

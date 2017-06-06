@@ -30,7 +30,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.live.BlockQuotesController;
 import com.yydcdut.rxmarkdown.live.CenterAlignController;
 import com.yydcdut.rxmarkdown.live.CodeController;
@@ -42,6 +41,7 @@ import com.yydcdut.rxmarkdown.live.ListController;
 import com.yydcdut.rxmarkdown.live.StrikeThroughController;
 import com.yydcdut.rxmarkdown.live.StyleController;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private static final String BUNDLE_BEFORE = "bundle_before";
     private static final String BUNDLE_AFTER = "bundle_after";
 
-    private AbsGrammarFactory mGrammarFactory;
+    private SyntaxFactory mGrammarFactory;
     private RxMDConfiguration mRxMDConfiguration;
 
     private ArrayList<TextWatcher> mListeners;
@@ -302,9 +302,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         }
     }
 
-    protected void setFactoryAndConfig(@NonNull AbsGrammarFactory absGrammarFactory,
+    protected void setFactoryAndConfig(@NonNull SyntaxFactory syntaxFactory,
                                        @NonNull RxMDConfiguration rxMDConfiguration) {
-        mGrammarFactory = absGrammarFactory;
+        mGrammarFactory = syntaxFactory;
         mRxMDConfiguration = rxMDConfiguration;
         if (mEditControllerList == null) {
             initControllerList();

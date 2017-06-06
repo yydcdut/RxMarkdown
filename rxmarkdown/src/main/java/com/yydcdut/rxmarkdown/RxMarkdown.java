@@ -19,7 +19,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
+import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
@@ -54,7 +54,7 @@ public class RxMarkdown {
     private String mContent;
     private RxMDEditText mRxMDEditText;
     private Context mContext;
-    private AbsGrammarFactory mAbsGrammarFactory;
+    private SyntaxFactory mSyntaxFactory;
     private RxMDConfiguration mRxMDConfiguration;
 
     private RxMarkdown(String content, Context context) {
@@ -103,11 +103,11 @@ public class RxMarkdown {
     /**
      * set factory
      *
-     * @param absGrammarFactory {@link TextFactory} and {@link EditFactory}
+     * @param syntaxFactory {@link TextFactory} and {@link EditFactory}
      * @return this(RxMarkdown)
      */
-    public RxMarkdown factory(AbsGrammarFactory absGrammarFactory) {
-        mAbsGrammarFactory = absGrammarFactory;
+    public RxMarkdown factory(SyntaxFactory syntaxFactory) {
+        mSyntaxFactory = syntaxFactory;
         return this;
     }
 
@@ -122,10 +122,10 @@ public class RxMarkdown {
                     .map(new Func1<String, CharSequence>() {
                         @Override
                         public CharSequence call(String s) {
-                            if (mAbsGrammarFactory != null) {
+                            if (mSyntaxFactory != null) {
                                 RxMDConfiguration config = getRxMDConfiguration();
                                 long time = System.currentTimeMillis();
-                                CharSequence charSequence = mAbsGrammarFactory.parse(s, config);
+                                CharSequence charSequence = mSyntaxFactory.parse(s, config);
                                 if (config.isDebug()) {
                                     Log.i(TAG, "spend time --->" + (System.currentTimeMillis() - time));
                                 }
@@ -139,10 +139,10 @@ public class RxMarkdown {
                     .map(new Func1<RxMDEditText, CharSequence>() {
                         @Override
                         public CharSequence call(RxMDEditText rxMDEditText) {
-                            if (mAbsGrammarFactory == null) {
+                            if (mSyntaxFactory == null) {
                                 return rxMDEditText.getText();
                             }
-                            rxMDEditText.setFactoryAndConfig(mAbsGrammarFactory, getRxMDConfiguration());
+                            rxMDEditText.setFactoryAndConfig(mSyntaxFactory, getRxMDConfiguration());
                             return rxMDEditText.getText();
                         }
                     });

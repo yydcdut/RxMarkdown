@@ -13,36 +13,43 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.yydcdut.rxmarkdown.live;
+package com.yydcdut.rxmarkdown.syntax.edit;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * abstract class to set RxMDConfiguration
+ * Normal Grammar, do nothing, parse nothing
  * <p>
- * Created by yuyidong on 16/7/21.
+ * Created by yuyidong on 16/7/2.
  */
-abstract class AbsEditController implements IEditController {
+class NormalSyntax implements Syntax {
 
-    protected RxMDConfiguration mRxMDConfiguration;
-    protected boolean shouldFormat = false;
-    protected Syntax mGrammar;
-    protected Syntax mGrammar0;
-
-    @Override
-    public void setRxMDConfiguration(@Nullable RxMDConfiguration rxMDConfiguration) {
-        mRxMDConfiguration = rxMDConfiguration;
+    public NormalSyntax(@Nullable RxMDConfiguration rxMDConfiguration) {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-        shouldFormat = false;
+    public boolean isMatch(@NonNull CharSequence charSequence) {
+        return false;
     }
 
+    @NonNull
     @Override
-    public void onSelectionChanged(int selStart, int selEnd) {
+    public CharSequence format(@NonNull CharSequence charSequence) {
+        return charSequence;
+    }
+
+    @NonNull
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return new ArrayList<>();
     }
 }

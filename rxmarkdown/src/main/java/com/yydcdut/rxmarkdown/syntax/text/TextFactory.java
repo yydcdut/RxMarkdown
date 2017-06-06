@@ -24,8 +24,8 @@ import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
 import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
 import com.yydcdut.rxmarkdown.chain.IChain;
 import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 
 /**
  * This factory's purpose is parsing content <b>correctly</b>, as the same time, it destroys the integrity of the content.
@@ -34,108 +34,107 @@ import com.yydcdut.rxmarkdown.syntax.IGrammar;
  * <p>
  * Created by yuyidong on 16/5/12.
  */
-public class TextFactory extends AbsGrammarFactory {
+public class TextFactory implements SyntaxFactory {
     private static final String NEWLINE = "\n";
     private RxMDConfiguration mRxMDConfiguration;
     private IChain mLineChain;
     private IChain mTotalChain;
 
     private TextFactory() {
-        super();
     }
 
     /**
      * get AndroidFactory object
      *
-     * @return {@link AbsGrammarFactory}
+     * @return {@link SyntaxFactory}
      */
-    public static AbsGrammarFactory create() {
+    public static SyntaxFactory create() {
         return new TextFactory();
     }
 
     @Override
-    public IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HorizontalRulesGrammar(rxMDConfiguration);
+    public Syntax getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new HorizontalRulesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new BlockQuotesGrammar(rxMDConfiguration);
+    public Syntax getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new BlockQuotesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new TodoGrammar(rxMDConfiguration);
+    public Syntax getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new TodoSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new TodoDoneGrammar(rxMDConfiguration);
+    public Syntax getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new TodoDoneSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new OrderListGrammar(rxMDConfiguration);
+    public Syntax getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new OrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new UnOrderListGrammar(rxMDConfiguration);
+    public Syntax getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new UnOrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CenterAlignGrammar(rxMDConfiguration);
+    public Syntax getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CenterAlignSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HeaderGrammar(rxMDConfiguration);
+    public Syntax getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new HeaderSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new BoldGrammar(rxMDConfiguration);
+    public Syntax getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new BoldSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new ItalicGrammar(rxMDConfiguration);
+    public Syntax getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new ItalicSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new InlineCodeGrammar(rxMDConfiguration);
+    public Syntax getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new InlineCodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new StrikeThroughGrammar(rxMDConfiguration);
+    public Syntax getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new StrikeThroughSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new FootnoteGrammar(rxMDConfiguration);
+    public Syntax getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new FootnoteSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new ImageGrammar(rxMDConfiguration);
+    public Syntax getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new ImageSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HyperLinkGrammar(rxMDConfiguration);
+    public Syntax getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new HyperLinkSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CodeGrammar(rxMDConfiguration);
+    public Syntax getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new BackslashGrammar(rxMDConfiguration);
+    public Syntax getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new BackslashSyntax(rxMDConfiguration);
     }
 
     private void init(@NonNull RxMDConfiguration rxMDConfiguration) {

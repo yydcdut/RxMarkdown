@@ -31,7 +31,7 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 
     public void testHyperLink() {
 //        String testString = "111](22[22](33333)";
-//        IGrammar hyperLinkGrammar = AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK);
+//        Syntax hyperLinkGrammar = AndroidInstanceFactory.getAndroidGrammar(AndroidInstanceFactory.GRAMMAR_HYPERLINK);
 //        boolean b = hyperLinkGrammar.isMatch(testString);
 //        if (b) {
 //            CharSequence charSequence = hyperLinkGrammar.format(testString);
@@ -238,7 +238,7 @@ public class AndroidGrammarTest4App extends InstrumentationTestCase {
 //    }
 
     public void testCodeGrammar() {
-//        CodeGrammar codeGrammar = new CodeGrammar(mRxMDConfiguration);
+//        CodeSyntax codeGrammar = new CodeSyntax(mRxMDConfiguration);
 //        List<Pair<Integer, Integer>> list = codeGrammar.find(MD_SAMPLE);
 //        Log.d("yuyidong", "list-->" + list.size());
 //        for (Pair<Integer, Integer> pair : list) {

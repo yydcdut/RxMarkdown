@@ -19,9 +19,9 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.factory.AbsGrammarFactory;
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,9 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/2.
  */
-public class EditFactory extends AbsGrammarFactory {
+public class EditFactory implements SyntaxFactory {
 
-    private List<IGrammar> mGrammarList;
+    private List<Syntax> mGrammarList;
     private RxMDConfiguration mRxMDConfiguration;
 
     private EditFactory() {
@@ -43,95 +43,95 @@ public class EditFactory extends AbsGrammarFactory {
     /**
      * get EditFactory object
      *
-     * @return {@link AbsGrammarFactory}
+     * @return {@link SyntaxFactory}
      */
-    public static AbsGrammarFactory create() {
+    public static SyntaxFactory create() {
         return new EditFactory();
     }
 
     @Override
-    public IGrammar getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HorizontalRulesGrammar(rxMDConfiguration);
+    public Syntax getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new HorizontalRulesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new BlockQuotesGrammar(rxMDConfiguration);
+    public Syntax getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new BlockQuotesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new OrderListGrammar(rxMDConfiguration);
+    public Syntax getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new OrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new UnOrderListGrammar(rxMDConfiguration);
+    public Syntax getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new UnOrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CenterAlignGrammar(rxMDConfiguration);
+    public Syntax getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CenterAlignSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new HeaderGrammar(rxMDConfiguration);
+    public Syntax getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new HeaderSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new BoldGrammar(rxMDConfiguration);
+    public Syntax getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new BoldSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new ItalicGrammar(rxMDConfiguration);
+    public Syntax getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new ItalicSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new InlineCodeGrammar(rxMDConfiguration);
+    public Syntax getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new InlineCodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new StrikeThroughGrammar(rxMDConfiguration);
+    public Syntax getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new StrikeThroughSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CodeGrammar(rxMDConfiguration);
+    public Syntax getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public IGrammar getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new NormalGrammar(rxMDConfiguration);
+    public Syntax getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new NormalSyntax(rxMDConfiguration);
     }
 
     private void init(RxMDConfiguration rxMDConfiguration) {
@@ -164,8 +164,8 @@ public class EditFactory extends AbsGrammarFactory {
         }
         Editable editable = (Editable) charSequence;
         List<EditToken> list = new ArrayList<>();
-        for (IGrammar iGrammar : mGrammarList) {
-            list.addAll(iGrammar.format(editable));
+        for (Syntax syntax : mGrammarList) {
+            list.addAll(syntax.format(editable));
         }
         Editable newEditable = Editable.Factory.getInstance().newEditable(editable.toString());
         for (EditToken editToken : list) {

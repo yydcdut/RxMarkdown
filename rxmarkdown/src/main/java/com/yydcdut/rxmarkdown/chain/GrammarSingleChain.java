@@ -17,7 +17,7 @@ package com.yydcdut.rxmarkdown.chain;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 /**
  * It is real chain of responsibility pattern.
@@ -25,7 +25,7 @@ import com.yydcdut.rxmarkdown.syntax.IGrammar;
  * Created by yuyidong on 16/5/4.
  */
 public class GrammarSingleChain implements IChain {
-    private IGrammar mGrammar;
+    private Syntax mGrammar;
 
     private IChain mNextHandleGrammar = null;
 
@@ -34,7 +34,7 @@ public class GrammarSingleChain implements IChain {
      *
      * @param grammar the grammar
      */
-    public GrammarSingleChain(@NonNull IGrammar grammar) {
+    public GrammarSingleChain(@NonNull Syntax grammar) {
         mGrammar = grammar;
     }
 

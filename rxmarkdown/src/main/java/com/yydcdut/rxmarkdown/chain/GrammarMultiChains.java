@@ -17,7 +17,7 @@ package com.yydcdut.rxmarkdown.chain;
 
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.syntax.IGrammar;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * Created by yuyidong on 16/5/4.
  */
 public class GrammarMultiChains implements IChain {
-    private IGrammar mGrammar;
+    private Syntax mGrammar;
 
     private List<IChain> mNextHandleGrammarList = null;
 
@@ -37,7 +37,7 @@ public class GrammarMultiChains implements IChain {
      *
      * @param grammar the grammar
      */
-    public GrammarMultiChains(@NonNull IGrammar grammar) {
+    public GrammarMultiChains(@NonNull Syntax grammar) {
         mGrammar = grammar;
     }
 
