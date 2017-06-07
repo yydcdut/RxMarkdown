@@ -24,6 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,14 +75,14 @@ public class ListController extends AbsEditController {
         }
         Editable editable = (Editable) s;
         if (checkLineDelete(editable, start, before, after)) {
-            int beforeLinePosition = EditUtils.findBeforeNewLineChar(editable, start - 1) + 1;
+            int beforeLinePosition = Utils.findBeforeNewLineChar(editable, start - 1) + 1;
             MDOrderListSpan mdBeginOrderListSpan = getOrderListSpan(editable, beforeLinePosition, true);
             MDOrderListSpan mdEndOrderListSpan = getOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
             MDUnOrderListSpan mdBeginUnOrderListSpan = getUnOrderListSpan(editable, beforeLinePosition, true);
             MDUnOrderListSpan mdEndUnOrderListSpan = getUnOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
             if (mdBeginOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdBeginOrderListSpan);
-                int position = EditUtils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
+                int position = Utils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (mdEndOrderListSpan != null) {
                     editable.removeSpan(mdEndOrderListSpan);
                 }
@@ -90,7 +91,7 @@ public class ListController extends AbsEditController {
                         spanStart, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             } else if (mdBeginUnOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdBeginUnOrderListSpan);
-                int position = EditUtils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
+                int position = Utils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (mdEndUnOrderListSpan != null) {
                     editable.removeSpan(mdEndUnOrderListSpan);
                 }
@@ -287,7 +288,7 @@ public class ListController extends AbsEditController {
         String appendString = getOrderListNestedString(mdOrderListSpan.getNested(), mdOrderListSpan.getNumber());
         mTextWatcher.doBeforeTextChanged(editable, start + 1, 0, appendString.length());
         editable.insert(start + 1, appendString);
-        int position = EditUtils.findNextNewLineCharCompat(editable, start + appendString.length());
+        int position = Utils.findNextNewLineCharCompat(editable, start + appendString.length());
         editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber() + 1),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
@@ -309,7 +310,7 @@ public class ListController extends AbsEditController {
         String appendString = getUnOderListNestedString(mdUnOrderListSpan.getNested(), mdUnOrderListSpan.getType());
         mTextWatcher.doBeforeTextChanged(editable, start + 1, 0, appendString.length());
         editable.insert(start + 1, appendString);
-        int position = EditUtils.findNextNewLineCharCompat(editable, start + appendString.length());
+        int position = Utils.findNextNewLineCharCompat(editable, start + appendString.length());
         editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested(), mdUnOrderListSpan.getType()),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
@@ -369,8 +370,8 @@ public class ListController extends AbsEditController {
      * @return whether it is the head of line and starts with order or unorder list key
      */
     private static boolean checkLineHeaderPosition(Editable editable, int start, int before, int after) {
-        if (start == 0 || EditUtils.findBeforeNewLineChar(editable, start) + 1 == start) {
-            int end = EditUtils.findNextNewLineCharCompat(editable, start);
+        if (start == 0 || Utils.findBeforeNewLineChar(editable, start) + 1 == start) {
+            int end = Utils.findNextNewLineCharCompat(editable, start);
             if (getOrderListSpan(editable, start, true) != null ||
                     getUnOrderListSpan(editable, start, true) != null ||
                     getOrderListSpan(editable, start + 1 > end ? start : end, true) != null ||
@@ -398,7 +399,7 @@ public class ListController extends AbsEditController {
      * @param after    add text's number
      */
     private void updateLineHeaderList(Editable editable, int start, int before, int after) {
-        int position = EditUtils.findNextNewLineCharCompat(editable, start);
+        int position = Utils.findNextNewLineCharCompat(editable, start);
         int nested = calculateNested(editable, start, 0);
         if (nested == -1) {
             return;
@@ -448,7 +449,7 @@ public class ListController extends AbsEditController {
      * @param mdOrderListSpan the order list span
      */
     private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan, boolean nestedDecrease) {
-        int position = EditUtils.findNextNewLineCharCompat(editable, start);
+        int position = Utils.findNextNewLineCharCompat(editable, start);
         int startSpan = editable.getSpanStart(mdOrderListSpan);
         int endSpan = editable.getSpanEnd(mdOrderListSpan);
         if (endSpan <= position) {
@@ -472,7 +473,7 @@ public class ListController extends AbsEditController {
      * @param nestedDecrease    need decrease nested
      */
     private static void updateUnOrderListSpanBeforeNewLine(Editable editable, int start, MDUnOrderListSpan mdUnOrderListSpan, boolean nestedDecrease) {
-        int position = EditUtils.findNextNewLineCharCompat(editable, start);
+        int position = Utils.findNextNewLineCharCompat(editable, start);
         int startSpan = editable.getSpanStart(mdUnOrderListSpan);
         int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
         if (endSpan <= position) {
@@ -613,7 +614,7 @@ public class ListController extends AbsEditController {
         MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListBeginning(editable, start, before, after);
         if (mdOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdOrderListSpan);
-            int position = EditUtils.findBeforeNewLineChar(editable, start) + 1;
+            int position = Utils.findBeforeNewLineChar(editable, start) + 1;
             if (!isOrderList(editable, position, false)) {
                 editable.removeSpan(mdOrderListSpan);
                 return;
@@ -628,7 +629,7 @@ public class ListController extends AbsEditController {
                     position, spanEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         } else if (mdUnOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
-            int position = EditUtils.findBeforeNewLineChar(editable, start) + 1;
+            int position = Utils.findBeforeNewLineChar(editable, start) + 1;
             if (!isUnOrderList(editable, position, false)) {
                 editable.removeSpan(mdUnOrderListSpan);
                 return;
@@ -773,8 +774,8 @@ public class ListController extends AbsEditController {
      * @return TRUE --> satisfied
      */
     private static boolean isSatisfiedOrderListFormat(Editable editable, int start) {
-        int startPosition = EditUtils.findBeforeNewLineChar(editable, start) + 1;//略过\n
-        int endPosition = EditUtils.findNextNewLineCharCompat(editable, start);
+        int startPosition = Utils.findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = Utils.findNextNewLineCharCompat(editable, start);
         MDOrderListSpan[] mdOrderListSpans = editable.getSpans(startPosition, endPosition, MDOrderListSpan.class);
         if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             return false;
@@ -792,8 +793,8 @@ public class ListController extends AbsEditController {
      * @param start
      */
     private static void formatOrderList(Editable editable, int start) {
-        int startPosition = EditUtils.findBeforeNewLineChar(editable, start) + 1;//略过\n
-        int endPosition = EditUtils.findNextNewLineCharCompat(editable, start);
+        int startPosition = Utils.findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = Utils.findNextNewLineCharCompat(editable, start);
         int nested = calculateNested(editable, startPosition, 0);
         int number = calculateOrderListNumber(editable, startPosition + nested, 0);
         editable.setSpan(new MDOrderListSpan(10, nested, number),
@@ -819,7 +820,7 @@ public class ListController extends AbsEditController {
         if (mdOrderListSpan == null) {
             return false;
         }
-        int position = EditUtils.findBeforeNewLineChar(editable, start) + 1;
+        int position = Utils.findBeforeNewLineChar(editable, start) + 1;
         int totalPosition = position + mdOrderListSpan.getNested() + String.valueOf(mdOrderListSpan.getNumber()).length() + " ".length();
         if (totalPosition >= start || start <= position) {
             return true;
@@ -845,7 +846,7 @@ public class ListController extends AbsEditController {
         if (mdUnOrderListSpan == null) {
             return false;
         }
-        int position = EditUtils.findBeforeNewLineChar(editable, start) + 1;
+        int position = Utils.findBeforeNewLineChar(editable, start) + 1;
         int totalPosition = position + mdUnOrderListSpan.getNested() + "* ".length();
         if (totalPosition >= start || start <= position) {
             return true;

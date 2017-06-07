@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class HeaderController extends AbsEditController {
         if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
         } else {
-            int lineFirstCharPosition = EditUtils.findBeforeNewLineChar(s, start);
+            int lineFirstCharPosition = Utils.findBeforeNewLineChar(s, start);
             if (s.subSequence(lineFirstCharPosition + 1, lineFirstCharPosition + 2).toString().equals(KEY)) {
                 format((Editable) s, lineFirstCharPosition + 1);
             }
@@ -86,11 +87,11 @@ public class HeaderController extends AbsEditController {
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, RelativeSizeSpan.class);
+        Utils.removeSpans(editable, start, RelativeSizeSpan.class);
         if (mGrammar == null) {
             mGrammar = EditFactory.create().getHeaderGrammar(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
-        EditUtils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        Utils.setSpans(editable, editTokenList);
     }
 }

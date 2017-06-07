@@ -19,6 +19,7 @@ import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
@@ -81,11 +82,11 @@ public class CodeController extends AbsEditController {
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, MDCodeSpan.class);
+        Utils.removeSpans(editable, start, MDCodeSpan.class);
         if (mGrammar == null) {
             mGrammar = EditFactory.create().getCodeGrammar(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = mGrammar.format(editable);
-        EditUtils.setCodeSpan(editable, editTokenList);
+        Utils.setCodeSpan(editable, editTokenList);
     }
 }

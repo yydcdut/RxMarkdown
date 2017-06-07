@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,7 @@ public class StyleController extends AbsEditController {
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, StyleSpan.class);
+        Utils.removeSpans(editable, start, StyleSpan.class);
         if (mGrammar == null) {
             mGrammar = EditFactory.create().getBoldGrammar(mRxMDConfiguration);
         }
@@ -93,8 +94,8 @@ public class StyleController extends AbsEditController {
             mGrammar0 = EditFactory.create().getItalicGrammar(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = new ArrayList<>();
-        editTokenList.addAll(EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start));
-        editTokenList.addAll(EditUtils.getMatchedEditTokenList(editable, mGrammar0.format(editable), start));
-        EditUtils.setSpans(editable, editTokenList);
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start));
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mGrammar0.format(editable), start));
+        Utils.setSpans(editable, editTokenList);
     }
 }

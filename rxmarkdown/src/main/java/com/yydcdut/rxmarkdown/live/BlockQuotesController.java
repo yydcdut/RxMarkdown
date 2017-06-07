@@ -19,6 +19,7 @@ import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
@@ -81,11 +82,11 @@ public class BlockQuotesController extends AbsEditController {
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, MDQuoteSpan.class);
+        Utils.removeSpans(editable, start, MDQuoteSpan.class);
         if (mGrammar == null) {
             mGrammar = EditFactory.create().getBlockQuotesGrammar(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
-        EditUtils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        Utils.setSpans(editable, editTokenList);
     }
 }

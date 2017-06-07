@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.style.StrikethroughSpan;
 
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
@@ -81,11 +82,11 @@ public class StrikeThroughController extends AbsEditController {
     }
 
     private void format(Editable editable, int start) {
-        EditUtils.removeSpans(editable, start, StrikethroughSpan.class);
+        Utils.removeSpans(editable, start, StrikethroughSpan.class);
         if (mGrammar == null) {
             mGrammar = EditFactory.create().getStrikeThroughGrammar(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = EditUtils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
-        EditUtils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        Utils.setSpans(editable, editTokenList);
     }
 }
