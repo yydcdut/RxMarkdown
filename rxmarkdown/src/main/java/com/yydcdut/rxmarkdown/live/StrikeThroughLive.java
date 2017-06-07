@@ -28,7 +28,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/22.
  */
-public class StrikeThroughController extends AbsEditController {
+class StrikeThroughLive extends EditLive {
 
     private static final String KEY = "~";
 

@@ -29,7 +29,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/21.
  */
-public class StyleController extends AbsEditController {
+class StyleLive extends EditLive {
 
     private static final String KEY = "*";
     private static final String KEY_1 = "_";

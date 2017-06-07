@@ -25,7 +25,7 @@ import com.yydcdut.rxmarkdown.syntax.Syntax;
  * <p>
  * Created by yuyidong on 16/7/21.
  */
-abstract class AbsEditController implements IEditController {
+abstract class EditLive implements IEditLive {
 
     protected RxMDConfiguration mRxMDConfiguration;
     protected boolean shouldFormat = false;

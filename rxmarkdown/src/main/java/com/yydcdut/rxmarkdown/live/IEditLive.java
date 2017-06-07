@@ -24,7 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  * <p>
  * Created by yuyidong on 16/7/21.
  */
-public interface IEditController {
+public interface IEditLive {
 
     /**
      * set configuration

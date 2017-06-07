@@ -30,16 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.yydcdut.rxmarkdown.live.BlockQuotesController;
-import com.yydcdut.rxmarkdown.live.CenterAlignController;
-import com.yydcdut.rxmarkdown.live.CodeController;
-import com.yydcdut.rxmarkdown.live.HeaderController;
-import com.yydcdut.rxmarkdown.live.HorizontalRulesController;
-import com.yydcdut.rxmarkdown.live.IEditController;
-import com.yydcdut.rxmarkdown.live.InlineCodeController;
-import com.yydcdut.rxmarkdown.live.ListController;
-import com.yydcdut.rxmarkdown.live.StrikeThroughController;
-import com.yydcdut.rxmarkdown.live.StyleController;
+import com.yydcdut.rxmarkdown.live.LivePrepare;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
@@ -76,7 +67,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private boolean mHasImageInText;
     private boolean mInitFormat;
 
-    private ArrayList<IEditController> mEditControllerList;
+    private LivePrepare mLivePrepare;
 
     /**
      * Constructor
@@ -114,30 +105,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     private void init() {
         mEditTextWatcher = new EditTextWatcher();
         mHandler = new Handler(this);
-        initControllerList();
-    }
-
-    private void initControllerList() {
-        mEditControllerList = new ArrayList<>();
-        mEditControllerList.add(new BlockQuotesController());
-        mEditControllerList.add(new StyleController());
-        mEditControllerList.add(new CenterAlignController());
-        mEditControllerList.add(new HeaderController());
-        mEditControllerList.add(new HorizontalRulesController(this));
-        mEditControllerList.add(new InlineCodeController());
-        mEditControllerList.add(new StrikeThroughController());
-        mEditControllerList.add(new ListController(this, mEditTextWatcher));
-        mEditControllerList.add(new CodeController());
-        setControllerConfig(mRxMDConfiguration);
-    }
-
-    private void setControllerConfig(@NonNull RxMDConfiguration rxMDConfiguration) {
-        if (mEditControllerList == null) {
-            return;
-        }
-        for (IEditController controller : mEditControllerList) {
-            controller.setRxMDConfiguration(rxMDConfiguration);
-        }
+        mLivePrepare = new LivePrepare(this, mEditTextWatcher);
     }
 
     /**
@@ -184,9 +152,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                 sendBeforeTextChanged(s, start, before, after);
             } else {
                 sendMessage(MSG_BEFORE_TEXT_CHANGED, s, start, before, after);
-            }
-            if (mEditControllerList == null) {
-                initControllerList();
             }
             if (mInitFormat) {
                 return;
@@ -271,9 +236,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private void beforeTextChanged4Controller(CharSequence s, int start, int before, int after) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.beforeTextChanged(s, start, before, after);
-        }
+        mLivePrepare.beforeTextChanged(s, start, before, after);
     }
 
     private void sendOnTextChanged(CharSequence s, int start, int before, int after) {
@@ -287,9 +250,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     }
 
     private void onTextChanged4Controller(CharSequence s, int start, int before, int after) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.onTextChanged(s, start, before, after);
-        }
+        mLivePrepare.onTextChanged(s, start, before, after);
     }
 
     private void sendAfterTextChanged(Editable s) {
@@ -306,11 +267,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
                                        @NonNull RxMDConfiguration rxMDConfiguration) {
         mGrammarFactory = syntaxFactory;
         mRxMDConfiguration = rxMDConfiguration;
-        if (mEditControllerList == null) {
-            initControllerList();
-        } else {
-            setControllerConfig(mRxMDConfiguration);
-        }
+        mLivePrepare.config(rxMDConfiguration);
         super.addTextChangedListener(mEditTextWatcher);
         Editable editable = getText();
         if (!TextUtils.isEmpty(editable)) {
@@ -417,16 +374,7 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        if (mEditControllerList == null) {
-            initControllerList();
-        }
-        onSelectionChanged4Controller(selStart, selEnd);
-    }
-
-    private void onSelectionChanged4Controller(int selStart, int selEnd) {
-        for (IEditController iEditController : mEditControllerList) {
-            iEditController.onSelectionChanged(selStart, selEnd);
-        }
+        mLivePrepare.onSelectionChanged(selStart, selEnd);
     }
 
     @Override

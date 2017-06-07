@@ -16,7 +16,7 @@
 package com.yydcdut.rxmarkdown.live;
 
 import android.text.Editable;
-import android.text.style.AlignmentSpan;
+import android.text.style.BackgroundColorSpan;
 
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
@@ -24,14 +24,13 @@ import com.yydcdut.rxmarkdown.utils.Utils;
 import java.util.List;
 
 /**
- * RxMDEditText, center align controller.
+ * RxMDEditText, inline code controller.
  * <p>
  * Created by yuyidong on 16/7/22.
  */
-public class CenterAlignController extends AbsEditController {
+class InlineCodeLive extends EditLive {
 
-    private static final String KEY0 = "[";
-    private static final String KEY1 = "]";
+    private static final String KEY = "`";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -40,7 +39,7 @@ public class CenterAlignController extends AbsEditController {
             return;
         }
         String deleteString = s.subSequence(start, start + before).toString();
-        if (deleteString.contains(KEY0) || deleteString.contains(KEY1)) {
+        if (deleteString.contains(KEY)) {
             shouldFormat = true;
         }
     }
@@ -59,15 +58,15 @@ public class CenterAlignController extends AbsEditController {
         }
         String addString;
         addString = s.subSequence(start, start + after).toString();
-        if (addString.contains(KEY0) || addString.contains(KEY1)) {
+        if (addString.contains(KEY)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, AlignmentSpan.Standard.class);
+        Utils.removeSpans(editable, start, BackgroundColorSpan.class);
         if (mGrammar == null) {
-            mGrammar = EditFactory.create().getCenterAlignGrammar(mRxMDConfiguration);
+            mGrammar = EditFactory.create().getInlineCodeGrammar(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         Utils.setSpans(editable, editTokenList);

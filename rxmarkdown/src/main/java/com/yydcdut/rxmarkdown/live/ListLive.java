@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class ListController extends AbsEditController {
+class ListLive extends EditLive {
 
     private RxMDEditText mRxMDEditText;
     private RxMDEditText.EditTextWatcher mTextWatcher;
@@ -50,7 +50,7 @@ public class ListController extends AbsEditController {
      * @param rxMDEditText RxMDEditText
      * @param textWatcher  TextWatcher
      */
-    public ListController(RxMDEditText rxMDEditText, RxMDEditText.EditTextWatcher textWatcher) {
+    public ListLive(RxMDEditText rxMDEditText, RxMDEditText.EditTextWatcher textWatcher) {
         mRxMDEditText = rxMDEditText;
         mTextWatcher = textWatcher;
     }

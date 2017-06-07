@@ -16,21 +16,21 @@
 package com.yydcdut.rxmarkdown.live;
 
 import android.text.Editable;
+import android.text.style.RelativeSizeSpan;
 
-import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
 /**
- * RxMDEditText, block quotes controller.
+ * RxMDEditText, header controller.
  * <p>
- * Created by yuyidong on 16/7/22.
+ * Created by yuyidong on 16/7/21.
  */
-public class BlockQuotesController extends AbsEditController {
+class HeaderLive extends EditLive {
 
-    private static final String KEY = ">";
+    private static final String KEY = "#";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -47,7 +47,7 @@ public class BlockQuotesController extends AbsEditController {
         if (start + before + 1 <= s.length()) {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
-        //"> a" --> ">a"
+        //#12# ss(##12 ss) --> ## ss
         if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             shouldFormat = true;
         }
@@ -55,7 +55,7 @@ public class BlockQuotesController extends AbsEditController {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
+        if (mRxMDConfiguration == null && !(s instanceof Editable)) {
             return;
         }
         if (shouldFormat) {
@@ -75,16 +75,21 @@ public class BlockQuotesController extends AbsEditController {
         if (start > 0) {
             beforeString = s.subSequence(start - 1, start).toString();
         }
-        //">a" --> "> a"
+        //## ss --> #12# ss(##12 ss)
         if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
+        } else {
+            int lineFirstCharPosition = Utils.findBeforeNewLineChar(s, start);
+            if (s.subSequence(lineFirstCharPosition + 1, lineFirstCharPosition + 2).toString().equals(KEY)) {
+                format((Editable) s, lineFirstCharPosition + 1);
+            }
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, MDQuoteSpan.class);
+        Utils.removeSpans(editable, start, RelativeSizeSpan.class);
         if (mGrammar == null) {
-            mGrammar = EditFactory.create().getBlockQuotesGrammar(mRxMDConfiguration);
+            mGrammar = EditFactory.create().getHeaderGrammar(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         Utils.setSpans(editable, editTokenList);

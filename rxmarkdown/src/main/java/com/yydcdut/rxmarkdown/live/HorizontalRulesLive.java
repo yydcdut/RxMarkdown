@@ -35,7 +35,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class HorizontalRulesController extends AbsEditController {
+class HorizontalRulesLive extends EditLive {
 
     private static final String KEY0 = "-";
     private static final String KEY1 = "*";
@@ -47,7 +47,7 @@ public class HorizontalRulesController extends AbsEditController {
      *
      * @param rxMDEditText RxMDEditText
      */
-    public HorizontalRulesController(@NonNull RxMDEditText rxMDEditText) {
+    public HorizontalRulesLive(@NonNull RxMDEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
     }
 
