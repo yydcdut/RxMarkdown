@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for italic.
- * Grammar:
+ * The implementation of syntax for italic.
+ * syntax:
  * "*content*"
  * "_content_"
  * <p>
@@ -156,7 +156,7 @@ class ItalicSyntax extends TextSyntaxAdapter {
 
     /**
      * find the position of next "*"
-     * ignore the "*" in inline code grammar
+     * ignore the "*" in inline code syntax
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}

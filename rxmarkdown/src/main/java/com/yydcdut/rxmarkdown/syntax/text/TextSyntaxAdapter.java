@@ -123,7 +123,7 @@ abstract class TextSyntaxAdapter implements Syntax {
     abstract SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb);
 
     /**
-     * check whether contains inline code grammar
+     * check whether contains inline code syntax
      *
      * @param ssb       the content
      * @param position  start position
@@ -139,7 +139,7 @@ abstract class TextSyntaxAdapter implements Syntax {
     }
 
     /**
-     * check whether contains hyper link grammar
+     * check whether contains hyper link syntax
      *
      * @param ssb       the content
      * @param position  start position
@@ -155,7 +155,7 @@ abstract class TextSyntaxAdapter implements Syntax {
     }
 
     /**
-     * check whether contains image grammar
+     * check whether contains image syntax
      *
      * @param ssb       the content
      * @param position  start position

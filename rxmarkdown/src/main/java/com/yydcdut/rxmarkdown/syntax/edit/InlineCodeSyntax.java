@@ -28,8 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for inline code.
- * Grammar:
+ * The implementation of syntax for inline code.
+ * syntax:
  * "`content`"
  * <p>
  * Created by yuyidong on 16/6/30.

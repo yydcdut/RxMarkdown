@@ -29,8 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for bold.
- * Grammar:
+ * The implementation of syntax for bold.
+ * syntax:
  * "**content**"
  * "__content__"
  * <p>

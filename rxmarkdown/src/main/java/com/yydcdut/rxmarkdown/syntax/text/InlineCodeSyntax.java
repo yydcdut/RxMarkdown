@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for inline code.
- * Grammar:
+ * The implementation of syntax for inline code.
+ * syntax:
  * "`content`"
  * <p>
  * Created by yuyidong on 16/5/13.
@@ -130,7 +130,7 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
 
     /**
      * find the position of next "`"
-     * ignore the "`" in inline code grammar or image grammar
+     * ignore the "`" in inline code syntax or image syntax
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}

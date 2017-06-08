@@ -88,10 +88,10 @@ class StyleLive extends EditLive {
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, StyleSpan.class);
         if (mGrammar == null) {
-            mGrammar = EditFactory.create().getBoldGrammar(mRxMDConfiguration);
+            mGrammar = EditFactory.create().getBoldSyntax(mRxMDConfiguration);
         }
         if (mGrammar0 == null) {
-            mGrammar0 = EditFactory.create().getItalicGrammar(mRxMDConfiguration);
+            mGrammar0 = EditFactory.create().getItalicSyntax(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = new ArrayList<>();
         editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start));

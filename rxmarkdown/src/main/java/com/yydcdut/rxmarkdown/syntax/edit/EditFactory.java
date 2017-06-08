@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This factory's purpose is parsing content <b>quickly</b>, as the same time, it doesn't support all grammars.
+ * This factory's purpose is parsing content <b>quickly</b>, as the same time, it doesn't support all syntax.
  * So, hope that it will be used in EditText.
  * <p>
  * Created by yuyidong on 16/7/2.
  */
 public class EditFactory implements SyntaxFactory {
 
-    private List<Syntax> mGrammarList;
+    private List<Syntax> mSyntaxList;
     private RxMDConfiguration mRxMDConfiguration;
 
     private EditFactory() {
@@ -50,104 +50,104 @@ public class EditFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHorizontalRulesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new HorizontalRulesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new BlockQuotesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getTodoSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getTodoDoneSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new OrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getUnOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new UnOrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getCenterAlignSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new CenterAlignSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHeaderSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new HeaderSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBoldSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new BoldSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getItalicSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new ItalicSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new InlineCodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getStrikeThroughSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new StrikeThroughSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getFootnoteSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getImageSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHyperLinkSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBackslashSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new NormalSyntax(rxMDConfiguration);
     }
 
     private void init(RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;
-        mGrammarList = new ArrayList<>();
-        mGrammarList.add(getBoldGrammar(mRxMDConfiguration));
-        mGrammarList.add(getItalicGrammar(mRxMDConfiguration));
-        mGrammarList.add(getStrikeThroughGrammar(mRxMDConfiguration));
-        mGrammarList.add(getInlineCodeGrammar(mRxMDConfiguration));
-        mGrammarList.add(getCenterAlignGrammar(mRxMDConfiguration));
-        mGrammarList.add(getHeaderGrammar(mRxMDConfiguration));
-        mGrammarList.add(getBlockQuotesGrammar(mRxMDConfiguration));
-        mGrammarList.add(getCodeGrammar(mRxMDConfiguration));
-        mGrammarList.add(getHorizontalRulesGrammar(mRxMDConfiguration));
-        mGrammarList.add(getOrderListGrammar(mRxMDConfiguration));
-        mGrammarList.add(getUnOrderListGrammar(mRxMDConfiguration));
+        mSyntaxList = new ArrayList<>();
+        mSyntaxList.add(getBoldSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getItalicSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getStrikeThroughSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getInlineCodeSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getCenterAlignSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getHeaderSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getBlockQuotesSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getCodeSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getHorizontalRulesSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getOrderListSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getUnOrderListSyntax(mRxMDConfiguration));
     }
 
     @NonNull
@@ -159,12 +159,12 @@ public class EditFactory implements SyntaxFactory {
         if (rxMDConfiguration == null) {
             return charSequence;
         }
-        if (mGrammarList == null || mRxMDConfiguration == null || mRxMDConfiguration != rxMDConfiguration) {
+        if (mSyntaxList == null || mRxMDConfiguration == null || mRxMDConfiguration != rxMDConfiguration) {
             init(rxMDConfiguration);
         }
         Editable editable = (Editable) charSequence;
         List<EditToken> list = new ArrayList<>();
-        for (Syntax syntax : mGrammarList) {
+        for (Syntax syntax : mSyntaxList) {
             list.addAll(syntax.format(editable));
         }
         Editable newEditable = Editable.Factory.getInstance().newEditable(editable.toString());

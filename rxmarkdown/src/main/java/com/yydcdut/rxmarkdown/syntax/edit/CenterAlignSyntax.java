@@ -29,9 +29,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for center align.
- * It's not the real grammar in Markdown.
- * Grammar:
+ * The implementation of syntax for center align.
+ * It's not the real syntax in Markdown.
+ * syntax:
  * "[content]"
  * <p>
  * Created by yuyidong on 16/6/30.

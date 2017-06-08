@@ -29,8 +29,8 @@ import com.yydcdut.rxmarkdown.utils.Utils;
 import java.util.List;
 
 /**
- * The implementation of grammar for code.
- * Grammar:
+ * The implementation of syntax for code.
+ * syntax:
  * "```
  * content
  * ```"

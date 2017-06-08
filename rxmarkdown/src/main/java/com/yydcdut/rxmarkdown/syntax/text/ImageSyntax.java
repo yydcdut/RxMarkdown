@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for image.
- * Grammar:
+ * The implementation of syntax for image.
+ * syntax:
  * "![image](http://image.jpg)"
  * <p>
  * Created by yuyidong on 16/5/15.

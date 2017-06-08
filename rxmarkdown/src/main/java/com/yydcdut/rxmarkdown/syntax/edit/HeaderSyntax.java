@@ -33,8 +33,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for header.
- * Grammar:
+ * The implementation of syntax for header.
+ * syntax:
  * "# " for h1
  * <p>
  * "## " for h2
@@ -52,31 +52,31 @@ import java.util.regex.Pattern;
 class HeaderSyntax extends EditSyntaxAdapter {
 
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.CenterAlignGrammar#KEY_0_CENTER_ALIGN}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.CenterAlignSyntax#KEY_0_CENTER_ALIGN}
      */
     private static final String KEY_0_CENTER_ALIGN = "[";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_0_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_0_HEADER}
      */
     private static final String KEY_0_HEADER = "# ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_1_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_1_HEADER}
      */
     private static final String KEY_1_HEADER = "## ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_2_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_2_HEADER}
      */
     private static final String KEY_2_HEADER = "### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_3_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_3_HEADER}
      */
     private static final String KEY_3_HEADER = "#### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_4_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_4_HEADER}
      */
     private static final String KEY_4_HEADER = "##### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderGrammar#KEY_5_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_5_HEADER}
      */
     private static final String KEY_5_HEADER = "###### ";
 
@@ -208,7 +208,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
      *
      * @param content       the content
      * @param match         the match string
-     * @param editTokenList the edit grammar list
+     * @param editTokenList the edit syntax list
      */
     private void replace(StringBuilder content, String match, List<EditToken> editTokenList) {
         int index = content.indexOf(match);
@@ -230,7 +230,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
      *
      * @param specialMap    the header map
      * @param content       the content
-     * @param editTokenList the edit grammar list
+     * @param editTokenList the edit syntax list
      */
     private void replaceSpecial(Map<String, Integer> specialMap, StringBuilder content, List<EditToken> editTokenList) {
         Integer num5Int = specialMap.get(KEY_5_HEADER);

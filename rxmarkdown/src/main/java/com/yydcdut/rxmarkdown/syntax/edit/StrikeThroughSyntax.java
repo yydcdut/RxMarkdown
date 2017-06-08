@@ -29,8 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for strike through.
- * Grammar:
+ * The implementation of syntax for strike through.
+ * syntax:
  * "~~content~~"
  * <p>
  * Created by yuyidong on 16/6/30.

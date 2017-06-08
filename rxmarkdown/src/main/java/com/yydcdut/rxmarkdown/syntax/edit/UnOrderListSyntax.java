@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax.KEY_HEADER;
 
 /**
- * The implementation of grammar for unorder list.
- * Grammar:
+ * The implementation of syntax for unorder list.
+ * syntax:
  * "* "
  * <p>
  * "+ "

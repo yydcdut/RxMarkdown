@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
@@ -27,8 +26,8 @@ import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
 import java.util.ArrayList;
 
 /**
- * The implementation of grammar for order list.
- * Grammar:
+ * The implementation of syntax for order list.
+ * syntax:
  * "1. "
  * <p>
  * Created by yuyidong on 16/5/22.
@@ -36,12 +35,12 @@ import java.util.ArrayList;
 class OrderListSyntax extends ListAndCodeSyntaxAdapter {
 
     /**
-     * see com.yydcdut.rxmarkdown.grammar.edit.OrderListSyntax
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax}
      * used UnOrderListSyntax
      */
     public static final String KEY_HEADER = " ";
     /**
-     * see com.yydcdut.rxmarkdown.grammar.edit.OrderListSyntax
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax}
      */
     private static final char DOT = '.';
 
@@ -126,7 +125,6 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
                     NestedOrderListBean bean = list.get(i);
                     //如果为null说明上面某一部肯定有问题
                     if (bean == null) {
-                        Log.wtf("NestedOrderListGrammar", "bean == null");
                         list.add(new NestedOrderListBean(currentLineIndex, false, lines[i], -1, -1, -1));
                     }
                 }

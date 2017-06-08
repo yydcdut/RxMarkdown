@@ -107,7 +107,7 @@ class HorizontalRulesLive extends EditLive {
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, MDHorizontalRulesSpan.class);
         if (mGrammar == null) {
-            mGrammar = EditFactory.create().getHorizontalRulesGrammar(mRxMDConfiguration);
+            mGrammar = EditFactory.create().getHorizontalRulesSyntax(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         Utils.setSpans(editable, editTokenList);

@@ -21,7 +21,7 @@ import android.text.SpannableStringBuilder;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
- * Normal Grammar, do nothing, parse nothing
+ * Normal syntax, do nothing, parse nothing
  * <p>
  * Created by yuyidong on 16/5/4.
  */

@@ -23,8 +23,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDTodoSpan;
 
 /**
- * The implementation of grammar for done.
- * Grammar:
+ * The implementation of syntax for done.
+ * syntax:
  * "- [ ] "
  * "* [ ] "
  * <p>

@@ -27,8 +27,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for footnote.
- * Grammar:
+ * The implementation of syntax for footnote.
+ * syntax:
  * "content[^footnote]"
  * <p>
  * Created by yuyidong on 16/5/13.
@@ -145,7 +145,7 @@ class FootnoteSyntax extends TextSyntaxAdapter {
 
     /**
      * find the "[" position
-     * ignore the "[" in inline code grammar,
+     * ignore the "[" in inline code syntax,
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
@@ -170,7 +170,7 @@ class FootnoteSyntax extends TextSyntaxAdapter {
 
     /**
      * find the "]" position
-     * ignore the "]" in inline code grammar,
+     * ignore the "]" in inline code syntax,
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}

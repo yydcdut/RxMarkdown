@@ -29,7 +29,7 @@ import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 
 /**
  * This factory's purpose is parsing content <b>correctly</b>, as the same time, it destroys the integrity of the content.
- * This factory will delete the key words of markdown grammar in content.
+ * This factory will delete the key words of markdown syntax in content.
  * So, hope that it will be used in TextView, not in EditText.
  * <p>
  * Created by yuyidong on 16/5/12.
@@ -53,111 +53,111 @@ public class TextFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHorizontalRulesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new HorizontalRulesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new BlockQuotesSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getTodoSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new TodoSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getTodoDoneSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new TodoDoneSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new OrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getUnOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new UnOrderListSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getCenterAlignSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new CenterAlignSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHeaderSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new HeaderSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBoldSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new BoldSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getItalicSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new ItalicSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new InlineCodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getStrikeThroughSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new StrikeThroughSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getFootnoteSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new FootnoteSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getImageSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new ImageSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getHyperLinkSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new HyperLinkSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
-    public Syntax getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getBackslashSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new BackslashSyntax(rxMDConfiguration);
     }
 
     private void init(@NonNull RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;
         mTotalChain = new MultiGrammarsChain(
-                getCodeGrammar(rxMDConfiguration),
-                getUnOrderListGrammar(rxMDConfiguration),
-                getOrderListGrammar(rxMDConfiguration));
-        mLineChain = new GrammarSingleChain(getHorizontalRulesGrammar(rxMDConfiguration));
-        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesGrammar(rxMDConfiguration));
-        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoGrammar(rxMDConfiguration));
-        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneGrammar(rxMDConfiguration));
-        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignGrammar(rxMDConfiguration));
-        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderGrammar(rxMDConfiguration));
+                getCodeSyntax(rxMDConfiguration),
+                getUnOrderListSyntax(rxMDConfiguration),
+                getOrderListSyntax(rxMDConfiguration));
+        mLineChain = new GrammarSingleChain(getHorizontalRulesSyntax(rxMDConfiguration));
+        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesSyntax(rxMDConfiguration));
+        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoSyntax(rxMDConfiguration));
+        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneSyntax(rxMDConfiguration));
+        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignSyntax(rxMDConfiguration));
+        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderSyntax(rxMDConfiguration));
         MultiGrammarsChain multiChain = new MultiGrammarsChain(
-                getImageGrammar(rxMDConfiguration),
-                getHyperLinkGrammar(rxMDConfiguration),
-                getInlineCodeGrammar(rxMDConfiguration),
-                getBoldGrammar(rxMDConfiguration),
-                getItalicGrammar(rxMDConfiguration),
-                getStrikeThroughGrammar(rxMDConfiguration),
-                getFootnoteGrammar(rxMDConfiguration));
-        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar(rxMDConfiguration));
+                getImageSyntax(rxMDConfiguration),
+                getHyperLinkSyntax(rxMDConfiguration),
+                getInlineCodeSyntax(rxMDConfiguration),
+                getBoldSyntax(rxMDConfiguration),
+                getItalicSyntax(rxMDConfiguration),
+                getStrikeThroughSyntax(rxMDConfiguration),
+                getFootnoteSyntax(rxMDConfiguration));
+        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashSyntax(rxMDConfiguration));
 
         mLineChain.setNextHandleGrammar(blockQuitesChain);
 

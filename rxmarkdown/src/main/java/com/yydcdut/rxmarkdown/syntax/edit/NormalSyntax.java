@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Normal Grammar, do nothing, parse nothing
+ * Normal syntax, do nothing, parse nothing
  * <p>
  * Created by yuyidong on 16/7/2.
  */

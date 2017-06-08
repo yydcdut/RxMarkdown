@@ -23,8 +23,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
 
 /**
- * The implementation of grammar for horizontal rules.
- * Grammar:
+ * The implementation of syntax for horizontal rules.
+ * syntax:
  * "***"
  * <p>
  * "---"

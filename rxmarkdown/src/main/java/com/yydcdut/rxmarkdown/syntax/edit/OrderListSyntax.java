@@ -31,8 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for order list.
- * Grammar:
+ * The implementation of syntax for order list.
+ * syntax:
  * "1. "
  * <p>
  * Created by yuyidong on 16/7/8.
@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 class OrderListSyntax extends EditSyntaxAdapter {
 
     /**
-     * see com.yydcdut.rxmarkdown.grammar.android.OrderListSyntax
+     * see com.yydcdut.rxmarkdown.syntax.android.OrderListSyntax
      * used UnOrderListSyntax
      */
     public static final String KEY_HEADER = " ";

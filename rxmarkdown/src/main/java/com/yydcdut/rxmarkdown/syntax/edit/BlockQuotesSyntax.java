@@ -28,8 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for block quotes.
- * Grammar:
+ * The implementation of syntax for block quotes.
+ * syntax:
  * "> "
  * <p>
  * Created by yuyidong on 16/6/30.

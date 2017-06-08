@@ -89,7 +89,7 @@ class HeaderLive extends EditLive {
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, RelativeSizeSpan.class);
         if (mGrammar == null) {
-            mGrammar = EditFactory.create().getHeaderGrammar(mRxMDConfiguration);
+            mGrammar = EditFactory.create().getHeaderSyntax(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
         Utils.setSpans(editable, editTokenList);

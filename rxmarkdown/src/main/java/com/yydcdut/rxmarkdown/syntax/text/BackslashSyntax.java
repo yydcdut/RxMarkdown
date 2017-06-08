@@ -21,8 +21,8 @@ import android.text.SpannableStringBuilder;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
- * The implementation of grammar for back slash.
- * Grammar:
+ * The implementation of syntax for back slash.
+ * syntax:
  * "\"
  * <p>
  * Created by yuyidong on 16/6/20.

@@ -26,8 +26,8 @@ import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 import java.util.ArrayList;
 
 /**
- * The implementation of grammar for unorder list.
- * Grammar:
+ * The implementation of syntax for unorder list.
+ * syntax:
  * "* "
  * <p>
  * "+ "

@@ -30,8 +30,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for italic.
- * Grammar:
+ * The implementation of syntax for italic.
+ * syntax:
  * "*content*"
  * "_content_"
  * <p>

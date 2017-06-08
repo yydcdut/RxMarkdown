@@ -24,7 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
  * The implementation of syntax for header.
- * Grammar:
+ * syntax:
  * "# " for h1
  * <p>
  * "## " for h2

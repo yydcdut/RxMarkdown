@@ -26,8 +26,8 @@ import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 
 /**
- * The implementation of grammar for block quotes.
- * Grammar:
+ * The implementation of syntax for block quotes.
+ * syntax:
  * "> "
  * <p>
  * Created by yuyidong on 16/5/4.
@@ -35,7 +35,7 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
      * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
      */
     protected static final String KEY_BLOCK_QUOTES = ">";

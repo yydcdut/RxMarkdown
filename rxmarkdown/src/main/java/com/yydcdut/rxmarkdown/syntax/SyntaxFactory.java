@@ -21,15 +21,15 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
  * Abstract factory pattern.
- * To provide grammars and parse content.
+ * To provide syntax and parse content.
  * <p>
  * Created by yuyidong on 16/5/12.
  */
 public interface SyntaxFactory {
 
     /**
-     * Get horizontal rules grammar.
-     * Grammar:
+     * Get horizontal rules syntax.
+     * syntax:
      * "***"
      * <p>
      * "---"
@@ -39,55 +39,55 @@ public interface SyntaxFactory {
      * "----------------"
      *
      * @param rxMDConfiguration configuration, need HorizontalRulesColor
-     * @return the interface {@link Syntax} for horizontal rules grammar
+     * @return the interface {@link Syntax} for horizontal rules syntax
      */
-    Syntax getHorizontalRulesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getHorizontalRulesSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get block quotes grammar.
-     * Grammar:
+     * Get block quotes syntax.
+     * syntax:
      * "&gt; "
      *
      * @param rxMDConfiguration configuration, need BlockQuotesColor
-     * @return the interface {@link Syntax} for block quotes grammar
+     * @return the interface {@link Syntax} for block quotes syntax
      */
-    Syntax getBlockQuotesGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getBlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get to do grammar.
-     * Grammar:
+     * Get to do syntax.
+     * syntax:
      * "- [] "
      *
      * @param rxMDConfiguration configuration, need TodoColor
-     * @return the interface {@link Syntax} for to do grammar
+     * @return the interface {@link Syntax} for to do syntax
      */
-    Syntax getTodoGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getTodoSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get to do for "done" grammar.
-     * Grammar:
+     * Get to do for "done" syntax.
+     * syntax:
      * "- [x] "
      * <p>
      * "- [X] "
      *
      * @param rxMDConfiguration configuration, need TodoDoneColor
-     * @return the interface {@link Syntax} for to do for "done" grammar
+     * @return the interface {@link Syntax} for to do for "done" syntax
      */
-    Syntax getTodoDoneGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getTodoDoneSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get order list grammar.
-     * Grammar:
+     * Get order list syntax.
+     * syntax:
      * "1. "
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for to do for "done" grammar
+     * @return the interface {@link Syntax} for to do for "done" syntax
      */
-    Syntax getOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get unorder list grammar.
-     * Grammar:
+     * Get unorder list syntax.
+     * syntax:
      * "* "
      * <p>
      * "+ "
@@ -95,24 +95,24 @@ public interface SyntaxFactory {
      * "- "
      *
      * @param rxMDConfiguration configuration, need UnOrderListColor
-     * @return the interface {@link Syntax} for unorder list grammar
+     * @return the interface {@link Syntax} for unorder list syntax
      */
-    Syntax getUnOrderListGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getUnOrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get center align grammar.
-     * It's not the real grammar in Markdown.
-     * Grammar:
+     * Get center align syntax.
+     * It's not the real syntax in Markdown.
+     * syntax:
      * "[content]"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for center align grammar
+     * @return the interface {@link Syntax} for center align syntax
      */
-    Syntax getCenterAlignGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getCenterAlignSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get header grammar.
-     * Grammar:
+     * Get header syntax.
+     * syntax:
      * "# " for h1
      * <p>
      * "## " for h2
@@ -126,102 +126,102 @@ public interface SyntaxFactory {
      * "###### " for h6
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for header grammar
+     * @return the interface {@link Syntax} for header syntax
      */
-    Syntax getHeaderGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getHeaderSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get bold grammar.
-     * Grammar:
+     * Get bold syntax.
+     * syntax:
      * "**content**"
      * "__content__"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for bold grammar
+     * @return the interface {@link Syntax} for bold syntax
      */
-    Syntax getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getBoldSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get italic grammar.
-     * Grammar:
+     * Get italic syntax.
+     * syntax:
      * "*content*"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for bold grammar
+     * @return the interface {@link Syntax} for bold syntax
      */
-    Syntax getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getItalicSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get inline code grammar.
-     * Grammar:
+     * Get inline code syntax.
+     * syntax:
      * "`content`"
      *
      * @param rxMDConfiguration configuration, need InlineCodeBgColor
-     * @return the interface {@link Syntax} for inline code grammar
+     * @return the interface {@link Syntax} for inline code syntax
      */
-    Syntax getInlineCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get strike through grammar.
-     * Grammar:
+     * Get strike through syntax.
+     * syntax:
      * "~~content~~"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for strike through grammar
+     * @return the interface {@link Syntax} for strike through syntax
      */
-    Syntax getStrikeThroughGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getStrikeThroughSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get footnote grammar.
-     * Grammar:
+     * Get footnote syntax.
+     * syntax:
      * "content[^footnote]"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for footnote grammar
+     * @return the interface {@link Syntax} for footnote syntax
      */
-    Syntax getFootnoteGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getFootnoteSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get image grammar.
-     * Grammar:
+     * Get image syntax.
+     * syntax:
      * "![image](http://image.jpg)"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for image grammar
+     * @return the interface {@link Syntax} for image syntax
      */
-    Syntax getImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getImageSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get hyper link grammar.
-     * Grammar:
+     * Get hyper link syntax.
+     * syntax:
      * "[content](http://link.html)"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link Syntax} for hyper link grammar
+     * @return the interface {@link Syntax} for hyper link syntax
      */
-    Syntax getHyperLinkGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getHyperLinkSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get code grammar.
-     * Grammar:
+     * Get code syntax.
+     * syntax:
      * "```
      * content
      * ```"
      *
      * @param rxMDConfiguration configuration, need CodeBgColor
-     * @return the interface {@link Syntax} for code grammar
+     * @return the interface {@link Syntax} for code syntax
      */
-    Syntax getCodeGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
-     * Get back slash grammar.
-     * Grammar:
+     * Get back slash syntax.
+     * syntax:
      * "\"
      *
      * @param rxMDConfiguration configuration, need CodeBgColor
-     * @return the interface {@link Syntax} for back slash grammar
+     * @return the interface {@link Syntax} for back slash syntax
      */
-    Syntax getBackslashGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getBackslashSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * parse content

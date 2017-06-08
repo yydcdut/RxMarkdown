@@ -26,9 +26,9 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for center align.
- * It's not the real grammar in Markdown.
- * Grammar:
+ * The implementation of syntax for center align.
+ * It's not the real syntax in Markdown.
+ * syntax:
  * "[content]"
  * <p>
  * Created by yuyidong on 16/5/4.

@@ -23,7 +23,7 @@ import com.yydcdut.rxmarkdown.live.EditToken;
 import java.util.List;
 
 /**
- * Grammar for markdown.
+ * Syntax for markdown.
  * It's an interface, the implements of it are the real parser.
  * <p>
  * Created by yuyidong on 16/5/3.
@@ -31,7 +31,7 @@ import java.util.List;
 public interface Syntax {
 
     /**
-     * Whether this grammar can match(parse) this content
+     * Whether this syntax can match(parse) this content
      *
      * @param charSequence the content
      * @return TRUE:can match(parse)

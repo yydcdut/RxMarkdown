@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
- * The implementation of grammar for hyper link.
- * Grammar:
+ * The implementation of syntax for hyper link.
+ * syntax:
  * "[content](http://link.html)"
  * <p>
  * Created by yuyidong on 16/5/14.

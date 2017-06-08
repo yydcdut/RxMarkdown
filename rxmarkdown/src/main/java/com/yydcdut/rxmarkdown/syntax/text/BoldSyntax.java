@@ -26,8 +26,8 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for bold.
- * Grammar:
+ * The implementation of syntax for bold.
+ * syntax:
  * "**content**"
  * "__content__"
  * <p>
@@ -153,7 +153,7 @@ class BoldSyntax extends TextSyntaxAdapter {
 
     /**
      * find the position of next "**" or "__"
-     * ignore the "**" and "__" in inline code grammar,
+     * ignore the "**" and "__" in inline code syntax,
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}

@@ -28,8 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The implementation of grammar for horizontal rules.
- * Grammar:
+ * The implementation of syntax for horizontal rules.
+ * syntax:
  * "***"
  * <p>
  * "---"
