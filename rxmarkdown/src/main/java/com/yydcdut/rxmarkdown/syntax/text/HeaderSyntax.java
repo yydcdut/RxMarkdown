@@ -23,7 +23,7 @@ import android.text.style.RelativeSizeSpan;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
- * The implementation of grammar for header.
+ * The implementation of syntax for header.
  * Grammar:
  * "# " for h1
  * <p>
@@ -42,27 +42,27 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 class HeaderSyntax extends TextSyntaxAdapter {
 
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_0_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_0_HEADER}
      */
     protected static final String KEY_0_HEADER = "# ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_1_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_1_HEADER}
      */
     protected static final String KEY_1_HEADER = "## ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_2_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_2_HEADER}
      */
     protected static final String KEY_2_HEADER = "### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_3_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_3_HEADER}
      */
     protected static final String KEY_3_HEADER = "#### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_4_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_4_HEADER}
      */
     protected static final String KEY_4_HEADER = "##### ";
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderGrammar#KEY_5_HEADER}
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_5_HEADER}
      */
     protected static final String KEY_5_HEADER = "###### ";
 

@@ -23,5 +23,11 @@ import android.view.View;
  * Created by yuyidong on 16/7/28.
  */
 public interface OnLinkClickCallback {
+    /**
+     * the click listener callback
+     *
+     * @param view the view
+     * @param link the url link
+     */
     void onLinkClicked(View view, String link);
 }

@@ -21,15 +21,15 @@ import android.text.Layout;
 import android.text.style.QuoteSpan;
 
 /**
- * block quote grammar span
+ * block quote syntax span
  * <p>
  * Created by yuyidong on 16/5/15.
  */
 public class MDQuoteSpan extends QuoteSpan {
 
     /**
-     * see com.yydcdut.rxmarkdown.grammar.edit.BlockQuotesSyntax#KEY_BLOCK_QUOTES
-     * see com.yydcdut.rxmarkdown.grammar.android.BlockQuotesSyntax#KEY_BLOCK_QUOTES
+     * {@link com.yydcdut.rxmarkdown.syntax.edit.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
      */
     protected static final String KEY_BLOCK_QUOTES = "> ";
     private static final int QUOTE_WIDTH_PLUS = 2;

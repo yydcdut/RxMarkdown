@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 class BlockQuotesSyntax extends EditSyntaxAdapter {
 
     /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.BlockQuotesGrammar#KEY_BLOCK_QUOTES}
+     * {@link com.yydcdut.rxmarkdown.syntax.text.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
      * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
      */
     protected static final String KEY_BLOCK_QUOTES = "> ";

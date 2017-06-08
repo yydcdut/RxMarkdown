@@ -160,6 +160,14 @@ public class Utils {
         return matchEditTokenList;
     }
 
+    /**
+     * find the key code start positions and end positions
+     * especially for code syntax
+     *
+     * @param text     the content
+     * @param KEY_CODE the key code
+     * @return the list contains start positions and end positions for key code
+     */
     public static List<Pair<Integer, Integer>> find(@NonNull String text, @NonNull String KEY_CODE) {
         List<Pair<Integer, Integer>> list = new ArrayList<>();
         String[] lines = text.split("\n");
