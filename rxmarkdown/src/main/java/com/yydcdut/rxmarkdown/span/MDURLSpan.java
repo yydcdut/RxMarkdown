@@ -22,7 +22,7 @@ import android.view.View;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 
 /**
- * hyper link grammar span
+ * hyper link syntax span
  * <p>
  * Created by yuyidong on 16/7/20.
  */

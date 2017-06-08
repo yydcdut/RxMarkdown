@@ -15,7 +15,6 @@
  */
 package com.yydcdut.rxmarkdown.syntax.edit;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Spannable;
@@ -24,6 +23,7 @@ import android.text.TextUtils;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +39,12 @@ import java.util.regex.Pattern;
  */
 class OrderListSyntax extends EditSyntaxAdapter {
 
-    /**
-     * see com.yydcdut.rxmarkdown.syntax.android.OrderListSyntax
-     * used UnOrderListSyntax
-     */
-    public static final String KEY_HEADER = " ";
-
     public OrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @NonNull
     @Override
-    @SuppressLint("WrongConstant")
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$", Pattern.MULTILINE);
@@ -78,11 +71,11 @@ class OrderListSyntax extends EditSyntaxAdapter {
         }
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY_HEADER.length() > text.length()) {
+            if ((nested + 1) * SyntaxKey.KEY_LIST_HEADER.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
-            if (KEY_HEADER.equals(sub)) {//还是" "
+            String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
+            if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是" "
                 nested++;
             } else {
                 return nested;
@@ -103,7 +96,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
             return -1;
         }
         int number = -1;
-        String s = text.substring(nested * KEY_HEADER.length(), text.length());
+        String s = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), text.length());
         if (TextUtils.isDigitsOnly(s.substring(0, 1))) {
             number = Integer.parseInt(s.substring(0, 1));
             for (int i = 1; i < s.length(); i++) {

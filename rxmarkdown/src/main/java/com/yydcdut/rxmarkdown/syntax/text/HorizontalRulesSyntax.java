@@ -21,6 +21,7 @@ import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for horizontal rules.
@@ -37,12 +38,6 @@ import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
  */
 class HorizontalRulesSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_0_HORIZONTAL_RULES = "***";
-    protected static final String KEY_1_HORIZONTAL_RULES = "---";
-
-    private static final char KEY_SINGLE_0 = '*';
-    private static final char KEY_SINGLE_1 = '-';
-
     private int mColor;
     private int mHeight;
 
@@ -54,13 +49,13 @@ class HorizontalRulesSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.startsWith(KEY_0_HORIZONTAL_RULES) || text.startsWith(KEY_1_HORIZONTAL_RULES))) {
+        if (!(text.startsWith(SyntaxKey.KEY_0_HORIZONTAL_RULES) || text.startsWith(SyntaxKey.KEY_1_HORIZONTAL_RULES))) {
             return false;
         }
-        if (!(text.contains(KEY_0_HORIZONTAL_RULES) || text.contains(KEY_1_HORIZONTAL_RULES))) {
+        if (!(text.contains(SyntaxKey.KEY_0_HORIZONTAL_RULES) || text.contains(SyntaxKey.KEY_1_HORIZONTAL_RULES))) {
             return false;
         }
-        return check(text, KEY_SINGLE_0) || check(text, KEY_SINGLE_1);
+        return check(text, SyntaxKey.KEY_SINGLE_0) || check(text, SyntaxKey.KEY_SINGLE_1);
     }
 
     @NonNull

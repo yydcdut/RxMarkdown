@@ -22,10 +22,9 @@ import android.text.SpannableStringBuilder;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.span.MDURLSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.regex.Pattern;
-
-import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
  * The implementation of syntax for hyper link.
@@ -36,15 +35,6 @@ import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
  */
 class HyperLinkSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_0_HYPER_LINK = "[";
-    protected static final String KEY_1_HYPER_LINK = "](";
-    protected static final String KEY_2_HYPER_LINK = ")";
-
-    private static final String PLACE_HOLDER = " ";
-
-    protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
-    protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + "]";
-    protected static final String KEY_BACKSLASH_VALUE_3 = KEY_BACKSLASH + ")";
 
     private int mColor;
     private boolean isUnderLine;
@@ -59,7 +49,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(KEY_0_HYPER_LINK) && text.contains(KEY_1_HYPER_LINK) && text.contains(KEY_2_HYPER_LINK))) {
+        if (!(text.contains(SyntaxKey.KEY_HYPER_LINK_LEFT) && text.contains(SyntaxKey.KEY_HYPER_LINK_MIDDLE) && text.contains(SyntaxKey.KEY_HYPER_LINK_RIGHT))) {
             return false;
         }
         Pattern pattern = Pattern.compile(".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*");
@@ -72,29 +62,29 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
+            index0 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashSyntax.KEY_ENCODE);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
         }
         int index1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            index1 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), BackslashSyntax.KEY_ENCODE_1);
+            ssb.replace(index1, index1 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_1);
         }
         int index3;
         while (true) {
             String text = ssb.toString();
-            index3 = text.indexOf(KEY_BACKSLASH_VALUE_3);
+            index3 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
             if (index3 == -1) {
                 break;
             }
-            ssb.replace(index3, index3 + KEY_BACKSLASH_VALUE_3.length(), BackslashSyntax.KEY_ENCODE_3);
+            ssb.replace(index3, index3 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_3);
         }
         return ssb;
     }
@@ -111,29 +101,29 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(BackslashSyntax.KEY_ENCODE);
+            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + BackslashSyntax.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
         }
         int index1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(BackslashSyntax.KEY_ENCODE_1);
+            index1 = text.indexOf(SyntaxKey.KEY_ENCODE_1);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + BackslashSyntax.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index1, index1 + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
         }
         int index3;
         while (true) {
             String text = ssb.toString();
-            index3 = text.indexOf(BackslashSyntax.KEY_ENCODE_3);
+            index3 = text.indexOf(SyntaxKey.KEY_ENCODE_3);
             if (index3 == -1) {
                 break;
             }
-            ssb.replace(index3, index3 + BackslashSyntax.KEY_ENCODE_3.length(), KEY_BACKSLASH_VALUE_3);
+            ssb.replace(index3, index3 + SyntaxKey.KEY_ENCODE_3.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
         }
         return ssb;
     }
@@ -150,41 +140,41 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
-            int position4Key0 = tmpTotal.indexOf(KEY_0_HYPER_LINK);
-            int position4Key1 = tmpTotal.indexOf(KEY_1_HYPER_LINK);
-            int position4Key2 = tmpTotal.indexOf(KEY_2_HYPER_LINK);
+            int position4Key0 = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_LEFT);
+            int position4Key1 = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_MIDDLE);
+            int position4Key2 = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_RIGHT);
             if (position4Key0 == -1 || position4Key1 == -1 || position4Key2 == -1) {
                 break;
             }
             if (position4Key0 < position4Key1 && position4Key1 < position4Key2) {
                 //处理aa[bb[b](cccc)dddd
-                int tmpCenter = tmpTotal.indexOf(KEY_1_HYPER_LINK);
+                int tmpCenter = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_MIDDLE);
                 String tmpLeft = tmpTotal.substring(0, tmpCenter);
                 //正常流程
-                int positionHeader = tmpLeft.lastIndexOf(KEY_0_HYPER_LINK);
+                int positionHeader = tmpLeft.lastIndexOf(SyntaxKey.KEY_HYPER_LINK_LEFT);
                 tmp.append(tmpTotal.substring(0, positionHeader));
                 int index = tmp.length();
-                tmpTotal = tmpTotal.substring(positionHeader + KEY_0_HYPER_LINK.length(), tmpTotal.length());
-                int positionCenter = tmpTotal.indexOf(KEY_1_HYPER_LINK);
-                ssb.delete(tmp.length(), tmp.length() + KEY_0_HYPER_LINK.length());
+                tmpTotal = tmpTotal.substring(positionHeader + SyntaxKey.KEY_HYPER_LINK_LEFT.length(), tmpTotal.length());
+                int positionCenter = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_MIDDLE);
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_HYPER_LINK_LEFT.length());
                 tmp.append(tmpTotal.substring(0, positionCenter));
-                tmpTotal = tmpTotal.substring(positionCenter + KEY_1_HYPER_LINK.length(), tmpTotal.length());
-                int positionFooter = tmpTotal.indexOf(KEY_2_HYPER_LINK);
+                tmpTotal = tmpTotal.substring(positionCenter + SyntaxKey.KEY_HYPER_LINK_MIDDLE.length(), tmpTotal.length());
+                int positionFooter = tmpTotal.indexOf(SyntaxKey.KEY_HYPER_LINK_RIGHT);
                 String link = tmpTotal.substring(0, positionFooter);
                 ssb.setSpan(new MDURLSpan(link, mColor, isUnderLine, mOnLinkClickCallback), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_1_HYPER_LINK.length() + link.length() + KEY_2_HYPER_LINK.length());
-                tmpTotal = tmpTotal.substring(positionFooter + KEY_2_HYPER_LINK.length(), tmpTotal.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_HYPER_LINK_MIDDLE.length() + link.length() + SyntaxKey.KEY_HYPER_LINK_RIGHT.length());
+                tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_HYPER_LINK_RIGHT.length(), tmpTotal.length());
             } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {
                 //111[22)22](33333)
-                tmpTotal = replaceFirstOne(tmpTotal, KEY_2_HYPER_LINK, PLACE_HOLDER);
+                tmpTotal = replaceFirstOne(tmpTotal, SyntaxKey.KEY_HYPER_LINK_RIGHT, SyntaxKey.PLACE_HOLDER);
             } else if (position4Key1 < position4Key0 && position4Key1 < position4Key2) {
                 //](在最前面的情况 111](2222[333)4444  1111](2222)3333[4444
-                tmp.append(tmpTotal.substring(0, position4Key1 + KEY_1_HYPER_LINK.length()));
-                tmpTotal = tmpTotal.substring(position4Key1 + KEY_1_HYPER_LINK.length(), tmpTotal.length());
+                tmp.append(tmpTotal.substring(0, position4Key1 + SyntaxKey.KEY_HYPER_LINK_MIDDLE.length()));
+                tmpTotal = tmpTotal.substring(position4Key1 + SyntaxKey.KEY_HYPER_LINK_MIDDLE.length(), tmpTotal.length());
             } else if (position4Key2 < position4Key0 && position4Key2 < position4Key1) {
                 //)在最前面的情况 111)2222](333[4444  1111)2222[3333](4444
-                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2_HYPER_LINK.length()));
-                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2_HYPER_LINK.length(), tmpTotal.length());
+                tmp.append(tmpTotal.substring(0, position4Key2 + SyntaxKey.KEY_HYPER_LINK_RIGHT.length()));
+                tmpTotal = tmpTotal.substring(position4Key2 + SyntaxKey.KEY_HYPER_LINK_RIGHT.length(), tmpTotal.length());
             }
         }
         return ssb;

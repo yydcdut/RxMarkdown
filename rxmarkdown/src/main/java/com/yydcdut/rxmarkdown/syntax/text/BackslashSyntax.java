@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for back slash.
@@ -29,35 +30,27 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  */
 class BackslashSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_BACKSLASH = "\\";
-
-    protected static final String KEY_ENCODE = "@%7DF16dgf%jy@po&";
-    protected static final String KEY_ENCODE_1 = "%4usyHDlL&@D%";
-    protected static final String KEY_ENCODE_2 = "&YDhs@h4sF&%kLsx63sd@";
-    protected static final String KEY_ENCODE_3 = "%hsyRjh34l%%2@";
-    protected static final String KEY_ENCODE_4 = "&@da&U56ec%k%QW@";
-
     public BackslashSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (text.contains(BoldSyntax.KEY_BACKSLASH_VALUE) ||
-                text.contains(BoldSyntax.KEY_BACKSLASH_VALUE_1) ||
-                text.contains(CenterAlignSyntax.KEY_BACKSLASH_VALUE_1) ||
-                text.contains(FootnoteSyntax.KEY_BACKSLASH_VALUE_0) ||
-                text.contains(FootnoteSyntax.KEY_BACKSLASH_VALUE_2) ||
-                text.contains(HyperLinkSyntax.KEY_BACKSLASH_VALUE_0) ||
-                text.contains(HyperLinkSyntax.KEY_BACKSLASH_VALUE_1) ||
-                text.contains(HyperLinkSyntax.KEY_BACKSLASH_VALUE_3) ||
-                text.contains(ImageSyntax.KEY_BACKSLASH_VALUE_0) ||
-                text.contains(ImageSyntax.KEY_BACKSLASH_VALUE_2) ||
-                text.contains(ImageSyntax.KEY_BACKSLASH_VALUE_4) ||
-                text.contains(InlineCodeSyntax.KEY_BACKSLASH_VALUE) ||
-                text.contains(ItalicSyntax.KEY_BACKSLASH_VALUE) ||
-                text.contains(ItalicSyntax.KEY_BACKSLASH_VALUE_1) ||
-                text.contains(StrikeThroughSyntax.KEY_BACKSLASH_VALUE)) {
+        if (text.contains(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE) ||
+                text.contains(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1) ||
+                text.contains(SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT) ||
+                text.contains(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT) ||
+                text.contains(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT) ||
+                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT) ||
+                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE) ||
+                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT) ||
+                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT) ||
+                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE) ||
+                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT) ||
+                text.contains(SyntaxKey.KEY_INLINE_BACKSLASH_VALUE) ||
+                text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE) ||
+                text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1) ||
+                text.contains(SyntaxKey.KEY_STRIKE_BACKSLASH_VALUE)) {
             return true;
         } else {
             return false;
@@ -77,137 +70,137 @@ class BackslashSyntax extends TextSyntaxAdapter {
         //----------  BoldSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BoldSyntax.KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BoldSyntax.KEY_BACKSLASH_VALUE.length(), "*");
+            ssb.replace(index, index + SyntaxKey.KEY_BOLD_BACKSLASH_VALUE.length(), "*");
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BoldSyntax.KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BoldSyntax.KEY_BACKSLASH_VALUE_1.length(), "_");
+            ssb.replace(index, index + SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1.length(), "_");
         }
         //----------  BoldSyntax  ----------
         //----------  CenterAlignSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(CenterAlignSyntax.KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + CenterAlignSyntax.KEY_BACKSLASH_VALUE_1.length(), CenterAlignSyntax.KEY_1_CENTER_ALIGN);
+            ssb.replace(index, index + SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_CENTER_ALIGN_RIGHT);
         }
         //----------  CenterAlignSyntax  ----------
         //----------  FootnoteSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(FootnoteSyntax.KEY_BACKSLASH_VALUE_0);
+            index = text.indexOf(SyntaxKey.KEY_FOOTNOTE_LEFT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + FootnoteSyntax.KEY_BACKSLASH_VALUE_0.length(), "[");
+            ssb.replace(index, index + SyntaxKey.KEY_FOOTNOTE_LEFT.length(), "[");
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(FootnoteSyntax.KEY_BACKSLASH_VALUE_2);
+            index = text.indexOf(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + FootnoteSyntax.KEY_BACKSLASH_VALUE_2.length(), FootnoteSyntax.KEY_1_FOOTNOTE);
+            ssb.replace(index, index + SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_FOOTNOTE_RIGHT);
         }
         //----------  FootnoteSyntax  ----------
         //----------  HyperLinkSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(HyperLinkSyntax.KEY_BACKSLASH_VALUE_0);
+            index = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + HyperLinkSyntax.KEY_BACKSLASH_VALUE_0.length(), HyperLinkSyntax.KEY_0_HYPER_LINK);
+            ssb.replace(index, index + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_HYPER_LINK_LEFT);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(HyperLinkSyntax.KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + HyperLinkSyntax.KEY_BACKSLASH_VALUE_1.length(), "]");
+            ssb.replace(index, index + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE.length(), "]");
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(HyperLinkSyntax.KEY_BACKSLASH_VALUE_3);
+            index = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + HyperLinkSyntax.KEY_BACKSLASH_VALUE_3.length(), HyperLinkSyntax.KEY_2_HYPER_LINK);
+            ssb.replace(index, index + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_HYPER_LINK_RIGHT);
         }
         //----------  HyperLinkSyntax  ----------
         //----------  ImageSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(ImageSyntax.KEY_BACKSLASH_VALUE_0);
+            index = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ImageSyntax.KEY_BACKSLASH_VALUE_0.length(), "!");
+            ssb.replace(index, index + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT.length(), "!");
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(ImageSyntax.KEY_BACKSLASH_VALUE_2);
+            index = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ImageSyntax.KEY_BACKSLASH_VALUE_2.length(), "]");
+            ssb.replace(index, index + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE.length(), "]");
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(ImageSyntax.KEY_BACKSLASH_VALUE_4);
+            index = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ImageSyntax.KEY_BACKSLASH_VALUE_4.length(), ImageSyntax.KEY_2_IMAGE);
+            ssb.replace(index, index + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_IMAGE_RIGHT);
         }
         //----------  ImageSyntax  ----------
         //----------  InlineCodeSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(InlineCodeSyntax.KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_INLINE_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + InlineCodeSyntax.KEY_BACKSLASH_VALUE.length(), InlineCodeSyntax.KEY_INLINE_CODE);
+            ssb.replace(index, index + SyntaxKey.KEY_INLINE_BACKSLASH_VALUE.length(), SyntaxKey.KEY_INLINE_CODE);
         }
         //----------  InlineCodeSyntax  ----------
         //----------  ItalicSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(ItalicSyntax.KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ItalicSyntax.KEY_BACKSLASH_VALUE.length(), ItalicSyntax.KEY_ITALIC);
+            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE.length(), SyntaxKey.KEY_ITALIC);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(ItalicSyntax.KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + ItalicSyntax.KEY_BACKSLASH_VALUE_1.length(), ItalicSyntax.KEY_ITALIC_1);
+            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1.length(), SyntaxKey.KEY_ITALIC_1);
         }
         //----------  ItalicSyntax  ----------
         //----------  StrikeThroughSyntax  ----------
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(StrikeThroughSyntax.KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_STRIKE_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + StrikeThroughSyntax.KEY_BACKSLASH_VALUE.length(), "~");
+            ssb.replace(index, index + SyntaxKey.KEY_STRIKE_BACKSLASH_VALUE.length(), "~");
         }
         //----------  StrikeThroughSyntax  ----------
         return ssb;

@@ -24,6 +24,7 @@ import android.util.Pair;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.prettify.PrettifyHighLighter;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
@@ -38,7 +39,6 @@ import java.util.List;
  * Created by yuyidong on 16/5/17.
  */
 class CodeSyntax extends ListAndCodeSyntaxAdapter {
-    public static final String KEY_CODE = "```";//todo {@see com.yydcdut.rxmarkdown.syntax.edit.CodeSyntax#KEY_CODE}
 
     private int mColor;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
@@ -53,7 +53,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        return Utils.find(charSequence.toString(), KEY_CODE).size() > 0;
+        return Utils.find(charSequence.toString(), SyntaxKey.KEY_CODE).size() > 0;
     }
 
     @NonNull
@@ -64,7 +64,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
         String text = charSequence.toString();
-        List<Pair<Integer, Integer>> list = Utils.find(text, KEY_CODE);
+        List<Pair<Integer, Integer>> list = Utils.find(text, SyntaxKey.KEY_CODE);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
@@ -72,7 +72,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
             List<Integer> middleList = Utils.getMiddleNewLineCharPosition(ssb, start, end);
             String language = "";
             if (middleList.size() > 0) {
-                language = ssb.subSequence(start, middleList.get(0)).toString().replace(KEY_CODE, "").replace("\n", "");
+                language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE, "").replace("\n", "");
             }
             int current = start;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
@@ -86,7 +86,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
             if (!TextUtils.equals("", language)) {
                 mPrettifyHighLighter.highLight(language, ssb, start, end);
             }
-            ssb.delete(end, end + KEY_CODE.length() + (end + KEY_CODE.length() >= ssb.length() ? 0 : 1));
+            ssb.delete(end, end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= ssb.length() ? 0 : 1));
             ssb.delete(start, Utils.findNextNewLineChar(ssb, start) + 1);
         }
         return ssb;

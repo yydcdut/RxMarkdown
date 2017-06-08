@@ -22,10 +22,9 @@ import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.regex.Pattern;
-
-import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
  * The implementation of syntax for italic.
@@ -37,19 +36,13 @@ import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
  */
 class ItalicSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_ITALIC = "*";
-    protected static final String KEY_ITALIC_1 = "_";
-
-    protected static final String KEY_BACKSLASH_VALUE = KEY_BACKSLASH + KEY_ITALIC;
-    protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_ITALIC_1;
-
     public ItalicSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(KEY_ITALIC) && !text.contains(KEY_ITALIC_1)) {
+        if (!text.contains(SyntaxKey.KEY_ITALIC) && !text.contains(SyntaxKey.KEY_ITALIC_1)) {
             return false;
         }
         boolean match = false;
@@ -69,19 +62,19 @@ class ItalicSyntax extends TextSyntaxAdapter {
         int index;
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), BackslashSyntax.KEY_ENCODE);
+            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE.length(), SyntaxKey.KEY_ENCODE);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE_1.length(), BackslashSyntax.KEY_ENCODE_1);
+            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1.length(), SyntaxKey.KEY_ENCODE_1);
         }
         return ssb;
     }
@@ -89,8 +82,8 @@ class ItalicSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb = parse(KEY_ITALIC, ssb.toString(), ssb);
-        return parse(KEY_ITALIC_1, ssb.toString(), ssb);
+        ssb = parse(SyntaxKey.KEY_ITALIC, ssb.toString(), ssb);
+        return parse(SyntaxKey.KEY_ITALIC_1, ssb.toString(), ssb);
     }
 
     @NonNull
@@ -99,19 +92,19 @@ class ItalicSyntax extends TextSyntaxAdapter {
         int index;
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BackslashSyntax.KEY_ENCODE);
+            index = text.indexOf(SyntaxKey.KEY_ENCODE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BackslashSyntax.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+            ssb.replace(index, index + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BackslashSyntax.KEY_ENCODE_1);
+            index = text.indexOf(SyntaxKey.KEY_ENCODE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BackslashSyntax.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index, index + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
         }
         return ssb;
     }
@@ -119,7 +112,7 @@ class ItalicSyntax extends TextSyntaxAdapter {
     /**
      * parse
      *
-     * @param key  {@link ItalicSyntax#KEY_ITALIC} or {@link ItalicSyntax#KEY_ITALIC_1}
+     * @param key  {@link SyntaxKey#KEY_ITALIC} or {@link SyntaxKey#KEY_ITALIC_1}
      * @param text the original content,the class type is {@link String}
      * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
      * @return the content after parsing

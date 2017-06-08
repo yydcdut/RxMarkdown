@@ -22,10 +22,9 @@ import android.text.SpannableStringBuilder;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.regex.Pattern;
-
-import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
  * The implementation of syntax for image.
@@ -35,16 +34,6 @@ import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
  * Created by yuyidong on 16/5/15.
  */
 class ImageSyntax extends TextSyntaxAdapter {
-
-    protected static final String KEY_0_IMAGE = "![";
-    protected static final String KEY_1_IMAGE = "](";
-    protected static final String KEY_2_IMAGE = ")";
-
-    private static final String PLACE_HOLDER_2 = " ";
-
-    protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "!";
-    protected static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
-    protected static final String KEY_BACKSLASH_VALUE_4 = KEY_BACKSLASH + KEY_2_IMAGE;
 
     private int[] mSize;
     private RxMDImageLoader mRxMDImageLoader;
@@ -57,7 +46,7 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(KEY_0_IMAGE) && text.contains(KEY_1_IMAGE) && text.contains(KEY_2_IMAGE))) {
+        if (!(text.contains(SyntaxKey.KEY_IMAGE_LEFT) && text.contains(SyntaxKey.KEY_IMAGE_MIDDLE) && text.contains(SyntaxKey.KEY_IMAGE_RIGHT))) {
             return false;
         }
         Pattern pattern = Pattern.compile(".*[!\\[]{1}.*[\\](]{1}.*[)]{1}.*");
@@ -70,29 +59,29 @@ class ImageSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
+            index0 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashSyntax.KEY_ENCODE);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
         }
         int index2;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(KEY_BACKSLASH_VALUE_2);
+            index2 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), BackslashSyntax.KEY_ENCODE_2);
+            ssb.replace(index2, index2 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_2);
         }
         int index4;
         while (true) {
             String text = ssb.toString();
-            index4 = text.indexOf(KEY_BACKSLASH_VALUE_4);
+            index4 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
             if (index4 == -1) {
                 break;
             }
-            ssb.replace(index4, index4 + KEY_BACKSLASH_VALUE_4.length(), BackslashSyntax.KEY_ENCODE_4);
+            ssb.replace(index4, index4 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_4);
         }
         return ssb;
     }
@@ -109,29 +98,29 @@ class ImageSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(BackslashSyntax.KEY_ENCODE);
+            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + BackslashSyntax.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
         }
         int index2;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(BackslashSyntax.KEY_ENCODE_2);
+            index2 = text.indexOf(SyntaxKey.KEY_ENCODE_2);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + BackslashSyntax.KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
+            ssb.replace(index2, index2 + SyntaxKey.KEY_ENCODE_2.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
         }
         int index4;
         while (true) {
             String text = ssb.toString();
-            index4 = text.indexOf(BackslashSyntax.KEY_ENCODE_4);
+            index4 = text.indexOf(SyntaxKey.KEY_ENCODE_4);
             if (index4 == -1) {
                 break;
             }
-            ssb.replace(index4, index4 + BackslashSyntax.KEY_ENCODE_4.length(), KEY_BACKSLASH_VALUE_4);
+            ssb.replace(index4, index4 + SyntaxKey.KEY_ENCODE_4.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
         }
         return ssb;
     }
@@ -148,41 +137,41 @@ class ImageSyntax extends TextSyntaxAdapter {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
-            int position4Key0 = tmpTotal.indexOf(KEY_0_IMAGE);
-            int position4Key1 = tmpTotal.indexOf(KEY_1_IMAGE);
-            int position4Key2 = tmpTotal.indexOf(KEY_2_IMAGE);
+            int position4Key0 = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_LEFT);
+            int position4Key1 = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_MIDDLE);
+            int position4Key2 = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_RIGHT);
             if (position4Key0 == -1 || position4Key1 == -1 || position4Key2 == -1) {
                 break;
             }
             if (position4Key0 < position4Key1 && position4Key1 < position4Key2) {
                 //处理aa![bb![b](cccc)dddd
-                int tmpCenter = tmpTotal.indexOf(KEY_1_IMAGE);
+                int tmpCenter = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_MIDDLE);
                 String tmpLeft = tmpTotal.substring(0, tmpCenter);
                 //正常流程
-                int positionHeader = tmpLeft.lastIndexOf(KEY_0_IMAGE);
+                int positionHeader = tmpLeft.lastIndexOf(SyntaxKey.KEY_IMAGE_LEFT);
                 tmp.append(tmpTotal.substring(0, positionHeader));
                 int index = tmp.length();
-                tmpTotal = tmpTotal.substring(positionHeader + KEY_0_IMAGE.length(), tmpTotal.length());
-                int positionCenter = tmpTotal.indexOf(KEY_1_IMAGE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_0_IMAGE.length());
+                tmpTotal = tmpTotal.substring(positionHeader + SyntaxKey.KEY_IMAGE_LEFT.length(), tmpTotal.length());
+                int positionCenter = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_MIDDLE);
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_IMAGE_LEFT.length());
                 tmp.append(tmpTotal.substring(0, positionCenter));
-                tmpTotal = tmpTotal.substring(positionCenter + KEY_1_IMAGE.length(), tmpTotal.length());
-                int positionFooter = tmpTotal.indexOf(KEY_2_IMAGE);
+                tmpTotal = tmpTotal.substring(positionCenter + SyntaxKey.KEY_IMAGE_MIDDLE.length(), tmpTotal.length());
+                int positionFooter = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_RIGHT);
                 String link = tmpTotal.substring(0, positionFooter);
                 ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1], mRxMDImageLoader), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_1_IMAGE.length() + link.length() + KEY_2_IMAGE.length());
-                tmpTotal = tmpTotal.substring(positionFooter + KEY_2_IMAGE.length(), tmpTotal.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_IMAGE_MIDDLE.length() + link.length() + SyntaxKey.KEY_IMAGE_RIGHT.length());
+                tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_IMAGE_RIGHT.length(), tmpTotal.length());
             } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {
                 //111![22)22](33333)
-                tmpTotal = replaceFirstOne(tmpTotal, KEY_2_IMAGE, PLACE_HOLDER_2);
+                tmpTotal = replaceFirstOne(tmpTotal, SyntaxKey.KEY_IMAGE_RIGHT, SyntaxKey.PLACE_HOLDER);
             } else if (position4Key1 < position4Key0 && position4Key1 < position4Key2) {
                 //](在最前面的情况 111](2222![333)4444  1111](2222)3333![4444
-                tmp.append(tmpTotal.substring(0, position4Key1 + KEY_1_IMAGE.length()));
-                tmpTotal = tmpTotal.substring(position4Key1 + KEY_1_IMAGE.length(), tmpTotal.length());
+                tmp.append(tmpTotal.substring(0, position4Key1 + SyntaxKey.KEY_IMAGE_MIDDLE.length()));
+                tmpTotal = tmpTotal.substring(position4Key1 + SyntaxKey.KEY_IMAGE_MIDDLE.length(), tmpTotal.length());
             } else if (position4Key2 < position4Key0 && position4Key2 < position4Key1) {
                 //)在最前面的情况 111)2222](333![4444  1111)2222![3333](4444
-                tmp.append(tmpTotal.substring(0, position4Key2 + KEY_2_IMAGE.length()));
-                tmpTotal = tmpTotal.substring(position4Key2 + KEY_2_IMAGE.length(), tmpTotal.length());
+                tmp.append(tmpTotal.substring(0, position4Key2 + SyntaxKey.KEY_IMAGE_RIGHT.length()));
+                tmpTotal = tmpTotal.substring(position4Key2 + SyntaxKey.KEY_IMAGE_RIGHT.length(), tmpTotal.length());
             }
         }
         return ssb;

@@ -23,9 +23,12 @@ import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.theme.Theme;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class for edit controller in RxMarkdown
@@ -200,7 +203,7 @@ public class Utils {
      * @param end   the end position
      * @return the '\n' positions
      */
-    public static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {//todo utils
+    public static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {
         List<Integer> list = new ArrayList<>();
         for (int i = start; i < end; i++) {
             if (ssb.charAt(i) == '\n') {
@@ -208,6 +211,33 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    /**
+     * get the color map by Theme
+     *
+     * @param theme theme
+     * @return map
+     */
+    public static Map<String, Integer> buildColorsMap(Theme theme) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put(Theme.CODE_TYP, theme.getTypColor());
+        map.put(Theme.CODE_KWD, theme.getKwdColor());
+        map.put(Theme.CODE_LIT, theme.getLitColor());
+        map.put(Theme.CODE_COM, theme.getComColor());
+        map.put(Theme.CODE_STR, theme.getStrColor());
+        map.put(Theme.CODE_PUN, theme.getPunColor());
+        map.put(Theme.CODE_TAG, theme.getTagColor());
+        map.put(Theme.CODE_PLN, theme.getPlnColor());
+        map.put(Theme.CODE_DEC, theme.getDecColor());
+        map.put(Theme.CODE_ATN, theme.getAtnColor());
+        map.put(Theme.CODE_ATV, theme.getAtvColor());
+        map.put(Theme.CODE_OPN, theme.getOpnColor());
+        map.put(Theme.CODE_CLO, theme.getCloColor());
+        map.put(Theme.CODE_VAR, theme.getVarColor());
+        map.put(Theme.CODE_FUN, theme.getFunColor());
+        map.put(Theme.CODE_NOCODE, theme.getNocodeColor());
+        return map;
     }
 
 }

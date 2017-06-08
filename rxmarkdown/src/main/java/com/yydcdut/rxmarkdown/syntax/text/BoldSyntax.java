@@ -22,6 +22,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.regex.Pattern;
 
@@ -35,19 +36,13 @@ import java.util.regex.Pattern;
  */
 class BoldSyntax extends TextSyntaxAdapter {
 
-    private static final String KEY_BOLD = "**";
-    private static final String KEY_BOLD_1 = "__";
-
-    protected static final String KEY_BACKSLASH_VALUE = BackslashSyntax.KEY_BACKSLASH + "*";
-    protected static final String KEY_BACKSLASH_VALUE_1 = BackslashSyntax.KEY_BACKSLASH + "_";
-
     public BoldSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(KEY_BOLD) && !text.contains(KEY_BOLD_1)) {
+        if (!text.contains(SyntaxKey.KEY_BOLD) && !text.contains(SyntaxKey.KEY_BOLD_1)) {
             return false;
         }
         boolean match = false;
@@ -67,19 +62,19 @@ class BoldSyntax extends TextSyntaxAdapter {
         int index;
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE);
+            index = text.indexOf(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE.length(), BackslashSyntax.KEY_ENCODE);
+            ssb.replace(index, index + SyntaxKey.KEY_BOLD_BACKSLASH_VALUE.length(), SyntaxKey.KEY_ENCODE);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            index = text.indexOf(SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + KEY_BACKSLASH_VALUE_1.length(), BackslashSyntax.KEY_ENCODE_1);
+            ssb.replace(index, index + SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1.length(), SyntaxKey.KEY_ENCODE_1);
         }
         return ssb;
     }
@@ -87,8 +82,8 @@ class BoldSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb = parse(KEY_BOLD, ssb.toString(), ssb);
-        return parse(KEY_BOLD_1, ssb.toString(), ssb);
+        ssb = parse(SyntaxKey.KEY_BOLD, ssb.toString(), ssb);
+        return parse(SyntaxKey.KEY_BOLD_1, ssb.toString(), ssb);
     }
 
     @NonNull
@@ -97,19 +92,19 @@ class BoldSyntax extends TextSyntaxAdapter {
         int index;
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BackslashSyntax.KEY_ENCODE);
+            index = text.indexOf(SyntaxKey.KEY_ENCODE);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BackslashSyntax.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE);
+            ssb.replace(index, index + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_BOLD_BACKSLASH_VALUE);
         }
         while (true) {
             String text = ssb.toString();
-            index = text.indexOf(BackslashSyntax.KEY_ENCODE_1);
+            index = text.indexOf(SyntaxKey.KEY_ENCODE_1);
             if (index == -1) {
                 break;
             }
-            ssb.replace(index, index + BackslashSyntax.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index, index + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_BOLD_BACKSLASH_VALUE_1);
         }
         return ssb;
     }
@@ -117,7 +112,7 @@ class BoldSyntax extends TextSyntaxAdapter {
     /**
      * parse
      *
-     * @param key  {@link BoldSyntax#KEY_BOLD} or {@link BoldSyntax#KEY_BOLD_1}
+     * @param key  {@link SyntaxKey#KEY_BOLD} or {@link SyntaxKey#KEY_BOLD_1}
      * @param text the original content,the class type is {@link String}
      * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
      * @return the content after parsing

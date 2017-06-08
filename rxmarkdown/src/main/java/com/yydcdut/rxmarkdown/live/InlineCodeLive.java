@@ -65,10 +65,10 @@ class InlineCodeLive extends EditLive {
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, BackgroundColorSpan.class);
-        if (mGrammar == null) {
-            mGrammar = EditFactory.create().getInlineCodeSyntax(mRxMDConfiguration);
+        if (mSyntax == null) {
+            mSyntax = EditFactory.create().getInlineCodeSyntax(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 }

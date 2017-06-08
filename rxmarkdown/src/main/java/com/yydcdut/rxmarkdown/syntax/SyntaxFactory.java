@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 
 /**
- * Abstract factory pattern.
  * To provide syntax and parse content.
  * <p>
  * Created by yuyidong on 16/5/12.

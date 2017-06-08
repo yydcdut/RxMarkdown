@@ -21,6 +21,7 @@ import android.text.Editable;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,6 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/6/30.
  */
 class BlockQuotesSyntax extends EditSyntaxAdapter {
-
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
-     * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
-     */
-    protected static final String KEY_BLOCK_QUOTES = "> ";
 
     private int mColor;
 
@@ -90,11 +85,11 @@ class BlockQuotesSyntax extends EditSyntaxAdapter {
     private static int calculateNested(@NonNull String text) {
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY_BLOCK_QUOTES.length() > text.length()) {
+            if ((nested + 1) * SyntaxKey.KEY_BLOCK_QUOTES.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY_BLOCK_QUOTES.length(), (nested + 1) * KEY_BLOCK_QUOTES.length());
-            if (!KEY_BLOCK_QUOTES.equals(sub)) {
+            String sub = text.substring(nested * SyntaxKey.KEY_BLOCK_QUOTES.length(), (nested + 1) * SyntaxKey.KEY_BLOCK_QUOTES.length());
+            if (!SyntaxKey.KEY_BLOCK_QUOTES.equals(sub)) {
                 break;
             }
             ++nested;

@@ -29,8 +29,8 @@ abstract class EditLive implements IEditLive {
 
     protected RxMDConfiguration mRxMDConfiguration;
     protected boolean shouldFormat = false;
-    protected Syntax mGrammar;
-    protected Syntax mGrammar0;
+    protected Syntax mSyntax;
+    protected Syntax mSyntax1;
 
     @Override
     public void setRxMDConfiguration(@Nullable RxMDConfiguration rxMDConfiguration) {

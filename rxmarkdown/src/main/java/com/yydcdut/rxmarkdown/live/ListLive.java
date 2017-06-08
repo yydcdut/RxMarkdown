@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 /**
  * RxMDEditText, order and unorder list controller.
  * When input "enter(\n)", RxMDEditText will check the line up the new line whether is order nor unorder list.
- * If it is, RxMDEditText will add order or unorder list grammar key automatically.
+ * If it is, RxMDEditText will add order or unorder list syntax key automatically.
  * <p>
  * Created by yuyidong on 16/7/8.
  */

@@ -21,6 +21,7 @@ import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for header.
@@ -41,31 +42,6 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
  */
 class HeaderSyntax extends TextSyntaxAdapter {
 
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_0_HEADER}
-     */
-    protected static final String KEY_0_HEADER = "# ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_1_HEADER}
-     */
-    protected static final String KEY_1_HEADER = "## ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_2_HEADER}
-     */
-    protected static final String KEY_2_HEADER = "### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_3_HEADER}
-     */
-    protected static final String KEY_3_HEADER = "#### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_4_HEADER}
-     */
-    protected static final String KEY_4_HEADER = "##### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.HeaderSyntax#KEY_5_HEADER}
-     */
-    protected static final String KEY_5_HEADER = "###### ";
-
     private float mHeader1RelativeSize;
     private float mHeader2RelativeSize;
     private float mHeader3RelativeSize;
@@ -85,12 +61,12 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_0_HEADER) ||
-                text.startsWith(KEY_1_HEADER) ||
-                text.startsWith(KEY_2_HEADER) ||
-                text.startsWith(KEY_3_HEADER) ||
-                text.startsWith(KEY_4_HEADER) ||
-                text.startsWith(KEY_5_HEADER);
+        return text.startsWith(SyntaxKey.KEY_0_HEADER) ||
+                text.startsWith(SyntaxKey.KEY_1_HEADER) ||
+                text.startsWith(SyntaxKey.KEY_2_HEADER) ||
+                text.startsWith(SyntaxKey.KEY_3_HEADER) ||
+                text.startsWith(SyntaxKey.KEY_4_HEADER) ||
+                text.startsWith(SyntaxKey.KEY_5_HEADER);
     }
 
     @NonNull
@@ -103,23 +79,23 @@ class HeaderSyntax extends TextSyntaxAdapter {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
-        if (text.startsWith(KEY_5_HEADER)) {
-            ssb.delete(0, KEY_5_HEADER.length());
+        if (text.startsWith(SyntaxKey.KEY_5_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_5_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader6RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_4_HEADER)) {
-            ssb.delete(0, KEY_4_HEADER.length());
+        } else if (text.startsWith(SyntaxKey.KEY_4_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_4_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader5RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_3_HEADER)) {
-            ssb.delete(0, KEY_3_HEADER.length());
+        } else if (text.startsWith(SyntaxKey.KEY_3_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_3_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader4RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_2_HEADER)) {
-            ssb.delete(0, KEY_2_HEADER.length());
+        } else if (text.startsWith(SyntaxKey.KEY_2_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_2_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader3RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_1_HEADER)) {
-            ssb.delete(0, KEY_1_HEADER.length());
+        } else if (text.startsWith(SyntaxKey.KEY_1_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_1_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader2RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (text.startsWith(KEY_0_HEADER)) {
-            ssb.delete(0, KEY_0_HEADER.length());
+        } else if (text.startsWith(SyntaxKey.KEY_0_HEADER)) {
+            ssb.delete(0, SyntaxKey.KEY_0_HEADER.length());
             ssb.setSpan(new RelativeSizeSpan(mHeader1RelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return ssb;

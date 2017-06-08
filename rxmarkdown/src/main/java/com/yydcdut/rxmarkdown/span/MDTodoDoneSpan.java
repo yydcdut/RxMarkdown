@@ -20,7 +20,7 @@ import android.graphics.Paint;
 import android.text.Layout;
 
 /**
- * done grammar span
+ * done syntax span
  * <p>
  * Created by yuyidong on 16/5/17.
  */

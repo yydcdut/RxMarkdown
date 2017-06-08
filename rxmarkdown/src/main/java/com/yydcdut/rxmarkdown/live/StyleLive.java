@@ -87,15 +87,15 @@ class StyleLive extends EditLive {
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, StyleSpan.class);
-        if (mGrammar == null) {
-            mGrammar = EditFactory.create().getBoldSyntax(mRxMDConfiguration);
+        if (mSyntax == null) {
+            mSyntax = EditFactory.create().getBoldSyntax(mRxMDConfiguration);
         }
-        if (mGrammar0 == null) {
-            mGrammar0 = EditFactory.create().getItalicSyntax(mRxMDConfiguration);
+        if (mSyntax1 == null) {
+            mSyntax1 = EditFactory.create().getItalicSyntax(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = new ArrayList<>();
-        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start));
-        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mGrammar0.format(editable), start));
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start));
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mSyntax1.format(editable), start));
         Utils.setSpans(editable, editTokenList);
     }
 }

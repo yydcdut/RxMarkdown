@@ -23,13 +23,12 @@ import android.text.Spannable;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax.KEY_HEADER;
 
 /**
  * The implementation of syntax for unorder list.
@@ -43,13 +42,6 @@ import static com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax.KEY_HEADER;
  * Created by yuyidong on 16/7/8.
  */
 class UnOrderListSyntax extends EditSyntaxAdapter {
-    private static final String IGNORE_0 = "- [x]";
-    private static final String IGNORE_1 = "- [X]";
-    private static final String IGNORE_2 = "- [ ]";
-    private static final String IGNORE_3 = "* [x]";
-    private static final String IGNORE_4 = "* [x]";
-    private static final String IGNORE_5 = "* [ ]";
-    private static final String PLACE_HOLDER_IGNORE = "     ";
 
     private int mColor;
 
@@ -108,11 +100,11 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
         }
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY_HEADER.length() > text.length()) {
+            if ((nested + 1) * SyntaxKey.KEY_LIST_HEADER.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
-            if (KEY_HEADER.equals(sub)) {//还是" "
+            String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
+            if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是" "
                 nested++;
             } else {
                 return nested;
@@ -123,46 +115,46 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
 
     private void replaceTodo(StringBuilder stringBuilder) {
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_0);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_0);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_0.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_0.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_1);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_1);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_1.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_1.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_2);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_2);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_2.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_2.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_3);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_3);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_3.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_3.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_4);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_4);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_4.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_4.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(IGNORE_5);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_5);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + IGNORE_5.length(), PLACE_HOLDER_IGNORE);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_5.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
     }
 }

@@ -22,7 +22,7 @@ import com.yydcdut.rxmarkdown.syntax.Syntax;
 import java.util.Arrays;
 
 /**
- * This Chain can add one or more grammars.
+ * This Chain can add one or more syntaxs.
  * <p>
  * Created by yuyidong on 16/5/4.
  */
@@ -34,7 +34,7 @@ public class MultiGrammarsChain implements IChain {
     /**
      * Constructor
      *
-     * @param grammars the grammars
+     * @param grammars the syntax
      */
     public MultiGrammarsChain(@NonNull Syntax... grammars) {
         mGrammars = grammars;

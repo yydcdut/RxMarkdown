@@ -24,6 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for block quotes.
@@ -34,11 +35,6 @@ import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
  */
 class BlockQuotesSyntax extends TextSyntaxAdapter {
 
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.BlockQuotesSyntax#KEY_BLOCK_QUOTES}
-     * {@link com.yydcdut.rxmarkdown.span.MDQuoteSpan#KEY_BLOCK_QUOTES}
-     */
-    protected static final String KEY_BLOCK_QUOTES = ">";
     private static final int NESTING_MARGIN = 25;
     private final int mBackgroundColor;
     private final float mRelativeSize;
@@ -87,7 +83,7 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.startsWith(KEY_BLOCK_QUOTES)) {
+        if (!text.startsWith(SyntaxKey.KEY_BLOCK_QUOTES)) {
             return false;
         }
         return true;

@@ -21,10 +21,9 @@ import android.text.SpannableStringBuilder;
 import android.text.style.SuperscriptSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.regex.Pattern;
-
-import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
 
 /**
  * The implementation of syntax for footnote.
@@ -35,19 +34,13 @@ import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
  */
 class FootnoteSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_0_FOOTNOTE = "[^";
-    protected static final String KEY_1_FOOTNOTE = "]";
-
-    protected static final String KEY_BACKSLASH_VALUE_0 = KEY_BACKSLASH + "[";
-    protected static final String KEY_BACKSLASH_VALUE_2 = KEY_BACKSLASH + "]";
-
     public FootnoteSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(KEY_0_FOOTNOTE) && text.contains(KEY_1_FOOTNOTE))) {
+        if (!(text.contains(SyntaxKey.KEY_FOOTNOTE_LEFT) && text.contains(SyntaxKey.KEY_FOOTNOTE_RIGHT))) {
             return false;
         }
         Pattern pattern = Pattern.compile(".*[\\[\\^].*[]].*");
@@ -60,20 +53,20 @@ class FootnoteSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(KEY_BACKSLASH_VALUE_0);
+            index0 = text.indexOf(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + KEY_BACKSLASH_VALUE_0.length(), BackslashSyntax.KEY_ENCODE);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
         }
         int index2;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(KEY_BACKSLASH_VALUE_2);
+            index2 = text.indexOf(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + KEY_BACKSLASH_VALUE_2.length(), BackslashSyntax.KEY_ENCODE_2);
+            ssb.replace(index2, index2 + SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_2);
         }
         return ssb;
     }
@@ -90,20 +83,20 @@ class FootnoteSyntax extends TextSyntaxAdapter {
         int index0;
         while (true) {
             String text = ssb.toString();
-            index0 = text.indexOf(BackslashSyntax.KEY_ENCODE);
+            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
             if (index0 == -1) {
                 break;
             }
-            ssb.replace(index0, index0 + BackslashSyntax.KEY_ENCODE.length(), KEY_BACKSLASH_VALUE_0);
+            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
         }
         int index2;
         while (true) {
             String text = ssb.toString();
-            index2 = text.indexOf(BackslashSyntax.KEY_ENCODE_2);
+            index2 = text.indexOf(SyntaxKey.KEY_ENCODE_2);
             if (index2 == -1) {
                 break;
             }
-            ssb.replace(index2, index2 + BackslashSyntax.KEY_ENCODE_2.length(), KEY_BACKSLASH_VALUE_2);
+            ssb.replace(index2, index2 + SyntaxKey.KEY_ENCODE_2.length(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
         }
         return ssb;
     }
@@ -126,19 +119,19 @@ class FootnoteSyntax extends TextSyntaxAdapter {
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + KEY_0_FOOTNOTE.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionHeader + SyntaxKey.KEY_FOOTNOTE_LEFT.length(), tmpTotal.length());
             int positionFooter = findEndPosition(tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + KEY_0_FOOTNOTE.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_FOOTNOTE_LEFT.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
                 ssb.setSpan(new SuperscriptSpan(), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + KEY_1_FOOTNOTE.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_FOOTNOTE_RIGHT.length());
             } else {
-                tmp.append(KEY_0_FOOTNOTE);
+                tmp.append(SyntaxKey.KEY_FOOTNOTE_LEFT);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + KEY_0_FOOTNOTE.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_FOOTNOTE_LEFT.length(), tmpTotal.length());
         }
         return ssb;
     }
@@ -154,13 +147,13 @@ class FootnoteSyntax extends TextSyntaxAdapter {
      */
     private int findBeginPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_0_FOOTNOTE);
+        int position = tmpTmpTotal.indexOf(SyntaxKey.KEY_FOOTNOTE_LEFT);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_0_FOOTNOTE.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, SyntaxKey.KEY_FOOTNOTE_LEFT.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$$").append(tmpTmpTotal.substring(position + KEY_0_FOOTNOTE.length(), tmpTmpTotal.length()));
+                        .append("$$").append(tmpTmpTotal.substring(position + SyntaxKey.KEY_FOOTNOTE_LEFT.length(), tmpTmpTotal.length()));
                 return findBeginPosition(sb.toString(), ssb, tmp);
             } else {
                 return position;
@@ -179,13 +172,13 @@ class FootnoteSyntax extends TextSyntaxAdapter {
      */
     private int findEndPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(KEY_1_FOOTNOTE);
+        int position = tmpTmpTotal.indexOf(SyntaxKey.KEY_FOOTNOTE_RIGHT);
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, KEY_1_FOOTNOTE.length())) {//key是否在inlineCode中
+            if (checkInInlineCode(ssb, tmp.length() + position, SyntaxKey.KEY_FOOTNOTE_RIGHT.length())) {//key是否在inlineCode中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$").append(tmpTmpTotal.substring(position + KEY_1_FOOTNOTE.length(), tmpTmpTotal.length()));
+                        .append("$").append(tmpTmpTotal.substring(position + SyntaxKey.KEY_FOOTNOTE_RIGHT.length(), tmpTmpTotal.length()));
                 return findBeginPosition(sb.toString(), ssb, tmp);
             } else {
                 return position;

@@ -22,8 +22,7 @@ import android.text.Spanned;
 import android.text.style.AlignmentSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-
-import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for center align.
@@ -35,18 +34,13 @@ import static com.yydcdut.rxmarkdown.syntax.text.BackslashSyntax.KEY_BACKSLASH;
  */
 class CenterAlignSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_0_CENTER_ALIGN = "[";
-    protected static final String KEY_1_CENTER_ALIGN = "]";
-
-    protected static final String KEY_BACKSLASH_VALUE_1 = KEY_BACKSLASH + KEY_1_CENTER_ALIGN;
-
     public CenterAlignSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_0_CENTER_ALIGN) && text.endsWith(KEY_1_CENTER_ALIGN);
+        return text.startsWith(SyntaxKey.KEY_CENTER_ALIGN_LEFT) && text.endsWith(SyntaxKey.KEY_CENTER_ALIGN_RIGHT);
     }
 
     @NonNull
@@ -55,11 +49,11 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
         int index1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(KEY_BACKSLASH_VALUE_1);
+            index1 = text.indexOf(SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + KEY_BACKSLASH_VALUE_1.length(), BackslashSyntax.KEY_ENCODE_1);
+            ssb.replace(index1, index1 + SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_1);
         }
         return ssb;
     }
@@ -78,11 +72,11 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
         int index1;
         while (true) {
             String text = ssb.toString();
-            index1 = text.indexOf(BackslashSyntax.KEY_ENCODE_1);
+            index1 = text.indexOf(SyntaxKey.KEY_ENCODE_1);
             if (index1 == -1) {
                 break;
             }
-            ssb.replace(index1, index1 + BackslashSyntax.KEY_ENCODE_1.length(), KEY_BACKSLASH_VALUE_1);
+            ssb.replace(index1, index1 + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
         }
         return ssb;
     }

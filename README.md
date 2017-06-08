@@ -22,13 +22,13 @@ Change Log : [SEE](./CHANGELOG.md)
 compile 'com.yydcdut:rxmarkdown:0.1.0'
 ```
 
-## Support Grammar 
+## Support Syntax
 
 RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditFactory` .
 
-`TextFactory` : Supports most of the markdown grammars，but it will destroy the integrity of the content. So, it applies to render in `TextView` .
+`TextFactory` : Supports most of the markdown syntax，but it will destroy the integrity of the content. So, it applies to render in `TextView` .
 
-`EditFactory` : Supports some grammars，and it won't destroy the integrity of the content, the parsing speed is faster than `TextFactory` , So, it applies to real-time preview in `EditText` .
+`EditFactory` : Supports some syntax，and it won't destroy the integrity of the content, the parsing speed is faster than `TextFactory` , So, it applies to real-time preview in `EditText` .
 
 ### TextFactory
 
@@ -53,7 +53,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [x] Todo `- [ ] ` / `- [x] `
 - [ ] Table `| Table | Table |`
 
-#### Other Grammar
+#### Other Syntax
 
 - [x] Center Align `[]`
 
@@ -80,7 +80,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [ ] Todo `- [ ] ` / `- [x] `
 - [ ] Table `| Table | Table |`
 
-#### Other Grammar
+#### Other Syntax
 
 - [x] Center Align `[]`
 

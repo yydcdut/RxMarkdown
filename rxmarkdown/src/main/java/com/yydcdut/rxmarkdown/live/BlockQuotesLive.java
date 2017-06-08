@@ -83,10 +83,10 @@ class BlockQuotesLive extends EditLive {
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, MDQuoteSpan.class);
-        if (mGrammar == null) {
-            mGrammar = EditFactory.create().getBlockQuotesSyntax(mRxMDConfiguration);
+        if (mSyntax == null) {
+            mSyntax = EditFactory.create().getBlockQuotesSyntax(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 }

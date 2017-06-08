@@ -83,10 +83,10 @@ class StrikeThroughLive extends EditLive {
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, StrikethroughSpan.class);
-        if (mGrammar == null) {
-            mGrammar = EditFactory.create().getStrikeThroughSyntax(mRxMDConfiguration);
+        if (mSyntax == null) {
+            mSyntax = EditFactory.create().getStrikeThroughSyntax(mRxMDConfiguration);
         }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mGrammar.format(editable), start);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 }

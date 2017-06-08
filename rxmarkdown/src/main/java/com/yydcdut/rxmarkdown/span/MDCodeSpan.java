@@ -24,7 +24,7 @@ import android.text.Layout;
 import android.text.style.QuoteSpan;
 
 /**
- * code grammar span
+ * code syntax span
  * <p>
  * Created by yuyidong on 16/5/17.
  */

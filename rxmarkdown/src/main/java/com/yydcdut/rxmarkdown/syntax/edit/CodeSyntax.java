@@ -24,6 +24,7 @@ import android.util.Pair;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import java.util.List;
  * Created by yuyidong on 16/6/30.
  */
 class CodeSyntax extends EditSyntaxAdapter {
-    public static final String KEY_CODE = "```";//todo {@see com.yydcdut.rxmarkdown.syntax.text.CodeSyntax#KEY_CODE}
 
     private int mColor;
 
@@ -52,7 +52,7 @@ class CodeSyntax extends EditSyntaxAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), KEY_CODE);
+        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), SyntaxKey.KEY_CODE);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
@@ -76,7 +76,7 @@ class CodeSyntax extends EditSyntaxAdapter {
             }
             MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
             editTokenList.add(new EditToken(mdCodeSpan, end,
-                    end + KEY_CODE.length() + (end + KEY_CODE.length() >= editable.length() ? 0 : 1),
+                    end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= editable.length() ? 0 : 1),
                     Spannable.SPAN_INCLUSIVE_EXCLUSIVE));
             if (parentSpan != null) {
                 parentSpan.setNext(mdCodeSpan);

@@ -30,6 +30,7 @@ import java.util.List;
  */
 public interface Syntax {
 
+
     /**
      * Whether this syntax can match(parse) this content
      *

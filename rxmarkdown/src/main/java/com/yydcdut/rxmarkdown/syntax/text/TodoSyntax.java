@@ -21,6 +21,7 @@ import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDTodoSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for done.
@@ -32,8 +33,6 @@ import com.yydcdut.rxmarkdown.span.MDTodoSpan;
  */
 class TodoSyntax extends TextSyntaxAdapter {
 
-    protected static final String KEY_0_TODO = "- [ ] ";
-    protected static final String KEY_1_TODO = "* [ ] ";
 
     private int mColor;
 
@@ -44,7 +43,7 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_0_TODO) || text.startsWith(KEY_1_TODO);
+        return text.startsWith(SyntaxKey.KEY_TODO_0) || text.startsWith(SyntaxKey.KEY_TODO_1);
     }
 
     @NonNull
@@ -55,7 +54,7 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb.delete(0, KEY_0_TODO.length());
+        ssb.delete(0, SyntaxKey.KEY_TODO_0.length());
         ssb.setSpan(new MDTodoSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }

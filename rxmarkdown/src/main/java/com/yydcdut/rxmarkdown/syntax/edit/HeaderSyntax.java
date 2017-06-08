@@ -24,6 +24,7 @@ import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,35 +51,6 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/6/30.
  */
 class HeaderSyntax extends EditSyntaxAdapter {
-
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.CenterAlignSyntax#KEY_0_CENTER_ALIGN}
-     */
-    private static final String KEY_0_CENTER_ALIGN = "[";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_0_HEADER}
-     */
-    private static final String KEY_0_HEADER = "# ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_1_HEADER}
-     */
-    private static final String KEY_1_HEADER = "## ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_2_HEADER}
-     */
-    private static final String KEY_2_HEADER = "### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_3_HEADER}
-     */
-    private static final String KEY_3_HEADER = "#### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_4_HEADER}
-     */
-    private static final String KEY_4_HEADER = "##### ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.text.HeaderSyntax#KEY_5_HEADER}
-     */
-    private static final String KEY_5_HEADER = "###### ";
 
     private float mHeader1RelativeSize;
     private float mHeader2RelativeSize;
@@ -139,7 +111,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
      * @return the span
      */
     private Object getSpan(String match) {
-        if (match.startsWith(KEY_0_CENTER_ALIGN)) {
+        if (match.startsWith(SyntaxKey.KEY_CENTER_ALIGN_LEFT)) {
             return getRealSpan(match);
         } else {
             return getRealSpan(match);
@@ -153,17 +125,17 @@ class HeaderSyntax extends EditSyntaxAdapter {
      * @return the span
      */
     private Object getRealSpan(String match) {
-        if (match.contains(KEY_5_HEADER)) {
+        if (match.contains(SyntaxKey.KEY_5_HEADER)) {
             return new RelativeSizeSpan(mHeader6RelativeSize);
-        } else if (match.contains(KEY_4_HEADER)) {
+        } else if (match.contains(SyntaxKey.KEY_4_HEADER)) {
             return new RelativeSizeSpan(mHeader5RelativeSize);
-        } else if (match.contains(KEY_3_HEADER)) {
+        } else if (match.contains(SyntaxKey.KEY_3_HEADER)) {
             return new RelativeSizeSpan(mHeader4RelativeSize);
-        } else if (match.contains(KEY_2_HEADER)) {
+        } else if (match.contains(SyntaxKey.KEY_2_HEADER)) {
             return new RelativeSizeSpan(mHeader3RelativeSize);
-        } else if (match.contains(KEY_1_HEADER)) {
+        } else if (match.contains(SyntaxKey.KEY_1_HEADER)) {
             return new RelativeSizeSpan(mHeader2RelativeSize);
-        } else if (match.contains(KEY_0_HEADER)) {
+        } else if (match.contains(SyntaxKey.KEY_0_HEADER)) {
             return new RelativeSizeSpan(mHeader1RelativeSize);
         }
         return new RelativeSizeSpan(1.0f);
@@ -176,12 +148,12 @@ class HeaderSyntax extends EditSyntaxAdapter {
      * @return if matched
      */
     private static boolean matchSpecial(String match) {
-        if (TextUtils.equals(match, KEY_0_HEADER) ||
-                TextUtils.equals(match, KEY_1_HEADER) ||
-                TextUtils.equals(match, KEY_2_HEADER) ||
-                TextUtils.equals(match, KEY_3_HEADER) ||
-                TextUtils.equals(match, KEY_4_HEADER) ||
-                TextUtils.equals(match, KEY_5_HEADER)) {
+        if (TextUtils.equals(match, SyntaxKey.KEY_0_HEADER) ||
+                TextUtils.equals(match, SyntaxKey.KEY_1_HEADER) ||
+                TextUtils.equals(match, SyntaxKey.KEY_2_HEADER) ||
+                TextUtils.equals(match, SyntaxKey.KEY_3_HEADER) ||
+                TextUtils.equals(match, SyntaxKey.KEY_4_HEADER) ||
+                TextUtils.equals(match, SyntaxKey.KEY_5_HEADER)) {
             return true;
         }
         return false;
@@ -233,29 +205,29 @@ class HeaderSyntax extends EditSyntaxAdapter {
      * @param editTokenList the edit syntax list
      */
     private void replaceSpecial(Map<String, Integer> specialMap, StringBuilder content, List<EditToken> editTokenList) {
-        Integer num5Int = specialMap.get(KEY_5_HEADER);
+        Integer num5Int = specialMap.get(SyntaxKey.KEY_5_HEADER);
         if (num5Int != null && num5Int > 0) {
-            replace(content, KEY_5_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_5_HEADER, editTokenList);
         }
-        Integer num4Int = specialMap.get(KEY_4_HEADER);
+        Integer num4Int = specialMap.get(SyntaxKey.KEY_4_HEADER);
         if (num4Int != null && num4Int > 0) {
-            replace(content, KEY_4_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_4_HEADER, editTokenList);
         }
-        Integer num3Int = specialMap.get(KEY_3_HEADER);
+        Integer num3Int = specialMap.get(SyntaxKey.KEY_3_HEADER);
         if (num3Int != null && num3Int > 0) {
-            replace(content, KEY_3_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_3_HEADER, editTokenList);
         }
-        Integer num2Int = specialMap.get(KEY_2_HEADER);
+        Integer num2Int = specialMap.get(SyntaxKey.KEY_2_HEADER);
         if (num2Int != null && num2Int > 0) {
-            replace(content, KEY_2_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_2_HEADER, editTokenList);
         }
-        Integer num1Int = specialMap.get(KEY_1_HEADER);
+        Integer num1Int = specialMap.get(SyntaxKey.KEY_1_HEADER);
         if (num1Int != null && num1Int > 0) {
-            replace(content, KEY_1_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_1_HEADER, editTokenList);
         }
-        Integer num0Int = specialMap.get(KEY_0_HEADER);
+        Integer num0Int = specialMap.get(SyntaxKey.KEY_0_HEADER);
         if (num0Int != null && num0Int > 0) {
-            replace(content, KEY_0_HEADER, editTokenList);
+            replace(content, SyntaxKey.KEY_0_HEADER, editTokenList);
         }
     }
 }

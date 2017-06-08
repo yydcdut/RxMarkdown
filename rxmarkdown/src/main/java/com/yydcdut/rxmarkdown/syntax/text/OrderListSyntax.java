@@ -22,6 +22,7 @@ import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 import java.util.ArrayList;
 
@@ -33,16 +34,6 @@ import java.util.ArrayList;
  * Created by yuyidong on 16/5/22.
  */
 class OrderListSyntax extends ListAndCodeSyntaxAdapter {
-
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax}
-     * used UnOrderListSyntax
-     */
-    public static final String KEY_HEADER = " ";
-    /**
-     * {@link com.yydcdut.rxmarkdown.syntax.edit.OrderListSyntax}
-     */
-    private static final char DOT = '.';
 
     /**
      * Constructor
@@ -160,7 +151,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
                 }
             }
             char dot = text.charAt(dotPosition);
-            if (dot == DOT) {
+            if (dot == SyntaxKey.DOT) {
                 if (text.charAt(dotPosition + 1) == ' ') {
                     return true;
                 }
@@ -184,13 +175,13 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
         }
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY_HEADER.length() > text.length()) {
+            if ((nested + 1) * SyntaxKey.KEY_LIST_HEADER.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
-            if (KEY_HEADER.equals(sub)) {//还是" "
+            String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
+            if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是" "
                 nested++;
-            } else if (check(text.substring(nested * KEY_HEADER.length(), text.length()))) {
+            } else if (check(text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), text.length()))) {
                 return nested;
             } else {
                 return -1;
@@ -211,7 +202,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
             return -1;
         }
         int number;
-        String s = text.substring(nested * KEY_HEADER.length(), text.length());
+        String s = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), text.length());
         if (TextUtils.isDigitsOnly(s.substring(0, 1))) {
             number = Integer.parseInt(s.substring(0, 1));
             for (int i = 1; i < s.length(); i++) {
@@ -239,11 +230,11 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
      * @param originalNumber the original number
      */
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
-        ssb.delete(start, start + nested * KEY_HEADER.length() + String.valueOf(originalNumber).length());
+        ssb.delete(start, start + nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length());
         ssb.insert(start, String.valueOf(number));
         ssb.setSpan(new MDOrderListSpan(30, nested, number),
                 start,
-                start + line.length() - (nested * KEY_HEADER.length() + String.valueOf(originalNumber).length()),
+                start + line.length() - (nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 

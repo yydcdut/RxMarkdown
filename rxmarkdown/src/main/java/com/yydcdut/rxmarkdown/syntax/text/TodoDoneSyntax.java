@@ -21,6 +21,7 @@ import android.text.Spanned;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDTodoDoneSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * The implementation of syntax for to do.
@@ -32,12 +33,6 @@ import com.yydcdut.rxmarkdown.span.MDTodoDoneSpan;
  * Created by yuyidong on 16/5/17.
  */
 class TodoDoneSyntax extends TextSyntaxAdapter {
-
-    protected static final String KEY_0_TODO_DONE = "- [x] ";
-    protected static final String KEY_1_TODO_DONE = "- [X] ";
-    protected static final String KEY_2_TODO_DONE = "* [x] ";
-    protected static final String KEY_3_TODO_DONE = "* [X] ";
-
     private static final int START_POSITION = 6;
 
     private int mColor;
@@ -49,10 +44,10 @@ class TodoDoneSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_0_TODO_DONE) ||
-                text.startsWith(KEY_1_TODO_DONE) ||
-                text.startsWith(KEY_2_TODO_DONE) ||
-                text.startsWith(KEY_3_TODO_DONE);
+        return text.startsWith(SyntaxKey.KEY_TODO_DONE_0) ||
+                text.startsWith(SyntaxKey.KEY_TODO_DONE_1) ||
+                text.startsWith(SyntaxKey.KEY_TODO_DONE_2) ||
+                text.startsWith(SyntaxKey.KEY_TODO_DONE_3);
     }
 
     @NonNull
