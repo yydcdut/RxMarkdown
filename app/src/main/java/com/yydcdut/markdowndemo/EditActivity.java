@@ -1,5 +1,6 @@
 package com.yydcdut.markdowndemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
@@ -14,7 +15,9 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
+import com.yydcdut.markdowndemo.view.EditScrollView;
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
@@ -37,7 +40,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by yuyidong on 16/7/23.
  */
-public class EditActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditScrollView.OnScrollChangedListener {
     private RxMDEditText mEditText;
     private AsyncTask mAsyncTask;
     private FloatingActionButton mFloatingActionButton;
@@ -45,6 +48,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Observable<CharSequence> mObservable;
     private Subscription mSubscription;
     private HorizontalEditScrollView mHorizontalEditScrollView;
+    private int mShortestDistance = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         mFloatingActionButton.setOnClickListener(this);
-
+        EditScrollView editScrollView = (EditScrollView) findViewById(R.id.edit_scroll);
+        editScrollView.setOnScrollChangedListener(this);
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
         mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
@@ -181,6 +186,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             ShowActivity.startShowActivity(this, mEditText.getText().toString());
         } else {
             Snackbar.make(v, "Wait....", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onScrollChanged(int l, int t, int oldl, int oldt) {
+        if (mShortestDistance == -1) {
+            mShortestDistance = mEditText.getLineHeight() * 3 / 2;
+        }
+        if (Math.abs(t - oldt) > mShortestDistance) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null && imm.isActive() && null != getCurrentFocus()) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            mFloatingActionButton.setFocusable(true);
+            mFloatingActionButton.setFocusableInTouchMode(true);
+            mFloatingActionButton.requestFocus();
         }
     }
 

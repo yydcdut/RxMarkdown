@@ -9,13 +9,19 @@
     tools:context="com.yydcdut.markdowndemo.MainActivity"
     tools:showIn="@layout/activity_edit">
 
-    <com.yydcdut.rxmarkdown.RxMDEditText
-        android:id="@+id/edit_md"
-        android:layout_width="match_parent"
+    <com.yydcdut.markdowndemo.view.EditScrollView
+        android:id="@+id/edit_scroll"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_above="@+id/scroll_edit"
-        android:gravity="left|top"
-        android:text="Hello World!"/>
+        android:layout_above="@+id/scroll_edit">
+
+        <com.yydcdut.rxmarkdown.RxMDEditText
+            android:id="@+id/edit_md"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|top"
+            android:text="Hello World!"/>
+    </com.yydcdut.markdowndemo.view.EditScrollView>
 
     <com.yydcdut.markdowndemo.view.HorizontalEditScrollView
         android:id="@+id/scroll_edit"
