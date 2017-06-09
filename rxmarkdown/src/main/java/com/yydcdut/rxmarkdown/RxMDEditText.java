@@ -374,7 +374,9 @@ public class RxMDEditText extends EditText implements Handler.Callback {
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
-        mLivePrepare.onSelectionChanged(selStart, selEnd);
+        if (mLivePrepare != null) {
+            mLivePrepare.onSelectionChanged(selStart, selEnd);
+        }
     }
 
     @Override
