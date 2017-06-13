@@ -1,6 +1,5 @@
 package com.yydcdut.markdowndemo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
@@ -15,7 +14,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.yydcdut.markdowndemo.view.EditScrollView;
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
@@ -195,10 +193,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             mShortestDistance = mEditText.getLineHeight() * 3 / 2;
         }
         if (Math.abs(t - oldt) > mShortestDistance) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null && imm.isActive() && null != getCurrentFocus()) {
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
+//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            if (imm != null && imm.isActive() && null != getCurrentFocus()) {
+//                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//            }
             mFloatingActionButton.setFocusable(true);
             mFloatingActionButton.setFocusableInTouchMode(true);
             mFloatingActionButton.requestFocus();
