@@ -51,6 +51,7 @@ public class RxMDConfiguration {
     @ColorInt
     @Deprecated
     private final int codeBgColor;
+    private boolean codeHighLight;
     private final Theme theme;
     @ColorInt
     private final int todoColor;
@@ -103,7 +104,8 @@ public class RxMDConfiguration {
                               float header1RelativeSize, float header2RelativeSize,
                               float header3RelativeSize, float header4RelativeSize,
                               float header5RelativeSize, float header6RelativeSize,
-                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight, int inlineCodeBgColor, int codeBgColor, Theme theme,
+                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight,
+                              int inlineCodeBgColor, int codeBgColor, boolean codeHighLight, Theme theme,
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
@@ -121,6 +123,7 @@ public class RxMDConfiguration {
         this.horizontalRulesHeight = horizontalRulesHeight;
         this.inlineCodeBgColor = inlineCodeBgColor;
         this.codeBgColor = codeBgColor;
+        this.codeHighLight = codeHighLight;
         this.theme = theme;
         this.todoColor = todoColor;
         this.todoDoneColor = todoDoneColor;
@@ -251,6 +254,15 @@ public class RxMDConfiguration {
     @Deprecated
     public final int getCodeBgColor() {
         return codeBgColor;
+    }
+
+    /**
+     * get whether code high light
+     *
+     * @return whether code high light
+     */
+    public boolean isCodeHighLight() {
+        return codeHighLight;
     }
 
     /**
@@ -392,6 +404,9 @@ public class RxMDConfiguration {
         @ColorInt
         @Deprecated
         private int codeBgColor;
+
+        private boolean codeHighLight;
+
         private Theme mTheme;
 
         @ColorInt
@@ -440,6 +455,7 @@ public class RxMDConfiguration {
             horizontalRulesHeight = -1;
             inlineCodeBgColor = Color.LTGRAY;
             codeBgColor = Color.LTGRAY;
+            codeHighLight = true;
             mTheme = new ThemeDefault();
             todoColor = Color.DKGRAY;
             todoDoneColor = Color.DKGRAY;
@@ -587,6 +603,7 @@ public class RxMDConfiguration {
 
         /**
          * set code background color
+         * {@link #setTheme(Theme)}
          *
          * @param codeBgColor the color
          * @return self
@@ -594,6 +611,17 @@ public class RxMDConfiguration {
         @Deprecated
         public Builder setCodeBgColor(@ColorInt int codeBgColor) {
             this.codeBgColor = codeBgColor;
+            return this;
+        }
+
+        /**
+         * enable code high light
+         *
+         * @param codeHighLight enable code high light
+         * @return self
+         */
+        public Builder setCodeHighLight(boolean codeHighLight) {
+            this.codeHighLight = codeHighLight;
             return this;
         }
 
@@ -744,7 +772,8 @@ public class RxMDConfiguration {
                     header4RelativeSize,
                     header5RelativeSize,
                     header6RelativeSize,
-                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight, inlineCodeBgColor, codeBgColor, mTheme,
+                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight,
+                    inlineCodeBgColor, codeBgColor, codeHighLight, mTheme,
                     todoColor, todoDoneColor, unOrderListColor,
                     blockQuoteBgColor, linkColor, isLinkUnderline,
                     rxMDImageLoader, mOnLinkClickCallback,

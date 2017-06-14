@@ -41,10 +41,12 @@ import java.util.List;
 class CodeSyntax extends ListAndCodeSyntaxAdapter {
 
     private int mColor;
+    private boolean isEnableHighLight;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
 
     public CodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         mColor = rxMDConfiguration.getTheme().getBackgroundColor();
+        isEnableHighLight = rxMDConfiguration.isCodeHighLight();
         mPrettifyHighLighter = new PrettifyHighLighter(rxMDConfiguration);
     }
 
@@ -83,7 +85,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
                 ssb.setSpan(new MDCodeSpan(mColor, language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 current = position + 1;
             }
-            if (!TextUtils.equals("", language)) {
+            if (!TextUtils.equals("", language) && isEnableHighLight) {
                 mPrettifyHighLighter.highLight(language, ssb, start, end);
             }
             ssb.delete(end, end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= ssb.length() ? 0 : 1));
