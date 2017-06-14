@@ -88,6 +88,8 @@ public class RxMDConfiguration {
      * @param horizontalRulesHeight        horizontal rules height
      * @param inlineCodeBgColor            inline code bg color
      * @param codeBgColor                  code bg color
+     * @param codeHighLight                codeHighLight
+     * @param theme                        theme
      * @param todoColor                    to do color
      * @param todoDoneColor                to do done color
      * @param unOrderListColor             unorder list color
