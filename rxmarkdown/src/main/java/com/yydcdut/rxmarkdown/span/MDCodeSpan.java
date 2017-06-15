@@ -25,6 +25,7 @@ import android.text.style.QuoteSpan;
 
 /**
  * code syntax span
+ * //todo linebackgroundspan
  * <p>
  * Created by yuyidong on 16/5/17.
  */

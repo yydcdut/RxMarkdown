@@ -221,17 +221,17 @@ public class Utils {
      */
     public static Map<String, Integer> buildColorsMap(Theme theme) {
         Map<String, Integer> map = new HashMap<>();
-        map.put(Theme.CODE_TYP, theme.getTypColor());
-        map.put(Theme.CODE_KWD, theme.getKwdColor());
-        map.put(Theme.CODE_LIT, theme.getLitColor());
-        map.put(Theme.CODE_COM, theme.getComColor());
-        map.put(Theme.CODE_STR, theme.getStrColor());
-        map.put(Theme.CODE_PUN, theme.getPunColor());
+        map.put(Theme.CODE_TYP, theme.getTypeColor());
+        map.put(Theme.CODE_KWD, theme.getKeyWordColor());
+        map.put(Theme.CODE_LIT, theme.getLiteralColor());
+        map.put(Theme.CODE_COM, theme.getCommentColor());
+        map.put(Theme.CODE_STR, theme.getStringColor());
+        map.put(Theme.CODE_PUN, theme.getPunctuationColor());
         map.put(Theme.CODE_TAG, theme.getTagColor());
-        map.put(Theme.CODE_PLN, theme.getPlnColor());
-        map.put(Theme.CODE_DEC, theme.getDecColor());
-        map.put(Theme.CODE_ATN, theme.getAtnColor());
-        map.put(Theme.CODE_ATV, theme.getAtvColor());
+        map.put(Theme.CODE_PLN, theme.getPlainTextColor());
+        map.put(Theme.CODE_DEC, theme.getDecimalColor());
+        map.put(Theme.CODE_ATN, theme.getAttributeNameColor());
+        map.put(Theme.CODE_ATV, theme.getAttributeValueColor());
         map.put(Theme.CODE_OPN, theme.getOpnColor());
         map.put(Theme.CODE_CLO, theme.getCloColor());
         map.put(Theme.CODE_VAR, theme.getVarColor());

@@ -15,97 +15,94 @@
  */
 package com.yydcdut.rxmarkdown.theme;
 
-import android.graphics.Color;
-
 /**
- * The default theme for code syntax, high light programming language
+ * Sunbrust theme.
  * <p>
- * Created by yuyidong on 2017/5/27.
+ * Created by yuyidong on 2017/6/15.
  */
-public class ThemeDefault implements Theme {
-
+public class ThemeSunburst implements Theme {
     @Override
     public int getBackgroundColor() {
-        return 0xffcccccc;
+        return 0xff444444;
     }
 
     @Override
     public int getTypeColor() {
-        return 0xff660066;
+        return 0xff89bdff;
     }
 
     @Override
     public int getKeyWordColor() {
-        return 0xff000088;
+        return 0xffE28964;
     }
 
     @Override
     public int getLiteralColor() {
-        return 0xff006666;
+        return 0xff3387CC;
     }
 
     @Override
     public int getCommentColor() {
-        return 0xff880000;
+        return 0xffAEAEAE;
     }
 
     @Override
     public int getStringColor() {
-        return 0xff008800;
+        return 0xff65B042;
     }
 
     @Override
     public int getPunctuationColor() {
-        return 0xff666600;
+        return 0xffffffff;
     }
 
     @Override
     public int getTagColor() {
-        return 0xff000088;
+        return 0xff89bdff;
     }
 
     @Override
     public int getPlainTextColor() {
-        return 0xff000000;
+        return 0xffffffff;
     }
 
     @Override
     public int getDecimalColor() {
-        return 0xff000000;
+        return 0xff3387CC;
     }
 
     @Override
     public int getAttributeNameColor() {
-        return 0xff660066;
+        return 0xffbdb76b;
     }
 
     @Override
     public int getAttributeValueColor() {
-        return 0xff008800;
+        return 0xff65B042;
     }
 
     @Override
     public int getOpnColor() {
-        return 0xff666600;
+        return getPlainTextColor();
     }
 
     @Override
     public int getCloColor() {
-        return 0xff666600;
+        return getPlainTextColor();
     }
 
     @Override
     public int getVarColor() {
-        return 0xff660066;
+        return getPlainTextColor();
     }
 
     @Override
     public int getFunColor() {
-        return Color.RED;
+        return getPlainTextColor();
     }
 
     @Override
     public int getNocodeColor() {
-        return 0xff000000;
+        return getPlainTextColor();
     }
 }

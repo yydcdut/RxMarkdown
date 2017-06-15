@@ -49,55 +49,55 @@ public interface Theme {
     int getBackgroundColor();
 
     /**
-     * color for typ style
+     * color for type
      *
      * @return color
      */
     @ColorInt
-    int getTypColor();
+    int getTypeColor();
 
     /**
-     * color for kwd style
+     * color for keyword
      *
      * @return color
      */
     @ColorInt
-    int getKwdColor();
+    int getKeyWordColor();
 
     /**
-     * color for lit style
+     * color for literal
      *
      * @return color
      */
     @ColorInt
-    int getLitColor();
+    int getLiteralColor();
 
     /**
-     * color for com style
+     * color for comment
      *
      * @return color
      */
     @ColorInt
-    int getComColor();
+    int getCommentColor();
 
     /**
-     * color for str style
+     * color for string
      *
      * @return color
      */
     @ColorInt
-    int getStrColor();
+    int getStringColor();
 
     /**
-     * color for pun style
+     * color for punctuation
      *
      * @return color
      */
     @ColorInt
-    int getPunColor();
+    int getPunctuationColor();
 
     /**
-     * color for tag style
+     * color for html/xml tag
      *
      * @return color
      */
@@ -105,39 +105,39 @@ public interface Theme {
     int getTagColor();
 
     /**
-     * color for pln style
+     * color for a plain text
      *
      * @return color
      */
     @ColorInt
-    int getPlnColor();
+    int getPlainTextColor();
 
     /**
-     * color for dec style
+     * color for a markup declaration such as a DOCTYPE
      *
      * @return color
      */
     @ColorInt
-    int getDecColor();
+    int getDecimalColor();
 
     /**
-     * color for atn style
+     * color for html/xml attribute name
      *
      * @return color
      */
     @ColorInt
-    int getAtnColor();
+    int getAttributeNameColor();
 
     /**
-     * color for atv style
+     * color for html/xml attribute value
      *
      * @return color
      */
     @ColorInt
-    int getAtvColor();
+    int getAttributeValueColor();
 
     /**
-     * color for opn style
+     * color for opn
      *
      * @return color
      */
@@ -145,7 +145,7 @@ public interface Theme {
     int getOpnColor();
 
     /**
-     * color for clo style
+     * color for clo
      *
      * @return color
      */
@@ -153,7 +153,7 @@ public interface Theme {
     int getCloColor();
 
     /**
-     * color for var style
+     * color for var
      *
      * @return color
      */
@@ -161,7 +161,7 @@ public interface Theme {
     int getVarColor();
 
     /**
-     * color for fun style
+     * color for fun
      *
      * @return color
      */
@@ -169,7 +169,8 @@ public interface Theme {
     int getFunColor();
 
     /**
-     * color for nocode style
+     * A class that indicates a section of markup that is not code, e.g. to allow
+     * embedding of line numbers within code listings.
      *
      * @return color
      */

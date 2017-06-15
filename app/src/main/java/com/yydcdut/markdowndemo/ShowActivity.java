@@ -22,7 +22,7 @@ import com.yydcdut.rxmarkdown.RxMarkdown;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
-import com.yydcdut.rxmarkdown.theme.ThemeDefault;
+import com.yydcdut.rxmarkdown.theme.ThemeSunburst;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -80,8 +80,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setHorizontalRulesHeight(1)
                 .setLinkColor(Color.BLUE)
                 .setLinkUnderline(false)
-                .setCodeHighLight(true)
-                .setTheme(new ThemeDefault())
+                .setTheme(new ThemeSunburst())
                 .setOnLinkClickCallback(new OnLinkClickCallback() {
                     @Override
                     public void onLinkClicked(View view, String link) {

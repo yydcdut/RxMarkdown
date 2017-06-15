@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
@@ -40,14 +41,14 @@ import java.util.List;
  */
 class CodeSyntax extends ListAndCodeSyntaxAdapter {
 
-    private int mColor;
-    private boolean isEnableHighLight;
+    private int mBackgroundColor;
+    private int mTextColor;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
 
     public CodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        mColor = rxMDConfiguration.getTheme().getBackgroundColor();
-        isEnableHighLight = rxMDConfiguration.isCodeHighLight();
+        mBackgroundColor = rxMDConfiguration.getTheme().getBackgroundColor();
         mPrettifyHighLighter = new PrettifyHighLighter(rxMDConfiguration);
+        mTextColor = rxMDConfiguration.getTheme().getPlainTextColor();
     }
 
     @Override
@@ -82,11 +83,18 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
                 if (position == current) {//处理只有换行符
                     ssb.replace(position - 1, position, " ");
                 }
-                ssb.setSpan(new MDCodeSpan(mColor, language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDCodeSpan(mBackgroundColor, language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 current = position + 1;
             }
-            if (!TextUtils.equals("", language) && isEnableHighLight) {
+            if (!TextUtils.equals("", language)) {
                 mPrettifyHighLighter.highLight(language, ssb, start, end);
+            } else {
+                current = start;
+                for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
+                    int position = middleList.get(j);
+                    ssb.setSpan(new ForegroundColorSpan(mTextColor), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    current = position + 1;
+                }
             }
             ssb.delete(end, end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= ssb.length() ? 0 : 1));
             ssb.delete(start, Utils.findNextNewLineChar(ssb, start) + 1);
