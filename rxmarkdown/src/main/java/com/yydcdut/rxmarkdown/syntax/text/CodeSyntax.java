@@ -77,19 +77,22 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
             if (middleList.size() > 0) {
                 language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE, "").replace("\n", "");
             }
-            int current = start;
+            int current = middleList.get(0) + 1;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
                 int position = middleList.get(j);
                 if (position == current) {//处理只有换行符
                     ssb.replace(position - 1, position, " ");
                 }
-                ssb.setSpan(new MDCodeSpan(mBackgroundColor, language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false)), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDCodeSpan(mBackgroundColor,
+                                language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false),
+                                ssb.subSequence(current, position).toString()),
+                        current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 current = position + 1;
             }
             if (!TextUtils.equals("", language)) {
                 mPrettifyHighLighter.highLight(language, ssb, start, end);
             } else {
-                current = start;
+                current = middleList.get(0) + 1;
                 for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
                     int position = middleList.get(j);
                     ssb.setSpan(new ForegroundColorSpan(mTextColor), current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -19,52 +19,39 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Parcel;
-import android.text.Layout;
-import android.text.style.QuoteSpan;
+import android.text.TextUtils;
+import android.text.style.LineBackgroundSpan;
 
 /**
  * code syntax span
- * //todo linebackgroundspan
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-public class MDCodeSpan extends QuoteSpan {
-    private static final int GAP_WIDTH_PLUS = 15;
-
+public class MDCodeSpan implements LineBackgroundSpan {
     private final int mColor;
     private Drawable mDrawable;
+    private String mText;
 
     private String mLanguage;
     private MDCodeSpan mNext;
 
     /**
      * Constructor
-     */
-    public MDCodeSpan() {
-        super();
-        mColor = 0xff0000ff;
-    }
-
-    /**
-     * Constructor
      *
-     * @param color {@link QuoteSpan}
+     * @param color
      */
     public MDCodeSpan(int color) {
-        super(color);
         mColor = color;
     }
 
     /**
      * Constructor
      *
-     * @param color       color {@link QuoteSpan}
+     * @param color       color
      * @param isBeginning whether it's the beginning line of the code
      * @param isEnding    whether it's the ending line of the code
      */
-    public MDCodeSpan(int color, String language, boolean isBeginning, boolean isEnding) {
-        super(color);
+    public MDCodeSpan(int color, String language, boolean isBeginning, boolean isEnding, String text) {
         mColor = color;
         mLanguage = language;
         if (isBeginning || isEnding) {
@@ -78,6 +65,7 @@ public class MDCodeSpan extends QuoteSpan {
                 d.setCornerRadius(10);
             }
             mDrawable = d;
+            mText = text;
         }
     }
 
@@ -108,34 +96,19 @@ public class MDCodeSpan extends QuoteSpan {
         return mNext;
     }
 
-    /**
-     * Constructor
-     *
-     * @param src {@link QuoteSpan}
-     */
-    public MDCodeSpan(Parcel src) {
-        super(src);
-        mColor = src.readInt();
-    }
-
     @Override
-    public int getLeadingMargin(boolean first) {
-        return super.getLeadingMargin(first) + GAP_WIDTH_PLUS;
-    }
-
-    @Override
-    public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
-                                  int top, int baseline, int bottom,
-                                  CharSequence text, int start, int end, boolean first, Layout layout) {
-        if (mDrawable != null) {
-            mDrawable.setBounds(x, top, x + layout.getWidth(), bottom);
+    public void drawBackground(Canvas c, Paint p,
+                               int left, int right, int top, int baseline, int bottom,
+                               CharSequence text, int start, int end, int lnum) {
+        if (mDrawable != null && !TextUtils.isEmpty(mText) && text.subSequence(start, end).toString().startsWith(mText)) {
+            mDrawable.setBounds(left, top, right, bottom);
             mDrawable.draw(c);
         } else {
             Paint.Style style = p.getStyle();
             int color = p.getColor();
             p.setStyle(Paint.Style.FILL);
             p.setColor(mColor);
-            c.drawRect(x, top, x + layout.getWidth(), bottom, p);
+            c.drawRect(left, top, right, bottom, p);
             p.setStyle(style);
             p.setColor(color);
         }
