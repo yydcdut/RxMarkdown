@@ -52,6 +52,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [x] Footnote `[^]`
 - [x] Todo `- [ ] ` / `- [x] `
 - [ ] Table `| Table | Table |`
+- [x] code high light
 
 #### Other Syntax
 
@@ -79,6 +80,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 - [ ] Footnote `[^]`
 - [ ] Todo `- [ ] ` / `- [x] `
 - [ ] Table `| Table | Table |`
+- [ ] code high light
 
 #### Other Syntax
 
