@@ -2,7 +2,7 @@
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](LICENSE.txt) [![API](https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=9)  [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxMarkdown-green.svg?style=true)](https://android-arsenal.com/details/1/3967)
 
-RxMarkdown 是一个运用 RxJava API 在 `android.widget.TextView` 或 `android.widget.EditText` 中编辑和（实时）预览基本 markdown 语法的 Android 库。 
+RxMarkdown 是一个运用 RxJava API 在 `android.widget.TextView` 或 `android.widget.EditText` 中编辑和（实时）预览基本 markdown 语法的 Android 库，同时支持代码高亮。 
 
 注：RxMarkdown 暂时不支持 HTML 标签。
 
@@ -17,7 +17,7 @@ Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.a
 # Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.1.0'
+compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
 ```
 
 ## 支持语法
@@ -50,6 +50,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 - [x] 注脚 `[^]`
 - [x] Todo `- [ ] ` / `- [x]`
 - [ ] 表格 `| 表格 | 表格 |`
+- [x] 代码高亮
 
 #### 其他语法
 
@@ -78,6 +79,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 - [ ] 注脚 `[^]`
 - [ ] Todo `- [ ] ` / `- [x]`
 - [ ] 表格 `| 表格 | 表格 |`
+- [ ] 代码高亮
 
 #### 其他语法
 
@@ -92,7 +94,7 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 ### 引用
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.7'
+compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -205,6 +207,102 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 
 ```markdown
 ![image](http://web.com/image.png/320$320)
+```
+
+#### 代码高亮主题
+
+该库提供了一些代码高亮的主题， `ThemeDefault`, `ThemeDesert`, `ThemeSonsOfObsidian` 和 `ThemeSunburst`。
+
+同时也可以实现 `Theme` 接口来配置自己想要的主题。
+
+```java
+public class CodeHighLightTheme implements Theme {
+
+    @Override
+    public int getBackgroundColor() {//background color
+        return 0xffcccccc;
+    }
+
+    @Override
+    public int getTypeColor() {//color for type
+        return 0xff660066;
+    }
+
+    @Override
+    public int getKeyWordColor() {//color for keyword
+        return 0xff000088;
+    }
+
+    @Override
+    public int getLiteralColor() {//color for literal
+        return 0xff006666;
+    }
+
+    @Override
+    public int getCommentColor() {//color for comment
+        return 0xff880000;
+    }
+
+    @Override
+    public int getStringColor() {//color for string
+        return 0xff008800;
+    }
+
+    @Override
+    public int getPunctuationColor() {//color for punctuation
+        return 0xff666600;
+    }
+
+    @Override
+    public int getTagColor() {//color for html/xml tag
+        return 0xff000088;
+    }
+
+    @Override
+    public int getPlainTextColor() {//color for a plain text
+        return 0xff000000;
+    }
+
+    @Override
+    public int getDecimalColor() {//color for a markup declaration such as a DOCTYPE
+        return 0xff000000;
+    }
+
+    @Override
+    public int getAttributeNameColor() {//color for html/xml attribute name
+        return 0xff660066;
+    }
+
+    @Override
+    public int getAttributeValueColor() {//color for html/xml attribute value
+        return 0xff008800;
+    }
+
+    @Override
+    public int getOpnColor() {//color for opn
+        return 0xff666600;
+    }
+
+    @Override
+    public int getCloColor() {//color for clo
+        return 0xff666600;
+    }
+
+    @Override
+    public int getVarColor() {//color for var
+        return 0xff660066;
+    }
+
+    @Override
+    public int getFunColor() {//color for fun
+        return Color.RED;
+    }
+
+    @Override
+    public int getNocodeColor() {color for nocode
+        return 0xff000000;
+    }
+}
 ```
 
 # License

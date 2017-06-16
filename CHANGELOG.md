@@ -17,3 +17,8 @@
 ### 0.1.0
 * Optimizing OrderList
 * fix #15/#16/#17/#21/#25/
+
+### 0.1.1-beta
+* Add code high light
+* Add code high light theme
+* Refactor code syntax

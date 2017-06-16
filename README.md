@@ -2,7 +2,7 @@
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](LICENSE.txt) [![API](https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=9)  [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxMarkdown-green.svg?style=true)](https://android-arsenal.com/details/1/3967)
 
-RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView` .
+RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView`, at same time, it supports code high light .
 
 It is backed by RxJava, implementing complicated APIs as handy reactive observables.
 
@@ -19,7 +19,7 @@ Change Log : [SEE](./CHANGELOG.md)
 # Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.1.0'
+compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
 ```
 
 ## Support Syntax
@@ -94,7 +94,7 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Setup
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.7'
+compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
 
 compile 'io.reactivex:rxandroid:1.2.0'
 compile 'io.reactivex:rxjava:1.1.5'
@@ -205,6 +205,102 @@ The image of 320 pixels width and 320 pixels height will display on the screen :
 
 ```markdown
 ![image](http://web.com/image.png/320$320)
+```
+
+#### Code HighLight Theme
+
+The lib supports some themes, `ThemeDefault`, `ThemeDesert`, `ThemeSonsOfObsidian` and `ThemeSunburst`.
+
+You can implement the interface `Theme` to realize your own theme.
+
+```java
+public class CodeHighLightTheme implements Theme {
+
+    @Override
+    public int getBackgroundColor() {//background color
+        return 0xffcccccc;
+    }
+
+    @Override
+    public int getTypeColor() {//color for type
+        return 0xff660066;
+    }
+
+    @Override
+    public int getKeyWordColor() {//color for keyword
+        return 0xff000088;
+    }
+
+    @Override
+    public int getLiteralColor() {//color for literal
+        return 0xff006666;
+    }
+
+    @Override
+    public int getCommentColor() {//color for comment
+        return 0xff880000;
+    }
+
+    @Override
+    public int getStringColor() {//color for string
+        return 0xff008800;
+    }
+
+    @Override
+    public int getPunctuationColor() {//color for punctuation
+        return 0xff666600;
+    }
+
+    @Override
+    public int getTagColor() {//color for html/xml tag
+        return 0xff000088;
+    }
+
+    @Override
+    public int getPlainTextColor() {//color for a plain text
+        return 0xff000000;
+    }
+
+    @Override
+    public int getDecimalColor() {//color for a markup declaration such as a DOCTYPE
+        return 0xff000000;
+    }
+
+    @Override
+    public int getAttributeNameColor() {//color for html/xml attribute name
+        return 0xff660066;
+    }
+
+    @Override
+    public int getAttributeValueColor() {//color for html/xml attribute value
+        return 0xff008800;
+    }
+
+    @Override
+    public int getOpnColor() {//color for opn
+        return 0xff666600;
+    }
+
+    @Override
+    public int getCloColor() {//color for clo
+        return 0xff666600;
+    }
+
+    @Override
+    public int getVarColor() {//color for var
+        return 0xff660066;
+    }
+
+    @Override
+    public int getFunColor() {//color for fun
+        return Color.RED;
+    }
+
+    @Override
+    public int getNocodeColor() {color for nocode
+        return 0xff000000;
+    }
+}
 ```
 
 # License
