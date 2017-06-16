@@ -20,7 +20,7 @@ import java.util.List;
  * Lang class for Java Prettify.
  * Note that the method {@link #getFileExtensions()} should be overridden.
  *
- * @author Chan Wai Shing <cws1989@gmail.com>
+ * @author Chan Wai Shing cws1989@gmail.com
  */
 public abstract class Lang {
 

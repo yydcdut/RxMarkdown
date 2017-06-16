@@ -30,7 +30,7 @@ import java.util.List;
  * Information includes where the content located in the document (offset and
  * length) and what style(s) should be applied on that segment of content.
  *
- * @author Chan Wai Shing <cws1989@gmail.com>
+ * @author Chan Wai Shing cws1989@gmail.com
  */
 public class ParseResult {
 
@@ -99,7 +99,7 @@ public class ParseResult {
 
     /**
      * Get the style keys represented by one string key, see
-     * {@link //Theme#getStylesAttributeSet(String)}.
+     * Theme#getStylesAttributeSet(String).
      *
      * @return the style keys of the content
      */
@@ -151,7 +151,7 @@ public class ParseResult {
     }
 
     /**
-     * The style keys for this matched result, see {@link //syntaxhighlighter.theme}.
+     * The style keys for this matched result, see syntaxhighlighter.theme.
      *
      * @return the style keys
      */

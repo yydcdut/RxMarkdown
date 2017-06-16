@@ -38,7 +38,7 @@ public class MDCodeSpan implements LineBackgroundSpan {
     /**
      * Constructor
      *
-     * @param color
+     * @param color the color
      */
     public MDCodeSpan(int color) {
         mColor = color;
@@ -50,6 +50,8 @@ public class MDCodeSpan implements LineBackgroundSpan {
      * @param color       color
      * @param isBeginning whether it's the beginning line of the code
      * @param isEnding    whether it's the ending line of the code
+     * @param language    language
+     * @param text        the begin or end line content
      */
     public MDCodeSpan(int color, String language, boolean isBeginning, boolean isEnding, String text) {
         mColor = color;

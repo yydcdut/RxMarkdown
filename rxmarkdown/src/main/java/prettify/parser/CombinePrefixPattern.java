@@ -13,6 +13,8 @@
 // limitations under the License.
 package prettify.parser;
 
+import android.annotation.SuppressLint;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,6 +49,7 @@ public class CombinePrefixPattern {
      * @param regexs non multiline, non-global regexs.
      * @return Pattern a global regex.
      */
+    @SuppressLint("WrongConstant")
     public Pattern combinePrefixPattern(List<Pattern> regexs) throws Exception {
         boolean ignoreCase = false;
 
@@ -112,6 +115,7 @@ public class CombinePrefixPattern {
                 ? "\\" + ch : ch;
     }
 
+    @SuppressLint("WrongConstant")
     protected static String caseFoldCharset(String charSet) {
         String[] charsetParts = Util.match(Pattern.compile("\\\\u[0-9A-Fa-f]{4}"
                 + "|\\\\x[0-9A-Fa-f]{2}"

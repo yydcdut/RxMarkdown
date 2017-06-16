@@ -22,16 +22,16 @@ import prettify.parser.Prettify;
 
 /**
  * This is similar to the lang-r.js in JavaScript Prettify.
- * <p/>
+ * <p>
  * To use, include prettify.js and this file in your HTML page.
  * Then put your code in an HTML tag like
  * <pre class="prettyprint lang-r"> code </pre>
- * <p/>
+ * <p>
  * Language definition from
  * http://cran.r-project.org/doc/manuals/R-lang.html.
  * Many of the regexes are shared  with the pygments SLexer,
  * http://pygments.org/.
- * <p/>
+ * <p>
  * Original: https://raw.github.com/jrnold/prettify-lang-r-bugs/master/lang-r.js
  *
  * @author jeffrey.arnold@gmail.com

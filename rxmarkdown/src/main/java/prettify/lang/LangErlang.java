@@ -22,11 +22,11 @@ import prettify.parser.Prettify;
 
 /**
  * This is similar to the lang-erlang.js in JavaScript Prettify.
- * <p/>
+ * <p>
  * All comments are adapted from the JavaScript Prettify.
- * <p/>
- * <p/>
- * <p/>
+ * <p>
+ * <p>
+ * <p>
  * Derived from https://raw.github.com/erlang/otp/dev/lib/compiler/src/core_parse.yrl
  * Modified from Mike Samuel's Haskell plugin for google-code-prettify
  *

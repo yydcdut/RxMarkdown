@@ -35,17 +35,17 @@ import prettify.parser.Prettify;
  * strings, keywords, literals, etc. by design.
  * From a discussion with the Go designers:
  * <pre>
- * On Thursday, July 22, 2010, Mike Samuel <...> wrote:
- * > On Thu, Jul 22, 2010, Rob 'Commander' Pike <...> wrote:
- * >> Personally, I would vote for the subdued style godoc presents at http://golang.org
- * >>
- * >> Not as fancy as some like, but a case can be made it's the official style.
- * >> If people want more colors, I wouldn't fight too hard, in the interest of
- * >> encouragement through familiarity, but even then I would ask to shy away
- * >> from technicolor starbursts.
- * >
- * > Like http://golang.org/pkg/go/scanner/ where comments are blue and all
- * > other content is black?  I can do that.
+ * On Thursday, July 22, 2010, Mike Samuel ... wrote:
+ *  On Thu, Jul 22, 2010, Rob 'Commander' Pike ... wrote:
+ *  Personally, I would vote for the subdued style godoc presents at http://golang.org
+ *
+ *  Not as fancy as some like, but a case can be made it's the official style.
+ *  If people want more colors, I wouldn't fight too hard, in the interest of
+ *  encouragement through familiarity, but even then I would ask to shy away
+ *  from technicolor starbursts.
+ *
+ *  Like http://golang.org/pkg/go/scanner/ where comments are blue and all
+ *  other content is black?  I can do that.
  * </pre>
  *
  * @author mikesamuel@gmail.com

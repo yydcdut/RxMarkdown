@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * Common Utilities.
  * Some of the functions are port from JavaScript.
  *
- * @author Chan Wai Shing <cws1989@gmail.com>
+ * @author Chan Wai Shing cws1989@gmail.com
  */
 public class Util {
 

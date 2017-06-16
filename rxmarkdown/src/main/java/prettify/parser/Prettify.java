@@ -429,7 +429,7 @@ public class Prettify {
          * returns a decoration list of the form
          * [index_0, style_0, index_1, style_1, ..., index_n, style_n]
          * where index_n is an index into the sourceCode, and style_n is a style
-         * constant like PR_PLAIN.  index_n-1 <= index_n, and style_n-1 applies to
+         * constant like PR_PLAIN.  index_n-1 &lt;= index_n, and style_n-1 applies to
          * all characters in sourceCode[index_n-1:index_n].
          * <p>
          * The stylePatterns is a list whose elements have the form
@@ -444,13 +444,13 @@ public class Prettify {
          * The text before and after group 1 will be restyled using this decorator
          * so decorators should take care that this doesn't result in infinite
          * recursion.  For example, the HTML lexer rule for SCRIPT elements looks
-         * something like ['lang-js', /<[s]cript>(.+?)<\/script>/].  This may match
-         * '<script>foo()<\/script>', which would cause the current decorator to
-         * be called with '<script>' which would not match the same rule since
+         * something like ['lang-js', /&lt;[s]cript&gt;(.+?)&lt;\/script&gt;/].  This may match
+         * '&lt;script&gt;foo()&lt;\/script&gt;', which would cause the current decorator to
+         * be called with '&lt;script&gt;' which would not match the same rule since
          * group 1 must not be empty, so it would be instead styled as PR_TAG by
          * the generic tag rule.  The handler registered for the 'js' extension would
          * then be called with 'foo()', and finally, the current decorator would
-         * be called with '<\/script>' which would not match the original rule and
+         * be called with '&lt;\/script&gt;' which would not match the original rule and
          * so the generic tag rule would identify it as a tag.
          * <p>
          * Pattern must only match prefixes, and if it matches a prefix, then that

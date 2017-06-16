@@ -22,9 +22,9 @@ import prettify.parser.Prettify;
 
 /**
  * This is similar to the lang-rd.js in JavaScript Prettify.
- * <p/>
+ * <p>
  * Support for R documentation (Rd) files
- * <p/>
+ * <p>
  * Minimal highlighting or Rd files, basically just highlighting
  * macros. It does not try to identify verbatim or R-like regions of
  * macros as that is too complicated for a lexer.  Descriptions of the

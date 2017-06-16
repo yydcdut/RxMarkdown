@@ -22,20 +22,20 @@ import prettify.parser.Prettify;
 
 /**
  * This is similar to the lang-mumps.js in JavaScript Prettify.
- * <p/>
+ * <p>
  * All comments are adapted from the JavaScript Prettify.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * To use, include prettify.js and this file in your HTML page.
  * Then put your code in an HTML tag like
  * <pre class="prettyprint lang-mumps">(my SQL code)</pre>
- * <p/>
+ * <p>
  * Commands, intrinsic functions and variables taken from ISO/IEC 11756:1999(E)
  *
  * @author chris.harris@kitware.com
- *         <p/>
+ *         <p>
  *         Known issues:
- *         <p/>
+ *         <p>
  *         - Currently can't distinguish between keywords and local or global variables having the same name
  *         for exampe SET IF="IF?"
  *         - m file are already used for MatLab hence using mumps.

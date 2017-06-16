@@ -22,13 +22,13 @@ import prettify.parser.Prettify;
 
 /**
  * This is similar to the lang-appollo.js in JavaScript Prettify.
- * <p/>
+ * <p>
  * All comments are adapted from the JavaScript Prettify.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * Registers a language handler for the AGC/AEA Assembly Language as described
  * at http://virtualagc.googlecode.com
- * <p/>
+ * <p>
  * This file could be used by goodle code to allow syntax highlight for
  * Virtual AGC SVN repository or if you don't want to commonize
  * the header for the agc/aea html assembly listing.

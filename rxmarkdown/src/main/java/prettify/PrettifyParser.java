@@ -12,7 +12,7 @@ import syntaxhighlight.Parser;
 /**
  * The prettify parser for syntax highlight.
  *
- * @author Chan Wai Shing <cws1989@gmail.com>
+ * @author Chan Wai Shing cws1989@gmail.com
  */
 public class PrettifyParser implements Parser {
 

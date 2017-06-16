@@ -36,8 +36,8 @@ import prettify.parser.Prettify;
  * To use, include prettify.js and this file in your HTML page. Then put your
  * code inside an HTML tag like <pre class="prettyprint lang-matlab">
  * </pre>
- *
- * @see https://github.com/amroamroamro/prettify-matlab
+ * <p>
+ * https://github.com/amroamroamro/prettify-matlab
  */
 public class LangMatlab extends Lang {
 

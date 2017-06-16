@@ -43,6 +43,7 @@ public class MDUnOrderListSpan extends BulletSpan {
      * @param gapWidth {@link MDUnOrderListSpan}
      * @param color    {@link MDUnOrderListSpan}
      * @param nested   the nested number
+     * @param type     {@link #TYPE_KEY_0},{@link #TYPE_KEY_1},{@link #TYPE_KEY_2}
      */
     public MDUnOrderListSpan(int gapWidth, int color, int nested, int type) {
         super(gapWidth, color);

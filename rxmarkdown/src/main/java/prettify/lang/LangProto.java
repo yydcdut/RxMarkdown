@@ -14,7 +14,7 @@
 package prettify.lang;
 
 /**
- * It is included directly in the {@link prettify.Prettify}.
+ * It is included directly in the prettify.Prettify.
  */
 public class LangProto {
 }
