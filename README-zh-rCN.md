@@ -213,6 +213,10 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
 
 该库提供了一些代码高亮的主题， `ThemeDefault`, `ThemeDesert`, `ThemeSonsOfObsidian` 和 `ThemeSunburst`。
 
+|               ThemeDefault               |              ThemeDesert               |           ThemeSonsOfObsidian            |              ThemeSunburst               |
+| :--------------------------------------: | :------------------------------------: | :--------------------------------------: | :--------------------------------------: |
+| ![ThemeDefault](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/ThemeDefault.png) | ![ThemeDesert](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/ThemeDesert.png) | ![ThemeSonsOfObsidian](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/ThemeSonsOfObsidian.png) | ![ThemeSunburst](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/ThemeSunburst.png) |
+
 同时也可以实现 `Theme` 接口来配置自己想要的主题。
 
 ```java
