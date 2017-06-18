@@ -66,6 +66,7 @@ public class RxMDConfiguration {
     private boolean isLinkUnderline;
     private boolean isAppendNewlineAfterLastLine;
     private RxMDImageLoader rxMDImageLoader;
+    private boolean autoFitImage;
     private OnLinkClickCallback onLinkClickCallback;
 
 
@@ -108,7 +109,7 @@ public class RxMDConfiguration {
                               int inlineCodeBgColor, int codeBgColor, Theme theme,
                               int todoColor, int todoDoneColor, int unOrderListColor,
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
-                              RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
+                              RxMDImageLoader rxMDImageLoader, boolean autoFitImage, OnLinkClickCallback onLinkClickCallback,
                               boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
@@ -131,6 +132,7 @@ public class RxMDConfiguration {
         this.linkColor = linkColor;
         this.isLinkUnderline = isLinkUnderline;
         this.rxMDImageLoader = rxMDImageLoader;
+        this.autoFitImage = autoFitImage;
         this.onLinkClickCallback = onLinkClickCallback;
         this.isDebug = isDebug;
         this.isAppendNewlineAfterLastLine = isAppendNewlineAfterLastLine;
@@ -328,6 +330,19 @@ public class RxMDConfiguration {
     }
 
     /**
+     * whether auto fit image
+     *
+     * @return whether auto fit image
+     */
+    public boolean isAutoFitImage() {
+        return autoFitImage;
+    }
+
+    public void setAutoFitImage(boolean autoFitImage) {
+        this.autoFitImage = autoFitImage;
+    }
+
+    /**
      * get link click callback
      *
      * @return {@link OnLinkClickCallback}
@@ -415,6 +430,8 @@ public class RxMDConfiguration {
 
         private RxMDImageLoader rxMDImageLoader;
 
+        private boolean autoFitImage;
+
         private OnLinkClickCallback mOnLinkClickCallback;
 
         private boolean isDebug = true;
@@ -451,6 +468,7 @@ public class RxMDConfiguration {
             linkColor = Color.RED;
             isLinkUnderline = true;
             rxMDImageLoader = new DefaultLoader(context);
+            autoFitImage = false;
             mOnLinkClickCallback = null;
             isAppendNewlineAfterLastLine = true;
         }
@@ -690,6 +708,17 @@ public class RxMDConfiguration {
         }
 
         /**
+         * whether image auto fit RxMDTextView
+         *
+         * @param autoFitImage bool
+         * @return self
+         */
+        public Builder setAutoFitImage(boolean autoFitImage) {
+            this.autoFitImage = autoFitImage;
+            return this;
+        }
+
+        /**
          * set link click callback
          *
          * @param onLinkClickCallback OnLinkClickCallback, the callback
@@ -752,7 +781,7 @@ public class RxMDConfiguration {
                     inlineCodeBgColor, codeBgColor, mTheme,
                     todoColor, todoDoneColor, unOrderListColor,
                     blockQuoteBgColor, linkColor, isLinkUnderline,
-                    rxMDImageLoader, mOnLinkClickCallback,
+                    rxMDImageLoader, autoFitImage, mOnLinkClickCallback,
                     isDebug, isAppendNewlineAfterLastLine, colorFetcher);
         }
 
