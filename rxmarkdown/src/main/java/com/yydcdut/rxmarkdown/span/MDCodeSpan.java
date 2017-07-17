@@ -102,7 +102,7 @@ public class MDCodeSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p,
                                int left, int right, int top, int baseline, int bottom,
                                CharSequence text, int start, int end, int lnum) {
-        if (mDrawable != null && !TextUtils.isEmpty(mText) && mText.startsWith(text.subSequence(start, end).toString())) {
+        if (mDrawable != null && !TextUtils.isEmpty(mText) && (mText.startsWith(text.subSequence(start, end).toString()) || text.subSequence(start, end).toString().startsWith(mText))) {
             mDrawable.setBounds(left, top, right, bottom);
             mDrawable.draw(c);
         } else {
