@@ -79,6 +79,8 @@ public class MDTodoSpan extends QuoteSpan {
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeWidth(height * 1 / 10 > 2 ? height * 1 / 9 : 2f);
         p.setColor(mColor);
+        p.setStrokeJoin(Paint.Join.ROUND);
+        p.setStrokeCap(Paint.Cap.ROUND);
 
         RectF rectF = new RectF(x + height * 1 / 9, top + height * 1 / 9, x + height * 8 / 9, bottom - height * 1 / 9);
         c.drawRoundRect(rectF, height * 2 / 9, height * 2 / 9, p);

@@ -47,6 +47,8 @@ public class MDTodoDoneSpan extends MDTodoSpan {
         p.setStyle(Paint.Style.FILL);
         p.setStrokeWidth((int) (height * 1 / 10 > 2 ? height * 1 / 9 : 2f));
         p.setColor(mColor);
+        p.setStrokeJoin(Paint.Join.ROUND);
+        p.setStrokeCap(Paint.Cap.ROUND);
 
         float boxInsideLength = height * 7 / 9 - (height * 1 / 10 > 2 ? height * 1 / 9 : 2f) * 2;
         float boxBoard = height * 1 / 10 > 2 ? height * 1 / 9 : 2f;
