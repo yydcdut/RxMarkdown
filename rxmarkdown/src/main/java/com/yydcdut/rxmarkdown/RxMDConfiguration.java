@@ -590,10 +590,10 @@ public class RxMDConfiguration {
 
         /**
          * set code background color
-         * {@link #setTheme(Theme)}
          *
          * @param codeBgColor the color
          * @return self
+         * @deprecated use {@link #setTheme(Theme)} instead
          */
         @Deprecated
         public Builder setCodeBgColor(@ColorInt int codeBgColor) {
