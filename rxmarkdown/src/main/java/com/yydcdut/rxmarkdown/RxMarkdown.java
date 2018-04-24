@@ -17,14 +17,12 @@ package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * RxMarkdown for TextView:
@@ -119,32 +117,22 @@ public class RxMarkdown {
     public Observable<CharSequence> intoObservable() {
         if (mContent != null) {
             return Observable.just(mContent)
-                    .map(new Func1<String, CharSequence>() {
-                        @Override
-                        public CharSequence call(String s) {
-                            if (mSyntaxFactory != null) {
-                                RxMDConfiguration config = getRxMDConfiguration();
-                                long time = System.currentTimeMillis();
-                                CharSequence charSequence = mSyntaxFactory.parse(s, config);
-                                if (config.isDebug()) {
-                                    Log.i(TAG, "spend time --->" + (System.currentTimeMillis() - time));
-                                }
-                                return charSequence;
-                            }
-                            return s;
+                    .map(s -> {
+                        if (mSyntaxFactory != null) {
+                            RxMDConfiguration config = getRxMDConfiguration();
+                            CharSequence charSequence = mSyntaxFactory.parse(s, config);
+                            return charSequence;
                         }
+                        return s;
                     });
         } else {
             return Observable.just(mRxMDEditText)
-                    .map(new Func1<RxMDEditText, CharSequence>() {
-                        @Override
-                        public CharSequence call(RxMDEditText rxMDEditText) {
-                            if (mSyntaxFactory == null) {
-                                return rxMDEditText.getText();
-                            }
-                            rxMDEditText.setFactoryAndConfig(mSyntaxFactory, getRxMDConfiguration());
+                    .map(rxMDEditText -> {
+                        if (mSyntaxFactory == null) {
                             return rxMDEditText.getText();
                         }
+                        rxMDEditText.setFactoryAndConfig(mSyntaxFactory, getRxMDConfiguration());
+                        return rxMDEditText.getText();
                     });
         }
     }

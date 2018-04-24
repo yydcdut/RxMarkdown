@@ -42,8 +42,8 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     public HyperLinkSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getLinkColor();
-        isUnderLine = rxMDConfiguration.isLinkUnderline();
+        mColor = rxMDConfiguration.getLinkFontColor();
+        isUnderLine = rxMDConfiguration.isShowLinkUnderline();
         mOnLinkClickCallback = rxMDConfiguration.getOnLinkClickCallback();
     }
 

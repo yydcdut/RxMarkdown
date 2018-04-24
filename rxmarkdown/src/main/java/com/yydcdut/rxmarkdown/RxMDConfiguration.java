@@ -16,16 +16,23 @@
 package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
-import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
-import com.yydcdut.rxmarkdown.loader.DefaultLoader;
+import com.yydcdut.rxmarkdown.config.BlockQuote;
+import com.yydcdut.rxmarkdown.config.Code;
+import com.yydcdut.rxmarkdown.config.Header;
+import com.yydcdut.rxmarkdown.config.HorizontalRule;
+import com.yydcdut.rxmarkdown.config.Image;
+import com.yydcdut.rxmarkdown.config.Link;
+import com.yydcdut.rxmarkdown.config.Todo;
+import com.yydcdut.rxmarkdown.config.UnOrderList;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.theme.Theme;
 import com.yydcdut.rxmarkdown.theme.ThemeDefault;
+
+import java.util.List;
 
 /**
  * The display configuration of RxMarkdown
@@ -33,128 +40,40 @@ import com.yydcdut.rxmarkdown.theme.ThemeDefault;
  * Created by yuyidong on 16/6/22.
  */
 public class RxMDConfiguration {
-    private final int[] defaultImageSize;
-    @ColorInt
-    private final int blockQuotesColor;
-    private final float header1RelativeSize;
-    private final float header2RelativeSize;
-    private final float header3RelativeSize;
-    private final float header4RelativeSize;
-    private final float header5RelativeSize;
-    private final float header6RelativeSize;
-    private final float blockQuoteRelativeSize;
-    @ColorInt
-    private final int horizontalRulesColor;
-    private int horizontalRulesHeight;
-    @ColorInt
-    private final int inlineCodeBgColor;
-    @ColorInt
-    @Deprecated
-    private final int codeBgColor;
+    private final Header header;
+    private final BlockQuote blockQuote;
+    private final HorizontalRule horizontalRule;
+    private final Code code;
     private final Theme theme;
-    @ColorInt
-    private final int todoColor;
-    @ColorInt
-    private final int todoDoneColor;
-    @ColorInt
-    private final int blockQuoteBgColor;
-    private final BlockquoteBackgroundNestedColorFetcher colorFetcher;
-    @ColorInt
-    private int unOrderListColor;
-    @ColorInt
-    private int linkColor;
-    private boolean isLinkUnderline;
-    private boolean isAppendNewlineAfterLastLine;
-    private RxMDImageLoader rxMDImageLoader;
-    private boolean autoFitImage;
-    private OnLinkClickCallback onLinkClickCallback;
-
-
-    private boolean isDebug = true;
+    private final Todo todo;
+    private final UnOrderList unOrderList;
+    private final Link link;
+    private final Image image;
 
     /**
      * Constructor
      *
-     * @param defaultImageSize             default image size
-     * @param blockQuotesColor             block quotes color
-     * @param header1RelativeSize          header1 relative size
-     * @param header2RelativeSize          header2 relative size
-     * @param header3RelativeSize          header3 relative size
-     * @param header4RelativeSize          header4 relative size
-     * @param header5RelativeSize          header5 relative size
-     * @param header6RelativeSize          header6 relative size
-     * @param blockQuoteRelativeSize       blockQuote relative size
-     * @param horizontalRulesColor         horizontal rules color
-     * @param horizontalRulesHeight        horizontal rules height
-     * @param inlineCodeBgColor            inline code bg color
-     * @param codeBgColor                  code bg color
-     * @param theme                        theme
-     * @param todoColor                    to do color
-     * @param todoDoneColor                to do done color
-     * @param unOrderListColor             unorder list color
-     * @param blockQuoteBgColor            blockQuote background color
-     * @param linkColor                    link color
-     * @param isLinkUnderline              link underline
-     * @param rxMDImageLoader              loader
-     * @param onLinkClickCallback          lick click callback
-     * @param isDebug                      debug
-     * @param isAppendNewlineAfterLastLine add newline after last line
-     * @param colorFetcher                 the nested blockQuote color callback
+     * @param header         Header size style
+     * @param blockQuote     block quote style
+     * @param horizontalRule horizontal rule style
+     * @param code           code style
+     * @param theme          code block theme
+     * @param \t\o\d\o       \t\o\d\o and done style
+     * @param unOrderList    unorder list style
+     * @param link           link style
+     * @param image          image style
      */
-    private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
-                              float header1RelativeSize, float header2RelativeSize,
-                              float header3RelativeSize, float header4RelativeSize,
-                              float header5RelativeSize, float header6RelativeSize,
-                              float blockQuoteRelativeSize, int horizontalRulesColor, int horizontalRulesHeight,
-                              int inlineCodeBgColor, int codeBgColor, Theme theme,
-                              int todoColor, int todoDoneColor, int unOrderListColor,
-                              int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
-                              RxMDImageLoader rxMDImageLoader, boolean autoFitImage, OnLinkClickCallback onLinkClickCallback,
-                              boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
-        this.defaultImageSize = defaultImageSize;
-        this.blockQuotesColor = blockQuotesColor;
-        this.header1RelativeSize = header1RelativeSize;
-        this.header2RelativeSize = header2RelativeSize;
-        this.header3RelativeSize = header3RelativeSize;
-        this.header4RelativeSize = header4RelativeSize;
-        this.header5RelativeSize = header5RelativeSize;
-        this.header6RelativeSize = header6RelativeSize;
-        this.blockQuoteRelativeSize = blockQuoteRelativeSize;
-        this.horizontalRulesColor = horizontalRulesColor;
-        this.horizontalRulesHeight = horizontalRulesHeight;
-        this.inlineCodeBgColor = inlineCodeBgColor;
-        this.codeBgColor = codeBgColor;
+    private RxMDConfiguration(Header header, BlockQuote blockQuote, HorizontalRule horizontalRule,
+                              Code code, Theme theme, Todo todo, UnOrderList unOrderList, Link link, Image image) {
+        this.header = header;
+        this.blockQuote = blockQuote;
+        this.horizontalRule = horizontalRule;
+        this.code = code;
         this.theme = theme;
-        this.todoColor = todoColor;
-        this.todoDoneColor = todoDoneColor;
-        this.unOrderListColor = unOrderListColor;
-        this.blockQuoteBgColor = blockQuoteBgColor;
-        this.linkColor = linkColor;
-        this.isLinkUnderline = isLinkUnderline;
-        this.rxMDImageLoader = rxMDImageLoader;
-        this.autoFitImage = autoFitImage;
-        this.onLinkClickCallback = onLinkClickCallback;
-        this.isDebug = isDebug;
-        this.isAppendNewlineAfterLastLine = isAppendNewlineAfterLastLine;
-        this.colorFetcher = colorFetcher;
-    }
-
-    /**
-     * get image default size
-     *
-     * @return the array size is 2, [width, height]
-     */
-    public final int[] getDefaultImageSize() {
-        return defaultImageSize;
-    }
-
-    /**
-     * get block quote color
-     *
-     * @return the color
-     */
-    public final int getBlockQuotesColor() {
-        return blockQuotesColor;
+        this.todo = todo;
+        this.unOrderList = unOrderList;
+        this.link = link;
+        this.image = image;
     }
 
     /**
@@ -163,7 +82,7 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader1RelativeSize() {
-        return header1RelativeSize;
+        return header.h1;
     }
 
     /**
@@ -172,7 +91,7 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader2RelativeSize() {
-        return header2RelativeSize;
+        return header.h2;
     }
 
     /**
@@ -181,7 +100,7 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader3RelativeSize() {
-        return header3RelativeSize;
+        return header.h3;
     }
 
     /**
@@ -190,7 +109,7 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader4RelativeSize() {
-        return header4RelativeSize;
+        return header.h4;
     }
 
     /**
@@ -199,7 +118,7 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader5RelativeSize() {
-        return header5RelativeSize;
+        return header.h5;
     }
 
     /**
@@ -208,16 +127,34 @@ public class RxMDConfiguration {
      * @return the size relative to current text
      */
     public final float getHeader6RelativeSize() {
-        return header6RelativeSize;
+        return header.h6;
     }
 
     /**
-     * get blockquote relative size
+     * get block quote line color
+     *
+     * @return the color
+     */
+    public final int getBlockQuotesLineColor() {
+        return blockQuote.lineColor;
+    }
+
+    /**
+     * get block quote relative size
      *
      * @return the size relative to current text
      */
     public final float getBlockQuoteRelativeSize() {
-        return blockQuoteRelativeSize;
+        return blockQuote.size;
+    }
+
+    /**
+     * get block quote background color
+     *
+     * @return the color list (including nest background color)
+     */
+    public final List<Integer> getBlockQuoteBgColor() {
+        return blockQuote.bgColorList;
     }
 
     /**
@@ -226,7 +163,7 @@ public class RxMDConfiguration {
      * @return the color
      */
     public final int getHorizontalRulesColor() {
-        return horizontalRulesColor;
+        return horizontalRule.color;
     }
 
     /**
@@ -235,30 +172,29 @@ public class RxMDConfiguration {
      * @return the height of horizontal rules
      */
     public int getHorizontalRulesHeight() {
-        return horizontalRulesHeight;
+        return horizontalRule.height;
     }
 
     /**
-     * get inline code background color
+     * get code font color
      *
-     * @return the color
+     * @return the font color
      */
-    public final int getInlineCodeBgColor() {
-        return inlineCodeBgColor;
+    public final int getCodeFontColor() {
+        return code.color;
     }
 
     /**
      * get code background color
      *
-     * @return the color
+     * @return the background color
      */
-    @Deprecated
     public final int getCodeBgColor() {
-        return codeBgColor;
+        return code.bgColor;
     }
 
     /**
-     * get code theme
+     * get code block theme
      *
      * @return the theme
      */
@@ -272,7 +208,7 @@ public class RxMDConfiguration {
      * @return the color
      */
     public final int getTodoColor() {
-        return todoColor;
+        return todo.todoColor;
     }
 
     /**
@@ -281,65 +217,34 @@ public class RxMDConfiguration {
      * @return the color
      */
     public final int getTodoDoneColor() {
-        return todoDoneColor;
+        return todo.doneColor;
     }
 
     /**
-     * get unorder list color
+     * get unorder list point color
      *
      * @return the color
      */
     public final int getUnOrderListColor() {
-        return unOrderListColor;
+        return unOrderList.color;
     }
 
     /**
-     * get blockquote background color
+     * get link font color
      *
      * @return the color
      */
-    public final int getBlockQuoteBgColor() {
-        return blockQuoteBgColor;
+    public int getLinkFontColor() {
+        return link.color;
     }
 
     /**
-     * get link color
+     * whether show link underline
      *
-     * @return the color
+     * @return whether show link underline
      */
-    public int getLinkColor() {
-        return linkColor;
-    }
-
-    /**
-     * whether link underline
-     *
-     * @return whether link underline
-     */
-    public boolean isLinkUnderline() {
-        return isLinkUnderline;
-    }
-
-    /**
-     * get loader
-     *
-     * @return {@link RxMDImageLoader}
-     */
-    public RxMDImageLoader getRxMDImageLoader() {
-        return rxMDImageLoader;
-    }
-
-    /**
-     * whether auto fit image
-     *
-     * @return whether auto fit image
-     */
-    public boolean isAutoFitImage() {
-        return autoFitImage;
-    }
-
-    public void setAutoFitImage(boolean autoFitImage) {
-        this.autoFitImage = autoFitImage;
+    public boolean isShowLinkUnderline() {
+        return link.underline;
     }
 
     /**
@@ -348,36 +253,25 @@ public class RxMDConfiguration {
      * @return {@link OnLinkClickCallback}
      */
     public OnLinkClickCallback getOnLinkClickCallback() {
-        return onLinkClickCallback;
+        return link.callback;
     }
 
     /**
-     * whether is debug or not
+     * get loader
      *
-     * @return TRUE:debug
+     * @return {@link RxMDImageLoader}
      */
-    public boolean isDebug() {
-        return isDebug;
-    }
-
-
-    /**
-     * whether to append a newline character to the last line of the parsed text
-     *
-     * @return <code>true</code> if newline should be appended
-     */
-    public boolean isAppendNewlineAfterLastLine() {
-        return isAppendNewlineAfterLastLine;
+    public RxMDImageLoader getRxMDImageLoader() {
+        return image.loader;
     }
 
     /**
-     * Get the color fetcher for background colors for nested blockquote levels.
-     * If not set, the standard background color will be used.
+     * get image default size
      *
-     * @return the fetcher
+     * @return the array size is 2, [width, height]
      */
-    public BlockquoteBackgroundNestedColorFetcher getBlockQuoteBackgroundNestedColorFetcher() {
-        return colorFetcher;
+    public final int[] getDefaultImageSize() {
+        return image.defaultSize;
     }
 
     /**
@@ -385,61 +279,15 @@ public class RxMDConfiguration {
      */
     public static class Builder {
 
-        private int[] defaultImageSize;
-
-        @ColorInt
-        private int blockQuotesColor;
-
-        private float header1RelativeSize;
-        private float header2RelativeSize;
-        private float header3RelativeSize;
-        private float header4RelativeSize;
-        private float header5RelativeSize;
-        private float header6RelativeSize;
-
-        private float blockQuoteRelativeSize;
-
-        @ColorInt
-        private int horizontalRulesColor;
-        private int horizontalRulesHeight;
-
-        @ColorInt
-        private int inlineCodeBgColor;
-
-        @ColorInt
-        @Deprecated
-        private int codeBgColor;
-
-        private Theme mTheme;
-
-        @ColorInt
-        private int todoColor;
-
-        @ColorInt
-        private int todoDoneColor;
-
-        @ColorInt
-        private int unOrderListColor;
-
-        @ColorInt
-        private int blockQuoteBgColor;
-
-        @ColorInt
-        private int linkColor;
-        private boolean isLinkUnderline;
-
-        private RxMDImageLoader rxMDImageLoader;
-
-        private boolean autoFitImage;
-
-        private OnLinkClickCallback mOnLinkClickCallback;
-
-        private boolean isDebug = true;
-
-        private boolean isAppendNewlineAfterLastLine;
-
-        private BlockquoteBackgroundNestedColorFetcher colorFetcher = null;
-
+        private Header header;
+        private BlockQuote blockQuote;
+        private HorizontalRule horizontalRule;
+        private Code code;
+        private Theme theme;
+        private Todo todo;
+        private UnOrderList unOrderList;
+        private Link link;
+        private Image image;
 
         /**
          * Constructor
@@ -447,53 +295,15 @@ public class RxMDConfiguration {
          * @param context Context
          */
         public Builder(@NonNull Context context) {
-            defaultImageSize = new int[]{100, 100};
-            blockQuotesColor = Color.LTGRAY;
-            header1RelativeSize = 1.6f;
-            header2RelativeSize = 1.5f;
-            header3RelativeSize = 1.4f;
-            header4RelativeSize = 1.3f;
-            header5RelativeSize = 1.2f;
-            header6RelativeSize = 1.1f;
-            blockQuoteRelativeSize = 1f;
-            horizontalRulesColor = Color.LTGRAY;
-            horizontalRulesHeight = -1;
-            inlineCodeBgColor = Color.LTGRAY;
-            codeBgColor = Color.LTGRAY;
-            mTheme = new ThemeDefault();
-            todoColor = Color.DKGRAY;
-            todoDoneColor = Color.DKGRAY;
-            unOrderListColor = Color.BLACK;
-            blockQuoteBgColor = Color.TRANSPARENT;
-            linkColor = Color.RED;
-            isLinkUnderline = true;
-            rxMDImageLoader = new DefaultLoader(context);
-            autoFitImage = false;
-            mOnLinkClickCallback = null;
-            isAppendNewlineAfterLastLine = true;
-        }
-
-        /**
-         * set image default size
-         *
-         * @param width  the default width to display
-         * @param height the default height to display
-         * @return self
-         */
-        public Builder setDefaultImageSize(int width, int height) {
-            defaultImageSize = new int[]{width, height};
-            return this;
-        }
-
-        /**
-         * set block quote color
-         *
-         * @param blockQuotesColor the color
-         * @return self
-         */
-        public Builder setBlockQuotesColor(@ColorInt int blockQuotesColor) {
-            this.blockQuotesColor = blockQuotesColor;
-            return this;
+            header = new Header();
+            blockQuote = new BlockQuote();
+            horizontalRule = new HorizontalRule();
+            code = new Code();
+            theme = new ThemeDefault();
+            todo = new Todo();
+            unOrderList = new UnOrderList();
+            link = new Link();
+            image = new Image(context);
         }
 
         /**
@@ -503,7 +313,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader1RelativeSize(float header1RelativeSize) {
-            this.header1RelativeSize = header1RelativeSize;
+            header.h1 = header1RelativeSize;
             return this;
         }
 
@@ -514,7 +324,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader2RelativeSize(float header2RelativeSize) {
-            this.header2RelativeSize = header2RelativeSize;
+            header.h2 = header2RelativeSize;
             return this;
         }
 
@@ -525,7 +335,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader3RelativeSize(float header3RelativeSize) {
-            this.header3RelativeSize = header3RelativeSize;
+            header.h3 = header3RelativeSize;
             return this;
         }
 
@@ -536,7 +346,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader4RelativeSize(float header4RelativeSize) {
-            this.header4RelativeSize = header4RelativeSize;
+            header.h4 = header4RelativeSize;
             return this;
         }
 
@@ -547,7 +357,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader5RelativeSize(float header5RelativeSize) {
-            this.header5RelativeSize = header5RelativeSize;
+            header.h5 = header5RelativeSize;
             return this;
         }
 
@@ -558,18 +368,47 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHeader6RelativeSize(float header6RelativeSize) {
-            this.header6RelativeSize = header6RelativeSize;
+            header.h6 = header6RelativeSize;
             return this;
         }
 
         /**
-         * set the blockquote relative size compared to standard size
+         * set block quote line color
          *
-         * @param blockQuoteRelativeSize the size
+         * @param lineColor the color
          * @return self
          */
-        public Builder setBlockQuoteRelativeSize(float blockQuoteRelativeSize) {
-            this.blockQuoteRelativeSize = blockQuoteRelativeSize;
+        public Builder setBlockQuotesLineColor(@ColorInt int lineColor) {
+            blockQuote.lineColor = lineColor;
+            return this;
+        }
+
+        /**
+         * set the block quote background color (including nest background color)
+         *
+         * @param bgColor     the background color
+         * @param nestBgColor the nest background color
+         * @return self
+         */
+        public Builder setBlockQuotesBgColor(int bgColor, int... nestBgColor) {
+            blockQuote.bgColorList.set(0, bgColor);
+            if (nestBgColor != null && nestBgColor.length > 0) {
+                final int count = nestBgColor.length;
+                for (int i = 0; i < count; i++) {
+                    blockQuote.bgColorList.add(nestBgColor[i]);
+                }
+            }
+            return this;
+        }
+
+        /**
+         * set the block quote relative size compared to standard size
+         *
+         * @param blockQuotesRelativeSize the size
+         * @return self
+         */
+        public Builder setBlockQuotesRelativeSize(float blockQuotesRelativeSize) {
+            blockQuote.size = blockQuotesRelativeSize;
             return this;
         }
 
@@ -580,7 +419,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHorizontalRulesColor(@ColorInt int horizontalRulesColor) {
-            this.horizontalRulesColor = horizontalRulesColor;
+            horizontalRule.color = horizontalRulesColor;
             return this;
         }
 
@@ -591,31 +430,29 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setHorizontalRulesHeight(int horizontalRulesHeight) {
-            this.horizontalRulesHeight = horizontalRulesHeight;
+            horizontalRule.height = horizontalRulesHeight;
+            return this;
+        }
+
+        /**
+         * set code background color
+         *
+         * @param fontColor the color
+         * @return self
+         */
+        public Builder setCodeFontColor(@ColorInt int fontColor) {
+            code.color = fontColor;
             return this;
         }
 
         /**
          * set inline code background color
          *
-         * @param inlineCodeBgColor the color
-         * @return self
-         */
-        public Builder setInlineCodeBgColor(@ColorInt int inlineCodeBgColor) {
-            this.inlineCodeBgColor = inlineCodeBgColor;
-            return this;
-        }
-
-        /**
-         * set code background color
-         * {@link #setTheme(Theme)}
-         *
          * @param codeBgColor the color
          * @return self
          */
-        @Deprecated
         public Builder setCodeBgColor(@ColorInt int codeBgColor) {
-            this.codeBgColor = codeBgColor;
+            code.bgColor = codeBgColor;
             return this;
         }
 
@@ -626,18 +463,7 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setTheme(Theme theme) {
-            mTheme = theme;
-            return this;
-        }
-
-        /**
-         * set done color
-         *
-         * @param todoDoneColor the color
-         * @return self
-         */
-        public Builder setTodoDoneColor(@ColorInt int todoDoneColor) {
-            this.todoDoneColor = todoDoneColor;
+            this.theme = theme;
             return this;
         }
 
@@ -648,51 +474,62 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setTodoColor(@ColorInt int todoColor) {
-            this.todoColor = todoColor;
+            todo.todoColor = todoColor;
             return this;
         }
 
         /**
-         * set unorder list color
+         * set done color
+         *
+         * @param todoDoneColor the color
+         * @return self
+         */
+        public Builder setTodoDoneColor(@ColorInt int todoDoneColor) {
+            todo.doneColor = todoDoneColor;
+            return this;
+        }
+
+        /**
+         * set unorder list point color
          *
          * @param unOrderListColor the color
          * @return self
          */
         public Builder setUnOrderListColor(int unOrderListColor) {
-            this.unOrderListColor = unOrderListColor;
+            unOrderList.color = unOrderListColor;
             return this;
         }
 
         /**
-         * set the blockquote background color
+         * set link font color
          *
-         * @param blockQuoteBgColor the color
+         * @param linkFontColor the color
          * @return self
          */
-        public Builder setBlockQuoteBgColor(int blockQuoteBgColor) {
-            this.blockQuoteBgColor = blockQuoteBgColor;
-            return this;
-        }
-
-        /**
-         * set link color
-         *
-         * @param linkColor the color
-         * @return self
-         */
-        public Builder setLinkColor(int linkColor) {
-            this.linkColor = linkColor;
+        public Builder setLinkFontColor(int linkFontColor) {
+            link.color = linkFontColor;
             return this;
         }
 
         /**
          * is link underline
          *
-         * @param linkUnderline boolean, whether link underline
+         * @param show boolean, whether show link underline
          * @return self
          */
-        public Builder setLinkUnderline(boolean linkUnderline) {
-            isLinkUnderline = linkUnderline;
+        public Builder showLinkUnderline(boolean show) {
+            link.underline = show;
+            return this;
+        }
+
+        /**
+         * set link click callback
+         *
+         * @param onLinkClickCallback OnLinkClickCallback, invoked when clicking the link text
+         * @return self
+         */
+        public Builder setOnLinkClickCallback(OnLinkClickCallback onLinkClickCallback) {
+            link.callback = onLinkClickCallback;
             return this;
         }
 
@@ -703,63 +540,19 @@ public class RxMDConfiguration {
          * @return self
          */
         public Builder setRxMDImageLoader(RxMDImageLoader rxMDImageLoader) {
-            this.rxMDImageLoader = rxMDImageLoader;
+            image.loader = rxMDImageLoader;
             return this;
         }
 
         /**
-         * whether image auto fit RxMDTextView
+         * set image default size
          *
-         * @param autoFitImage bool
+         * @param width  the default width to display
+         * @param height the default height to display
          * @return self
          */
-        public Builder setAutoFitImage(boolean autoFitImage) {
-            this.autoFitImage = autoFitImage;
-            return this;
-        }
-
-        /**
-         * set link click callback
-         *
-         * @param onLinkClickCallback OnLinkClickCallback, the callback
-         * @return self
-         */
-        public Builder setOnLinkClickCallback(OnLinkClickCallback onLinkClickCallback) {
-            mOnLinkClickCallback = onLinkClickCallback;
-            return this;
-        }
-
-        /**
-         * whether debug or not
-         * default is true
-         *
-         * @param debug boolean
-         * @return self
-         */
-        public Builder setDebug(boolean debug) {
-            isDebug = debug;
-            return this;
-        }
-
-        /**
-         * whether to append a newline character to the last line of the parsed text
-         *
-         * @param append <code>true if newline should be appended</code>
-         * @return self
-         */
-        public Builder setAppendNewlineAfterLastLine(boolean append) {
-            isAppendNewlineAfterLastLine = append;
-            return this;
-        }
-
-        /**
-         * set nested block quote background color
-         *
-         * @param colorFetcher the callback
-         * @return self
-         */
-        public Builder setBlockquoteBackgroundNestedColorFetcher(BlockquoteBackgroundNestedColorFetcher colorFetcher) {
-            this.colorFetcher = colorFetcher;
+        public Builder setDefaultImageSize(int width, int height) {
+            image.defaultSize = new int[]{width, height};
             return this;
         }
 
@@ -769,21 +562,7 @@ public class RxMDConfiguration {
          * @return RxMDConfiguration
          */
         public RxMDConfiguration build() {
-            return new RxMDConfiguration(
-                    defaultImageSize, blockQuotesColor,
-                    header1RelativeSize,
-                    header2RelativeSize,
-                    header3RelativeSize,
-                    header4RelativeSize,
-                    header5RelativeSize,
-                    header6RelativeSize,
-                    blockQuoteRelativeSize, horizontalRulesColor, horizontalRulesHeight,
-                    inlineCodeBgColor, codeBgColor, mTheme,
-                    todoColor, todoDoneColor, unOrderListColor,
-                    blockQuoteBgColor, linkColor, isLinkUnderline,
-                    rxMDImageLoader, autoFitImage, mOnLinkClickCallback,
-                    isDebug, isAppendNewlineAfterLastLine, colorFetcher);
+            return new RxMDConfiguration(header, blockQuote, horizontalRule, code, theme, todo, unOrderList, link, image);
         }
-
     }
 }

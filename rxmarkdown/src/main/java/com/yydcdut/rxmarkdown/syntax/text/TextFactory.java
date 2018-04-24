@@ -206,7 +206,7 @@ public class TextFactory implements SyntaxFactory {
             ssbLines[i] = (SpannableStringBuilder) content.subSequence(index, index + lines[i].length());
             lineChain.handleGrammar(ssbLines[i]);
             index += (lines[i]).length();
-            if (i < lines.length - 1 || mRxMDConfiguration.isAppendNewlineAfterLastLine()) {
+            if (i < lines.length - 1) {
                 ssbLines[i].append(NEWLINE);
                 index += NEWLINE.length();
             }

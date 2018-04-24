@@ -21,7 +21,6 @@ import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
@@ -38,22 +37,22 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
     private static final int NESTING_MARGIN = 25;
     private final int mBackgroundColor;
     private final float mRelativeSize;
-    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
+//    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
 
     private int mColor;
 
     public BlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getBlockQuotesColor();
-        mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor();
+        mColor = rxMDConfiguration.getBlockQuotesLineColor();
+        mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor().get(0);
         mRelativeSize = rxMDConfiguration.getBlockQuoteRelativeSize();
-        mColorFetcher = rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher() == null ?
-                new BlockquoteBackgroundNestedColorFetcher() {
-                    @Override
-                    public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
-                        return mBackgroundColor;
-                    }
-                } : rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher();
+//        mColorFetcher = rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher() == null ?
+//                new BlockquoteBackgroundNestedColorFetcher() {
+//                    @Override
+//                    public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
+//                        return mBackgroundColor;
+//                    }
+//                } : rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher();
 
     }
 
@@ -119,7 +118,7 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
             ssb.append(' ');
         }
         ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
-        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, mColorFetcher), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
+        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, null), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
         if (mRelativeSize > 1f || mRelativeSize < 1f) {
             ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

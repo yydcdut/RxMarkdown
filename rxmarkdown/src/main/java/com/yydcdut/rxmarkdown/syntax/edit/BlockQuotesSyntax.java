@@ -41,7 +41,7 @@ class BlockQuotesSyntax extends EditSyntaxAdapter {
 
     public BlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getBlockQuotesColor();
+        mColor = rxMDConfiguration.getBlockQuotesLineColor();
     }
 
     @NonNull

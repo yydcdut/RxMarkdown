@@ -39,7 +39,7 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
 
     public InlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getInlineCodeBgColor();
+        mColor = rxMDConfiguration.getCodeBgColor();
     }
 
     @Override
