@@ -25,6 +25,8 @@ import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
+import java.util.List;
+
 /**
  * The implementation of syntax for block quotes.
  * syntax:
@@ -35,25 +37,16 @@ import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     private static final int NESTING_MARGIN = 25;
-    private final int mBackgroundColor;
     private final float mRelativeSize;
-//    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
+    private final List<Integer> bgColorList;
 
     private int mColor;
 
     public BlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getBlockQuotesLineColor();
-        mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor().get(0);
         mRelativeSize = rxMDConfiguration.getBlockQuoteRelativeSize();
-//        mColorFetcher = rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher() == null ?
-//                new BlockquoteBackgroundNestedColorFetcher() {
-//                    @Override
-//                    public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
-//                        return mBackgroundColor;
-//                    }
-//                } : rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher();
-
+        bgColorList = rxMDConfiguration.getBlockQuoteBgColor();
     }
 
     /**
@@ -63,7 +56,6 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
      * @return nested number of content
      */
     private static int calculateNested(@NonNull String text) {//有一个 "> " 就算嵌套一层
-
         int nested = 0;
         int i = 0;
         while (i < text.length()) {
@@ -118,7 +110,7 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
             ssb.append(' ');
         }
         ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
-        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, null), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
+        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, bgColorList), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
         if (mRelativeSize > 1f || mRelativeSize < 1f) {
             ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
