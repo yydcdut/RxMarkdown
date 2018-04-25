@@ -23,6 +23,7 @@ import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * RxMarkdown for TextView:
@@ -117,22 +118,28 @@ public class RxMarkdown {
     public Observable<CharSequence> intoObservable() {
         if (mContent != null) {
             return Observable.just(mContent)
-                    .map(s -> {
-                        if (mSyntaxFactory != null) {
-                            RxMDConfiguration config = getRxMDConfiguration();
-                            CharSequence charSequence = mSyntaxFactory.parse(s, config);
-                            return charSequence;
+                    .map(new Func1<String, CharSequence>() {
+                        @Override
+                        public CharSequence call(String s) {
+                            if (mSyntaxFactory != null) {
+                                RxMDConfiguration config = getRxMDConfiguration();
+                                CharSequence charSequence = mSyntaxFactory.parse(s, config);
+                                return charSequence;
+                            }
+                            return s;
                         }
-                        return s;
                     });
         } else {
             return Observable.just(mRxMDEditText)
-                    .map(rxMDEditText -> {
-                        if (mSyntaxFactory == null) {
+                    .map(new Func1<RxMDEditText, CharSequence>() {
+                        @Override
+                        public CharSequence call(RxMDEditText rxMDEditText) {
+                            if (mSyntaxFactory == null) {
+                                return rxMDEditText.getText();
+                            }
+                            rxMDEditText.setFactoryAndConfig(mSyntaxFactory, getRxMDConfiguration());
                             return rxMDEditText.getText();
                         }
-                        rxMDEditText.setFactoryAndConfig(mSyntaxFactory, getRxMDConfiguration());
-                        return rxMDEditText.getText();
                     });
         }
     }

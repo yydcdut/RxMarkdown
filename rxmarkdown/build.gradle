@@ -21,16 +21,9 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:support-annotations:22.2.1'
     implementation 'io.reactivex:rxjava:1.1.5'
     implementation 'io.reactivex:rxandroid:1.2.0'

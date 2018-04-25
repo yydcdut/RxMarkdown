@@ -21,12 +21,10 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:22.2.1'
     implementation 'com.android.support:design:22.2.1'
     implementation 'io.reactivex:rxandroid:1.2.0'
