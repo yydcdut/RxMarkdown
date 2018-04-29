@@ -22,6 +22,7 @@ import android.text.style.SuperscriptSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -33,7 +34,6 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/13.
  */
 class FootnoteSyntax extends TextSyntaxAdapter {
-
     public FootnoteSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
     }
@@ -49,26 +49,11 @@ class FootnoteSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
-        }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
-            if (index2 == -1) {
-                break;
-            }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_2);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode2());
+        return isHandledBackSlash;
     }
 
     @Override
@@ -79,26 +64,9 @@ class FootnoteSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
-        }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_ENCODE_2);
-            if (index2 == -1) {
-                break;
-            }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_ENCODE_2.length(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
     }
 
     /**

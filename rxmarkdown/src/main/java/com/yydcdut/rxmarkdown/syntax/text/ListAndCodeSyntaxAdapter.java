@@ -20,7 +20,7 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ abstract class ListAndCodeSyntaxAdapter implements Syntax {
      * @return TRUE --> exist
      */
     protected boolean existCodeSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
-        MDCodeSpan[] mdCodeSpans = ssb.getSpans(start, end, MDCodeSpan.class);
-        if (mdCodeSpans != null && mdCodeSpans.length > 0) {
+        MDCodeBlockSpan[] mdCodeBlockSpans = ssb.getSpans(start, end, MDCodeBlockSpan.class);
+        if (mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0) {
             return true;
         }
         return false;

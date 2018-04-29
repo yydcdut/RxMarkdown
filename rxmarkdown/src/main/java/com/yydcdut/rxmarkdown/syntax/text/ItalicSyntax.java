@@ -23,6 +23,7 @@ import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -58,25 +59,11 @@ class ItalicSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE.length(), SyntaxKey.KEY_ENCODE);
-        }
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1.length(), SyntaxKey.KEY_ENCODE_1);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1, CharacterProtector.getKeyEncode1());
+        return isHandledBackSlash;
     }
 
     @NonNull
@@ -88,25 +75,9 @@ class ItalicSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
-        }
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_ENCODE_1);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
+        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
     }
 
     /**

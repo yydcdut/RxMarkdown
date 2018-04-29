@@ -32,8 +32,6 @@ import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
  * Created by yuyidong on 16/5/17.
  */
 class TodoSyntax extends TextSyntaxAdapter {
-
-
     private int mColor;
 
     public TodoSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
@@ -48,8 +46,8 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
     }
 
     @Override
@@ -61,7 +59,6 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 }

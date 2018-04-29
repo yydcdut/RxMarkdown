@@ -23,6 +23,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -55,35 +56,12 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
-        }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
-            if (index2 == -1) {
-                break;
-            }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_2);
-        }
-        int index4;
-        while (true) {
-            String text = ssb.toString();
-            index4 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
-            if (index4 == -1) {
-                break;
-            }
-            ssb.replace(index4, index4 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_4);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE, CharacterProtector.getKeyEncode2());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode4());
+        return isHandledBackSlash;
     }
 
     @Override
@@ -94,35 +72,10 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
-        }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_ENCODE_2);
-            if (index2 == -1) {
-                break;
-            }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_ENCODE_2.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
-        }
-        int index4;
-        while (true) {
-            String text = ssb.toString();
-            index4 = text.indexOf(SyntaxKey.KEY_ENCODE_4);
-            if (index4 == -1) {
-                break;
-            }
-            ssb.replace(index4, index4 + SyntaxKey.KEY_ENCODE_4.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
+        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
     }
 
     /**

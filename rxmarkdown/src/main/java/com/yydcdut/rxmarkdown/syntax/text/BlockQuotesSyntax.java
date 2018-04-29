@@ -35,8 +35,8 @@ import java.util.List;
  * Created by yuyidong on 16/5/4.
  */
 class BlockQuotesSyntax extends TextSyntaxAdapter {
-
     private static final int NESTING_MARGIN = 25;
+
     private final float mRelativeSize;
     private final List<Integer> bgColorList;
 
@@ -82,8 +82,8 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
     }
 
     @NonNull
@@ -120,7 +120,6 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 }

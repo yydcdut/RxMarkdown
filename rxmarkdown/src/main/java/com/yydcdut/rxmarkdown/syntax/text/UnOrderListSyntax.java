@@ -38,7 +38,6 @@ import java.util.ArrayList;
  * Created by yuyidong on 16/5/21.
  */
 class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
-
     private static final int START_POSITION = 2;
 
     private int mColor;

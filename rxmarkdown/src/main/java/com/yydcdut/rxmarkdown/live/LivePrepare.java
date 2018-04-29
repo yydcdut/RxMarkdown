@@ -40,10 +40,10 @@ public class LivePrepare {
         mEditControllerList.add(new CenterAlignLive());
         mEditControllerList.add(new HeaderLive());
         mEditControllerList.add(new HorizontalRulesLive(rxMDEditText));
-        mEditControllerList.add(new InlineCodeLive());
+        mEditControllerList.add(new CodeLive());
         mEditControllerList.add(new StrikeThroughLive());
         mEditControllerList.add(new ListLive(rxMDEditText, editTextWatcher));
-        mEditControllerList.add(new CodeLive());
+        mEditControllerList.add(new CodeBlockLive());
     }
 
     public void config(@NonNull RxMDConfiguration rxMDConfiguration) {

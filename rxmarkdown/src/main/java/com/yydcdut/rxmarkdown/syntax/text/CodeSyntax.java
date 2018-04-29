@@ -24,7 +24,7 @@ import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.prettify.PrettifyHighLighter;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
@@ -83,7 +83,7 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
                 if (position == current) {//处理只有换行符
                     ssb.replace(position - 1, position, " ");
                 }
-                ssb.setSpan(new MDCodeSpan(mBackgroundColor,
+                ssb.setSpan(new MDCodeBlockSpan(mBackgroundColor,
                                 language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false),
                                 ssb.subSequence(current, position).toString()),
                         current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

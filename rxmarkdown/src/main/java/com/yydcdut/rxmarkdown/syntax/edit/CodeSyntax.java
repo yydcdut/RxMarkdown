@@ -23,7 +23,7 @@ import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
@@ -59,27 +59,27 @@ class CodeSyntax extends EditSyntaxAdapter {
             int end = pair.second;
             List<Integer> middleList = Utils.getMiddleNewLineCharPosition((SpannableStringBuilder) editable, start, end);
             int current = start;
-            MDCodeSpan parentSpan = null;
+            MDCodeBlockSpan parentSpan = null;
             for (int j = 0; j < middleList.size(); j++) {
                 int position = middleList.get(j);
-                MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
+                MDCodeBlockSpan mdCodeBlockSpan = new MDCodeBlockSpan(mColor);
                 if (position == current) {//处理只有换行符
-                    editTokenList.add(new EditToken(mdCodeSpan, position - 1, position + 1, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
+                    editTokenList.add(new EditToken(mdCodeBlockSpan, position - 1, position + 1, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
                 } else {
-                    editTokenList.add(new EditToken(mdCodeSpan, current, position, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
+                    editTokenList.add(new EditToken(mdCodeBlockSpan, current, position, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
                 }
                 if (parentSpan != null) {
-                    parentSpan.setNext(mdCodeSpan);
+                    parentSpan.setNext(mdCodeBlockSpan);
                 }
-                parentSpan = mdCodeSpan;
+                parentSpan = mdCodeBlockSpan;
                 current = position + 1;
             }
-            MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
-            editTokenList.add(new EditToken(mdCodeSpan, end,
+            MDCodeBlockSpan mdCodeBlockSpan = new MDCodeBlockSpan(mColor);
+            editTokenList.add(new EditToken(mdCodeBlockSpan, end,
                     end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= editable.length() ? 0 : 1),
                     Spannable.SPAN_INCLUSIVE_EXCLUSIVE));
             if (parentSpan != null) {
-                parentSpan.setNext(mdCodeSpan);
+                parentSpan.setNext(mdCodeBlockSpan);
             }
         }
         return editTokenList;

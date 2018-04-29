@@ -23,6 +23,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.span.MDURLSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -58,35 +59,12 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
-        }
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_1);
-        }
-        int index3;
-        while (true) {
-            String text = ssb.toString();
-            index3 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
-            if (index3 == -1) {
-                break;
-            }
-            ssb.replace(index3, index3 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_3);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE, CharacterProtector.getKeyEncode1());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode3());
+        return isHandledBackSlash;
     }
 
     @Override
@@ -97,35 +75,10 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
-        }
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_ENCODE_1);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
-        }
-        int index3;
-        while (true) {
-            String text = ssb.toString();
-            index3 = text.indexOf(SyntaxKey.KEY_ENCODE_3);
-            if (index3 == -1) {
-                break;
-            }
-            ssb.replace(index3, index3 + SyntaxKey.KEY_ENCODE_3.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
+        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
     }
 
     /**

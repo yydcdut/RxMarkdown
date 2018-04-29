@@ -26,7 +26,7 @@ import android.text.style.URLSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
@@ -63,7 +63,7 @@ abstract class TextSyntaxAdapter implements Syntax {
         } else {
             return false;
         }
-        if (ssb.getSpans(0, ssb.length(), MDCodeSpan.class).length > 0) {
+        if (ssb.getSpans(0, ssb.length(), MDCodeBlockSpan.class).length > 0) {
             return false;
         }
         if (TextUtils.isEmpty(charSequence)) {
@@ -81,10 +81,27 @@ abstract class TextSyntaxAdapter implements Syntax {
         } else {
             return charSequence;
         }
-        ssb = encode(ssb);
+        boolean isHandledBackSlash = encode(ssb);
         ssb = format(ssb);
-        ssb = decode(ssb);
+        if (isHandledBackSlash) {
+            decode(ssb);
+        }
         return ssb;
+    }
+
+    protected boolean replace(SpannableStringBuilder ssb, String key, String replace) {
+        boolean isHandledBackSlash = false;
+        int index;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(key);
+            if (index == -1) {
+                break;
+            }
+            isHandledBackSlash = true;
+            ssb.replace(index, index + key.length(), replace);
+        }
+        return isHandledBackSlash;
     }
 
     /**
@@ -99,16 +116,15 @@ abstract class TextSyntaxAdapter implements Syntax {
      * encode the back slash in content
      *
      * @param ssb the original content
-     * @return the content after encoding
+     * @return is handled back slash
      */
     @NonNull
-    abstract SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb);
+    abstract boolean encode(@NonNull SpannableStringBuilder ssb);
 
     /**
      * parse the content which is encoded
      *
      * @param ssb the content which is encoded
-     * @return the content after parsing
      */
     @NonNull
     abstract SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb);
@@ -120,7 +136,7 @@ abstract class TextSyntaxAdapter implements Syntax {
      * @return the result content
      */
     @NonNull
-    abstract SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb);
+    abstract void decode(@NonNull SpannableStringBuilder ssb);
 
     /**
      * check whether contains inline code syntax

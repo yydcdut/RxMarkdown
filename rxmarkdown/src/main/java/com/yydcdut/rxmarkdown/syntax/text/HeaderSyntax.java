@@ -71,8 +71,8 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
     }
 
     @NonNull
@@ -103,7 +103,6 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 }

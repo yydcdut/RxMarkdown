@@ -21,8 +21,9 @@ import android.text.SpannableStringBuilder;
 import android.text.style.TypefaceSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.span.MDInlineCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -53,17 +54,8 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_INLINE_BACKSLASH_VALUE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_INLINE_BACKSLASH_VALUE.length(), SyntaxKey.KEY_ENCODE);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return replace(ssb, SyntaxKey.KEY_INLINE_BACKSLASH_VALUE, CharacterProtector.getKeyEncode());
     }
 
     @Override
@@ -74,17 +66,8 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index;
-        while (true) {
-            String text = ssb.toString();
-            index = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index == -1) {
-                break;
-            }
-            ssb.replace(index, index + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_INLINE_BACKSLASH_VALUE);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_INLINE_BACKSLASH_VALUE);
     }
 
     /**
@@ -112,7 +95,7 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
                 ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_INLINE_CODE.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
 //                ssb.setSpan(new BackgroundColorSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.setSpan(new MDInlineCodeSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDCodeSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.setSpan(new TypefaceSpan("monospace"), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//todo TypefaceSpan
                 ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_INLINE_CODE.length());
             } else {

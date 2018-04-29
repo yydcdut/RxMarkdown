@@ -22,7 +22,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.theme.Theme;
 
 import java.util.ArrayList;
@@ -98,12 +98,12 @@ public class Utils {
         int startPosition = findBeforeNewLineChar(editable, start) + 1;
         int endPosition = findNextNewLineCharCompat(editable, start);
         T[] ts = editable.getSpans(startPosition, endPosition, clazz);
-        if (clazz.isAssignableFrom(MDCodeSpan.class)) {
+        if (clazz.isAssignableFrom(MDCodeBlockSpan.class)) {
             for (T t : ts) {
-                MDCodeSpan mdCodeSpan = ((MDCodeSpan) t);
-                while (mdCodeSpan != null) {
-                    editable.removeSpan(mdCodeSpan);
-                    mdCodeSpan = mdCodeSpan.getNext();
+                MDCodeBlockSpan mdCodeBlockSpan = ((MDCodeBlockSpan) t);
+                while (mdCodeBlockSpan != null) {
+                    editable.removeSpan(mdCodeBlockSpan);
+                    mdCodeBlockSpan = mdCodeBlockSpan.getNext();
                 }
             }
         } else {

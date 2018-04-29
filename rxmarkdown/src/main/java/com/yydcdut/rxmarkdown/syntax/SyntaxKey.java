@@ -28,11 +28,6 @@ public interface SyntaxKey {
      * black slash key
      */
     String KEY_BACKSLASH = "\\";
-    String KEY_ENCODE = "@%7DF16dgf%jy@po&";//todo random
-    String KEY_ENCODE_1 = "%4usyHDlL&@D%";
-    String KEY_ENCODE_2 = "&YDhs@h4sF&%kLsx63sd@";
-    String KEY_ENCODE_3 = "%hsyRjh34l%%2@";
-    String KEY_ENCODE_4 = "&@da&U56ec%k%QW@";
     //----------  BackslashSyntax  ----------
 
     //----------  BoldSyntax  ----------
