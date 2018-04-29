@@ -19,11 +19,11 @@ import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.chain.GrammarDoElseChain;
-import com.yydcdut.rxmarkdown.chain.GrammarMultiChains;
-import com.yydcdut.rxmarkdown.chain.GrammarSingleChain;
-import com.yydcdut.rxmarkdown.chain.IChain;
-import com.yydcdut.rxmarkdown.chain.MultiGrammarsChain;
+import com.yydcdut.rxmarkdown.chain.ISpecialChain;
+import com.yydcdut.rxmarkdown.chain.MultiSyntaxChain;
+import com.yydcdut.rxmarkdown.chain.SyntaxChain;
+import com.yydcdut.rxmarkdown.chain.SyntaxDoElseChain;
+import com.yydcdut.rxmarkdown.chain.SyntaxMultiChains;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 
@@ -37,8 +37,8 @@ import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 public class TextFactory implements SyntaxFactory {
     private static final String NEWLINE = "\n";
     private RxMDConfiguration mRxMDConfiguration;
-    private IChain mLineChain;
-    private IChain mTotalChain;
+    private ISpecialChain mLineChain;
+    private ISpecialChain mTotalChain;
 
     private TextFactory() {
     }
@@ -139,17 +139,17 @@ public class TextFactory implements SyntaxFactory {
 
     private void init(@NonNull RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;
-        mTotalChain = new MultiGrammarsChain(
+        mTotalChain = new MultiSyntaxChain(
                 getCodeSyntax(rxMDConfiguration),
                 getUnOrderListSyntax(rxMDConfiguration),
                 getOrderListSyntax(rxMDConfiguration));
-        mLineChain = new GrammarSingleChain(getHorizontalRulesSyntax(rxMDConfiguration));
-        GrammarDoElseChain blockQuitesChain = new GrammarDoElseChain(getBlockQuotesSyntax(rxMDConfiguration));
-        GrammarDoElseChain todoChain = new GrammarDoElseChain(getTodoSyntax(rxMDConfiguration));
-        GrammarDoElseChain todoDoneChain = new GrammarDoElseChain(getTodoDoneSyntax(rxMDConfiguration));
-        GrammarMultiChains centerAlignChain = new GrammarMultiChains(getCenterAlignSyntax(rxMDConfiguration));
-        GrammarMultiChains headerChain = new GrammarMultiChains(getHeaderSyntax(rxMDConfiguration));
-        MultiGrammarsChain multiChain = new MultiGrammarsChain(
+        mLineChain = new SyntaxChain(getHorizontalRulesSyntax(rxMDConfiguration));
+        SyntaxDoElseChain blockQuitesChain = new SyntaxDoElseChain(getBlockQuotesSyntax(rxMDConfiguration));
+        SyntaxDoElseChain todoChain = new SyntaxDoElseChain(getTodoSyntax(rxMDConfiguration));
+        SyntaxDoElseChain todoDoneChain = new SyntaxDoElseChain(getTodoDoneSyntax(rxMDConfiguration));
+        SyntaxMultiChains centerAlignChain = new SyntaxMultiChains(getCenterAlignSyntax(rxMDConfiguration));
+        SyntaxMultiChains headerChain = new SyntaxMultiChains(getHeaderSyntax(rxMDConfiguration));
+        MultiSyntaxChain multiChain = new MultiSyntaxChain(
                 getImageSyntax(rxMDConfiguration),
                 getHyperLinkSyntax(rxMDConfiguration),
                 getInlineCodeSyntax(rxMDConfiguration),
@@ -157,23 +157,23 @@ public class TextFactory implements SyntaxFactory {
                 getItalicSyntax(rxMDConfiguration),
                 getStrikeThroughSyntax(rxMDConfiguration),
                 getFootnoteSyntax(rxMDConfiguration));
-        GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashSyntax(rxMDConfiguration));
+        SyntaxChain backslashChain = new SyntaxChain(getBackslashSyntax(rxMDConfiguration));
 
-        mLineChain.setNextHandleGrammar(blockQuitesChain);
+        mLineChain.setNextHandleSyntax(blockQuitesChain);
 
-        blockQuitesChain.setNextHandleGrammar(todoChain);
-        blockQuitesChain.addNextHandleGrammar(multiChain);
+        blockQuitesChain.setNextHandleSyntax(todoChain);
+        blockQuitesChain.addNextHandleSyntax(multiChain);
 
-        todoChain.setNextHandleGrammar(todoDoneChain);
-        todoChain.addNextHandleGrammar(multiChain);
+        todoChain.setNextHandleSyntax(todoDoneChain);
+        todoChain.addNextHandleSyntax(multiChain);
 
-        todoDoneChain.setNextHandleGrammar(centerAlignChain);
-        todoDoneChain.addNextHandleGrammar(multiChain);
+        todoDoneChain.setNextHandleSyntax(centerAlignChain);
+        todoDoneChain.addNextHandleSyntax(multiChain);
 
-        centerAlignChain.addNextHandleGrammar(headerChain);
-        centerAlignChain.addNextHandleGrammar(multiChain);
+        centerAlignChain.addNextHandleSyntax(headerChain);
+        centerAlignChain.addNextHandleSyntax(multiChain);
 
-        multiChain.setNextHandleGrammar(backslashChain);
+        multiChain.setNextHandleSyntax(backslashChain);
     }
 
     @NonNull
@@ -191,12 +191,12 @@ public class TextFactory implements SyntaxFactory {
         return ssb;
     }
 
-    private SpannableStringBuilder parseTotal(IChain totalChain, SpannableStringBuilder ssb) {
-        totalChain.handleGrammar(ssb);
+    private SpannableStringBuilder parseTotal(ISpecialChain totalChain, SpannableStringBuilder ssb) {
+        totalChain.handleSyntax(ssb);
         return ssb;
     }
 
-    private SpannableStringBuilder parseByLine(IChain lineChain, SpannableStringBuilder content) {
+    private SpannableStringBuilder parseByLine(ISpecialChain lineChain, SpannableStringBuilder content) {
         String text = content.toString();
         String[] lines = text.split("\n");
         SpannableStringBuilder[] ssbLines = new SpannableStringBuilder[lines.length];
@@ -204,7 +204,7 @@ public class TextFactory implements SyntaxFactory {
         int index = 0;
         for (int i = 0; i < lines.length; i++) {
             ssbLines[i] = (SpannableStringBuilder) content.subSequence(index, index + lines[i].length());
-            lineChain.handleGrammar(ssbLines[i]);
+            lineChain.handleSyntax(ssbLines[i]);
             index += (lines[i]).length();
             if (i < lines.length - 1) {
                 ssbLines[i].append(NEWLINE);

@@ -24,29 +24,29 @@ import com.yydcdut.rxmarkdown.syntax.Syntax;
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-public class GrammarSingleChain implements IChain {
-    private Syntax mGrammar;
+public class SyntaxChain implements ISpecialChain {
+    private Syntax mSyntax;
 
-    private IChain mNextHandleGrammar = null;
+    private ISpecialChain mNextHandleSyntax = null;
 
     /**
      * Constructor
      *
-     * @param grammar the grammar
+     * @param syntax the syntax
      */
-    public GrammarSingleChain(@NonNull Syntax grammar) {
-        mGrammar = grammar;
+    public SyntaxChain(@NonNull Syntax syntax) {
+        mSyntax = syntax;
     }
 
     @NonNull
     @Override
-    public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        if (mGrammar.isMatch(charSequence)) {
-            mGrammar.format(charSequence);
+    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+        if (mSyntax.isMatch(charSequence)) {
+            mSyntax.format(charSequence);
             return true;
         } else {
-            if (mNextHandleGrammar != null) {
-                return mNextHandleGrammar.handleGrammar(charSequence);
+            if (mNextHandleSyntax != null) {
+                return mNextHandleSyntax.handleSyntax(charSequence);
             } else {
                 return false;
             }
@@ -54,27 +54,19 @@ public class GrammarSingleChain implements IChain {
     }
 
     /**
-     * @param nextHandleGrammar the next chain
+     * @param nextHandleSyntax the next chain
      * @return boolean
      * @deprecated
      */
     @Override
     @Deprecated
-    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
+    public boolean addNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
         return false;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
-        mNextHandleGrammar = nextHandleGrammar;
+    public boolean setNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
+        mNextHandleSyntax = nextHandleSyntax;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "GrammarSingleChain{" +
-                "mGrammar=" + mGrammar +
-                ", mNextHandleGrammar=" + mNextHandleGrammar +
-                '}';
     }
 }

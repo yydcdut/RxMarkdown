@@ -27,30 +27,30 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-public class GrammarMultiChains implements IChain {
-    private Syntax mGrammar;
+public class SyntaxMultiChains implements ISpecialChain {
+    private Syntax mSyntax;
 
-    private List<IChain> mNextHandleGrammarList = null;
+    private List<ISpecialChain> mNextHandleSyntaxList = null;
 
     /**
      * Constructor
      *
-     * @param grammar the grammar
+     * @param syntax the syntax
      */
-    public GrammarMultiChains(@NonNull Syntax grammar) {
-        mGrammar = grammar;
+    public SyntaxMultiChains(@NonNull Syntax syntax) {
+        mSyntax = syntax;
     }
 
     @NonNull
     @Override
-    public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        if (mGrammar.isMatch(charSequence)) {
-            mGrammar.format(charSequence);
+    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+        if (mSyntax.isMatch(charSequence)) {
+            mSyntax.format(charSequence);
         }
-        if (mNextHandleGrammarList != null) {
+        if (mNextHandleSyntaxList != null) {
             boolean handled = false;
-            for (IChain responsibilityChain : mNextHandleGrammarList) {
-                handled |= responsibilityChain.handleGrammar(charSequence);
+            for (ISpecialChain responsibilityChain : mNextHandleSyntaxList) {
+                handled |= responsibilityChain.handleSyntax(charSequence);
             }
             return handled;
         } else {
@@ -59,30 +59,22 @@ public class GrammarMultiChains implements IChain {
     }
 
     @Override
-    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
-        if (mNextHandleGrammarList == null) {
-            mNextHandleGrammarList = new ArrayList<>();
+    public boolean addNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
+        if (mNextHandleSyntaxList == null) {
+            mNextHandleSyntaxList = new ArrayList<>();
         }
-        mNextHandleGrammarList.add(nextHandleGrammar);
+        mNextHandleSyntaxList.add(nextHandleSyntax);
         return true;
     }
 
     /**
-     * @param nextHandleGrammar the next chain
+     * @param nextHandleSyntax the next chain
      * @return boolean
      * @deprecated
      */
     @Override
     @Deprecated
-    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
+    public boolean setNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "GrammarMultiChains{" +
-                "mGrammar=" + mGrammar +
-                ", mNextHandleGrammarList=" + mNextHandleGrammarList +
-                '}';
     }
 }
