@@ -1,0 +1,93 @@
+package com.yydcdut.rxmarkdown.utils;
+
+import android.support.annotation.NonNull;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.TypefaceSpan;
+
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+
+/**
+ * Created by yuyidong on 2018/4/29.
+ */
+public class SyntaxUtils {
+
+    /**
+     * parse bold and italic
+     *
+     * @param key {@link SyntaxKey#KEY_BOLD_ASTERISK} or {@link SyntaxKey#KEY_BOLD_UNDERLINE} or
+     *            {@link SyntaxKey#KEY_ITALIC_ASTERISK} or {@link SyntaxKey#KEY_ITALIC_UNDERLINE}
+     * @param ssb the original content
+     * @return the content after parsing
+     */
+    public static SpannableStringBuilder parse(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull Object whatSpan) {
+        String text = ssb.toString();
+        int keyLength = key.length();
+        SpannableStringBuilder tmp = new SpannableStringBuilder();
+        String tmpTotal = text;
+        while (true) {
+            int positionHeader = SyntaxUtils.findPosition(key, tmpTotal, ssb, tmp);
+            if (positionHeader == -1) {
+                tmp.append(tmpTotal.substring(0, tmpTotal.length()));
+                break;
+            }
+            tmp.append(tmpTotal.substring(0, positionHeader));
+            int index = tmp.length();
+            tmpTotal = tmpTotal.substring(positionHeader + keyLength, tmpTotal.length());
+            int positionFooter = SyntaxUtils.findPosition(key, tmpTotal, ssb, tmp);
+            if (positionFooter != -1) {
+                ssb.delete(tmp.length(), tmp.length() + keyLength);
+                tmp.append(tmpTotal.substring(0, positionFooter));
+                ssb.setSpan(whatSpan, index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.delete(tmp.length(), tmp.length() + keyLength);
+            } else {
+                tmp.append(key);
+                tmp.append(tmpTotal.substring(0, tmpTotal.length()));
+                break;
+            }
+            tmpTotal = tmpTotal.substring(positionFooter + keyLength, tmpTotal.length());
+        }
+        return ssb;
+    }
+
+    /**
+     * find the position of next key
+     * ignore the key and key in inline code syntax,
+     *
+     * @param tmpTotal the original content, the class type is {@link String}
+     * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
+     * @param tmp      the content that has parsed
+     * @return the next position of key
+     */
+    public static int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
+        String tmpTmpTotal = tmpTotal;
+        int position = tmpTmpTotal.indexOf(key);
+        if (position == -1) {
+            return -1;
+        } else {
+            if (checkInInlineCode(ssb, tmp.length() + position, key.length())) {//key是否在inlineCode中
+                StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
+                        .append("$$").append(tmpTmpTotal.substring(position + key.length(), tmpTmpTotal.length()));
+                return findPosition(key, sb.toString(), ssb, tmp);
+            } else {
+                return position;
+            }
+        }
+    }
+
+    /**
+     * check whether contains (inline) code syntax
+     *
+     * @param ssb       the content
+     * @param position  start position
+     * @param keyLength the checking words' length
+     * @return TRUE: contains
+     */
+    public static boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
+        TypefaceSpan[] spans = ssb.getSpans(position, position + keyLength, TypefaceSpan.class);
+        if (spans.length == 0) {
+            return false;
+        }
+        return true;
+    }
+}

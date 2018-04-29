@@ -51,8 +51,8 @@ class FootnoteSyntax extends TextSyntaxAdapter {
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
         boolean isHandledBackSlash = false;
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT, CharacterProtector.getKeyEncode());
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode2());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode2());
         return isHandledBackSlash;
     }
 
@@ -65,8 +65,8 @@ class FootnoteSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT);
-        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT);
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_FOOTNOTE_BACKSLASH_RIGHT);
     }
 
     /**

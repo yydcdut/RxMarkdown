@@ -17,13 +17,13 @@ package com.yydcdut.rxmarkdown.syntax.text;
 
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.CharacterProtector;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.regex.Pattern;
 
@@ -36,6 +36,11 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/3.
  */
 class ItalicSyntax extends TextSyntaxAdapter {
+    private static final String PATTERN_ASTERISK = ".*[\\*]{1}.*[\\*]{1}.*";
+    private static final String PATTERN_UNDERLINE = ".*[_]{1}.*[_]{1}.*";
+
+    private boolean isContainsAsterisk;
+    private boolean isContainsUnderline;
 
     public ItalicSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -43,103 +48,46 @@ class ItalicSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(SyntaxKey.KEY_ITALIC) && !text.contains(SyntaxKey.KEY_ITALIC_1)) {
-            return false;
-        }
-        boolean match = false;
-        Pattern pattern = Pattern.compile(".*[\\*]{1}.*[\\*]{1}.*");
-        Pattern pattern1 = Pattern.compile(".*[_]{1}.*[_]{1}.*");
-        match |= pattern.matcher(text).matches();
-        if (match) {
-            return true;
-        }
-        match |= pattern1.matcher(text).matches();
-        return match;
+        Pattern pattern = Pattern.compile(PATTERN_ASTERISK);
+        isContainsAsterisk = pattern.matcher(text).matches();
+        pattern = Pattern.compile(PATTERN_UNDERLINE);
+        isContainsUnderline = pattern.matcher(text).matches();
+        return isContainsAsterisk | isContainsUnderline;
     }
 
     @NonNull
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
         boolean isHandledBackSlash = false;
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE, CharacterProtector.getKeyEncode());
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1, CharacterProtector.getKeyEncode1());
+        if (isContainsAsterisk) {
+            isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK, CharacterProtector.getKeyEncode());
+        }
+        if (isContainsUnderline) {
+            isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE, CharacterProtector.getKeyEncode1());
+        }
         return isHandledBackSlash;
     }
 
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb = parse(SyntaxKey.KEY_ITALIC, ssb.toString(), ssb);
-        return parse(SyntaxKey.KEY_ITALIC_1, ssb.toString(), ssb);
+        if (isContainsAsterisk) {
+            ssb = SyntaxUtils.parse(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, new StyleSpan(Typeface.ITALIC));
+        }
+        if (isContainsUnderline) {
+            ssb = SyntaxUtils.parse(SyntaxKey.KEY_ITALIC_UNDERLINE, ssb, new StyleSpan(Typeface.ITALIC));
+        }
+        return ssb;
     }
 
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE);
-        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_ITALIC_BACKSLASH_VALUE_1);
-    }
-
-    /**
-     * parse
-     *
-     * @param key  {@link SyntaxKey#KEY_ITALIC} or {@link SyntaxKey#KEY_ITALIC_1}
-     * @param text the original content,the class type is {@link String}
-     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
-     * @return the content after parsing
-     */
-    @NonNull
-    private SpannableStringBuilder parse(@NonNull String key, @NonNull String text, @NonNull SpannableStringBuilder ssb) {
-        int keyLength = key.length();
-        SpannableStringBuilder tmp = new SpannableStringBuilder();
-        String tmpTotal = text;
-        while (true) {
-            int positionHeader = findPosition(key, tmpTotal, ssb, tmp);
-            if (positionHeader == -1) {
-                tmp.append(tmpTotal.substring(0, tmpTotal.length()));
-                break;
-            }
-            tmp.append(tmpTotal.substring(0, positionHeader));
-            int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + keyLength, tmpTotal.length());
-            int positionFooter = findPosition(key, tmpTotal, ssb, tmp);
-            if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + keyLength);
-                tmp.append(tmpTotal.substring(0, positionFooter));
-                ssb.setSpan(new StyleSpan(Typeface.ITALIC), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ssb.delete(tmp.length(), tmp.length() + keyLength);
-            } else {
-                tmp.append(key);
-                tmp.append(tmpTotal.substring(0, tmpTotal.length()));
-                break;
-            }
-            tmpTotal = tmpTotal.substring(positionFooter + keyLength, tmpTotal.length());
+        if (isContainsAsterisk) {
+            replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK);
         }
-        return ssb;
-    }
-
-    /**
-     * find the position of next "*"
-     * ignore the "*" in inline code syntax
-     *
-     * @param tmpTotal the original content, the class type is {@link String}
-     * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
-     * @param tmp      the content that has parsed
-     * @return the next position of "*"
-     */
-    private int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
-        String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(key);
-        if (position == -1) {
-            return -1;
-        } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, key.length())) {//key是否在inlineCode中
-                StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$").append(tmpTmpTotal.substring(position + key.length(), tmpTmpTotal.length()));
-                return findPosition(key, sb.toString(), ssb, tmp);
-            } else {
-                return position;
-            }
+        if (isContainsUnderline) {
+            replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE);
         }
     }
 }

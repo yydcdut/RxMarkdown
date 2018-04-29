@@ -51,7 +51,7 @@ class StrikeThroughSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
-        return replace(ssb, SyntaxKey.KEY_STRIKE_BACKSLASH_VALUE, CharacterProtector.getKeyEncode());
+        return replace(ssb, SyntaxKey.KEY_STRIKE_BACKSLASH, CharacterProtector.getKeyEncode());
     }
 
     @Override
@@ -63,7 +63,7 @@ class StrikeThroughSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_STRIKE_BACKSLASH_VALUE);
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_STRIKE_BACKSLASH);
     }
 
     /**

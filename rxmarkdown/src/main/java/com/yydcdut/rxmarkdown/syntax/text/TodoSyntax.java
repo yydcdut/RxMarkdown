@@ -41,7 +41,7 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(SyntaxKey.KEY_TODO_0) || text.startsWith(SyntaxKey.KEY_TODO_1);
+        return text.startsWith(SyntaxKey.KEY_TODO_STRIP) || text.startsWith(SyntaxKey.KEY_TODO_ASTERISK);
     }
 
     @NonNull
@@ -52,7 +52,7 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb.delete(0, SyntaxKey.KEY_TODO_0.length());
+        ssb.delete(0, SyntaxKey.KEY_TODO_STRIP.length());
         ssb.setSpan(new MDTodoSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }

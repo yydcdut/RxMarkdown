@@ -54,9 +54,9 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
         String text = charSequence.toString();
         String[] lines = text.split("\n");
         for (int i = 0; i < lines.length; i++) {
-            boolean b = lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_0) ||
-                    lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_1) ||
-                    (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_2));
+            boolean b = lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK) ||
+                    lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS) ||
+                    (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP));
             if (b) {
                 return true;
             } else {
@@ -78,7 +78,7 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
         String[] lines = text.split("\n");
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_0) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_1) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
+            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_STRIP) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_ASTERISK) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
                     lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_3) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_4) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_5)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
@@ -89,17 +89,17 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_0)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_2));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_1)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_2)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -146,11 +146,11 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
             if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_0.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_ASTERISK.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_0;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_1.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_2;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_2.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_1;
             } else {
                 return 0;
@@ -174,9 +174,9 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
             if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_0.equals(sub) ||
-                    SyntaxKey.KEY_UNORDER_LIST_CHAR_1.equals(sub) ||
-                    SyntaxKey.KEY_UNORDER_LIST_CHAR_2.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_ASTERISK.equals(sub) ||
+                    SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub) ||
+                    SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
                 return nested;
             } else {
                 return -1;

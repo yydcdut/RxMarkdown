@@ -47,7 +47,7 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
-        return replace(ssb, SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode1());
+        return replace(ssb, SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode1());
     }
 
     @NonNull
@@ -61,6 +61,6 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
+        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT);
     }
 }

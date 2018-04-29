@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
  * Created by yuyidong on 16/7/13.
@@ -63,20 +64,20 @@ public class StyleController {
                 return;
             }
             Editable editable = mRxMDEditText.getText();
-            if ("*".equals(editable.subSequence(start, start + "*".length()).toString()) &&
-                    "*".equals(editable.subSequence(end - "*".length(), end).toString())) {
-                mRxMDEditText.getText().delete(end - "*".length(), end);
-                mRxMDEditText.getText().delete(start, start + "*".length());
-                mRxMDEditText.setSelection(start, end - "*".length() * 2);
+            if (SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(start, start + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length()).toString()) &&
+                    SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), end).toString())) {
+                mRxMDEditText.getText().delete(end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), end);
+                mRxMDEditText.getText().delete(start, start + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length());
+                mRxMDEditText.setSelection(start, end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length() * 2);
             } else {
-                mRxMDEditText.getText().insert(end, "*");
-                mRxMDEditText.getText().insert(start, "*");
-                mRxMDEditText.setSelection(start, end + "*".length() * 2);
+                mRxMDEditText.getText().insert(end, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
+                mRxMDEditText.getText().insert(start, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
+                mRxMDEditText.setSelection(start, end + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length() * 2);
             }
         } else {
-            mRxMDEditText.getText().insert(end, "*");
-            mRxMDEditText.getText().insert(start, "*");
-            mRxMDEditText.setSelection(start, end + "*".length() * 2);
+            mRxMDEditText.getText().insert(end, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
+            mRxMDEditText.getText().insert(start, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
+            mRxMDEditText.setSelection(start, end + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length() * 2);
         }
     }
 }

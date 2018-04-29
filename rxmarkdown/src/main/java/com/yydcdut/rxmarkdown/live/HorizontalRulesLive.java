@@ -23,6 +23,7 @@ import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
@@ -36,9 +37,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/8.
  */
 class HorizontalRulesLive extends EditLive {
-
-    private static final String KEY0 = "-";
-    private static final String KEY1 = "*";
 
     private RxMDEditText mRxMDEditText;
 
@@ -67,9 +65,9 @@ class HorizontalRulesLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //1---(-1--)(--1-)(---1) --> ---
-        if (deleteString.contains(KEY0) || deleteString.contains(KEY1) ||
-                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
-                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
+        if (deleteString.contains(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE) || deleteString.contains(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE)
+                || (SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(afterString))
+                || (SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(afterString))) {
             shouldFormat = true;
         }
     }
@@ -97,9 +95,9 @@ class HorizontalRulesLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //--- --> 1---(-1--)(--1-)(---1)
-        if ((addString.contains(KEY0) || addString.contains(KEY1)) ||
-                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
-                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
+        if ((addString.contains(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE) || addString.contains(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE))
+                || (SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(afterString))
+                || (SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(afterString))) {
             format((Editable) s, start);
         }
     }

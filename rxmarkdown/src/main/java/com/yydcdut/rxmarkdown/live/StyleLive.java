@@ -18,6 +18,7 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.StyleSpan;
 
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
@@ -30,9 +31,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/21.
  */
 class StyleLive extends EditLive {
-
-    private static final String KEY = "*";
-    private static final String KEY_1 = "_";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -50,8 +48,9 @@ class StyleLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //*11*ss** --> **ss**
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString) ||
-                deleteString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)) {
+        if (deleteString.contains(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE) || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(beforeString)
+                || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(afterString) || deleteString.contains(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE)
+                || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(afterString)) {
             shouldFormat = true;
         }
     }
@@ -79,8 +78,9 @@ class StyleLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //**ss** --> *11*ss**
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString) ||
-                addString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)) {
+        if (addString.contains(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE) || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(beforeString)
+                || SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(afterString) || addString.contains(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE)
+                || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(beforeString) || SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE.equals(afterString)) {
             format((Editable) s, start);
         }
     }

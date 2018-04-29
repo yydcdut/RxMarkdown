@@ -58,9 +58,9 @@ class ImageSyntax extends TextSyntaxAdapter {
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
         boolean isHandledBackSlash = false;
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT, CharacterProtector.getKeyEncode());
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE, CharacterProtector.getKeyEncode2());
-        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT, CharacterProtector.getKeyEncode4());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE, CharacterProtector.getKeyEncode2());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode4());
         return isHandledBackSlash;
     }
 
@@ -73,9 +73,9 @@ class ImageSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
-        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
-        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE);
+        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT);
     }
 
     /**

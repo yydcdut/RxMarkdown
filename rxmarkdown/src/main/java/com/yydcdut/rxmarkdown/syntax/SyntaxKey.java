@@ -34,20 +34,28 @@ public interface SyntaxKey {
     /**
      * bold key
      */
-    String KEY_BOLD = "**";
+    String KEY_BOLD_ASTERISK = "**";
+    /**
+     * bold key(single key)
+     */
+    String KEY_BOLD_ASTERISK_SINGLE = "*";
     /**
      * bold key
      */
-    String KEY_BOLD_1 = "__";
+    String KEY_BOLD_UNDERLINE = "__";
+    /**
+     * bold key(single key)
+     */
+    String KEY_BOLD_UNDERLINE_SINGLE = "_";
     /**
      * black slash for bold key
      */
-    String KEY_BOLD_BACKSLASH_VALUE = SyntaxKey.KEY_BACKSLASH + "*";
+    String KEY_BOLD_BACKSLASH_ASTERISK = SyntaxKey.KEY_BACKSLASH + KEY_BOLD_ASTERISK_SINGLE;
 
     /**
      * black slash for bold key
      */
-    String KEY_BOLD_BACKSLASH_VALUE_1 = SyntaxKey.KEY_BACKSLASH + "_";
+    String KEY_BOLD_BACKSLASH_UNDERLINE = SyntaxKey.KEY_BACKSLASH + KEY_BOLD_UNDERLINE_SINGLE;
     //----------  BoldSyntax  ----------
 
     //----------  CenterAlignSyntax  ----------
@@ -62,7 +70,7 @@ public interface SyntaxKey {
     /**
      * black slash for center align key
      */
-    String KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_CENTER_ALIGN_RIGHT;
+    String KEY_CENTER_ALIGN_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_CENTER_ALIGN_RIGHT;
     //----------  CenterAlignSyntax  ----------
 
     //----------  FootnoteSyntax  ----------
@@ -73,15 +81,19 @@ public interface SyntaxKey {
     /**
      * footnote key
      */
+    String KEY_FOOTNOTE_LEFT_SINGLE = "[";
+    /**
+     * footnote key
+     */
     String KEY_FOOTNOTE_RIGHT = "]";
     /**
      * black slash for footnote key
      */
-    String KEY_FOOTNOTE_BACKSLASH_VALUE_LEFT = SyntaxKey.KEY_BACKSLASH + "[";
+    String KEY_FOOTNOTE_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_FOOTNOTE_LEFT_SINGLE;
     /**
      * black slash for footnote key
      */
-    String KEY_FOOTNOTE_BACKSLASH_VALUE_RIGHT = SyntaxKey.KEY_BACKSLASH + "]";
+    String KEY_FOOTNOTE_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_FOOTNOTE_RIGHT;
     //----------  FootnoteSyntax  ----------
 
     //----------  HyperLinkSyntax  ----------
@@ -94,21 +106,25 @@ public interface SyntaxKey {
      */
     String KEY_HYPER_LINK_MIDDLE = "](";
     /**
+     * hyper link key (single)
+     */
+    String KEY_HYPER_LINK_MIDDLE_SINGLE = "]";
+    /**
      * hyper link key
      */
     String KEY_HYPER_LINK_RIGHT = ")";
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT = SyntaxKey.KEY_BACKSLASH + "[";
+    String KEY_HYPER_LINK_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_LEFT;
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE = SyntaxKey.KEY_BACKSLASH + "]";
+    String KEY_HYPER_LINK_BACKSLASH_MIDDLE = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_MIDDLE_SINGLE;
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT = SyntaxKey.KEY_BACKSLASH + ")";
+    String KEY_HYPER_LINK_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_RIGHT;
     //----------  HyperLinkSyntax  ----------
 
     //----------  ImageSyntax  ----------
@@ -117,9 +133,17 @@ public interface SyntaxKey {
      */
     String KEY_IMAGE_LEFT = "![";
     /**
+     * image key (single)
+     */
+    String KEY_IMAGE_LEFT_SINGLE = "!";
+    /**
      * image key
      */
     String KEY_IMAGE_MIDDLE = "](";
+    /**
+     * image key (single)
+     */
+    String KEY_IMAGE_MIDDLE_SINGLE = "]";
     /**
      * image key
      */
@@ -127,15 +151,15 @@ public interface SyntaxKey {
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_VALUE_LEFT = SyntaxKey.KEY_BACKSLASH + "!";
+    String KEY_IMAGE_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_IMAGE_LEFT_SINGLE;
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_VALUE_MIDDLE = SyntaxKey.KEY_BACKSLASH + "]";
+    String KEY_IMAGE_BACKSLASH_MIDDLE = SyntaxKey.KEY_BACKSLASH + KEY_IMAGE_MIDDLE_SINGLE;
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_VALUE_RIGHT = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_IMAGE_RIGHT;
+    String KEY_IMAGE_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_IMAGE_RIGHT;
     //----------  ImageSyntax  ----------
 
     //----------  InlineCodeSyntax  ----------
@@ -146,26 +170,26 @@ public interface SyntaxKey {
     /**
      * black slash for inline code key
      */
-    String KEY_INLINE_BACKSLASH_VALUE = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_INLINE_CODE;
+    String KEY_INLINE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_INLINE_CODE;
     //----------  InlineCodeSyntax  ----------
 
     //----------  ItalicSyntax  ----------
     /**
      * italic key
      */
-    String KEY_ITALIC = "*";
+    String KEY_ITALIC_ASTERISK = "*";
     /**
      * italic key
      */
-    String KEY_ITALIC_1 = "_";
+    String KEY_ITALIC_UNDERLINE = "_";
     /**
      * black slash for italic key
      */
-    String KEY_ITALIC_BACKSLASH_VALUE = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC;
+    String KEY_ITALIC_BACKSLASH_ASTERISK = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC_ASTERISK;
     /**
      * black slash for italic key
      */
-    String KEY_ITALIC_BACKSLASH_VALUE_1 = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC_1;
+    String KEY_ITALIC_BACKSLASH_UNDERLINE = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC_UNDERLINE;
     //----------  ItalicSyntax  ----------
 
     //----------  StrikeThroughSyntax  ----------
@@ -174,9 +198,14 @@ public interface SyntaxKey {
      */
     String KEY_STRIKE_THROUGH = "~~";
     /**
+     * strike key (single)
+     */
+    String KEY_STRIKE_THROUGH_SINGLE = "~";
+
+    /**
      * black slash for strike key
      */
-    String KEY_STRIKE_BACKSLASH_VALUE = SyntaxKey.KEY_BACKSLASH + "~";
+    String KEY_STRIKE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + KEY_STRIKE_THROUGH_SINGLE;
     //----------  StrikeThroughSyntax  ----------
 
     //----------  HeaderSyntax  ----------
@@ -218,27 +247,27 @@ public interface SyntaxKey {
     /**
      * list ignore key
      */
-    String IGNORE_LIST_0 = "- [x]";
+    String IGNORE_LIST_STRIP_LOW = "- [x]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_1 = "- [X]";
+    String IGNORE_LIST_STRIP_UP = "- [X]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_2 = "- [ ]";
+    String IGNORE_LIST_STRIP = "- [ ]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_3 = "* [x]";
+    String IGNORE_LIST_ASTERISK_LOW = "* [x]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_4 = "* [x]";
+    String IGNORE_LIST_ASTERISK_UP = "* [x]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_5 = "* [ ]";
+    String IGNORE_LIST_ASTERISK = "* [ ]";
     /**
      * list ignore place holder
      */
@@ -287,46 +316,46 @@ public interface SyntaxKey {
     /**
      * to do key
      */
-    String KEY_TODO_0 = "- [ ] ";
+    String KEY_TODO_STRIP = "- [ ] ";
     /**
      * to do key
      */
-    String KEY_TODO_1 = "* [ ] ";
+    String KEY_TODO_ASTERISK = "* [ ] ";
     //----------  TodoSyntax  ----------
 
     //----------  UnOrderListSyntax  ----------
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_0 = "* ";
+    String KEY_UNORDER_LIST_ASTERISK = "* ";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_CHAR_0 = "*";
+    String KEY_UNORDER_LIST_CHAR_ASTERISK = "*";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_1 = "+ ";
+    String KEY_UNORDER_LIST_PLUS = "+ ";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_CHAR_1 = "+";
+    String KEY_UNORDER_LIST_CHAR_PLUS = "+";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_2 = "- ";
+    String KEY_UNORDER_LIST_STRIP = "- ";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_CHAR_2 = "-";
+    String KEY_UNORDER_LIST_CHAR_STRIP = "-";
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_0 = SyntaxKey.KEY_TODO_0;
+    String IGNORE_UNORDER_LIST_STRIP = SyntaxKey.KEY_TODO_STRIP;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_1 = SyntaxKey.KEY_TODO_1;
+    String IGNORE_UNORDER_LIST_ASTERISK = SyntaxKey.KEY_TODO_ASTERISK;
     /**
      * unorder list ignore key
      */
