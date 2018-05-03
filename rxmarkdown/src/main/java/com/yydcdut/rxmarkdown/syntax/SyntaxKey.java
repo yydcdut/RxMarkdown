@@ -9,12 +9,12 @@ public interface SyntaxKey {
      */
     String PLACE_HOLDER = " ";
 
-    //----------  CodeSyntax  ----------
+    //----------  CodeBlockSyntax  ----------
     /**
      * code key
      */
     String KEY_CODE = "```";
-    //----------  CodeSyntax  ----------
+    //----------  CodeBlockSyntax  ----------
 
     //----------  BlockQuotesSyntax  ----------
     /**
@@ -278,19 +278,19 @@ public interface SyntaxKey {
     /**
      * horizontal rules key
      */
-    String KEY_0_HORIZONTAL_RULES = "***";
+    String KEY_HORIZONTAL_RULES_ASTERISK = "***";
     /**
      * horizontal rules key
      */
-    String KEY_1_HORIZONTAL_RULES = "---";
+    String KEY_HORIZONTAL_RULES_STRIP = "---";
     /**
      * horizontal rules single char
      */
-    char KEY_SINGLE_0 = '*';
+    char KEY_HORIZONTAL_RULES_ASTERISK_SINGLE = '*';
     /**
      * horizontal rules single char
      */
-    char KEY_SINGLE_1 = '-';
+    char KEY_HORIZONTAL_RULES_STRIP_SINGLE = '-';
     //----------  HorizontalRulesSyntax  ----------
 
     //----------  TodoDoneSyntax  ----------

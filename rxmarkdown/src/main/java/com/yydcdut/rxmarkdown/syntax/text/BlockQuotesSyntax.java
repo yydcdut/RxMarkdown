@@ -18,6 +18,7 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.LeadingMarginSpan;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
@@ -35,7 +36,6 @@ import java.util.List;
  * Created by yuyidong on 16/5/4.
  */
 class BlockQuotesSyntax extends TextSyntaxAdapter {
-    private static final int NESTING_MARGIN = 25;
 
     private final float mRelativeSize;
     private final List<Integer> bgColorList;
@@ -47,6 +47,49 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
         mColor = rxMDConfiguration.getBlockQuotesLineColor();
         mRelativeSize = rxMDConfiguration.getBlockQuoteRelativeSize();
         bgColorList = rxMDConfiguration.getBlockQuoteBgColor();
+    }
+
+    @Override
+    boolean isMatch(@NonNull String text) {
+        return text.startsWith(SyntaxKey.KEY_BLOCK_QUOTES);
+    }
+
+    @NonNull
+    @Override
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+        int nested = calculateNested(ssb.toString());
+        if (nested == 0) {
+            return ssb;
+        }
+
+        // calculate the first non-blockquote and non-whitespace character
+        int i = 0;
+        while (i < ssb.length()) {
+            if (ssb.charAt(i) == '>' || ssb.charAt(i) == ' ') {
+                i++;
+            } else {
+                break;
+            }
+        }
+
+        final int number = i / 2;
+        for (int n = 0; n < number; n++) {
+            ssb.replace(2 * n, 2 * (n + 1), "  ");
+        }
+
+        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
+        ssb.setSpan(new MDQuoteBackgroundSpan(nested, bgColorList), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
+        if (mRelativeSize != 1f) {
+            ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        marginSSBLeft(ssb, 32);
+        return ssb;
     }
 
     /**
@@ -72,54 +115,18 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
         return nested;
     }
 
-    @Override
-    boolean isMatch(@NonNull String text) {
-        if (!text.startsWith(SyntaxKey.KEY_BLOCK_QUOTES)) {
-            return false;
-        }
-        return true;
-    }
-
-    @NonNull
-    @Override
-    boolean encode(@NonNull SpannableStringBuilder ssb) {
-        return false;
-    }
-
-    @NonNull
-    @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-
-        int nested = calculateNested(ssb.toString());
-        if (nested == 0) {
-            return ssb;
-        }
-
-        // calculate the first non-blockquote and non-whitespace character
-        int i = 0;
-        while (i < ssb.length()) {
-            if (ssb.charAt(i) == '>' || ssb.charAt(i) == ' ') {
-                i++;
-            } else {
-                break;
-            }
-        }
-
-        ssb.delete(0, i);
-        if (ssb.length() == 0) {
-            ssb.append(' ');
-        }
-        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
-        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, bgColorList), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
-        if (mRelativeSize > 1f || mRelativeSize < 1f) {
-            ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        marginSSBLeft(ssb, nested * NESTING_MARGIN);
-        return ssb;
-    }
-
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
+    }
+
+    /**
+     * set content margin left.
+     *
+     * @param ssb   the content
+     * @param every the distance that margin left
+     */
+    private static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
+        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 }

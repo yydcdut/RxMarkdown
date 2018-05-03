@@ -40,18 +40,15 @@ abstract class ListAndCodeSyntaxAdapter implements Syntax {
     }
 
     /**
-     * check whether exists code span
+     * check whether exists code block span
      *
      * @param ssb   the text
      * @param start the start position
      * @param end   the end position
-     * @return TRUE --> exist
+     * @return if exists, return true
      */
-    protected boolean existCodeSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
+    protected static boolean existCodeBlockSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
         MDCodeBlockSpan[] mdCodeBlockSpans = ssb.getSpans(start, end, MDCodeBlockSpan.class);
-        if (mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0) {
-            return true;
-        }
-        return false;
+        return mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0;
     }
 }

@@ -24,6 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.CharacterProtector;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.regex.Pattern;
 
@@ -35,6 +36,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/13.
  */
 class InlineCodeSyntax extends TextSyntaxAdapter {
+    private static final String PATTERN = ".*[`]{1}.*[`]{1}.*";
 
     private int mColor;
 
@@ -45,11 +47,7 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!text.contains(SyntaxKey.KEY_INLINE_CODE)) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(".*[`]{1}.*[`]{1}.*");
-        return pattern.matcher(text).matches();
+        return text.contains(SyntaxKey.KEY_INLINE_CODE) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
     }
 
     @NonNull
@@ -123,8 +121,8 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
         if (position == -1) {
             return -1;
         } else {
-            if (checkInHyperLink(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length()) ||
-                    checkInImage(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length())) {//key是否在HyperLink或者CustomImage中
+            if (SyntaxUtils.existHyperLinkSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length()) ||
+                    SyntaxUtils.existImageSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length())) {//key是否在HyperLink或者CustomImage中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
                         .append("$").append(tmpTmpTotal.substring(position + SyntaxKey.KEY_INLINE_CODE.length(), tmpTmpTotal.length()));
                 return findPosition(sb.toString(), ssb, tmp);

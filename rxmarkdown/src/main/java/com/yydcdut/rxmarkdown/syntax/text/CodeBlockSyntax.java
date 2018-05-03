@@ -31,7 +31,7 @@ import com.yydcdut.rxmarkdown.utils.Utils;
 import java.util.List;
 
 /**
- * The implementation of syntax for code.
+ * The implementation of syntax for code block.
  * syntax:
  * "```
  * content
@@ -39,13 +39,13 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class CodeSyntax extends ListAndCodeSyntaxAdapter {
+class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
 
     private int mBackgroundColor;
     private int mTextColor;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
 
-    public CodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public CodeBlockSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         mBackgroundColor = rxMDConfiguration.getTheme().getBackgroundColor();
         mPrettifyHighLighter = new PrettifyHighLighter(rxMDConfiguration);
         mTextColor = rxMDConfiguration.getTheme().getPlainTextColor();
@@ -104,6 +104,4 @@ class CodeSyntax extends ListAndCodeSyntaxAdapter {
         }
         return ssb;
     }
-
-
 }

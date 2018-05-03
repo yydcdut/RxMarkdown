@@ -75,10 +75,10 @@ class BoldSyntax extends TextSyntaxAdapter {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (isContainsAsterisk) {
-            ssb = SyntaxUtils.parse(SyntaxKey.KEY_BOLD_ASTERISK, ssb, new StyleSpan(Typeface.BOLD));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_ASTERISK, ssb, new StyleSpan(Typeface.BOLD));
         }
         if (isContainsUnderline) {
-            ssb = SyntaxUtils.parse(SyntaxKey.KEY_BOLD_UNDERLINE, ssb, new StyleSpan(Typeface.BOLD));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_UNDERLINE, ssb, new StyleSpan(Typeface.BOLD));
         }
         return ssb;
     }

@@ -18,6 +18,7 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
@@ -35,7 +36,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/14.
  */
 class HyperLinkSyntax extends TextSyntaxAdapter {
-
+    private static final String PATTERN = ".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*";
 
     private int mColor;
     private boolean isUnderLine;
@@ -50,11 +51,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(SyntaxKey.KEY_HYPER_LINK_LEFT) && text.contains(SyntaxKey.KEY_HYPER_LINK_MIDDLE) && text.contains(SyntaxKey.KEY_HYPER_LINK_RIGHT))) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*");
-        return pattern.matcher(text).matches();
+        return contains(text) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
     }
 
     @NonNull
@@ -69,8 +66,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
-        return parse(text, ssb);
+        return parse(ssb);
     }
 
     @NonNull
@@ -82,14 +78,47 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
     }
 
     /**
+     * check the key, whether the text contains hyper link keys
+     *
+     * @param text
+     * @return
+     */
+    private static boolean contains(String text) {
+        if (text.length() < 4 || TextUtils.equals(text, "[]()")) {
+            return true;
+        }
+        char[] array = text.toCharArray();
+        final int length = array.length;
+        char[] findArray = new char[]{'[', ']', '(', ')'};// TODO: 2018/4/29 写到key里面
+        int findPosition = 0;
+        for (int i = 0; i < length; i++) {
+            if (array[i] == findArray[findPosition]) {
+                if (findPosition == 1) {//]后面必须得是(
+                    if (array[++i] != findArray[++findPosition]) {
+                        findPosition--;
+                    } else {
+                        findPosition++;
+                    }
+                } else {
+                    findPosition++;
+                }
+                if (findPosition == findArray.length - 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * parse
      *
-     * @param text the original content,the class type is {@link String}
-     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @param ssb the original content
      * @return the content after parsing
      */
     @NonNull
-    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull SpannableStringBuilder ssb) {
+        String text = ssb.toString();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -142,13 +171,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
      * @return
      */
     @NonNull
-    private String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
-        if (target == null) {
-            throw new NullPointerException("target == null");
-        }
-        if (replacement == null) {
-            throw new NullPointerException("replacement == null");
-        }
+    private static String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
         int matchStart = content.indexOf(target, 0);
         if (matchStart == -1) {
             return content;

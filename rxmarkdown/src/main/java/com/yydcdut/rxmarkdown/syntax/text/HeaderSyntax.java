@@ -61,12 +61,12 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(SyntaxKey.KEY_0_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_1_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_2_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_3_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_4_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_5_HEADER);
+        return text.startsWith(SyntaxKey.KEY_0_HEADER)
+                || text.startsWith(SyntaxKey.KEY_1_HEADER)
+                || text.startsWith(SyntaxKey.KEY_2_HEADER)
+                || text.startsWith(SyntaxKey.KEY_3_HEADER)
+                || text.startsWith(SyntaxKey.KEY_4_HEADER)
+                || text.startsWith(SyntaxKey.KEY_5_HEADER);
     }
 
     @NonNull

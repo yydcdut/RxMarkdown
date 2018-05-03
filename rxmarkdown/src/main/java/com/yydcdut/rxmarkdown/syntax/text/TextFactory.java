@@ -129,7 +129,7 @@ public class TextFactory implements SyntaxFactory {
 
     @Override
     public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CodeSyntax(rxMDConfiguration);
+        return new CodeBlockSyntax(rxMDConfiguration);
     }
 
     @Override

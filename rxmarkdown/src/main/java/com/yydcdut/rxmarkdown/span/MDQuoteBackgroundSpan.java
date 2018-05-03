@@ -27,18 +27,17 @@ import java.util.List;
  */
 public class MDQuoteBackgroundSpan implements LineBackgroundSpan {
     private final int nestingLevel;
-    private final int nestingMargin;
     private final List<Integer> bgColorList;
     private Rect rect = new Rect();
 
-    public MDQuoteBackgroundSpan(int nestingLevel, int nestingMargin, List<Integer> bgColorList) {
+    public MDQuoteBackgroundSpan(int nestingLevel, List<Integer> bgColorList) {
         this.nestingLevel = nestingLevel;
-        this.nestingMargin = nestingMargin;
         this.bgColorList = bgColorList;
     }
 
     @Override
     public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
+        float margin = p.measureText("  ");
         int paintColor = p.getColor();
         for (int i = 0; i < nestingLevel; i++) {
             int color;
@@ -48,7 +47,7 @@ public class MDQuoteBackgroundSpan implements LineBackgroundSpan {
                 color = bgColorList.get(i);
             }
             p.setColor(color);
-            rect.set(left + (i * nestingMargin), top, (i == nestingLevel - 1 ? right : left + ((i + 1) * nestingMargin)), bottom);
+            rect.set((int) (left + (i * margin)), top, (int) (i == nestingLevel - 1 ? right : left + ((i + 1) * margin)), bottom);
             c.drawRect(rect, p);
         }
         p.setColor(paintColor);

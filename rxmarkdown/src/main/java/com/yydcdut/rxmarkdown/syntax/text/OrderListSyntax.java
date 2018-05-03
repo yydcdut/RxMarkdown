@@ -48,11 +48,10 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        String text = charSequence.toString();
-        String[] lines = text.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            boolean b = check(lines[i]);
-            if (b) {
+        String[] lines = charSequence.toString().split("\n");
+        final int length = lines.length;
+        for (int i = 0; i < length; i++) {
+            if (checkLegal(lines[i])) {
                 return true;
             } else {
                 continue;
@@ -68,9 +67,8 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
             return charSequence;
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
-        String text = charSequence.toString();
         int currentLineIndex = 0;
-        String[] lines = text.split("\n");
+        String[] lines = charSequence.toString().split("\n");
         ArrayList<NestedOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
             int nested = calculateNested(lines[i]);
@@ -79,7 +77,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+            if (existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedOrderListBean(currentLineIndex, false, lines[i], -1, -1, -1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -135,32 +133,24 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
         return ssb;
     }
 
-    private boolean check(@NonNull String text) {
+    private boolean checkLegal(@NonNull String text) {
         if (text.length() < 3) {
             return false;
         }
-        if (TextUtils.isDigitsOnly(String.valueOf(text.charAt(0)))) {
+        if (Character.isDigit(text.charAt(0))) {
             int dotPosition = 1;
-            for (int i = 1; i < text.length(); i++) {
-                char c = text.charAt(i);
-                if (TextUtils.isDigitsOnly(String.valueOf(c))) {
+            final int length = text.length();
+            for (int i = 1; i < length; i++) {
+                if (Character.isDigit(text.charAt(i))) {//一直都是数字
                     continue;
                 } else {
                     dotPosition = i;
                     break;
                 }
             }
-            char dot = text.charAt(dotPosition);
-            if (dot == SyntaxKey.DOT) {
-                if (text.charAt(dotPosition + 1) == ' ') {
-                    return true;
-                }
-                return false;
-            }
-            return false;
-        } else {
-            return false;
+            return (text.charAt(dotPosition) == SyntaxKey.DOT && text.charAt(dotPosition + 1) == ' ');
         }
+        return false;
     }
 
     /**
@@ -181,7 +171,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
             String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
             if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是" "
                 nested++;
-            } else if (check(text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), text.length()))) {
+            } else if (checkLegal(text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), text.length()))) {
                 return nested;
             } else {
                 return -1;
@@ -233,8 +223,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
         ssb.delete(start, start + nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length());
         ssb.insert(start, String.valueOf(number));
         ssb.setSpan(new MDOrderListSpan(30, nested, number),
-                start,
-                start + line.length() - (nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length()),
+                start, start + line.length() - (nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 

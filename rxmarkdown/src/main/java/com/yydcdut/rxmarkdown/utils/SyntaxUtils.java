@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TypefaceSpan;
+import android.text.style.URLSpan;
 
+import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
 /**
@@ -20,7 +22,7 @@ public class SyntaxUtils {
      * @param ssb the original content
      * @return the content after parsing
      */
-    public static SpannableStringBuilder parse(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull Object whatSpan) {
+    public static SpannableStringBuilder parseBoldAndItalic(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull Object whatSpan) {
         String text = ssb.toString();
         int keyLength = key.length();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
@@ -52,7 +54,7 @@ public class SyntaxUtils {
 
     /**
      * find the position of next key
-     * ignore the key and key in inline code syntax,
+     * ignore the key and key in (inline) code syntax,
      *
      * @param tmpTotal the original content, the class type is {@link String}
      * @param ssb      the original content, the class type is {@link SpannableStringBuilder}
@@ -65,7 +67,7 @@ public class SyntaxUtils {
         if (position == -1) {
             return -1;
         } else {
-            if (checkInInlineCode(ssb, tmp.length() + position, key.length())) {//key是否在inlineCode中
+            if (existCodeSyntax(ssb, tmp.length() + position, key.length())) {//key是否在code中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
                         .append("$$").append(tmpTmpTotal.substring(position + key.length(), tmpTmpTotal.length()));
                 return findPosition(key, sb.toString(), ssb, tmp);
@@ -83,11 +85,36 @@ public class SyntaxUtils {
      * @param keyLength the checking words' length
      * @return TRUE: contains
      */
-    public static boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
+    public static boolean existCodeSyntax(SpannableStringBuilder ssb, int position, int keyLength) {
         TypefaceSpan[] spans = ssb.getSpans(position, position + keyLength, TypefaceSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
+        return spans.length != 0;
+    }
+
+
+    /**
+     * check whether contains hyper link syntax
+     *
+     * @param ssb       the content
+     * @param position  start position
+     * @param keyLength the checking words' length
+     * @return TRUE: contains
+     */
+    public static boolean existHyperLinkSyntax(SpannableStringBuilder ssb, int position, int keyLength) {
+        URLSpan[] spans = ssb.getSpans(position, position + keyLength, URLSpan.class);
+        return spans.length != 0;
+    }
+
+
+    /**
+     * check whether contains image syntax
+     *
+     * @param ssb       the content
+     * @param position  start position
+     * @param keyLength the checking words' length
+     * @return TRUE: contains
+     */
+    public static boolean existImageSyntax(SpannableStringBuilder ssb, int position, int keyLength) {
+        MDImageSpan[] spans = ssb.getSpans(position, position + keyLength, MDImageSpan.class);
+        return spans.length != 0;
     }
 }

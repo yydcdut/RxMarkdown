@@ -18,16 +18,11 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.LeadingMarginSpan;
-import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
-import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.ArrayList;
@@ -43,16 +38,6 @@ import java.util.List;
 abstract class TextSyntaxAdapter implements Syntax {
 
     public TextSyntaxAdapter(@NonNull RxMDConfiguration rxMDConfiguration) {
-    }
-
-    /**
-     * set content margin left.
-     *
-     * @param ssb   the content
-     * @param every the distance that margin left
-     */
-    protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
-        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     @Override
@@ -89,7 +74,7 @@ abstract class TextSyntaxAdapter implements Syntax {
         return ssb;
     }
 
-    protected boolean replace(SpannableStringBuilder ssb, String key, String replace) {
+    protected static boolean replace(SpannableStringBuilder ssb, String key, String replace) {
         boolean isHandledBackSlash = false;
         int index;
         while (true) {
@@ -137,54 +122,6 @@ abstract class TextSyntaxAdapter implements Syntax {
      */
     @NonNull
     abstract void decode(@NonNull SpannableStringBuilder ssb);
-
-    /**
-     * check whether contains inline code syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
-        TypefaceSpan[] spans = ssb.getSpans(position, position + keyLength, TypefaceSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * check whether contains hyper link syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInHyperLink(SpannableStringBuilder ssb, int position, int keyLength) {
-        URLSpan[] spans = ssb.getSpans(position, position + keyLength, URLSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * check whether contains image syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInImage(SpannableStringBuilder ssb, int position, int keyLength) {
-        MDImageSpan[] spans = ssb.getSpans(position, position + keyLength, MDImageSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
 
     @NonNull
     @Override

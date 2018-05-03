@@ -51,13 +51,12 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        String text = charSequence.toString();
-        String[] lines = text.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            boolean b = lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK) ||
-                    lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS) ||
-                    (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP));
-            if (b) {
+        String[] lines = charSequence.toString().split("\n");
+        final int length = lines.length;
+        for (int i = 0; i < length; i++) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK)
+                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS)
+                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
                 return true;
             } else {
                 continue;
@@ -84,7 +83,7 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+            if (existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;

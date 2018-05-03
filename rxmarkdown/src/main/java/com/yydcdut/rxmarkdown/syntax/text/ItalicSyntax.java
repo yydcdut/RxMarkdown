@@ -72,10 +72,10 @@ class ItalicSyntax extends TextSyntaxAdapter {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
         if (isContainsAsterisk) {
-            ssb = SyntaxUtils.parse(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, new StyleSpan(Typeface.ITALIC));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, new StyleSpan(Typeface.ITALIC));
         }
         if (isContainsUnderline) {
-            ssb = SyntaxUtils.parse(SyntaxKey.KEY_ITALIC_UNDERLINE, ssb, new StyleSpan(Typeface.ITALIC));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_UNDERLINE, ssb, new StyleSpan(Typeface.ITALIC));
         }
         return ssb;
     }
