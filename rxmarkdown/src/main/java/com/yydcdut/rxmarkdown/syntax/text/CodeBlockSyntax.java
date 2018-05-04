@@ -56,7 +56,7 @@ class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        return Utils.find(charSequence.toString(), SyntaxKey.KEY_CODE).size() > 0;
+        return Utils.find(charSequence.toString(), SyntaxKey.KEY_CODE_BLOCK).size() > 0;
     }
 
     @NonNull
@@ -67,7 +67,7 @@ class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
         String text = charSequence.toString();
-        List<Pair<Integer, Integer>> list = Utils.find(text, SyntaxKey.KEY_CODE);
+        List<Pair<Integer, Integer>> list = Utils.find(text, SyntaxKey.KEY_CODE_BLOCK);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
@@ -75,7 +75,7 @@ class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
             List<Integer> middleList = Utils.getMiddleNewLineCharPosition(ssb, start, end);
             String language = "";
             if (middleList.size() > 0) {
-                language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE, "").replace("\n", "");
+                language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");
             }
             int current = middleList.get(0) + 1;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
@@ -99,7 +99,7 @@ class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
                     current = position + 1;
                 }
             }
-            ssb.delete(end, end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= ssb.length() ? 0 : 1));
+            ssb.delete(end, end + SyntaxKey.KEY_CODE_BLOCK.length() + (end + SyntaxKey.KEY_CODE_BLOCK.length() >= ssb.length() ? 0 : 1));
             ssb.delete(start, Utils.findNextNewLineChar(ssb, start) + 1);
         }
         return ssb;

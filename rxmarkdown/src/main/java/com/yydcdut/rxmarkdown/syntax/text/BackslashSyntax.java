@@ -47,7 +47,7 @@ class BackslashSyntax extends TextSyntaxAdapter {
                 text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT) ||
                 text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE) ||
                 text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT) ||
-                text.contains(SyntaxKey.KEY_INLINE_BACKSLASH) ||
+                text.contains(SyntaxKey.KEY_CODE_BACKSLASH) ||
                 text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK) ||
                 text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE) ||
                 text.contains(SyntaxKey.KEY_STRIKE_BACKSLASH)) {
@@ -87,9 +87,9 @@ class BackslashSyntax extends TextSyntaxAdapter {
         replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE, SyntaxKey.KEY_IMAGE_MIDDLE_SINGLE);
         replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT, SyntaxKey.KEY_IMAGE_RIGHT);
         //----------  ImageSyntax  ----------
-        //----------  InlineCodeSyntax  ----------
-        replace(ssb, SyntaxKey.KEY_INLINE_BACKSLASH, SyntaxKey.KEY_INLINE_CODE);
-        //----------  InlineCodeSyntax  ----------
+        //----------  CodeSyntax  ----------
+        replace(ssb, SyntaxKey.KEY_CODE_BACKSLASH, SyntaxKey.KEY_CODE);
+        //----------  CodeSyntax  ----------
         //----------  ItalicSyntax  ----------
         replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK, SyntaxKey.KEY_ITALIC_ASTERISK);
         replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE, SyntaxKey.KEY_ITALIC_UNDERLINE);

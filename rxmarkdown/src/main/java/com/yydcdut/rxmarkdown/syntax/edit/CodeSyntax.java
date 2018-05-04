@@ -52,7 +52,7 @@ class CodeSyntax extends EditSyntaxAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), SyntaxKey.KEY_CODE);
+        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), SyntaxKey.KEY_CODE_BLOCK);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
@@ -76,7 +76,7 @@ class CodeSyntax extends EditSyntaxAdapter {
             }
             MDCodeBlockSpan mdCodeBlockSpan = new MDCodeBlockSpan(mColor);
             editTokenList.add(new EditToken(mdCodeBlockSpan, end,
-                    end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= editable.length() ? 0 : 1),
+                    end + SyntaxKey.KEY_CODE_BLOCK.length() + (end + SyntaxKey.KEY_CODE_BLOCK.length() >= editable.length() ? 0 : 1),
                     Spannable.SPAN_INCLUSIVE_EXCLUSIVE));
             if (parentSpan != null) {
                 parentSpan.setNext(mdCodeBlockSpan);

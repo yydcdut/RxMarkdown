@@ -13,7 +13,7 @@ public interface SyntaxKey {
     /**
      * code key
      */
-    String KEY_CODE = "```";
+    String KEY_CODE_BLOCK = "```";
     //----------  CodeBlockSyntax  ----------
 
     //----------  BlockQuotesSyntax  ----------
@@ -162,16 +162,16 @@ public interface SyntaxKey {
     String KEY_IMAGE_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_IMAGE_RIGHT;
     //----------  ImageSyntax  ----------
 
-    //----------  InlineCodeSyntax  ----------
+    //----------  CodeSyntax  ----------
     /**
      * inline code key
      */
-    String KEY_INLINE_CODE = "`";
+    String KEY_CODE = "`";
     /**
-     * black slash for inline code key
+     * black slash for (inline) code key
      */
-    String KEY_INLINE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_INLINE_CODE;
-    //----------  InlineCodeSyntax  ----------
+    String KEY_CODE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_CODE;
+    //----------  CodeSyntax  ----------
 
     //----------  ItalicSyntax  ----------
     /**

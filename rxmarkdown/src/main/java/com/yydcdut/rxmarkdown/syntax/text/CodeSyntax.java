@@ -35,25 +35,25 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/5/13.
  */
-class InlineCodeSyntax extends TextSyntaxAdapter {
+class CodeSyntax extends TextSyntaxAdapter {
     private static final String PATTERN = ".*[`]{1}.*[`]{1}.*";
 
     private int mColor;
 
-    public InlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public CodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mColor = rxMDConfiguration.getCodeBgColor();
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.contains(SyntaxKey.KEY_INLINE_CODE) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
+        return text.contains(SyntaxKey.KEY_CODE) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
     }
 
     @NonNull
     @Override
     boolean encode(@NonNull SpannableStringBuilder ssb) {
-        return replace(ssb, SyntaxKey.KEY_INLINE_BACKSLASH, CharacterProtector.getKeyEncode());
+        return replace(ssb, SyntaxKey.KEY_CODE_BACKSLASH, CharacterProtector.getKeyEncode());
     }
 
     @Override
@@ -65,7 +65,7 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_INLINE_BACKSLASH);
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_CODE_BACKSLASH);
     }
 
     /**
@@ -87,21 +87,21 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
             }
             tmp.append(tmpTotal.substring(0, positionHeader));
             int index = tmp.length();
-            tmpTotal = tmpTotal.substring(positionHeader + SyntaxKey.KEY_INLINE_CODE.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionHeader + SyntaxKey.KEY_CODE.length(), tmpTotal.length());
             int positionFooter = findPosition(tmpTotal, ssb, tmp);
             if (positionFooter != -1) {
-                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_INLINE_CODE.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_CODE.length());
                 tmp.append(tmpTotal.substring(0, positionFooter));
 //                ssb.setSpan(new BackgroundColorSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.setSpan(new MDCodeSpan(mColor), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.setSpan(new TypefaceSpan("monospace"), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//todo TypefaceSpan
-                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_INLINE_CODE.length());
+                ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_CODE.length());
             } else {
-                tmp.append(SyntaxKey.KEY_INLINE_CODE);
+                tmp.append(SyntaxKey.KEY_CODE);
                 tmp.append(tmpTotal.substring(0, tmpTotal.length()));
                 break;
             }
-            tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_INLINE_CODE.length(), tmpTotal.length());
+            tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_CODE.length(), tmpTotal.length());
         }
         return ssb;
     }
@@ -117,14 +117,14 @@ class InlineCodeSyntax extends TextSyntaxAdapter {
      */
     private int findPosition(@NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
-        int position = tmpTmpTotal.indexOf(SyntaxKey.KEY_INLINE_CODE);
+        int position = tmpTmpTotal.indexOf(SyntaxKey.KEY_CODE);
         if (position == -1) {
             return -1;
         } else {
-            if (SyntaxUtils.existHyperLinkSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length()) ||
-                    SyntaxUtils.existImageSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_INLINE_CODE.length())) {//key是否在HyperLink或者CustomImage中
+            if (SyntaxUtils.existHyperLinkSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_CODE.length()) ||
+                    SyntaxUtils.existImageSyntax(ssb, tmp.length() + position, SyntaxKey.KEY_CODE.length())) {//key是否在HyperLink或者CustomImage中
                 StringBuilder sb = new StringBuilder(tmpTmpTotal.substring(0, position))
-                        .append("$").append(tmpTmpTotal.substring(position + SyntaxKey.KEY_INLINE_CODE.length(), tmpTmpTotal.length()));
+                        .append("$").append(tmpTmpTotal.substring(position + SyntaxKey.KEY_CODE.length(), tmpTmpTotal.length()));
                 return findPosition(sb.toString(), ssb, tmp);
             } else {
                 return position;

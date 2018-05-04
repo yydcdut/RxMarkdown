@@ -103,8 +103,8 @@ public class TextFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new InlineCodeSyntax(rxMDConfiguration);
+    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class TextFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+    public Syntax getCodeBlockSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         return new CodeBlockSyntax(rxMDConfiguration);
     }
 
@@ -140,7 +140,7 @@ public class TextFactory implements SyntaxFactory {
     private void init(@NonNull RxMDConfiguration rxMDConfiguration) {
         mRxMDConfiguration = rxMDConfiguration;
         mTotalChain = new MultiSyntaxChain(
-                getCodeSyntax(rxMDConfiguration),
+                getCodeBlockSyntax(rxMDConfiguration),
                 getUnOrderListSyntax(rxMDConfiguration),
                 getOrderListSyntax(rxMDConfiguration));
         mLineChain = new SyntaxChain(getHorizontalRulesSyntax(rxMDConfiguration));
@@ -152,7 +152,7 @@ public class TextFactory implements SyntaxFactory {
         MultiSyntaxChain multiChain = new MultiSyntaxChain(
                 getImageSyntax(rxMDConfiguration),
                 getHyperLinkSyntax(rxMDConfiguration),
-                getInlineCodeSyntax(rxMDConfiguration),
+                getCodeSyntax(rxMDConfiguration),
                 getBoldSyntax(rxMDConfiguration),
                 getItalicSyntax(rxMDConfiguration),
                 getStrikeThroughSyntax(rxMDConfiguration),

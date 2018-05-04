@@ -66,7 +66,7 @@ class CodeLive extends EditLive {
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, BackgroundColorSpan.class);
         if (mSyntax == null) {
-            mSyntax = EditFactory.create().getInlineCodeSyntax(mRxMDConfiguration);
+            mSyntax = EditFactory.create().getCodeSyntax(mRxMDConfiguration);
         }
         List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
