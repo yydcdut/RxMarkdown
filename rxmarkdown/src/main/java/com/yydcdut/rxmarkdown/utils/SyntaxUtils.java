@@ -1,14 +1,21 @@
 package com.yydcdut.rxmarkdown.utils;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by yuyidong on 2018/4/29.
@@ -62,7 +69,7 @@ public class SyntaxUtils {
      * @param tmp      the content that has parsed
      * @return the next position of key
      */
-    public static int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
+    private static int findPosition(@NonNull String key, @NonNull String tmpTotal, @NonNull SpannableStringBuilder ssb, @NonNull SpannableStringBuilder tmp) {
         String tmpTmpTotal = tmpTotal;
         int position = tmpTmpTotal.indexOf(key);
         if (position == -1) {
@@ -91,7 +98,6 @@ public class SyntaxUtils {
         return spans.length != 0;
     }
 
-
     /**
      * check whether contains hyper link syntax
      *
@@ -104,7 +110,6 @@ public class SyntaxUtils {
         URLSpan[] spans = ssb.getSpans(position, position + keyLength, URLSpan.class);
         return spans.length != 0;
     }
-
 
     /**
      * check whether contains image syntax
@@ -130,5 +135,36 @@ public class SyntaxUtils {
     public static boolean existCodeBlockSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
         MDCodeBlockSpan[] mdCodeBlockSpans = ssb.getSpans(start, end, MDCodeBlockSpan.class);
         return mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0;
+    }
+
+    public static List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern, String ignoreText, OnWhatSpanCallback callback) {
+        StringBuilder content = new StringBuilder(editable.toString().replace(ignoreText, Utils.getPlaceHolder(ignoreText)));
+        return parse(content, pattern, callback);
+    }
+
+    @NonNull
+    public static List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern, OnWhatSpanCallback callback) {
+        StringBuilder content = new StringBuilder(editable);
+        return parse(content, pattern, callback);
+    }
+
+    public static List<EditToken> parse(@NonNull StringBuilder content, @NonNull String pattern, OnWhatSpanCallback callback) {
+        List<EditToken> editTokenList = new ArrayList<>();
+        Matcher m = Pattern.compile(pattern).matcher(content);
+        List<String> matchList = new ArrayList<>();//找到的
+        while (m.find()) {
+            matchList.add(m.group());
+        }
+        for (String match : matchList) {
+            int index = content.indexOf(match);
+            int length = match.length();
+            editTokenList.add(new EditToken(callback.whatSpan(), index, index + length));
+            content.replace(index, index + length, Utils.getPlaceHolder(match));
+        }
+        return editTokenList;
+    }
+
+    public interface OnWhatSpanCallback {
+        Object whatSpan();
     }
 }

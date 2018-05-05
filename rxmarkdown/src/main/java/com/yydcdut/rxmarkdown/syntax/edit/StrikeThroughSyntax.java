@@ -22,11 +22,9 @@ import android.text.style.StrikethroughSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The implementation of syntax for strike through.
@@ -35,7 +33,8 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class StrikeThroughSyntax extends EditSyntaxAdapter {
+class StrikeThroughSyntax extends EditSyntaxAdapter implements SyntaxUtils.OnWhatSpanCallback {
+    private static final String PATTERN = "(~~)(.*?)(~~)";
 
     public StrikeThroughSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -44,28 +43,11 @@ class StrikeThroughSyntax extends EditSyntaxAdapter {
     @Nullable
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
-        List<EditToken> editTokenList = new ArrayList<>();
-        StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("(~~)(.*?)(~~)");
-        Matcher m = p.matcher(content);
-        List<String> matchList = new ArrayList<>();//找到的
-        while (m.find()) {
-            matchList.add(m.group());
-        }
-        for (String match : matchList) {
-            int index = content.indexOf(match);
-            int length = match.length();
-            editTokenList.add(new EditToken(new StrikethroughSpan(), index, index + length));
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < length; i++) {
-                sb.append(" ");
-            }
-            StringBuilder placeHolder = new StringBuilder();
-            for (int i = 0; i < length; i++) {
-                placeHolder.append(" ");
-            }
-            content.replace(index, index + length, placeHolder.toString());
-        }
-        return editTokenList;
+        return SyntaxUtils.parse(editable, PATTERN, this);
+    }
+
+    @Override
+    public Object whatSpan() {
+        return new StrikethroughSpan();
     }
 }

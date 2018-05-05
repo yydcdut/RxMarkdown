@@ -76,7 +76,7 @@ class CodeBlockSyntax implements Syntax {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
             int end = pair.second;
-            List<Integer> middleList = Utils.getMiddleNewLineCharPosition(ssb, start, end);
+            List<Integer> middleList = Utils.getNewLineCharPosition(ssb, start, end);
             String language = "";
             if (middleList.size() > 0) {
                 language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");

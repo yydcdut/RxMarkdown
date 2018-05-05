@@ -101,7 +101,7 @@ public class EditFactory implements SyntaxFactory {
 
     @Override
     public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new InlineCodeSyntax(rxMDConfiguration);
+        return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class EditFactory implements SyntaxFactory {
 
     @Override
     public Syntax getCodeBlockSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CodeSyntax(rxMDConfiguration);
+        return new CodeBlockSyntax(rxMDConfiguration);
     }
 
     @Override

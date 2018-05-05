@@ -50,12 +50,12 @@ public interface SyntaxKey {
     /**
      * black slash for bold key
      */
-    String KEY_BOLD_BACKSLASH_ASTERISK = SyntaxKey.KEY_BACKSLASH + KEY_BOLD_ASTERISK_SINGLE;
+    String KEY_BOLD_BACKSLASH_ASTERISK = KEY_BACKSLASH + KEY_BOLD_ASTERISK_SINGLE;
 
     /**
      * black slash for bold key
      */
-    String KEY_BOLD_BACKSLASH_UNDERLINE = SyntaxKey.KEY_BACKSLASH + KEY_BOLD_UNDERLINE_SINGLE;
+    String KEY_BOLD_BACKSLASH_UNDERLINE = KEY_BACKSLASH + KEY_BOLD_UNDERLINE_SINGLE;
     //----------  BoldSyntax  ----------
 
     //----------  CenterAlignSyntax  ----------
@@ -70,7 +70,7 @@ public interface SyntaxKey {
     /**
      * black slash for center align key
      */
-    String KEY_CENTER_ALIGN_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_CENTER_ALIGN_RIGHT;
+    String KEY_CENTER_ALIGN_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_CENTER_ALIGN_RIGHT;
     //----------  CenterAlignSyntax  ----------
 
     //----------  FootnoteSyntax  ----------
@@ -89,11 +89,11 @@ public interface SyntaxKey {
     /**
      * black slash for footnote key
      */
-    String KEY_FOOTNOTE_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_FOOTNOTE_LEFT_SINGLE;
+    String KEY_FOOTNOTE_BACKSLASH_LEFT = KEY_BACKSLASH + KEY_FOOTNOTE_LEFT_SINGLE;
     /**
      * black slash for footnote key
      */
-    String KEY_FOOTNOTE_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_FOOTNOTE_RIGHT;
+    String KEY_FOOTNOTE_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_FOOTNOTE_RIGHT;
     //----------  FootnoteSyntax  ----------
 
     //----------  HyperLinkSyntax  ----------
@@ -116,15 +116,15 @@ public interface SyntaxKey {
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_LEFT;
+    String KEY_HYPER_LINK_BACKSLASH_LEFT = KEY_BACKSLASH + KEY_HYPER_LINK_LEFT;
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_MIDDLE = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_MIDDLE_SINGLE;
+    String KEY_HYPER_LINK_BACKSLASH_MIDDLE = KEY_BACKSLASH + KEY_HYPER_LINK_MIDDLE_SINGLE;
     /**
      * black slash for hyper link key
      */
-    String KEY_HYPER_LINK_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + KEY_HYPER_LINK_RIGHT;
+    String KEY_HYPER_LINK_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_HYPER_LINK_RIGHT;
     //----------  HyperLinkSyntax  ----------
 
     //----------  ImageSyntax  ----------
@@ -151,15 +151,15 @@ public interface SyntaxKey {
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_LEFT = SyntaxKey.KEY_BACKSLASH + KEY_IMAGE_LEFT_SINGLE;
+    String KEY_IMAGE_BACKSLASH_LEFT = KEY_BACKSLASH + KEY_IMAGE_LEFT_SINGLE;
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_MIDDLE = SyntaxKey.KEY_BACKSLASH + KEY_IMAGE_MIDDLE_SINGLE;
+    String KEY_IMAGE_BACKSLASH_MIDDLE = KEY_BACKSLASH + KEY_IMAGE_MIDDLE_SINGLE;
     /**
      * black slash for image key
      */
-    String KEY_IMAGE_BACKSLASH_RIGHT = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_IMAGE_RIGHT;
+    String KEY_IMAGE_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_IMAGE_RIGHT;
     //----------  ImageSyntax  ----------
 
     //----------  CodeSyntax  ----------
@@ -170,7 +170,7 @@ public interface SyntaxKey {
     /**
      * black slash for (inline) code key
      */
-    String KEY_CODE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_CODE;
+    String KEY_CODE_BACKSLASH = KEY_BACKSLASH + KEY_CODE;
     //----------  CodeSyntax  ----------
 
     //----------  ItalicSyntax  ----------
@@ -185,11 +185,11 @@ public interface SyntaxKey {
     /**
      * black slash for italic key
      */
-    String KEY_ITALIC_BACKSLASH_ASTERISK = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC_ASTERISK;
+    String KEY_ITALIC_BACKSLASH_ASTERISK = KEY_BACKSLASH + KEY_ITALIC_ASTERISK;
     /**
      * black slash for italic key
      */
-    String KEY_ITALIC_BACKSLASH_UNDERLINE = SyntaxKey.KEY_BACKSLASH + SyntaxKey.KEY_ITALIC_UNDERLINE;
+    String KEY_ITALIC_BACKSLASH_UNDERLINE = KEY_BACKSLASH + KEY_ITALIC_UNDERLINE;
     //----------  ItalicSyntax  ----------
 
     //----------  StrikeThroughSyntax  ----------
@@ -205,7 +205,7 @@ public interface SyntaxKey {
     /**
      * black slash for strike key
      */
-    String KEY_STRIKE_BACKSLASH = SyntaxKey.KEY_BACKSLASH + KEY_STRIKE_THROUGH_SINGLE;
+    String KEY_STRIKE_BACKSLASH = KEY_BACKSLASH + KEY_STRIKE_THROUGH_SINGLE;
     //----------  StrikeThroughSyntax  ----------
 
     //----------  HeaderSyntax  ----------
@@ -351,27 +351,27 @@ public interface SyntaxKey {
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_STRIP = SyntaxKey.KEY_TODO_STRIP;
+    String IGNORE_UNORDER_LIST_STRIP = KEY_TODO_STRIP;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_ASTERISK = SyntaxKey.KEY_TODO_ASTERISK;
+    String IGNORE_UNORDER_LIST_ASTERISK = KEY_TODO_ASTERISK;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_2 = SyntaxKey.KEY_TODO_DONE_0;
+    String IGNORE_UNORDER_LIST_2 = KEY_TODO_DONE_0;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_3 = SyntaxKey.KEY_TODO_DONE_1;
+    String IGNORE_UNORDER_LIST_3 = KEY_TODO_DONE_1;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_4 = SyntaxKey.KEY_TODO_DONE_2;
+    String IGNORE_UNORDER_LIST_4 = KEY_TODO_DONE_2;
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_5 = SyntaxKey.KEY_TODO_DONE_3;
+    String IGNORE_UNORDER_LIST_5 = KEY_TODO_DONE_3;
     //----------  UnOrderListSyntax  ----------
 
 }

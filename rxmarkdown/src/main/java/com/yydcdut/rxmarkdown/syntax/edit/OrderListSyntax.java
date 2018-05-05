@@ -24,6 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/7/8.
  */
 class OrderListSyntax extends EditSyntaxAdapter {
+    private static final String PATTERN = "^( *)(\\d+)\\. (.*?)$";
 
     public OrderListSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
@@ -47,7 +49,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$", Pattern.MULTILINE);
+        Pattern p = Pattern.compile(PATTERN, Pattern.MULTILINE);
         StringBuilder content = new StringBuilder(editable);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
@@ -60,7 +62,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
             int nested = calculateNested(match);
             int number = calculateNumber(match, nested);
             editTokenList.add(new EditToken(new MDOrderListSpan(10, nested, number), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-            content.replace(index, index + length, getPlaceHolder(match));
+            content.replace(index, index + length, Utils.getPlaceHolder(match));
         }
         return editTokenList;
     }
@@ -130,7 +132,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
         if (c == '\n') {
             return index;
         }
-        content.replace(index, index + length, getPlaceHolder(match));
+        content.replace(index, index + length, Utils.getPlaceHolder(match));
         return findTrueIndex(match, content);
     }
 }

@@ -203,7 +203,7 @@ public class Utils {
      * @param end   the end position
      * @return the '\n' positions
      */
-    public static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {
+    public static List<Integer> getNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {
         List<Integer> list = new ArrayList<>();
         for (int i = start; i < end; i++) {
             if (ssb.charAt(i) == '\n') {
@@ -211,6 +211,21 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    /**
+     * get place holder for match string
+     *
+     * @param matchString String, the match string
+     * @return the place holder string
+     */
+    public static String getPlaceHolder(String matchString) {
+        int length = matchString.length();
+        StringBuilder placeHolder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            placeHolder.append(" ");
+        }
+        return placeHolder.toString();
     }
 
     /**
