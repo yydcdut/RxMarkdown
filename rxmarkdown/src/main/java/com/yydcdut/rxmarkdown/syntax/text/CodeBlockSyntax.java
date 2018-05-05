@@ -16,6 +16,7 @@
 package com.yydcdut.rxmarkdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -23,11 +24,14 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.prettify.PrettifyHighLighter;
 import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +43,7 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
+class CodeBlockSyntax implements Syntax {
 
     private int mBackgroundColor;
     private int mTextColor;
@@ -103,5 +107,11 @@ class CodeBlockSyntax extends ListAndCodeSyntaxAdapter {
             ssb.delete(start, Utils.findNextNewLineChar(ssb, start) + 1);
         }
         return ssb;
+    }
+
+    @NonNull
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return new ArrayList<>();
     }
 }

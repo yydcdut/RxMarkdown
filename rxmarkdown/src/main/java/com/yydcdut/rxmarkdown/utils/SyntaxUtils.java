@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 
@@ -116,5 +117,18 @@ public class SyntaxUtils {
     public static boolean existImageSyntax(SpannableStringBuilder ssb, int position, int keyLength) {
         MDImageSpan[] spans = ssb.getSpans(position, position + keyLength, MDImageSpan.class);
         return spans.length != 0;
+    }
+
+    /**
+     * check whether exists code block span
+     *
+     * @param ssb   the text
+     * @param start the start position
+     * @param end   the end position
+     * @return if exists, return true
+     */
+    public static boolean existCodeBlockSpan(@NonNull SpannableStringBuilder ssb, int start, int end) {
+        MDCodeBlockSpan[] mdCodeBlockSpans = ssb.getSpans(start, end, MDCodeBlockSpan.class);
+        return mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0;
     }
 }

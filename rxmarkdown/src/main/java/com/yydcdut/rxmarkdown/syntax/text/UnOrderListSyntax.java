@@ -16,15 +16,20 @@
 package com.yydcdut.rxmarkdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of syntax for unorder list.
@@ -37,7 +42,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/21.
  */
-class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
+class UnOrderListSyntax implements Syntax {
     private static final int START_POSITION = 2;
 
     private int mColor;
@@ -83,7 +88,7 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+            if (SyntaxUtils.existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -214,5 +219,11 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             this.nested = nested;
             this.type = type;
         }
+    }
+
+    @NonNull
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return new ArrayList<>();
     }
 }

@@ -16,15 +16,20 @@
 package com.yydcdut.rxmarkdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of syntax for order list.
@@ -33,7 +38,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/22.
  */
-class OrderListSyntax extends ListAndCodeSyntaxAdapter {
+class OrderListSyntax implements Syntax {
 
     /**
      * Constructor
@@ -77,7 +82,7 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+            if (SyntaxUtils.existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedOrderListBean(currentLineIndex, false, lines[i], -1, -1, -1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -243,5 +248,11 @@ class OrderListSyntax extends ListAndCodeSyntaxAdapter {
             this.number = number;
             this.originalNumber = originalNumber;
         }
+    }
+
+    @NonNull
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return new ArrayList<>();
     }
 }
