@@ -18,6 +18,8 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.AlignmentSpan;
 
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
@@ -30,17 +32,13 @@ import java.util.List;
  */
 class CenterAlignLive extends EditLive {
 
-    private static final String KEY0 = "[";
-    private static final String KEY1 = "]";
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
         super.beforeTextChanged(s, start, before, after);
         if (before == 0 || mRxMDConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(start, start + before).toString();
-        if (deleteString.contains(KEY0) || deleteString.contains(KEY1)) {
+        if (isNeedFormat(s.subSequence(start, start + before).toString())) {
             shouldFormat = true;
         }
     }
@@ -57,19 +55,19 @@ class CenterAlignLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString;
-        addString = s.subSequence(start, start + after).toString();
-        if (addString.contains(KEY0) || addString.contains(KEY1)) {
+        if (isNeedFormat(s.subSequence(start, start + after).toString())) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, AlignmentSpan.Standard.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getCenterAlignSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
+        Syntax syntax = EditFactory.create().getCenterAlignSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
+    }
+
+    private boolean isNeedFormat(String string) {
+        return string.contains(SyntaxKey.KEY_CENTER_ALIGN_LEFT) || string.contains(SyntaxKey.KEY_CENTER_ALIGN_RIGHT);
     }
 }

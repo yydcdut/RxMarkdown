@@ -18,7 +18,10 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 
 import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
@@ -29,8 +32,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/22.
  */
 class CodeBlockLive extends EditLive {
-
-    private static final String KEY = "`";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -48,7 +49,7 @@ class CodeBlockLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //`1``(``1`)(```1)(1```) --> ```
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -76,17 +77,15 @@ class CodeBlockLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //``` --> `1``(``1`)(```1)(1```)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, MDCodeBlockSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getCodeBlockSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = mSyntax.format(editable);
+        Syntax syntax = EditFactory.create().getCodeBlockSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = syntax.format(editable);
         Utils.setCodeSpan(editable, editTokenList);
     }
 }

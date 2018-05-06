@@ -27,19 +27,27 @@ public class EditToken {
     private final Object span;
     private final int start;
     private final int end;
-    private final int flag;//todo 替换
+    private final int flag;
 
     /**
      * Constructor
      *
      * @param span  the span
      * @param start the start position
-     * @param end   the edn position
+     * @param end   the end position
      */
     public EditToken(@NonNull Object span, int start, int end) {
         this(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    /**
+     * Constructor
+     *
+     * @param span  the span
+     * @param start the start position
+     * @param end   the end position
+     * @param flag  the flag
+     */
     public EditToken(@NonNull Object span, int start, int end, int flag) {
         this.span = span;
         this.start = start;

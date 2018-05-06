@@ -14,6 +14,10 @@ public interface SyntaxKey {
      * code key
      */
     String KEY_CODE_BLOCK = "```";
+    /**
+     * code key
+     */
+    String KEY_CODE_BLOCK_SINGLE = "`";
     //----------  CodeBlockSyntax  ----------
 
     //----------  BlockQuotesSyntax  ----------
@@ -21,6 +25,10 @@ public interface SyntaxKey {
      * block quotes key
      */
     String KEY_BLOCK_QUOTES = "> ";
+    /**
+     * block quotes key(left single)
+     */
+    String KEY_BLOCK_QUOTES_LEFT_SINGLE = ">";
     //----------  BlockQuotesSyntax  ----------
 
     //----------  BackslashSyntax  ----------
@@ -233,6 +241,10 @@ public interface SyntaxKey {
      * header key
      */
     String KEY_5_HEADER = "###### ";
+    /**
+     * header key(single)
+     */
+    String KEY_HEADER_SINGLE = "#";
     //----------  HeaderSyntax  ----------
 
     //----------  OrderListSyntax  ----------

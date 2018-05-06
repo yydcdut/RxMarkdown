@@ -18,7 +18,10 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.RelativeSizeSpan;
 
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
@@ -29,8 +32,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/21.
  */
 class HeaderLive extends EditLive {
-
-    private static final String KEY = "#";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -48,7 +49,7 @@ class HeaderLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //#12# ss(##12 ss) --> ## ss
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -76,11 +77,11 @@ class HeaderLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //## ss --> #12# ss(##12 ss)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         } else {
             int lineFirstCharPosition = Utils.findBeforeNewLineChar(s, start);
-            if (s.subSequence(lineFirstCharPosition + 1, lineFirstCharPosition + 2).toString().equals(KEY)) {
+            if (s.subSequence(lineFirstCharPosition + 1, lineFirstCharPosition + 2).toString().equals(SyntaxKey.KEY_HEADER_SINGLE)) {
                 format((Editable) s, lineFirstCharPosition + 1);
             }
         }
@@ -88,10 +89,8 @@ class HeaderLive extends EditLive {
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, RelativeSizeSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getHeaderSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
+        Syntax syntax = EditFactory.create().getHeaderSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 }

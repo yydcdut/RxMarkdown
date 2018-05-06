@@ -167,4 +167,8 @@ public class SyntaxUtils {
     public interface OnWhatSpanCallback {
         Object whatSpan();
     }
+
+    public static boolean isNeedFormat(String key, String string, String beforeString, String afterString) {
+        return string.contains(key) || key.equals(beforeString) || key.equals(afterString);
+    }
 }
