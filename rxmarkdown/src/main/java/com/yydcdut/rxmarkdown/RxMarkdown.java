@@ -17,7 +17,6 @@ package com.yydcdut.rxmarkdown;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.yydcdut.rxmarkdown.syntax.SyntaxFactory;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
@@ -124,11 +123,7 @@ public class RxMarkdown {
                         public CharSequence call(String s) {
                             if (mSyntaxFactory != null) {
                                 RxMDConfiguration config = getRxMDConfiguration();
-                                long time = System.currentTimeMillis();
                                 CharSequence charSequence = mSyntaxFactory.parse(s, config);
-                                if (config.isDebug()) {
-                                    Log.i(TAG, "spend time --->" + (System.currentTimeMillis() - time));
-                                }
                                 return charSequence;
                             }
                             return s;

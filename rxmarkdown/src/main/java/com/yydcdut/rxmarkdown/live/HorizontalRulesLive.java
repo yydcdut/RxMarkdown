@@ -23,7 +23,10 @@ import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
@@ -36,9 +39,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/8.
  */
 class HorizontalRulesLive extends EditLive {
-
-    private static final String KEY0 = "-";
-    private static final String KEY1 = "*";
 
     private RxMDEditText mRxMDEditText;
 
@@ -67,9 +67,8 @@ class HorizontalRulesLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //1---(-1--)(--1-)(---1) --> ---
-        if (deleteString.contains(KEY0) || deleteString.contains(KEY1) ||
-                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
-                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, deleteString, beforeString, afterString)
+                || SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -97,19 +96,16 @@ class HorizontalRulesLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //--- --> 1---(-1--)(--1-)(---1)
-        if ((addString.contains(KEY0) || addString.contains(KEY1)) ||
-                (KEY0.equals(beforeString) || KEY0.equals(afterString)) ||
-                (KEY1.equals(beforeString) || KEY1.equals(afterString))) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, addString, beforeString, afterString)
+                || SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, MDHorizontalRulesSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getHorizontalRulesSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
+        Syntax syntax = EditFactory.create().getHorizontalRulesSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 
@@ -129,10 +125,7 @@ class HorizontalRulesLive extends EditLive {
                 if (!existForegroundColorSpan(start, end)) {
                     int textColor = mRxMDEditText.getCurrentTextColor();
                     editable.setSpan(new ForegroundColorSpan(
-                                    Color.argb(51,
-                                            Color.red(textColor),
-                                            Color.green(textColor),
-                                            Color.blue(textColor))),
+                                    Color.argb(51, Color.red(textColor), Color.green(textColor), Color.blue(textColor))),
                             start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
@@ -142,14 +135,15 @@ class HorizontalRulesLive extends EditLive {
     private void removeCurrentHorizontalRulesTextColor(int selStart, int selEnd) {
         Editable editable = mRxMDEditText.getText();
         MDHorizontalRulesSpan[] spans = editable.getSpans(selStart, selEnd, MDHorizontalRulesSpan.class);
-        if (spans.length > 0) {
-            for (MDHorizontalRulesSpan span : spans) {
-                int start = editable.getSpanStart(span);
-                int end = editable.getSpanEnd(span);
-                ForegroundColorSpan[] foregroundColorSpans = editable.getSpans(start, end, ForegroundColorSpan.class);
-                for (ForegroundColorSpan foregroundColorSpan : foregroundColorSpans) {
-                    editable.removeSpan(foregroundColorSpan);
-                }
+        if (spans == null || spans.length == 0) {
+            return;
+        }
+        for (MDHorizontalRulesSpan span : spans) {
+            int start = editable.getSpanStart(span);
+            int end = editable.getSpanEnd(span);
+            ForegroundColorSpan[] foregroundColorSpans = editable.getSpans(start, end, ForegroundColorSpan.class);
+            for (ForegroundColorSpan foregroundColorSpan : foregroundColorSpans) {
+                editable.removeSpan(foregroundColorSpan);
             }
         }
     }

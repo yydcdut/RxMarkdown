@@ -61,18 +61,18 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(SyntaxKey.KEY_0_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_1_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_2_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_3_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_4_HEADER) ||
-                text.startsWith(SyntaxKey.KEY_5_HEADER);
+        return text.startsWith(SyntaxKey.KEY_0_HEADER)
+                || text.startsWith(SyntaxKey.KEY_1_HEADER)
+                || text.startsWith(SyntaxKey.KEY_2_HEADER)
+                || text.startsWith(SyntaxKey.KEY_3_HEADER)
+                || text.startsWith(SyntaxKey.KEY_4_HEADER)
+                || text.startsWith(SyntaxKey.KEY_5_HEADER);
     }
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
     }
 
     @NonNull
@@ -103,7 +103,6 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 }

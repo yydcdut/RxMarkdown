@@ -27,7 +27,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.yydcdut.rxmarkdown.live.LivePrepare;
@@ -285,9 +284,6 @@ public class RxMDEditText extends EditText implements Handler.Callback {
         Editable editable = getText();
         long begin = System.currentTimeMillis();
         CharSequence charSequence = mGrammarFactory.parse(editable, mRxMDConfiguration);
-        if (mRxMDConfiguration.isDebug()) {
-            Log.i(TAG, "finish-->" + (System.currentTimeMillis() - begin));
-        }
         return charSequence;
     }
 

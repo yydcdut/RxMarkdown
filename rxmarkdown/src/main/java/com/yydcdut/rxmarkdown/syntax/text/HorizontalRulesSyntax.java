@@ -49,19 +49,23 @@ class HorizontalRulesSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.startsWith(SyntaxKey.KEY_0_HORIZONTAL_RULES) || text.startsWith(SyntaxKey.KEY_1_HORIZONTAL_RULES))) {
-            return false;
+        if (text.startsWith(SyntaxKey.KEY_HORIZONTAL_RULES_ASTERISK)) {
+            if (check(text, SyntaxKey.KEY_HORIZONTAL_RULES_ASTERISK_SINGLE)) {
+                return true;
+            }
         }
-        if (!(text.contains(SyntaxKey.KEY_0_HORIZONTAL_RULES) || text.contains(SyntaxKey.KEY_1_HORIZONTAL_RULES))) {
-            return false;
+        if (text.startsWith(SyntaxKey.KEY_HORIZONTAL_RULES_STRIP)) {
+            if (check(text, SyntaxKey.KEY_HORIZONTAL_RULES_STRIP_SINGLE)) {
+                return true;
+            }
         }
-        return check(text, SyntaxKey.KEY_SINGLE_0) || check(text, SyntaxKey.KEY_SINGLE_1);
+        return false;
     }
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
     }
 
     @Override
@@ -73,8 +77,7 @@ class HorizontalRulesSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 
     /**
@@ -84,7 +87,7 @@ class HorizontalRulesSyntax extends TextSyntaxAdapter {
      * @param key  the character
      * @return TRUE: the same
      */
-    private boolean check(@NonNull String text, char key) {
+    private static boolean check(@NonNull String text, char key) {
         char[] chars = text.toCharArray();
         boolean bool = true;
         for (int i = 0; i < chars.length; i++) {

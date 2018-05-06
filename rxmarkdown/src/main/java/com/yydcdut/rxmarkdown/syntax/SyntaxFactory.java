@@ -158,7 +158,7 @@ public interface SyntaxFactory {
      * @param rxMDConfiguration configuration, need InlineCodeBgColor
      * @return the interface {@link Syntax} for inline code syntax
      */
-    Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get strike through syntax.
@@ -210,7 +210,7 @@ public interface SyntaxFactory {
      * @param rxMDConfiguration configuration, need CodeBgColor
      * @return the interface {@link Syntax} for code syntax
      */
-    Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
+    Syntax getCodeBlockSyntax(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get back slash syntax.

@@ -97,6 +97,16 @@ public class ForwardingDrawable extends Drawable implements Drawable.Callback {
         return previousDelegate;
     }
 
+    public void refreshCurrent(Drawable newDelegate) {
+        if (newDelegate == null || mCurrentDelegate == null || newDelegate == mCurrentDelegate) {
+            return;
+        }
+        Drawable previousDelegate = mCurrentDelegate;
+        copyProperties(previousDelegate, newDelegate);
+        mCurrentDelegate = newDelegate;
+        invalidateSelf();
+    }
+
     private static void copyProperties(Drawable to, Drawable from) {
         if (from == null || to == null || to == from) {
             return;

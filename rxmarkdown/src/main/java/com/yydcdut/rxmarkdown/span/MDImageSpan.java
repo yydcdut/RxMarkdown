@@ -23,6 +23,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
@@ -35,18 +38,12 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-
 /**
  * image grammar span
  * <p>
  * Created by yuyidong on 16/5/16.
  */
-public class MDImageSpan extends DynamicDrawableSpan {
+public class MDImageSpan extends DynamicDrawableSpan implements Handler.Callback {
 
     private static Pattern sImageUrlPattern = Pattern.compile("^(.*?)/(\\d+)\\$(\\d+)$");
 
@@ -54,11 +51,14 @@ public class MDImageSpan extends DynamicDrawableSpan {
     private Drawable mPlaceHolder;
     private Drawable mFinalDrawable;
     private final ForwardingDrawable mActualDrawable;
-    private boolean mIsAttached;
+    private boolean isAttached;
+    private boolean isDetached;
     private View mAttachedView;
     private boolean mIsRequestSubmitted = false;
 
     private RxMDImageLoader mRxMDImageLoader;
+
+    private Handler mHandler;
 
     private static Drawable createEmptyDrawable(int width, int height) {
         ColorDrawable d = new ColorDrawable(Color.TRANSPARENT);
@@ -87,6 +87,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
      */
     private MDImageSpan(String uri, Drawable placeHolder, RxMDImageLoader rxMDImageLoader) {
         super(ALIGN_BOTTOM);
+        mHandler = new Handler(Looper.getMainLooper());
         getUrl(uri);
         mRxMDImageLoader = rxMDImageLoader;
         mImageUri = uri;
@@ -111,7 +112,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
      * @param view the view
      */
     public void onAttach(@NonNull View view) {
-        mIsAttached = true;
+        isAttached = true;
         if (mAttachedView != view) {
             mActualDrawable.setCallback(null);
             if (mAttachedView != null) {
@@ -125,49 +126,34 @@ public class MDImageSpan extends DynamicDrawableSpan {
         }
     }
 
+    private static final int MSG_SUCCESS = 0;
+    private static final int MSG_ERROR = 1;
+
     private void submitRequest() {
         mIsRequestSubmitted = true;
-        Observable.just(mImageUri)
-                .observeOn(Schedulers.io())
-                .map(new Func1<String, byte[]>() {
-                    @Override
-                    public byte[] call(String url) {
-                        byte[] bytes = null;
-                        try {
-                            bytes = mRxMDImageLoader.loadSync(getUrl(url));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return bytes;
-                    }
-                })
-                .map(new Func1<byte[], Drawable>() {
-                    @Override
-                    public Drawable call(byte[] bytes) {
-                        if (bytes == null) {
-                            return mPlaceHolder;
-                        }
-                        return getDrawable(bytes);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Drawable>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Drawable drawable) {
-                        setImageWithIntrinsicBounds(drawable);
-                    }
-                });
+        new Thread(mLoadRunnable).start();
     }
+
+    private Runnable mLoadRunnable = new Runnable() {
+        @Override
+        public void run() {
+            byte[] bytes = null;
+            try {
+                bytes = mRxMDImageLoader.loadSync(getUrl(mImageUri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (bytes == null) {
+                mHandler.sendEmptyMessage(MSG_ERROR);
+            } else {
+                Drawable drawable = getDrawable(bytes);
+                Message message = Message.obtain();
+                message.what = MSG_SUCCESS;
+                message.obj = drawable;
+                mHandler.sendMessage(message);
+            }
+        }
+    };
 
     private void setImageWithIntrinsicBounds(@NonNull Drawable drawable) {
         if (mFinalDrawable != drawable && drawable != null) {
@@ -187,7 +173,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return drawable;
     }
 
-    private static int calculate(@NonNull BitmapFactory.Options options, int expectWidth, int expectHeight) {
+    private static int calculateSampleSize(@NonNull BitmapFactory.Options options, int expectWidth, int expectHeight) {
         int sampleSize = 1;
         while (options.outHeight / sampleSize > expectWidth || options.outWidth / sampleSize > expectHeight) {
             sampleSize = sampleSize << 1;
@@ -206,10 +192,10 @@ public class MDImageSpan extends DynamicDrawableSpan {
         int expectHeight = mActualDrawable.getIntrinsicHeight();
         int sampleSize = 1;
         if (expectWidth >= 0 && expectHeight >= 0) {
-            sampleSize = calculate(calculateOptions, expectWidth, expectHeight);
+            sampleSize = calculateSampleSize(calculateOptions, expectWidth, expectHeight);
         } else if (mPlaceHolder.getBounds().width() >= 0 && mPlaceHolder.getBounds().height() >= 0) {
             Rect rect = mPlaceHolder.getBounds();
-            sampleSize = calculate(calculateOptions, rect.width(), rect.height());
+            sampleSize = calculateSampleSize(calculateOptions, rect.width(), rect.height());
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sampleSize;
@@ -217,16 +203,15 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return createBitmapDrawable(bitmap);
     }
 
-    /**
-     * invoke when view destroyed
-     */
     public void onDetach() {
-        if (!mIsAttached) {
+        isDetached = true;
+        if (!isAttached) {
             return;
         }
         mActualDrawable.setCallback(null);
         mAttachedView = null;
         mActualDrawable.setCurrent(mPlaceHolder);
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @NonNull
@@ -251,5 +236,14 @@ public class MDImageSpan extends DynamicDrawableSpan {
             return m.group(1);
         }
         return sourceUrl;
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (!isDetached && msg.what == MSG_SUCCESS && msg.obj instanceof Drawable) {
+            Drawable drawable = (Drawable) msg.obj;
+            setImageWithIntrinsicBounds(drawable);
+        }
+        return false;
     }
 }

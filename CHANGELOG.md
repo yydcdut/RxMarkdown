@@ -2,10 +2,10 @@
 * Add link click callback 
 
 ### 0.0.5
-* Fix Horizontal Rules edit grammar bug
+* Fix Horizontal Rules edit syntax bug
 
 ### 0.0.7
-* Add bold and italic grammar (__bold__ && _italic_)
+* Add bold and italic syntax (__bold__ && _italic_)
 
 ### 0.0.8-beta
 * Add HorizontalRules height

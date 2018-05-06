@@ -41,19 +41,4 @@ abstract class EditSyntaxAdapter implements Syntax {
     public CharSequence format(@NonNull CharSequence charSequence) {
         return charSequence;
     }
-
-    /**
-     * get place holder for match string
-     *
-     * @param matchString String, the match string
-     * @return the place holder string
-     */
-    protected static String getPlaceHolder(String matchString) {
-        int length = matchString.length();
-        StringBuilder placeHolder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            placeHolder.append(" ");
-        }
-        return placeHolder.toString();
-    }
 }

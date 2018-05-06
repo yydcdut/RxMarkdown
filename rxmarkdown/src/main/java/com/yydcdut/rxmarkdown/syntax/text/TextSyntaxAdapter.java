@@ -18,16 +18,11 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.LeadingMarginSpan;
-import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
-import com.yydcdut.rxmarkdown.span.MDImageSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 import java.util.ArrayList;
@@ -45,16 +40,6 @@ abstract class TextSyntaxAdapter implements Syntax {
     public TextSyntaxAdapter(@NonNull RxMDConfiguration rxMDConfiguration) {
     }
 
-    /**
-     * set content margin left.
-     *
-     * @param ssb   the content
-     * @param every the distance that margin left
-     */
-    protected static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
-        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-    }
-
     @Override
     public boolean isMatch(@NonNull CharSequence charSequence) {
         SpannableStringBuilder ssb;
@@ -63,7 +48,7 @@ abstract class TextSyntaxAdapter implements Syntax {
         } else {
             return false;
         }
-        if (ssb.getSpans(0, ssb.length(), MDCodeSpan.class).length > 0) {
+        if (ssb.getSpans(0, ssb.length(), MDCodeBlockSpan.class).length > 0) {
             return false;
         }
         if (TextUtils.isEmpty(charSequence)) {
@@ -81,10 +66,27 @@ abstract class TextSyntaxAdapter implements Syntax {
         } else {
             return charSequence;
         }
-        ssb = encode(ssb);
+        boolean isHandledBackSlash = encode(ssb);
         ssb = format(ssb);
-        ssb = decode(ssb);
+        if (isHandledBackSlash) {
+            decode(ssb);
+        }
         return ssb;
+    }
+
+    protected static boolean replace(SpannableStringBuilder ssb, String key, String replace) {
+        boolean isHandledBackSlash = false;
+        int index;
+        while (true) {
+            String text = ssb.toString();
+            index = text.indexOf(key);
+            if (index == -1) {
+                break;
+            }
+            isHandledBackSlash = true;
+            ssb.replace(index, index + key.length(), replace);
+        }
+        return isHandledBackSlash;
     }
 
     /**
@@ -99,16 +101,15 @@ abstract class TextSyntaxAdapter implements Syntax {
      * encode the back slash in content
      *
      * @param ssb the original content
-     * @return the content after encoding
+     * @return is handled back slash
      */
     @NonNull
-    abstract SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb);
+    abstract boolean encode(@NonNull SpannableStringBuilder ssb);
 
     /**
      * parse the content which is encoded
      *
      * @param ssb the content which is encoded
-     * @return the content after parsing
      */
     @NonNull
     abstract SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb);
@@ -120,55 +121,7 @@ abstract class TextSyntaxAdapter implements Syntax {
      * @return the result content
      */
     @NonNull
-    abstract SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb);
-
-    /**
-     * check whether contains inline code syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInInlineCode(SpannableStringBuilder ssb, int position, int keyLength) {
-        TypefaceSpan[] spans = ssb.getSpans(position, position + keyLength, TypefaceSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * check whether contains hyper link syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInHyperLink(SpannableStringBuilder ssb, int position, int keyLength) {
-        URLSpan[] spans = ssb.getSpans(position, position + keyLength, URLSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * check whether contains image syntax
-     *
-     * @param ssb       the content
-     * @param position  start position
-     * @param keyLength the checking words' length
-     * @return TRUE: contains
-     */
-    protected boolean checkInImage(SpannableStringBuilder ssb, int position, int keyLength) {
-        MDImageSpan[] spans = ssb.getSpans(position, position + keyLength, MDImageSpan.class);
-        if (spans.length == 0) {
-            return false;
-        }
-        return true;
-    }
+    abstract void decode(@NonNull SpannableStringBuilder ssb);
 
     @NonNull
     @Override

@@ -18,7 +18,10 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.StrikethroughSpan;
 
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
@@ -29,8 +32,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/22.
  */
 class StrikeThroughLive extends EditLive {
-
-    private static final String KEY = "~";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -48,7 +49,7 @@ class StrikeThroughLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //~11~ss~~ --> ~~ss~~
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_STRIKE_THROUGH_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -76,17 +77,15 @@ class StrikeThroughLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //~~ss~~ --> ~11~ss~~
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_STRIKE_THROUGH_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, StrikethroughSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getStrikeThroughSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start);
+        Syntax syntax = EditFactory.create().getStrikeThroughSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
         Utils.setSpans(editable, editTokenList);
     }
 }

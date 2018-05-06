@@ -28,34 +28,34 @@ import java.util.List;
  * <p>
  * Created by yuyidong on 16/5/20.
  */
-public class GrammarDoElseChain implements IChain {
-    private Syntax mGrammar;
+public class SyntaxDoElseChain implements ISpecialChain {
+    private Syntax mSyntax;
 
-    private IChain mNextHandleGrammar = null;
-    private List<IChain> mNextHandleGrammarList = null;
+    private ISpecialChain mNextHandleSyntax = null;
+    private List<ISpecialChain> mNextHandleSyntaxList = null;
 
     /**
      * Constructor
      *
-     * @param grammar the grammar
+     * @param syntax the syntax
      */
-    public GrammarDoElseChain(@NonNull Syntax grammar) {
-        mGrammar = grammar;
+    public SyntaxDoElseChain(@NonNull Syntax syntax) {
+        mSyntax = syntax;
     }
 
     @NonNull
     @Override
-    public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        if (mGrammar.isMatch(charSequence)) {
-            mGrammar.format(charSequence);
+    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+        if (mSyntax.isMatch(charSequence)) {
+            mSyntax.format(charSequence);
             boolean handled = false;
-            for (IChain responsibilityChain : mNextHandleGrammarList) {
-                handled |= responsibilityChain.handleGrammar(charSequence);
+            for (ISpecialChain responsibilityChain : mNextHandleSyntaxList) {
+                handled |= responsibilityChain.handleSyntax(charSequence);
             }
             return handled;
         } else {
-            if (mNextHandleGrammar != null) {
-                return mNextHandleGrammar.handleGrammar(charSequence);
+            if (mNextHandleSyntax != null) {
+                return mNextHandleSyntax.handleSyntax(charSequence);
             } else {
                 return false;
             }
@@ -63,17 +63,17 @@ public class GrammarDoElseChain implements IChain {
     }
 
     @Override
-    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
-        if (mNextHandleGrammarList == null) {
-            mNextHandleGrammarList = new ArrayList<>();
+    public boolean addNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
+        if (mNextHandleSyntaxList == null) {
+            mNextHandleSyntaxList = new ArrayList<>();
         }
-        mNextHandleGrammarList.add(nextHandleGrammar);
+        mNextHandleSyntaxList.add(nextHandleSyntax);
         return true;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
-        mNextHandleGrammar = nextHandleGrammar;
+    public boolean setNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
+        mNextHandleSyntax = nextHandleSyntax;
         return true;
     }
 }

@@ -23,6 +23,7 @@ import android.text.style.AlignmentSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 /**
  * The implementation of syntax for center align.
@@ -45,17 +46,8 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_1);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return replace(ssb, SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode1());
     }
 
     @NonNull
@@ -68,16 +60,7 @@ class CenterAlignSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_ENCODE_1);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT);
     }
 }

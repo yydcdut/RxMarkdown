@@ -43,7 +43,7 @@ public class CompareActivity extends AppCompatActivity implements TextWatcher {
 
         mRxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(400, 400)
-                .setBlockQuotesColor(0xff33b5e5)
+                .setBlockQuotesLineColor(0xff33b5e5)
                 .setHeader1RelativeSize(1.6f)
                 .setHeader2RelativeSize(1.5f)
                 .setHeader3RelativeSize(1.4f)
@@ -51,14 +51,13 @@ public class CompareActivity extends AppCompatActivity implements TextWatcher {
                 .setHeader5RelativeSize(1.2f)
                 .setHeader6RelativeSize(1.1f)
                 .setHorizontalRulesColor(0xffaa66cc)
-                .setInlineCodeBgColor(0x33CCCCCC)
-                .setCodeBgColor(0x59f0f0f0)
+                .setCodeBgColor(0x33CCCCCC)
                 .setTodoColor(0xff669900)
                 .setTodoDoneColor(0xffff4444)
                 .setUnOrderListColor(0xffffbb33)
                 .setRxMDImageLoader(new OKLoader(this))
-                .setLinkUnderline(true)
-                .setLinkColor(0xff00ddff)
+                .showLinkUnderline(true)
+                .setLinkFontColor(0xff00ddff)
                 .build();
         horizontalEditScrollView.setEditTextAndConfig(mRxMDEditText, mRxMDConfiguration);
         mRxMDEditText.setText(Const.MD_SAMPLE);

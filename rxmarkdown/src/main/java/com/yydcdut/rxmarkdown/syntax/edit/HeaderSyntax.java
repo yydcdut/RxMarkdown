@@ -15,7 +15,6 @@
  */
 package com.yydcdut.rxmarkdown.syntax.edit;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Spanned;
@@ -25,6 +24,7 @@ import android.text.style.RelativeSizeSpan;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +51,8 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/6/30.
  */
 class HeaderSyntax extends EditSyntaxAdapter {
+    private static final String PATTERN = "^(#{1,6})( )(.*?)$";
+    private static final String PATTERN_WITH_CENTER_ALIGN = "^\\[(#{1,6}( )(.*?)\\]$)";
 
     private float mHeader1RelativeSize;
     private float mHeader2RelativeSize;
@@ -71,12 +73,10 @@ class HeaderSyntax extends EditSyntaxAdapter {
 
     @NonNull
     @Override
-    @SuppressLint("WrongConstant")
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         StringBuilder content = new StringBuilder(editable);
-        Pattern p = Pattern.compile("^(#{1,6})( )(.*?)$", Pattern.MULTILINE);
-        Matcher m = p.matcher(content);
+        Matcher m = Pattern.compile(PATTERN, Pattern.MULTILINE).matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         Map<String, Integer> specialMap = new HashMap<>();//处理特殊的
         while (m.find()) {
@@ -87,8 +87,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
                 matchList.add(matchString);
             }
         }
-        Pattern p2 = Pattern.compile("^\\[(#{1,6}( )(.*?)\\]$)", Pattern.MULTILINE);
-        Matcher m2 = p2.matcher(content);
+        Matcher m2 = Pattern.compile(PATTERN_WITH_CENTER_ALIGN, Pattern.MULTILINE).matcher(content);
         while (m2.find()) {
             String matchString = m2.group();
             if (matchSpecial(matchString)) {
@@ -148,12 +147,12 @@ class HeaderSyntax extends EditSyntaxAdapter {
      * @return if matched
      */
     private static boolean matchSpecial(String match) {
-        if (TextUtils.equals(match, SyntaxKey.KEY_0_HEADER) ||
-                TextUtils.equals(match, SyntaxKey.KEY_1_HEADER) ||
-                TextUtils.equals(match, SyntaxKey.KEY_2_HEADER) ||
-                TextUtils.equals(match, SyntaxKey.KEY_3_HEADER) ||
-                TextUtils.equals(match, SyntaxKey.KEY_4_HEADER) ||
-                TextUtils.equals(match, SyntaxKey.KEY_5_HEADER)) {
+        if (TextUtils.equals(match, SyntaxKey.KEY_0_HEADER)
+                || TextUtils.equals(match, SyntaxKey.KEY_1_HEADER)
+                || TextUtils.equals(match, SyntaxKey.KEY_2_HEADER)
+                || TextUtils.equals(match, SyntaxKey.KEY_3_HEADER)
+                || TextUtils.equals(match, SyntaxKey.KEY_4_HEADER)
+                || TextUtils.equals(match, SyntaxKey.KEY_5_HEADER)) {
             return true;
         }
         return false;
@@ -186,15 +185,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
         int index = content.indexOf(match);
         int length = match.length();
         editTokenList.add(new EditToken(getSpan(match), index, index + length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE));
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(" ");
-        }
-        StringBuilder placeHolder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            placeHolder.append(" ");
-        }
-        content.replace(index, index + length, placeHolder.toString());
+        content.replace(index, index + length, Utils.getPlaceHolder(match));
     }
 
     /**

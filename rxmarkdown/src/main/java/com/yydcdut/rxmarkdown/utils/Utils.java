@@ -22,7 +22,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.span.MDCodeBlockSpan;
 import com.yydcdut.rxmarkdown.theme.Theme;
 
 import java.util.ArrayList;
@@ -98,12 +98,12 @@ public class Utils {
         int startPosition = findBeforeNewLineChar(editable, start) + 1;
         int endPosition = findNextNewLineCharCompat(editable, start);
         T[] ts = editable.getSpans(startPosition, endPosition, clazz);
-        if (clazz.isAssignableFrom(MDCodeSpan.class)) {
+        if (clazz.isAssignableFrom(MDCodeBlockSpan.class)) {
             for (T t : ts) {
-                MDCodeSpan mdCodeSpan = ((MDCodeSpan) t);
-                while (mdCodeSpan != null) {
-                    editable.removeSpan(mdCodeSpan);
-                    mdCodeSpan = mdCodeSpan.getNext();
+                MDCodeBlockSpan mdCodeBlockSpan = ((MDCodeBlockSpan) t);
+                while (mdCodeBlockSpan != null) {
+                    editable.removeSpan(mdCodeBlockSpan);
+                    mdCodeBlockSpan = mdCodeBlockSpan.getNext();
                 }
             }
         } else {
@@ -203,7 +203,7 @@ public class Utils {
      * @param end   the end position
      * @return the '\n' positions
      */
-    public static List<Integer> getMiddleNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {
+    public static List<Integer> getNewLineCharPosition(SpannableStringBuilder ssb, int start, int end) {
         List<Integer> list = new ArrayList<>();
         for (int i = start; i < end; i++) {
             if (ssb.charAt(i) == '\n') {
@@ -211,6 +211,21 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    /**
+     * get place holder for match string
+     *
+     * @param matchString String, the match string
+     * @return the place holder string
+     */
+    public static String getPlaceHolder(String matchString) {
+        int length = matchString.length();
+        StringBuilder placeHolder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            placeHolder.append(" ");
+        }
+        return placeHolder.toString();
     }
 
     /**

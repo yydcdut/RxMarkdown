@@ -18,11 +18,13 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
 import com.yydcdut.rxmarkdown.span.MDURLSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -34,7 +36,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/14.
  */
 class HyperLinkSyntax extends TextSyntaxAdapter {
-
+    private static final String PATTERN = ".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*";
 
     private int mColor;
     private boolean isUnderLine;
@@ -42,101 +44,81 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     public HyperLinkSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getLinkColor();
-        isUnderLine = rxMDConfiguration.isLinkUnderline();
+        mColor = rxMDConfiguration.getLinkFontColor();
+        isUnderLine = rxMDConfiguration.isShowLinkUnderline();
         mOnLinkClickCallback = rxMDConfiguration.getOnLinkClickCallback();
     }
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(SyntaxKey.KEY_HYPER_LINK_LEFT) && text.contains(SyntaxKey.KEY_HYPER_LINK_MIDDLE) && text.contains(SyntaxKey.KEY_HYPER_LINK_RIGHT))) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*");
-        return pattern.matcher(text).matches();
+        return contains(text) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
     }
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
-        }
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
-            if (index1 == -1) {
-                break;
-            }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_1);
-        }
-        int index3;
-        while (true) {
-            String text = ssb.toString();
-            index3 = text.indexOf(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
-            if (index3 == -1) {
-                break;
-            }
-            ssb.replace(index3, index3 + SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_3);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE, CharacterProtector.getKeyEncode1());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode3());
+        return isHandledBackSlash;
     }
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
-        return parse(text, ssb);
+        return parse(ssb);
     }
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_LEFT);
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE);
+        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_RIGHT);
+    }
+
+    /**
+     * check the key, whether the text contains hyper link keys
+     *
+     * @param text
+     * @return
+     */
+    private static boolean contains(String text) {
+        if (text.length() < 4 || TextUtils.equals(text, "[]()")) {
+            return true;
         }
-        int index1;
-        while (true) {
-            String text = ssb.toString();
-            index1 = text.indexOf(SyntaxKey.KEY_ENCODE_1);
-            if (index1 == -1) {
-                break;
+        char[] array = text.toCharArray();
+        final int length = array.length;
+        char[] findArray = new char[]{'[', ']', '(', ')'};// TODO: 2018/4/29 写到key里面
+        int findPosition = 0;
+        for (int i = 0; i < length; i++) {
+            if (array[i] == findArray[findPosition]) {
+                if (findPosition == 1) {//]后面必须得是(
+                    if (array[++i] != findArray[++findPosition]) {
+                        findPosition--;
+                    } else {
+                        findPosition++;
+                    }
+                } else {
+                    findPosition++;
+                }
+                if (findPosition == findArray.length - 1) {
+                    return true;
+                }
             }
-            ssb.replace(index1, index1 + SyntaxKey.KEY_ENCODE_1.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_MIDDLE);
         }
-        int index3;
-        while (true) {
-            String text = ssb.toString();
-            index3 = text.indexOf(SyntaxKey.KEY_ENCODE_3);
-            if (index3 == -1) {
-                break;
-            }
-            ssb.replace(index3, index3 + SyntaxKey.KEY_ENCODE_3.length(), SyntaxKey.KEY_HYPER_LINK_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+        return false;
     }
 
     /**
      * parse
      *
-     * @param text the original content,the class type is {@link String}
-     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @param ssb the original content
      * @return the content after parsing
      */
     @NonNull
-    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull SpannableStringBuilder ssb) {
+        String text = ssb.toString();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
         while (true) {
@@ -189,13 +171,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
      * @return
      */
     @NonNull
-    private String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
-        if (target == null) {
-            throw new NullPointerException("target == null");
-        }
-        if (replacement == null) {
-            throw new NullPointerException("replacement == null");
-        }
+    private static String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
         int matchStart = content.indexOf(target, 0);
         if (matchStart == -1) {
             return content;

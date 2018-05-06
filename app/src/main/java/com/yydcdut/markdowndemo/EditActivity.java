@@ -65,7 +65,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
-                .setBlockQuotesColor(0xff33b5e5)
+                .setBlockQuotesLineColor(0xff33b5e5)
                 .setHeader1RelativeSize(1.6f)
                 .setHeader2RelativeSize(1.5f)
                 .setHeader3RelativeSize(1.4f)
@@ -73,8 +73,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .setHeader5RelativeSize(1.2f)
                 .setHeader6RelativeSize(1.1f)
                 .setHorizontalRulesColor(0xff99cc00)
-                .setInlineCodeBgColor(0xffff4444)
-                .setCodeBgColor(0x33999999)
+                .setCodeBgColor(0xffff4444)
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)

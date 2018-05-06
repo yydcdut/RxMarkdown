@@ -17,71 +17,40 @@ package com.yydcdut.rxmarkdown.syntax.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.util.Pair;
+import android.text.style.BackgroundColorSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
-import com.yydcdut.rxmarkdown.utils.Utils;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The implementation of syntax for code.
+ * The implementation of syntax for inline code.
  * syntax:
- * "```
- * content
- * ```"
+ * "`content`"
  * <p>
  * Created by yuyidong on 16/6/30.
  */
-class CodeSyntax extends EditSyntaxAdapter {
+class CodeSyntax extends EditSyntaxAdapter implements SyntaxUtils.OnWhatSpanCallback {
+    private static final String PATTERN = "(`)(.*?)(`)";
 
     private int mColor;
 
     public CodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getTheme().getBackgroundColor();
+        mColor = rxMDConfiguration.getCodeBgColor();
     }
 
     @NonNull
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
-        List<EditToken> editTokenList = new ArrayList<>();
-        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), SyntaxKey.KEY_CODE);
-        for (int i = list.size() - 1; i >= 0; i--) {
-            Pair<Integer, Integer> pair = list.get(i);
-            int start = pair.first;
-            int end = pair.second;
-            List<Integer> middleList = Utils.getMiddleNewLineCharPosition((SpannableStringBuilder) editable, start, end);
-            int current = start;
-            MDCodeSpan parentSpan = null;
-            for (int j = 0; j < middleList.size(); j++) {
-                int position = middleList.get(j);
-                MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
-                if (position == current) {//处理只有换行符
-                    editTokenList.add(new EditToken(mdCodeSpan, position - 1, position + 1, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-                } else {
-                    editTokenList.add(new EditToken(mdCodeSpan, current, position, j == 0 ? Spannable.SPAN_EXCLUSIVE_INCLUSIVE : Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-                }
-                if (parentSpan != null) {
-                    parentSpan.setNext(mdCodeSpan);
-                }
-                parentSpan = mdCodeSpan;
-                current = position + 1;
-            }
-            MDCodeSpan mdCodeSpan = new MDCodeSpan(mColor);
-            editTokenList.add(new EditToken(mdCodeSpan, end,
-                    end + SyntaxKey.KEY_CODE.length() + (end + SyntaxKey.KEY_CODE.length() >= editable.length() ? 0 : 1),
-                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE));
-            if (parentSpan != null) {
-                parentSpan.setNext(mdCodeSpan);
-            }
-        }
-        return editTokenList;
+        return SyntaxUtils.parse(editable, PATTERN, SyntaxKey.KEY_CODE_BLOCK, this);
+    }
+
+    @Override
+    public Object whatSpan() {
+        return new BackgroundColorSpan(mColor);
     }
 }

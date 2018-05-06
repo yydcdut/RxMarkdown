@@ -16,21 +16,21 @@
 package com.yydcdut.rxmarkdown.live;
 
 import android.text.Editable;
+import android.text.style.BackgroundColorSpan;
 
-import com.yydcdut.rxmarkdown.span.MDCodeSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.List;
 
 /**
- * RxMDEditText, code controller.
+ * RxMDEditText, inline code controller.
  * <p>
  * Created by yuyidong on 16/7/22.
  */
 class CodeLive extends EditLive {
-
-    private static final String KEY = "`";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -39,23 +39,14 @@ class CodeLive extends EditLive {
             return;
         }
         String deleteString = s.subSequence(start, start + before).toString();
-        String beforeString = null;
-        String afterString = null;
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(start + before, start + before + 1).toString();
-        }
-        //`1``(``1`)(```1)(1```) --> ```
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (deleteString.contains(SyntaxKey.KEY_CODE)) {
             shouldFormat = true;
         }
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int after) {
-        if (mRxMDConfiguration == null && !(s instanceof Editable)) {
+        if (mRxMDConfiguration == null || !(s instanceof Editable)) {
             return;
         }
         if (shouldFormat) {
@@ -66,27 +57,16 @@ class CodeLive extends EditLive {
             return;
         }
         String addString;
-        String beforeString = null;
-        String afterString = null;
         addString = s.subSequence(start, start + after).toString();
-        if (start + 1 <= s.length()) {
-            afterString = s.subSequence(start, start + 1).toString();
-        }
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        //``` --> `1``(``1`)(```1)(1```)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (addString.contains(SyntaxKey.KEY_CODE)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, MDCodeSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getCodeSyntax(mRxMDConfiguration);
-        }
-        List<EditToken> editTokenList = mSyntax.format(editable);
-        Utils.setCodeSpan(editable, editTokenList);
+        Utils.removeSpans(editable, start, BackgroundColorSpan.class);
+        Syntax syntax = EditFactory.create().getCodeSyntax(mRxMDConfiguration);
+        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
+        Utils.setSpans(editable, editTokenList);
     }
 }

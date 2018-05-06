@@ -21,15 +21,15 @@ import android.support.annotation.NonNull;
  * Chain of responsibility pattern.
  * <p>
  * But it's a special chain, because
- * 1. {@link GrammarMultiChains} can set one or more next chains.
- * 2. {@link MultiGrammarsChain} can add one or more grammars.
- * 3. It's very particular for {@link GrammarDoElseChain}. First, {@link GrammarDoElseChain} can set one or more next chains.
+ * 1. {@link SyntaxMultiChains} can set one or more next chains.
+ * 2. {@link MultiSyntaxChain} can add one or more grammars.
+ * 3. It's very particular for {@link SyntaxDoElseChain}. First, {@link SyntaxDoElseChain} can set one or more next chains.
  * Second, if chain can handle it, then, let other chains to handle it too.
- * 4. {@link GrammarSingleChain} is real chain of responsibility pattern.
+ * 4. {@link SyntaxChain} is real chain of responsibility pattern.
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-public interface IChain {
+public interface ISpecialChain {
     /**
      * Whether the grammar in this chain can handle it
      *
@@ -37,24 +37,24 @@ public interface IChain {
      * @return TRUE: can handle it
      */
     @NonNull
-    boolean handleGrammar(@NonNull CharSequence charSequence);
+    boolean handleSyntax(@NonNull CharSequence charSequence);
 
     /**
      * If this chain can't handle it, let others handle it.
-     * This method can add one or more next chains, more see {@link GrammarMultiChains} and {@link GrammarDoElseChain}.
+     * This method can add one or more next chains, more see {@link SyntaxMultiChains} and {@link SyntaxDoElseChain}.
      *
-     * @param nextHandleGrammar the next chain
-     * @return Only return TRUE in {@link GrammarMultiChains}
+     * @param nextHandleSyntax the next chain
+     * @return Only return TRUE in {@link SyntaxMultiChains}
      */
-    boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar);
+    boolean addNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax);
 
     /**
      * Set next chain.
      * If this chain can't handle it, let the next chain handle it.
      *
-     * @param nextHandleGrammar the next chain
-     * @return Only return FALSE in {@link GrammarMultiChains}
+     * @param nextHandleSyntax the next chain
+     * @return Only return FALSE in {@link SyntaxMultiChains}
      */
-    boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar);
+    boolean setNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax);
 
 }

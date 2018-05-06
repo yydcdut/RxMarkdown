@@ -24,6 +24,7 @@ import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
             int length = match.length();
             int nested = calculateNested(match);
             editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested, type), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-            content.replace(index, index + length, getPlaceHolder(match));
+            content.replace(index, index + length, Utils.getPlaceHolder(match));
         }
     }
 
@@ -115,46 +116,46 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
 
     private void replaceTodo(StringBuilder stringBuilder) {
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_0);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP_LOW);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_0.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP_LOW.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_1);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP_UP);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_1.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP_UP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_2);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_2.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_3);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_ASTERISK_LOW);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_3.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_ASTERISK_LOW.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_4);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_ASTERISK_UP);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_4.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_ASTERISK_UP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_5);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_ASTERISK);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_5.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_ASTERISK.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
     }
 }

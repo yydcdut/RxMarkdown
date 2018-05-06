@@ -19,64 +19,54 @@ import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.syntax.Syntax;
 
-import java.util.Arrays;
-
 /**
  * This Chain can add one or more syntaxs.
  * <p>
  * Created by yuyidong on 16/5/4.
  */
-public class MultiGrammarsChain implements IChain {
-    private Syntax[] mGrammars;
+public class MultiSyntaxChain implements ISpecialChain {
+    private Syntax[] mSyntaxArray;
 
-    private IChain mNextHandleGrammar = null;
+    private ISpecialChain mNextHandleSyntax = null;
 
     /**
      * Constructor
      *
-     * @param grammars the syntax
+     * @param syntaxes the syntax
      */
-    public MultiGrammarsChain(@NonNull Syntax... grammars) {
-        mGrammars = grammars;
+    public MultiSyntaxChain(@NonNull Syntax... syntaxes) {
+        mSyntaxArray = syntaxes;
     }
 
     @NonNull
     @Override
-    public boolean handleGrammar(@NonNull CharSequence charSequence) {
-        for (Syntax syntax : mGrammars) {
+    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+        for (Syntax syntax : mSyntaxArray) {
             if (syntax.isMatch(charSequence)) {
                 syntax.format(charSequence);
             }
         }
-        if (mNextHandleGrammar != null) {
-            return mNextHandleGrammar.handleGrammar(charSequence);
+        if (mNextHandleSyntax != null) {
+            return mNextHandleSyntax.handleSyntax(charSequence);
         } else {
             return false;
         }
     }
 
     /**
-     * @param nextHandleGrammar the next chain
+     * @param nextHandleSyntax the next chain
      * @return boolean
      * @deprecated
      */
     @Override
     @Deprecated
-    public boolean addNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
+    public boolean addNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
         return false;
     }
 
     @Override
-    public boolean setNextHandleGrammar(@NonNull IChain nextHandleGrammar) {
-        mNextHandleGrammar = nextHandleGrammar;
+    public boolean setNextHandleSyntax(@NonNull ISpecialChain nextHandleSyntax) {
+        mNextHandleSyntax = nextHandleSyntax;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "MultiGrammarsChain{" +
-                "mGrammars=" + Arrays.toString(mGrammars) +
-                ", mNextHandleGrammar=" + mNextHandleGrammar +
-                '}';
     }
 }

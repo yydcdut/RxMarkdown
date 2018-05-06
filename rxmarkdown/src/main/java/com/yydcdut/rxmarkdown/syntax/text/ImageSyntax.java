@@ -18,11 +18,13 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
 import com.yydcdut.rxmarkdown.span.MDImageSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.CharacterProtector;
 
 import java.util.regex.Pattern;
 
@@ -34,6 +36,7 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/15.
  */
 class ImageSyntax extends TextSyntaxAdapter {
+    private static final String PATTERN = ".*[!\\[]{1}.*[\\](]{1}.*[)]{1}.*";
 
     private int[] mSize;
     private RxMDImageLoader mRxMDImageLoader;
@@ -46,44 +49,17 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (!(text.contains(SyntaxKey.KEY_IMAGE_LEFT) && text.contains(SyntaxKey.KEY_IMAGE_MIDDLE) && text.contains(SyntaxKey.KEY_IMAGE_RIGHT))) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(".*[!\\[]{1}.*[\\](]{1}.*[)]{1}.*");
-        return pattern.matcher(text).matches();
+        return contains(text) ? true : Pattern.compile(PATTERN).matcher(text).matches();
     }
 
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT.length(), SyntaxKey.KEY_ENCODE);
-        }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
-            if (index2 == -1) {
-                break;
-            }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE.length(), SyntaxKey.KEY_ENCODE_2);
-        }
-        int index4;
-        while (true) {
-            String text = ssb.toString();
-            index4 = text.indexOf(SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
-            if (index4 == -1) {
-                break;
-            }
-            ssb.replace(index4, index4 + SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT.length(), SyntaxKey.KEY_ENCODE_4);
-        }
-        return ssb;
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        boolean isHandledBackSlash = false;
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT, CharacterProtector.getKeyEncode());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE, CharacterProtector.getKeyEncode2());
+        isHandledBackSlash |= replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT, CharacterProtector.getKeyEncode4());
+        return isHandledBackSlash;
     }
 
     @Override
@@ -94,35 +70,43 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        int index0;
-        while (true) {
-            String text = ssb.toString();
-            index0 = text.indexOf(SyntaxKey.KEY_ENCODE);
-            if (index0 == -1) {
-                break;
-            }
-            ssb.replace(index0, index0 + SyntaxKey.KEY_ENCODE.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_LEFT);
+    void decode(@NonNull SpannableStringBuilder ssb) {
+        replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT);
+        replace(ssb, CharacterProtector.getKeyEncode2(), SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE);
+        replace(ssb, CharacterProtector.getKeyEncode3(), SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT);
+    }
+
+    /**
+     * check the key, whether the text contains
+     *
+     * @param text
+     * @return
+     */
+    private static boolean contains(String text) {
+        if (text.length() < 5 || TextUtils.equals(text, "![]()")) {
+            return true;
         }
-        int index2;
-        while (true) {
-            String text = ssb.toString();
-            index2 = text.indexOf(SyntaxKey.KEY_ENCODE_2);
-            if (index2 == -1) {
-                break;
+        char[] array = text.toCharArray();
+        final int length = array.length;
+        char[] findArray = new char[]{'!', '[', ']', '(', ')'};// TODO: 2018/4/29 写到key里面
+        int findPosition = 0;
+        for (int i = 0; i < length; i++) {
+            if (array[i] == findArray[findPosition]) {
+                if (findPosition == 0 || findPosition == 2) {//!后面必须得是[  &&  ]后面必须是(
+                    if (array[++i] != findArray[++findPosition]) {
+                        findPosition--;
+                    } else {
+                        findPosition++;
+                    }
+                } else {
+                    findPosition++;
+                }
+                if (findPosition == findArray.length - 1) {
+                    return true;
+                }
             }
-            ssb.replace(index2, index2 + SyntaxKey.KEY_ENCODE_2.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_MIDDLE);
         }
-        int index4;
-        while (true) {
-            String text = ssb.toString();
-            index4 = text.indexOf(SyntaxKey.KEY_ENCODE_4);
-            if (index4 == -1) {
-                break;
-            }
-            ssb.replace(index4, index4 + SyntaxKey.KEY_ENCODE_4.length(), SyntaxKey.KEY_IMAGE_BACKSLASH_VALUE_RIGHT);
-        }
-        return ssb;
+        return false;
     }
 
     /**
@@ -187,12 +171,6 @@ class ImageSyntax extends TextSyntaxAdapter {
      */
     @NonNull
     private String replaceFirstOne(@NonNull String content, @NonNull String target, @NonNull String replacement) {
-        if (target == null) {
-            throw new NullPointerException("target == null");
-        }
-        if (replacement == null) {
-            throw new NullPointerException("replacement == null");
-        }
         int matchStart = content.indexOf(target, 0);
         if (matchStart == -1) {
             return content;

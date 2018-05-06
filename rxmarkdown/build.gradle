@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion '27.0.3'
     resourcePrefix "rxmarkdown"
 
     defaultConfig {
@@ -21,14 +21,12 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-annotations:22.2.1'
-    compile 'io.reactivex:rxjava:1.1.5'
-    compile 'io.reactivex:rxandroid:1.2.0'
+    implementation 'com.android.support:support-annotations:22.2.1'
+    implementation 'io.reactivex:rxjava:1.1.5'
+    implementation 'io.reactivex:rxandroid:1.2.0'
 }
 
 apply from: './publish.gradle'

@@ -18,7 +18,6 @@ package com.yydcdut.rxmarkdown.live;
 import android.support.annotation.Nullable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.syntax.Syntax;
 
 /**
  * abstract class to set RxMDConfiguration
@@ -29,8 +28,6 @@ abstract class EditLive implements IEditLive {
 
     protected RxMDConfiguration mRxMDConfiguration;
     protected boolean shouldFormat = false;
-    protected Syntax mSyntax;
-    protected Syntax mSyntax1;
 
     @Override
     public void setRxMDConfiguration(@Nullable RxMDConfiguration rxMDConfiguration) {

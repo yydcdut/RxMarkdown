@@ -16,15 +16,20 @@
 package com.yydcdut.rxmarkdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
+import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
+import com.yydcdut.rxmarkdown.syntax.Syntax;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of syntax for unorder list.
@@ -37,8 +42,7 @@ import java.util.ArrayList;
  * <p>
  * Created by yuyidong on 16/5/21.
  */
-class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
-
+class UnOrderListSyntax implements Syntax {
     private static final int START_POSITION = 2;
 
     private int mColor;
@@ -52,13 +56,12 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        String text = charSequence.toString();
-        String[] lines = text.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            boolean b = lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_0) ||
-                    lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_1) ||
-                    (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_2));
-            if (b) {
+        String[] lines = charSequence.toString().split("\n");
+        final int length = lines.length;
+        for (int i = 0; i < length; i++) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK)
+                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS)
+                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
                 return true;
             } else {
                 continue;
@@ -79,28 +82,28 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
         String[] lines = text.split("\n");
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_0) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_1) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
+            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_STRIP) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_ASTERISK) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
                     lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_3) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_4) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_5)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
+            if (SyntaxUtils.existCodeBlockSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_0)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_2));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_1)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_2)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -147,11 +150,11 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
             if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_0.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_ASTERISK.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_0;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_1.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_2;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_2.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_1;
             } else {
                 return 0;
@@ -175,9 +178,9 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             String sub = text.substring(nested * SyntaxKey.KEY_LIST_HEADER.length(), (nested + 1) * SyntaxKey.KEY_LIST_HEADER.length());
             if (SyntaxKey.KEY_LIST_HEADER.equals(sub)) {//还是"  "
                 nested++;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_0.equals(sub) ||
-                    SyntaxKey.KEY_UNORDER_LIST_CHAR_1.equals(sub) ||
-                    SyntaxKey.KEY_UNORDER_LIST_CHAR_2.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_ASTERISK.equals(sub) ||
+                    SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub) ||
+                    SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
                 return nested;
             } else {
                 return -1;
@@ -216,5 +219,11 @@ class UnOrderListSyntax extends ListAndCodeSyntaxAdapter {
             this.nested = nested;
             this.type = type;
         }
+    }
+
+    @NonNull
+    @Override
+    public List<EditToken> format(@NonNull Editable editable) {
+        return new ArrayList<>();
     }
 }

@@ -21,11 +21,10 @@ import android.text.Editable;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.live.EditToken;
 import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The implementation of syntax for horizontal rules.
@@ -40,7 +39,9 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 16/7/7.
  */
-class HorizontalRulesSyntax extends EditSyntaxAdapter {
+class HorizontalRulesSyntax extends EditSyntaxAdapter implements SyntaxUtils.OnWhatSpanCallback {
+    private static final String PATTERN_ASTERISK = "^\\*{3,}$";
+    private static final String PATTERN_STRIP = "^\\-{3,}$";
 
     private int mColor;
     private int mHeight;
@@ -55,28 +56,13 @@ class HorizontalRulesSyntax extends EditSyntaxAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        StringBuilder content = new StringBuilder(editable);
-        List<String> matchList = new ArrayList<>();//找到的
-        matchList.addAll(getMatchList(editable, "\\*"));
-        matchList.addAll(getMatchList(editable, "\\-"));
-        int size = matchList.size();
-        for (int i = 0; i < size; i++) {
-            String match = matchList.get(i);
-            int index = content.indexOf(match);
-            int length = match.length();
-            content.replace(index, index + length, getPlaceHolder(match));
-            editTokenList.add(new EditToken(new MDHorizontalRulesSpan(mColor, mHeight), index, index + length));
-        }
+        editTokenList.addAll(SyntaxUtils.parse(editable, PATTERN_ASTERISK, this));
+        editTokenList.addAll(SyntaxUtils.parse(editable, PATTERN_STRIP, this));
         return editTokenList;
     }
 
-    private List<String> getMatchList(@NonNull Editable editable, @NonNull String key) {
-        Pattern p = Pattern.compile("^" + key + "{3,}$", Pattern.MULTILINE);
-        Matcher m0 = p.matcher(editable);
-        List<String> matchList = new ArrayList<>();//找到的
-        while (m0.find()) {
-            matchList.add(m0.group());
-        }
-        return matchList;
+    @Override
+    public Object whatSpan() {
+        return new MDHorizontalRulesSpan(mColor, mHeight);
     }
 }

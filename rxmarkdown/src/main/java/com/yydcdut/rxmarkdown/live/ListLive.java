@@ -692,7 +692,7 @@ class ListLive extends EditLive {
      * @param s        the text
      * @param next     the next position
      * @param isNumber is already judge number, so next is "." or number
-     * @return TRUE --> is order list formatOrderList
+     * @return if it is order list formatOrderList, return true
      */
     private static boolean isOrderList(CharSequence s, int next, boolean isNumber) {
         if (next + 1 > s.length()) {
@@ -722,7 +722,7 @@ class ListLive extends EditLive {
      * @param s      the text
      * @param next   the next position
      * @param hasKey is already judge the key(*\+\-)
-     * @return TRUE --> is unorder list formatOrderList
+     * @return if it is unorder list formatOrderList, return true
      */
     private static boolean isUnOrderList(CharSequence s, int next, boolean hasKey) {
         if (next + 1 > s.length()) {
@@ -771,7 +771,7 @@ class ListLive extends EditLive {
      *
      * @param editable the text
      * @param start    the start position
-     * @return TRUE --> satisfied
+     * @return if satisfied, return true
      */
     private static boolean isSatisfiedOrderListFormat(Editable editable, int start) {
         int startPosition = Utils.findBeforeNewLineChar(editable, start) + 1;//略过\n
@@ -810,7 +810,7 @@ class ListLive extends EditLive {
      * @param start    the start position
      * @param before   the delete number
      * @param after    the add number
-     * @return TRUE --> should change nested number
+     * @return if should change nested number, return true
      */
     private static boolean checkDeleteOrderListSpan(Editable editable, int start, int before, int after) {
         if (before == 0) {
@@ -836,7 +836,7 @@ class ListLive extends EditLive {
      * @param start    the start position
      * @param before   the delete number
      * @param after    the add number
-     * @return TRUE --> should change nested number
+     * @return if should change nested, return true
      */
     private static boolean checkDeleteUnOrderListSpan(Editable editable, int start, int before, int after) {
         if (before == 0) {

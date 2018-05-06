@@ -18,7 +18,10 @@ package com.yydcdut.rxmarkdown.live;
 import android.text.Editable;
 import android.text.style.StyleSpan;
 
+import com.yydcdut.rxmarkdown.syntax.Syntax;
+import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
 import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
+import com.yydcdut.rxmarkdown.utils.SyntaxUtils;
 import com.yydcdut.rxmarkdown.utils.Utils;
 
 import java.util.ArrayList;
@@ -30,9 +33,6 @@ import java.util.List;
  * Created by yuyidong on 16/7/21.
  */
 class StyleLive extends EditLive {
-
-    private static final String KEY = "*";
-    private static final String KEY_1 = "_";
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int after) {
@@ -50,8 +50,8 @@ class StyleLive extends EditLive {
             afterString = s.subSequence(start + before, start + before + 1).toString();
         }
         //*11*ss** --> **ss**
-        if (deleteString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString) ||
-                deleteString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE, deleteString, beforeString, afterString)
+                || SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -79,23 +79,19 @@ class StyleLive extends EditLive {
             beforeString = s.subSequence(start - 1, start).toString();
         }
         //**ss** --> *11*ss**
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString) ||
-                addString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)) {
+        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_ASTERISK_SINGLE, addString, beforeString, afterString)
+                || SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, StyleSpan.class);
-        if (mSyntax == null) {
-            mSyntax = EditFactory.create().getBoldSyntax(mRxMDConfiguration);
-        }
-        if (mSyntax1 == null) {
-            mSyntax1 = EditFactory.create().getItalicSyntax(mRxMDConfiguration);
-        }
         List<EditToken> editTokenList = new ArrayList<>();
-        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mSyntax.format(editable), start));
-        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, mSyntax1.format(editable), start));
+        Syntax syntax = EditFactory.create().getBoldSyntax(mRxMDConfiguration);
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, syntax.format(editable), start));
+        syntax = EditFactory.create().getItalicSyntax(mRxMDConfiguration);
+        editTokenList.addAll(Utils.getMatchedEditTokenList(editable, syntax.format(editable), start));
         Utils.setSpans(editable, editTokenList);
     }
 }

@@ -44,9 +44,9 @@ public class MDQuoteSpan extends QuoteSpan {
 
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout layout) {
-        float length = 25;
+        float length = p.measureText("  ");
         for (int i = 1; i <= mNested; i++) {
-            super.drawLeadingMargin(c, p, (int) (x + (i - 1) * length), dir + QUOTE_WIDTH_PLUS, top, baseline, bottom, text, start, end, first, layout);
+            super.drawLeadingMargin(c, p, (int) (x + i * length), dir + QUOTE_WIDTH_PLUS, top, baseline, bottom, text, start, end, first, layout);
         }
     }
 }

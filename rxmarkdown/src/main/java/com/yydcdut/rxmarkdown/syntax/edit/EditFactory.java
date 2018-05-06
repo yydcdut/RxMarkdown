@@ -100,8 +100,8 @@ public class EditFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getInlineCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new InlineCodeSyntax(rxMDConfiguration);
+    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CodeSyntax(rxMDConfiguration);
     }
 
     @Override
@@ -125,8 +125,8 @@ public class EditFactory implements SyntaxFactory {
     }
 
     @Override
-    public Syntax getCodeSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
-        return new CodeSyntax(rxMDConfiguration);
+    public Syntax getCodeBlockSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
+        return new CodeBlockSyntax(rxMDConfiguration);
     }
 
     @Override
@@ -140,11 +140,11 @@ public class EditFactory implements SyntaxFactory {
         mSyntaxList.add(getBoldSyntax(mRxMDConfiguration));
         mSyntaxList.add(getItalicSyntax(mRxMDConfiguration));
         mSyntaxList.add(getStrikeThroughSyntax(mRxMDConfiguration));
-        mSyntaxList.add(getInlineCodeSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getCodeSyntax(mRxMDConfiguration));
         mSyntaxList.add(getCenterAlignSyntax(mRxMDConfiguration));
         mSyntaxList.add(getHeaderSyntax(mRxMDConfiguration));
         mSyntaxList.add(getBlockQuotesSyntax(mRxMDConfiguration));
-        mSyntaxList.add(getCodeSyntax(mRxMDConfiguration));
+        mSyntaxList.add(getCodeBlockSyntax(mRxMDConfiguration));
         mSyntaxList.add(getHorizontalRulesSyntax(mRxMDConfiguration));
         mSyntaxList.add(getOrderListSyntax(mRxMDConfiguration));
         mSyntaxList.add(getUnOrderListSyntax(mRxMDConfiguration));

@@ -18,13 +18,15 @@ package com.yydcdut.rxmarkdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.LeadingMarginSpan;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.rxmarkdown.span.MDQuoteSpan;
 import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
+
+import java.util.List;
 
 /**
  * The implementation of syntax for block quotes.
@@ -35,26 +37,59 @@ import com.yydcdut.rxmarkdown.syntax.SyntaxKey;
  */
 class BlockQuotesSyntax extends TextSyntaxAdapter {
 
-    private static final int NESTING_MARGIN = 25;
-    private final int mBackgroundColor;
     private final float mRelativeSize;
-    private final BlockquoteBackgroundNestedColorFetcher mColorFetcher;
+    private final List<Integer> bgColorList;
 
     private int mColor;
 
     public BlockQuotesSyntax(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
-        mColor = rxMDConfiguration.getBlockQuotesColor();
-        mBackgroundColor = rxMDConfiguration.getBlockQuoteBgColor();
+        mColor = rxMDConfiguration.getBlockQuotesLineColor();
         mRelativeSize = rxMDConfiguration.getBlockQuoteRelativeSize();
-        mColorFetcher = rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher() == null ?
-                new BlockquoteBackgroundNestedColorFetcher() {
-                    @Override
-                    public int fetchBackgroundColorForNestingLevel(int nestingLevel) {
-                        return mBackgroundColor;
-                    }
-                } : rxMDConfiguration.getBlockQuoteBackgroundNestedColorFetcher();
+        bgColorList = rxMDConfiguration.getBlockQuoteBgColor();
+    }
 
+    @Override
+    boolean isMatch(@NonNull String text) {
+        return text.startsWith(SyntaxKey.KEY_BLOCK_QUOTES);
+    }
+
+    @NonNull
+    @Override
+    boolean encode(@NonNull SpannableStringBuilder ssb) {
+        return false;
+    }
+
+    @NonNull
+    @Override
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+        int nested = calculateNested(ssb.toString());
+        if (nested == 0) {
+            return ssb;
+        }
+
+        // calculate the first non-blockquote and non-whitespace character
+        int i = 0;
+        while (i < ssb.length()) {
+            if (ssb.charAt(i) == '>' || ssb.charAt(i) == ' ') {
+                i++;
+            } else {
+                break;
+            }
+        }
+
+        final int number = i / 2;
+        for (int n = 0; n < number; n++) {
+            ssb.replace(2 * n, 2 * (n + 1), "  ");
+        }
+
+        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
+        ssb.setSpan(new MDQuoteBackgroundSpan(nested, bgColorList), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
+        if (mRelativeSize != 1f) {
+            ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        marginSSBLeft(ssb, 32);
+        return ssb;
     }
 
     /**
@@ -64,7 +99,6 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
      * @return nested number of content
      */
     private static int calculateNested(@NonNull String text) {//有一个 "> " 就算嵌套一层
-
         int nested = 0;
         int i = 0;
         while (i < text.length()) {
@@ -81,55 +115,18 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
         return nested;
     }
 
-    @Override
-    boolean isMatch(@NonNull String text) {
-        if (!text.startsWith(SyntaxKey.KEY_BLOCK_QUOTES)) {
-            return false;
-        }
-        return true;
-    }
-
     @NonNull
     @Override
-    SpannableStringBuilder encode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    void decode(@NonNull SpannableStringBuilder ssb) {
     }
 
-    @NonNull
-    @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-
-        int nested = calculateNested(ssb.toString());
-        if (nested == 0) {
-            return ssb;
-        }
-
-        // calculate the first non-blockquote and non-whitespace character
-        int i = 0;
-        while (i < ssb.length()) {
-            if (ssb.charAt(i) == '>' || ssb.charAt(i) == ' ') {
-                i++;
-            } else {
-                break;
-            }
-        }
-
-        ssb.delete(0, i);
-        if (ssb.length() == 0) {
-            ssb.append(' ');
-        }
-        ssb.setSpan(new MDQuoteSpan(mColor, nested), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (2 << Spanned.SPAN_PRIORITY_SHIFT));
-        ssb.setSpan(new MDQuoteBackgroundSpan(nested, NESTING_MARGIN, mColorFetcher), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | (1 << Spanned.SPAN_PRIORITY_SHIFT));
-        if (mRelativeSize > 1f || mRelativeSize < 1f) {
-            ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        marginSSBLeft(ssb, nested * NESTING_MARGIN);
-        return ssb;
-    }
-
-    @NonNull
-    @Override
-    SpannableStringBuilder decode(@NonNull SpannableStringBuilder ssb) {
-        return ssb;
+    /**
+     * set content margin left.
+     *
+     * @param ssb   the content
+     * @param every the distance that margin left
+     */
+    private static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
+        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 }
