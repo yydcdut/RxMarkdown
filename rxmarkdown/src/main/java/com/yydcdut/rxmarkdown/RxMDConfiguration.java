@@ -199,7 +199,7 @@ public class RxMDConfiguration {
      * @return the theme
      */
     public Theme getTheme() {
-        return mTheme;
+        return theme;
     }
 
     /**
