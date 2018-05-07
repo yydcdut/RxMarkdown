@@ -9,14 +9,14 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.yydcdut.markdown.syntax.edit.EditFactory;
+import com.yydcdut.markdown.syntax.text.TextFactory;
 import com.yydcdut.markdowndemo.loader.OKLoader;
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.syntax.edit.EditFactory;
-import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
 
 import rx.Subscriber;
 

@@ -1,1 +1,1 @@
-include ':app', ':rxmarkdown'
+include ':app', ':markdown-processor', ':rxmarkdown-wrapper'

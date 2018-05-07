@@ -15,14 +15,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yydcdut.markdown.callback.OnLinkClickCallback;
+import com.yydcdut.markdown.loader.MDImageLoader;
+import com.yydcdut.markdown.syntax.text.TextFactory;
+import com.yydcdut.markdown.theme.ThemeSunburst;
 import com.yydcdut.markdowndemo.loader.OKLoader;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDTextView;
 import com.yydcdut.rxmarkdown.RxMarkdown;
-import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
-import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
-import com.yydcdut.rxmarkdown.syntax.text.TextFactory;
-import com.yydcdut.rxmarkdown.theme.ThemeSunburst;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,8 +57,8 @@ public class ShowActivity extends AppCompatActivity {
             return;
         }
         textView.setText(content);
-        RxMDImageLoader rxMDImageLoader = null;
-        rxMDImageLoader = new OKLoader(this);
+        MDImageLoader MDImageLoader = null;
+        MDImageLoader = new OKLoader(this);
 //        rxMDImageLoader = new UILLoader(this);
 
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
@@ -75,7 +75,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
-                .setRxMDImageLoader(rxMDImageLoader)
+                .setRxMDImageLoader(MDImageLoader)
                 .setHorizontalRulesHeight(1)
                 .setLinkFontColor(Color.BLUE)
                 .showLinkUnderline(false)

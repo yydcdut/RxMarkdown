@@ -3,9 +3,9 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.Editable;
 import android.widget.Toast;
 
+import com.yydcdut.markdown.span.MDHorizontalRulesSpan;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
-import com.yydcdut.rxmarkdown.span.MDHorizontalRulesSpan;
 
 /**
  * Created by yuyidong on 16/7/13.

@@ -2,10 +2,10 @@ package com.yydcdut.markdowndemo.controller;
 
 import android.widget.Toast;
 
+import com.yydcdut.markdown.span.MDOrderListSpan;
+import com.yydcdut.markdown.span.MDUnOrderListSpan;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.RxMDEditText;
-import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
-import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 
 /**
  * Created by yuyidong on 16/7/15.
