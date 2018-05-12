@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yydcdut.markdown.MarkdownConfiguration;
+import com.yydcdut.markdown.MarkdownProcessor;
+import com.yydcdut.markdown.MarkdownTextView;
 import com.yydcdut.markdown.callback.OnLinkClickCallback;
 import com.yydcdut.markdown.loader.MDImageLoader;
 import com.yydcdut.markdown.syntax.text.TextFactory;
@@ -34,10 +37,12 @@ import rx.schedulers.Schedulers;
 public class ShowActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTENT = "extra_content";
+    public static final String EXTRA_RX = "is_rx";
 
-    public static void startShowActivity(Activity activity, String content) {
+    public static void startShowActivity(Activity activity, String content, boolean isRx) {
         Intent intent = new Intent(activity, ShowActivity.class);
         intent.putExtra(EXTRA_CONTENT, content);
+        intent.putExtra(EXTRA_RX, isRx);
         activity.startActivity(intent);
     }
 
@@ -49,18 +54,29 @@ public class ShowActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("Show");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final RxMDTextView textView = (RxMDTextView) findViewById(R.id.txt_md_show);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        RxMDTextView rxMDTextView = (RxMDTextView) findViewById(R.id.txt_md_show_rx);
+        rxMDTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        MarkdownTextView markdownTextView = (MarkdownTextView) findViewById(R.id.txt_md_show);
+        markdownTextView.setMovementMethod(LinkMovementMethod.getInstance());
         String content = getIntent().getStringExtra(EXTRA_CONTENT);
+        boolean isRx = getIntent().getBooleanExtra(EXTRA_RX, false);
         if (TextUtils.isEmpty(content)) {
-            Snackbar.make(textView, "No Text", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(rxMDTextView, "No Text", Snackbar.LENGTH_SHORT).show();
             return;
         }
-        textView.setText(content);
-        MDImageLoader MDImageLoader = null;
-        MDImageLoader = new OKLoader(this);
-//        rxMDImageLoader = new UILLoader(this);
+        MDImageLoader mdImageLoader = null;
+        mdImageLoader = new OKLoader(this);
+//        mdImageLoader = new UILLoader(this);
+        if (isRx) {
+            rxMDTextView.setVisibility(View.VISIBLE);
+            rxMarkdown(rxMDTextView, content, mdImageLoader);
+        } else {
+            markdownTextView.setVisibility(View.VISIBLE);
+            markdown(markdownTextView, content, mdImageLoader);
+        }
+    }
 
+    private void rxMarkdown(final TextView textView, String content, MDImageLoader imageLoader) {
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesLineColor(0xff33b5e5)
@@ -75,7 +91,7 @@ public class ShowActivity extends AppCompatActivity {
                 .setTodoColor(0xffaa66cc)
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
-                .setRxMDImageLoader(MDImageLoader)
+                .setRxMDImageLoader(imageLoader)
                 .setHorizontalRulesHeight(1)
                 .setLinkFontColor(Color.BLUE)
                 .showLinkUnderline(false)
@@ -87,7 +103,6 @@ public class ShowActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-        final long beginTime = System.currentTimeMillis();
         RxMarkdown.with(content, this)
                 .config(rxMDConfiguration)
                 .factory(TextFactory.create())
@@ -101,6 +116,7 @@ public class ShowActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -108,6 +124,39 @@ public class ShowActivity extends AppCompatActivity {
                         textView.setText(charSequence, TextView.BufferType.SPANNABLE);
                     }
                 });
+    }
+
+    private void markdown(final TextView textView, String content, MDImageLoader imageLoader) {
+        MarkdownConfiguration markdownConfiguration = new MarkdownConfiguration.Builder(this)
+                .setDefaultImageSize(50, 50)
+                .setBlockQuotesLineColor(0xff33b5e5)
+                .setHeader1RelativeSize(1.6f)
+                .setHeader2RelativeSize(1.5f)
+                .setHeader3RelativeSize(1.4f)
+                .setHeader4RelativeSize(1.3f)
+                .setHeader5RelativeSize(1.2f)
+                .setHeader6RelativeSize(1.1f)
+                .setHorizontalRulesColor(0xff99cc00)
+                .setCodeBgColor(0xffff4444)
+                .setTodoColor(0xffaa66cc)
+                .setTodoDoneColor(0xffff8800)
+                .setUnOrderListColor(0xff00ddff)
+                .setRxMDImageLoader(imageLoader)
+                .setHorizontalRulesHeight(1)
+                .setLinkFontColor(Color.BLUE)
+                .showLinkUnderline(false)
+                .setTheme(new ThemeSunburst())
+                .setOnLinkClickCallback(new OnLinkClickCallback() {
+                    @Override
+                    public void onLinkClicked(View view, String link) {
+                        Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .build();
+        MarkdownProcessor processor = new MarkdownProcessor(this);
+        processor.factory(TextFactory.create());
+        processor.config(markdownConfiguration);
+        textView.setText(processor.parse(content));
     }
 
     @Override

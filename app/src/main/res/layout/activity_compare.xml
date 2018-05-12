@@ -24,9 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:weightSum="2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -35,14 +36,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.yydcdut.rxmarkdown.RxMDTextView
-                    android:id="@+id/txt_md_show"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="left|top"
-                    android:text="Hello World!"/>
+                    android:layout_height="match_parent">
+
+                    <com.yydcdut.rxmarkdown.RxMDTextView
+                        android:id="@+id/txt_md_show_rx"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|top"
+                        android:visibility="gone"/>
+
+                    <com.yydcdut.markdown.MarkdownTextView
+                        android:id="@+id/txt_md_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|top"
+                        android:visibility="gone"/>
+                </FrameLayout>
             </ScrollView>
-        </LinearLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
@@ -61,13 +74,28 @@
                 android:layout_alignParentBottom="true">
             </com.yydcdut.markdowndemo.view.HorizontalEditScrollView>
 
-            <com.yydcdut.rxmarkdown.RxMDEditText
-                android:id="@+id/edit_rx"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/scroll_edit"
-                android:gravity="left|top"
-                android:text="Hello World!"/>
+                android:layout_above="@+id/scroll_edit">
+
+                <com.yydcdut.rxmarkdown.RxMDEditText
+                    android:id="@+id/edit_rx"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/scroll_edit"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:visibility="gone"/>
+
+                <com.yydcdut.markdown.MarkdownEditText
+                    android:id="@+id/edit_md"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:visibility="gone"/>
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

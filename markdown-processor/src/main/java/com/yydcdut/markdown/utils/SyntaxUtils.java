@@ -150,7 +150,7 @@ public class SyntaxUtils {
 
     public static List<EditToken> parse(@NonNull StringBuilder content, @NonNull String pattern, OnWhatSpanCallback callback) {
         List<EditToken> editTokenList = new ArrayList<>();
-        Matcher m = Pattern.compile(pattern).matcher(content);
+        Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
         while (m.find()) {
             matchList.add(m.group());

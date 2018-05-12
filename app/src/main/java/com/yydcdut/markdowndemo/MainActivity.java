@@ -31,10 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             }
-
             case R.id.btn_edit_show:
-                startActivity(new Intent(this, EditActivity.class));
-                break;
+            case R.id.btn_edit_show_rx: {
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra("is_rx", (v.getId() == R.id.btn_edit_show) ? false : true);
+                startActivity(intent);
+            }
+            break;
         }
     }
 }

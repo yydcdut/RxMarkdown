@@ -50,6 +50,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Subscription mSubscription;
     private HorizontalEditScrollView mHorizontalEditScrollView;
     private int mShortestDistance = -1;
+
+    private MarkdownProcessor mMarkdownProcessor;
+
     private boolean isRx;
 
     @Override
@@ -68,12 +71,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mRxMDEditText = (RxMDEditText) findViewById(R.id.edit_rx);
         mMarkdownEditText = (MarkdownEditText) findViewById(R.id.edit_md);
         mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
-        if (getIntent().getBooleanExtra("is_rx", false)) {
-            mMarkdownEditText.setText(View.VISIBLE);
-            markdown();
-        } else {
+        isRx = getIntent().getBooleanExtra("is_rx", false);
+        if (isRx) {
             mRxMDEditText.setVisibility(View.VISIBLE);
             rxMarkdown();
+        } else {
+            mMarkdownEditText.setVisibility(View.VISIBLE);
+            markdown();
         }
         mAsyncTask = new EditActivity.DemoPictureAsyncTask().execute();
     }
@@ -96,10 +100,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         mHorizontalEditScrollView.setEditTextAndConfig(mMarkdownEditText, markdownConfiguration);
         mMarkdownEditText.setText(Const.MD_SAMPLE);
-        MarkdownProcessor processor = new MarkdownProcessor(this);
-        processor.config(markdownConfiguration);
-        processor.factory(EditFactory.create());
-        processor.live(mMarkdownEditText);
+        mMarkdownProcessor = new MarkdownProcessor(this);
+        mMarkdownProcessor.config(markdownConfiguration);
+        mMarkdownProcessor.factory(EditFactory.create());
+        mMarkdownProcessor.live(mMarkdownEditText);
     }
 
     private void rxMarkdown() {
@@ -164,31 +168,42 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_enable) {
-            final long time = System.currentTimeMillis();
-            mSubscription = mObservable
-                    .subscribe(new Subscriber<CharSequence>() {
-                        @Override
-                        public void onCompleted() {
+            if (isRx) {
+                if (mSubscription != null) {
+                    final long time = System.currentTimeMillis();
+                    mSubscription = mObservable
+                            .subscribe(new Subscriber<CharSequence>() {
+                                @Override
+                                public void onCompleted() {
+                                }
 
-                        }
+                                @Override
+                                public void onError(Throwable e) {
+                                    Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Snackbar.make(mFloatingActionButton, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(CharSequence charSequence) {
-                            Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
+                                @Override
+                                public void onNext(CharSequence charSequence) {
+                                    Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            } else {
+                if (mMarkdownProcessor != null) {
+                    mMarkdownProcessor.live(mMarkdownEditText);
+                }
+            }
             return true;
         } else if (id == R.id.action_disable) {
-            if (mSubscription != null) {
-                mSubscription.unsubscribe();
-                mSubscription = null;
-                mRxMDEditText.clear();
+            if (isRx) {
+                if (mSubscription != null) {
+                    mSubscription.unsubscribe();
+                    mSubscription = null;
+                    mRxMDEditText.clear();
+                }
+            } else {
+                mMarkdownEditText.clear();
             }
             return true;
         } else if (item.getItemId() == android.R.id.home) {
@@ -201,7 +216,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (mAsyncTask != null && mAsyncTask.getStatus() == AsyncTask.Status.FINISHED) {
-            ShowActivity.startShowActivity(this, mRxMDEditText.getText().toString());
+            if (isRx) {
+                ShowActivity.startShowActivity(this, mRxMDEditText.getText().toString(), isRx);
+            } else {
+                ShowActivity.startShowActivity(this, mMarkdownEditText.getText().toString(), isRx);
+            }
         } else {
             Snackbar.make(v, "Wait....", Snackbar.LENGTH_SHORT).show();
         }
@@ -230,7 +249,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             OutputStream outputStream = null;
             InputStream inputStream = null;
             try {
-                outputStream = new FileOutputStream(Environment.getExternalStorageDirectory() + File.separator + "b.jpg");
+                File dir = new File(Environment.getExternalStorageDirectory() + File.separator + "rxMarkdown");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                outputStream = new FileOutputStream(dir.getAbsolutePath() + File.separator + "b.jpg");
                 AssetManager assetManager = getAssets();
                 inputStream = assetManager.open("b.jpg");
                 byte[] buffer = new byte[1024];

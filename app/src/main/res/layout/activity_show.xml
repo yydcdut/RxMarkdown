@@ -25,12 +25,26 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.yydcdut.rxmarkdown.RxMDTextView
-            android:padding="5dp"
-            android:id="@+id/txt_md_show"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="left|top"
-            android:text="Hello World!"/>
+            android:layout_height="match_parent">
+
+            <com.yydcdut.rxmarkdown.RxMDTextView
+                android:id="@+id/txt_md_show_rx"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|top"
+                android:padding="5dp"
+                android:visibility="gone"/>
+
+            <com.yydcdut.markdown.MarkdownTextView
+                android:id="@+id/txt_md_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|top"
+                android:padding="5dp"
+                android:text="Hello World!"
+                android:visibility="gone"/>
+        </FrameLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
