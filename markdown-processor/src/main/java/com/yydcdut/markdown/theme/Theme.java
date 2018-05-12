@@ -176,4 +176,11 @@ public interface Theme {
      */
     @ColorInt
     int getNocodeColor();
+
+    /**
+     * get indented size, the size of 'four spaces or a tab'
+     *
+     * @return the indented size
+     */
+    int getIndentedSize();
 }

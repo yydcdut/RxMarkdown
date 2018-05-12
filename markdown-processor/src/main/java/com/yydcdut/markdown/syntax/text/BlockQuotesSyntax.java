@@ -18,13 +18,13 @@ package com.yydcdut.markdown.syntax.text;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.LeadingMarginSpan;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.span.MDQuoteBackgroundSpan;
 import com.yydcdut.markdown.span.MDQuoteSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
+import com.yydcdut.markdown.utils.SyntaxUtils;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
         if (mRelativeSize != 1f) {
             ssb.setSpan(new RelativeSizeSpan(mRelativeSize), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        marginSSBLeft(ssb, 32);
+        SyntaxUtils.marginSSBLeft(ssb, 32);
         return ssb;
     }
 
@@ -118,15 +118,5 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
-    }
-
-    /**
-     * set content margin left.
-     *
-     * @param ssb   the content
-     * @param every the distance that margin left
-     */
-    private static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
-        ssb.setSpan(new LeadingMarginSpan.Standard(every), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 }

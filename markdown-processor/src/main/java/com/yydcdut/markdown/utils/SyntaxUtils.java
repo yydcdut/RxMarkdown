@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.LeadingMarginSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 
@@ -170,5 +172,27 @@ public class SyntaxUtils {
 
     public static boolean isNeedFormat(String key, String string, String beforeString, String afterString) {
         return string.contains(key) || key.equals(beforeString) || key.equals(afterString);
+    }
+
+    /**
+     * set content margin left.
+     *
+     * @param ssb   the content
+     * @param every the distance that margin left
+     */
+    public static void marginSSBLeft(SpannableStringBuilder ssb, int every) {
+        marginSSBLeft(ssb, every, 0, ssb.length());
+    }
+
+    /**
+     * set content margin left.
+     *
+     * @param ssb   the content
+     * @param every the distance that margin left
+     * @param start the start position
+     * @param end   the end position
+     */
+    public static void marginSSBLeft(SpannableStringBuilder ssb, int every, int start, int end) {
+        ssb.setSpan(new LeadingMarginSpan.Standard(every), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 }

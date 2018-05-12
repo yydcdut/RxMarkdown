@@ -108,4 +108,9 @@ public class ThemeDefault implements Theme {
     public int getNocodeColor() {
         return 0xff000000;
     }
+
+    @Override
+    public int getIndentedSize() {
+        return 30;
+    }
 }

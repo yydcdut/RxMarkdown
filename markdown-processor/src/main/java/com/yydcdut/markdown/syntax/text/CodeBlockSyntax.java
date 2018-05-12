@@ -29,6 +29,7 @@ import com.yydcdut.markdown.prettify.PrettifyHighLighter;
 import com.yydcdut.markdown.span.MDCodeBlockSpan;
 import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
+import com.yydcdut.markdown.utils.SyntaxUtils;
 import com.yydcdut.markdown.utils.Utils;
 
 import java.util.ArrayList;
@@ -47,10 +48,12 @@ class CodeBlockSyntax implements Syntax {
 
     private int mBackgroundColor;
     private int mTextColor;
+    private int mIndentedSize;
     private PrettifyHighLighter mPrettifyHighLighter;//todo 耗时
 
     public CodeBlockSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
         mBackgroundColor = markdownConfiguration.getTheme().getBackgroundColor();
+        mIndentedSize = markdownConfiguration.getTheme().getIndentedSize();
         mPrettifyHighLighter = new PrettifyHighLighter(markdownConfiguration);
         mTextColor = markdownConfiguration.getTheme().getPlainTextColor();
     }
@@ -91,6 +94,7 @@ class CodeBlockSyntax implements Syntax {
                                 language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false),
                                 ssb.subSequence(current, position).toString()),
                         current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SyntaxUtils.marginSSBLeft(ssb, mIndentedSize, current, position);
                 current = position + 1;
             }
             if (!TextUtils.equals("", language)) {

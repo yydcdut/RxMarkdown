@@ -105,4 +105,9 @@ public class ThemeDesert implements Theme {
     public int getNocodeColor() {
         return 0xff333333;
     }
+
+    @Override
+    public int getIndentedSize() {
+        return 30;
+    }
 }

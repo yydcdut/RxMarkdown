@@ -105,4 +105,9 @@ public class ThemeSonsOfObsidian implements Theme {
     public int getNocodeColor() {
         return getPlainTextColor();
     }
+
+    @Override
+    public int getIndentedSize() {
+        return 30;
+    }
 }
