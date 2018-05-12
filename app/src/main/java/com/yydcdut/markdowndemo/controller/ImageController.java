@@ -7,23 +7,20 @@ import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdowndemo.view.ImageDialogView;
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
  * Created by yuyidong on 16/7/20.
  */
 public class ImageController {
     private ImageDialogView mImageDialogView;
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
     private AlertDialog mAlertDialog;
 
-    public ImageController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public ImageController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
         mImageDialogView = new ImageDialogView(mRxMDEditText.getContext());
         mImageDialogView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,

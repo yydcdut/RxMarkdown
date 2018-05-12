@@ -87,7 +87,7 @@ public class MDImageSpan extends DynamicDrawableSpan implements Handler.Callback
      */
     private MDImageSpan(String uri, Drawable placeHolder, MDImageLoader MDImageLoader) {
         super(ALIGN_BOTTOM);
-        mHandler = new Handler(Looper.getMainLooper());
+        mHandler = new Handler(Looper.getMainLooper(), this);
         getUrl(uri);
         mMDImageLoader = MDImageLoader;
         mImageUri = uri;

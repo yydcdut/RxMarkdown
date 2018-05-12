@@ -2,21 +2,18 @@ package com.yydcdut.markdowndemo.controller;
 
 import android.widget.Toast;
 
+import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.span.MDOrderListSpan;
 import com.yydcdut.markdown.span.MDUnOrderListSpan;
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
  * Created by yuyidong on 16/7/15.
  */
 public class ListController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public ListController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public ListController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doUnOrderList() {

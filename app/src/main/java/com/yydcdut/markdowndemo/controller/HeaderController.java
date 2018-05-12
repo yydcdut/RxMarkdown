@@ -3,17 +3,17 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.style.RelativeSizeSpan;
 import android.widget.Toast;
 
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.markdown.MarkdownConfiguration;
+import com.yydcdut.markdown.MarkdownEditText;
 
 /**
  * Created by yuyidong on 16/7/12.
  */
 public class HeaderController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
+    private MarkdownConfiguration mRxMDConfiguration;
 
-    public HeaderController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public HeaderController(MarkdownEditText rxMDEditText, MarkdownConfiguration rxMDConfiguration) {
         mRxMDEditText = rxMDEditText;
         mRxMDConfiguration = rxMDConfiguration;
     }

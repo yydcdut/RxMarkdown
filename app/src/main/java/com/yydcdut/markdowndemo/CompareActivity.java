@@ -37,7 +37,7 @@ public class CompareActivity extends AppCompatActivity implements TextWatcher {
         toolbar.setTitle("Compare");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         HorizontalEditScrollView horizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
-        mRxMDEditText = (RxMDEditText) findViewById(R.id.edit_md);
+        mRxMDEditText = (RxMDEditText) findViewById(R.id.edit_rx);
         mRxMDEditText.addTextChangedListener(this);
         mRxMDTextView = (RxMDTextView) findViewById(R.id.txt_md_show);
 

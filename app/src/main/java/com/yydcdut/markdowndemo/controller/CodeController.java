@@ -3,19 +3,16 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.Editable;
 import android.widget.Toast;
 
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.markdown.MarkdownEditText;
 
 /**
  * Created by yuyidong on 16/7/14.
  */
 public class CodeController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public CodeController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public CodeController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doInlineCode() {

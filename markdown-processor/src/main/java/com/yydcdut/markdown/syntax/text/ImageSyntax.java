@@ -64,8 +64,7 @@ class ImageSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        String text = ssb.toString();
-        return parse(text, ssb);
+        return parse(ssb);
     }
 
     @NonNull
@@ -112,14 +111,13 @@ class ImageSyntax extends TextSyntaxAdapter {
     /**
      * parse
      *
-     * @param text the original content,the class type is {@link String}
-     * @param ssb  the original content,the class type is {@link SpannableStringBuilder}
+     * @param ssb the original content,the class type is {@link SpannableStringBuilder}
      * @return the content after parsing
      */
     @NonNull
-    private SpannableStringBuilder parse(@NonNull String text, @NonNull SpannableStringBuilder ssb) {
+    private SpannableStringBuilder parse(@NonNull SpannableStringBuilder ssb) {
         SpannableStringBuilder tmp = new SpannableStringBuilder();
-        String tmpTotal = text;
+        String tmpTotal = ssb.toString();
         while (true) {
             int position4Key0 = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_LEFT);
             int position4Key1 = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_MIDDLE);

@@ -62,7 +62,7 @@
             </com.yydcdut.markdowndemo.view.HorizontalEditScrollView>
 
             <com.yydcdut.rxmarkdown.RxMDEditText
-                android:id="@+id/edit_md"
+                android:id="@+id/edit_rx"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/scroll_edit"

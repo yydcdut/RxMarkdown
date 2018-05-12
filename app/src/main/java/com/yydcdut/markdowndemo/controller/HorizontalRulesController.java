@@ -3,20 +3,17 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.Editable;
 import android.widget.Toast;
 
+import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.span.MDHorizontalRulesSpan;
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
  * Created by yuyidong on 16/7/13.
  */
 public class HorizontalRulesController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public HorizontalRulesController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public HorizontalRulesController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doHorizontalRules() {

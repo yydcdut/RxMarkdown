@@ -3,19 +3,16 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.Editable;
 import android.widget.Toast;
 
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.markdown.MarkdownEditText;
 
 /**
  * Created by yuyidong on 16/7/13.
  */
 public class CenterAlignController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public CenterAlignController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public CenterAlignController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doCenter() {

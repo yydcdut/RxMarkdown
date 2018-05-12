@@ -3,20 +3,17 @@ package com.yydcdut.markdowndemo.controller;
 import android.text.Editable;
 import android.widget.Toast;
 
+import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
  * Created by yuyidong on 16/7/13.
  */
 public class StyleController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public StyleController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public StyleController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doBold() {

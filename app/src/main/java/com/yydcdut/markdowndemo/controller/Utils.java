@@ -2,6 +2,7 @@ package com.yydcdut.markdowndemo.controller;
 
 import android.support.annotation.Nullable;
 import android.text.style.AlignmentSpan;
+import android.widget.EditText;
 
 import com.yydcdut.markdown.span.MDOrderListSpan;
 import com.yydcdut.markdown.span.MDUnOrderListSpan;
@@ -44,16 +45,16 @@ public class Utils {
     }
 
     @Nullable
-    public static <T> T getSpans(RxMDEditText rxMDEditText, int start, int end, Class<T> clazz) {
-        T[] ts = rxMDEditText.getText().getSpans(start, end, clazz);
+    public static <T> T getSpans(EditText editText, int start, int end, Class<T> clazz) {
+        T[] ts = editText.getText().getSpans(start, end, clazz);
         if (ts != null && ts.length > 0) {
             return ts[0];
         }
         return null;
     }
 
-    public static boolean hasCenterSpan(RxMDEditText rxMDEditText, int start, int end) {
-        AlignmentSpan.Standard centerSpan = Utils.getSpans(rxMDEditText, start, end, AlignmentSpan.Standard.class);
+    public static boolean hasCenterSpan(EditText editText, int start, int end) {
+        AlignmentSpan.Standard centerSpan = Utils.getSpans(editText, start, end, AlignmentSpan.Standard.class);
         if (centerSpan == null) {
             return false;
         } else {

@@ -135,12 +135,12 @@ public class RxMarkdown {
             return Observable.just(mMarkdownEditText)
                     .map(new Func1<MarkdownEditText, CharSequence>() {
                         @Override
-                        public CharSequence call(MarkdownEditText MarkdownEditText) {
+                        public CharSequence call(MarkdownEditText markdownEditText) {
                             if (mSyntaxFactory == null) {
-                                return MarkdownEditText.getText();
+                                return markdownEditText.getText();
                             }
-                            MarkdownEditText.setFactoryAndConfig(mSyntaxFactory, getMarkdownConfiguration());
-                            return MarkdownEditText.getText();
+                            markdownEditText.setFactoryAndConfig(mSyntaxFactory, getMarkdownConfiguration());
+                            return markdownEditText.getText();
                         }
                     });
         }

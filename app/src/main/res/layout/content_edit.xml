@@ -15,12 +15,26 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/scroll_edit">
 
-        <com.yydcdut.rxmarkdown.RxMDEditText
-            android:id="@+id/edit_md"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="left|top"
-            android:text="Hello World!"/>
+            android:layout_height="match_parent">
+
+            <com.yydcdut.rxmarkdown.RxMDEditText
+                android:id="@+id/edit_rx"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="left|top"
+                android:visibility="gone"/>
+
+            <com.yydcdut.markdown.MarkdownEditText
+                android:id="@+id/edit_md"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="left|top"
+                android:visibility="gone"/>
+        </FrameLayout>
     </com.yydcdut.markdowndemo.view.EditScrollView>
 
     <com.yydcdut.markdowndemo.view.HorizontalEditScrollView

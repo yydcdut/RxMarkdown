@@ -30,19 +30,38 @@
             android:id="@+id/btn_edit_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
             android:padding="5dp"
             android:text="Edit and Show"
             android:textAllCaps="false"/>
-
 
         <Button
             android:id="@+id/btn_compare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="5dp"
             android:text="Compare"
             android:textAllCaps="false"/>
 
+        <Button
+            android:id="@+id/btn_edit_show_rx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Edit and Show with RxJava"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_compare_rx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Compare with RxJava"
+            android:textAllCaps="false"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

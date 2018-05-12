@@ -2,20 +2,17 @@ package com.yydcdut.markdowndemo.controller;
 
 import android.widget.Toast;
 
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
+import com.yydcdut.markdown.MarkdownEditText;
 
 /**
  * Created by yuyidong on 16/7/13.
  */
 
 public class TodoController {
-    private RxMDEditText mRxMDEditText;
-    private RxMDConfiguration mRxMDConfiguration;
+    private MarkdownEditText mRxMDEditText;
 
-    public TodoController(RxMDEditText rxMDEditText, RxMDConfiguration rxMDConfiguration) {
+    public TodoController(MarkdownEditText rxMDEditText) {
         mRxMDEditText = rxMDEditText;
-        mRxMDConfiguration = rxMDConfiguration;
     }
 
     public void doTodo() {

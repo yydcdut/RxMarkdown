@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.yydcdut.markdown.MarkdownConfiguration;
+import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdowndemo.R;
 import com.yydcdut.markdowndemo.controller.BlockQuotesController;
 import com.yydcdut.markdowndemo.controller.CenterAlignController;
@@ -20,15 +22,13 @@ import com.yydcdut.markdowndemo.controller.ListController;
 import com.yydcdut.markdowndemo.controller.StrikeThroughController;
 import com.yydcdut.markdowndemo.controller.StyleController;
 import com.yydcdut.markdowndemo.controller.TodoController;
-import com.yydcdut.rxmarkdown.RxMDConfiguration;
-import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
  * Created by yuyidong on 16/7/12.
  */
 public class HorizontalEditScrollView extends FrameLayout implements View.OnClickListener,
         View.OnLongClickListener {
-    private RxMDEditText mRxMDEditText;
+    private MarkdownEditText mMarkdownEditText;
 
     private HeaderController mHeaderController;
     private StyleController mStyleController;
@@ -55,20 +55,20 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
         LayoutInflater.from(context).inflate(R.layout.layout_horizontal_scroll, this, true);
     }
 
-    public void setEditTextAndConfig(@NonNull RxMDEditText rxMDEditText,
-                                     @NonNull RxMDConfiguration rxMDConfiguration) {
-        mRxMDEditText = rxMDEditText;
-        mHeaderController = new HeaderController(rxMDEditText, rxMDConfiguration);
-        mStyleController = new StyleController(rxMDEditText, rxMDConfiguration);
-        mCenterAlignController = new CenterAlignController(rxMDEditText, rxMDConfiguration);
-        mHorizontalRulesController = new HorizontalRulesController(rxMDEditText, rxMDConfiguration);
-        mTodoController = new TodoController(rxMDEditText, rxMDConfiguration);
-        mStrikeThroughController = new StrikeThroughController(rxMDEditText, rxMDConfiguration);
-        mCodeController = new CodeController(rxMDEditText, rxMDConfiguration);
-        mBlockQuotesController = new BlockQuotesController(rxMDEditText, rxMDConfiguration);
-        mListController = new ListController(rxMDEditText, rxMDConfiguration);
-        mImageController = new ImageController(rxMDEditText, rxMDConfiguration);
-        mLinkController = new LinkController(rxMDEditText, rxMDConfiguration);
+    public void setEditTextAndConfig(@NonNull MarkdownEditText markdownEditText,
+                                     @NonNull MarkdownConfiguration markdownConfiguration) {
+        mMarkdownEditText = markdownEditText;
+        mHeaderController = new HeaderController(markdownEditText, markdownConfiguration);
+        mStyleController = new StyleController(markdownEditText);
+        mCenterAlignController = new CenterAlignController(markdownEditText);
+        mHorizontalRulesController = new HorizontalRulesController(markdownEditText);
+        mTodoController = new TodoController(markdownEditText);
+        mStrikeThroughController = new StrikeThroughController(markdownEditText);
+        mCodeController = new CodeController(markdownEditText);
+        mBlockQuotesController = new BlockQuotesController(markdownEditText);
+        mListController = new ListController(markdownEditText);
+        mImageController = new ImageController(markdownEditText);
+        mLinkController = new LinkController(markdownEditText);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class HorizontalEditScrollView extends FrameLayout implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (mRxMDEditText == null) {
+        if (mMarkdownEditText == null) {
             return;
         }
         switch (v.getId()) {

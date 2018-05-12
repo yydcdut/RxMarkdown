@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '27.0.3'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.yydcdut.markdowndemo"
-        minSdkVersion 9
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 9
         versionName "1.1.1"
     }
@@ -25,8 +25,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:22.2.1'
-    implementation 'com.android.support:design:22.2.1'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    implementation "com.android.support:design:${rootProject.ext.supportVersion}"
     implementation 'io.reactivex:rxandroid:1.2.0'
     implementation 'io.reactivex:rxjava:1.1.5'
     implementation 'com.squareup.okhttp:okhttp:2.4.0'

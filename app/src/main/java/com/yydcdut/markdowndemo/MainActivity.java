@@ -16,15 +16,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         toolbar.setTitle("RxMarkdown");
         findViewById(R.id.btn_edit_show).setOnClickListener(this);
+        findViewById(R.id.btn_edit_show_rx).setOnClickListener(this);
         findViewById(R.id.btn_compare).setOnClickListener(this);
+        findViewById(R.id.btn_compare_rx).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_compare:
-                startActivity(new Intent(this, CompareActivity.class));
+            case R.id.btn_compare_rx: {
+                Intent intent = new Intent(this, CompareActivity.class);
+                intent.putExtra("is_rx", (v.getId() == R.id.btn_compare) ? false : true);
+                startActivity(intent);
                 break;
+            }
+
             case R.id.btn_edit_show:
                 startActivity(new Intent(this, EditActivity.class));
                 break;

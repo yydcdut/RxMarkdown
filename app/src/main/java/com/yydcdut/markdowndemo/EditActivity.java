@@ -9,12 +9,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.yydcdut.markdown.MarkdownConfiguration;
+import com.yydcdut.markdown.MarkdownEditText;
+import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 import com.yydcdut.markdowndemo.view.EditScrollView;
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
@@ -39,7 +40,9 @@ import rx.schedulers.Schedulers;
  * Created by yuyidong on 16/7/23.
  */
 public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditScrollView.OnScrollChangedListener {
-    private RxMDEditText mEditText;
+    private RxMDEditText mRxMDEditText;
+    private MarkdownEditText mMarkdownEditText;
+
     private AsyncTask mAsyncTask;
     private FloatingActionButton mFloatingActionButton;
 
@@ -47,6 +50,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Subscription mSubscription;
     private HorizontalEditScrollView mHorizontalEditScrollView;
     private int mShortestDistance = -1;
+    private boolean isRx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +65,44 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mFloatingActionButton.setOnClickListener(this);
         EditScrollView editScrollView = (EditScrollView) findViewById(R.id.edit_scroll);
         editScrollView.setOnScrollChangedListener(this);
-        mEditText = (RxMDEditText) findViewById(R.id.edit_md);
+        mRxMDEditText = (RxMDEditText) findViewById(R.id.edit_rx);
+        mMarkdownEditText = (MarkdownEditText) findViewById(R.id.edit_md);
         mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
+        if (getIntent().getBooleanExtra("is_rx", false)) {
+            mMarkdownEditText.setText(View.VISIBLE);
+            markdown();
+        } else {
+            mRxMDEditText.setVisibility(View.VISIBLE);
+            rxMarkdown();
+        }
+        mAsyncTask = new EditActivity.DemoPictureAsyncTask().execute();
+    }
+
+    private void markdown() {
+        MarkdownConfiguration markdownConfiguration = new MarkdownConfiguration.Builder(this)
+                .setDefaultImageSize(50, 50)
+                .setBlockQuotesLineColor(0xff33b5e5)
+                .setHeader1RelativeSize(1.6f)
+                .setHeader2RelativeSize(1.5f)
+                .setHeader3RelativeSize(1.4f)
+                .setHeader4RelativeSize(1.3f)
+                .setHeader5RelativeSize(1.2f)
+                .setHeader6RelativeSize(1.1f)
+                .setHorizontalRulesColor(0xff99cc00)
+                .setCodeBgColor(0xffff4444)
+                .setTodoColor(0xffaa66cc)
+                .setTodoDoneColor(0xffff8800)
+                .setUnOrderListColor(0xff00ddff)
+                .build();
+        mHorizontalEditScrollView.setEditTextAndConfig(mMarkdownEditText, markdownConfiguration);
+        mMarkdownEditText.setText(Const.MD_SAMPLE);
+        MarkdownProcessor processor = new MarkdownProcessor(this);
+        processor.config(markdownConfiguration);
+        processor.factory(EditFactory.create());
+        processor.live(mMarkdownEditText);
+    }
+
+    private void rxMarkdown() {
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
                 .setBlockQuotesLineColor(0xff33b5e5)
@@ -78,9 +118,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .setTodoDoneColor(0xffff8800)
                 .setUnOrderListColor(0xff00ddff)
                 .build();
-        mHorizontalEditScrollView.setEditTextAndConfig(mEditText, rxMDConfiguration);
-        mEditText.setText(Const.MD_SAMPLE);
-        mObservable = RxMarkdown.live(mEditText)
+        mHorizontalEditScrollView.setEditTextAndConfig(mRxMDEditText, rxMDConfiguration);
+        mRxMDEditText.setText(Const.MD_SAMPLE);
+        mObservable = RxMarkdown.live(mRxMDEditText)
                 .config(rxMDConfiguration)
                 .factory(EditFactory.create())
                 .intoObservable()
@@ -105,25 +145,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         Snackbar.make(mFloatingActionButton, (System.currentTimeMillis() - time) + "", Snackbar.LENGTH_SHORT).show();
                     }
                 });
-
-        mAsyncTask = new EditActivity.DemoPictureAsyncTask().execute();
-
-        mEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-//                Log.i("yuyidong", "beforeTextChanged  start-->" + start + "  before-->" + before + "  after-->" + after);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int after) {
-//                Log.i("yuyidong", "onTextChanged  start-->" + start + "  before-->" + before + "  after-->" + after);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
 
@@ -167,7 +188,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             if (mSubscription != null) {
                 mSubscription.unsubscribe();
                 mSubscription = null;
-                mEditText.clear();
+                mRxMDEditText.clear();
             }
             return true;
         } else if (item.getItemId() == android.R.id.home) {
@@ -180,7 +201,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (mAsyncTask != null && mAsyncTask.getStatus() == AsyncTask.Status.FINISHED) {
-            ShowActivity.startShowActivity(this, mEditText.getText().toString());
+            ShowActivity.startShowActivity(this, mRxMDEditText.getText().toString());
         } else {
             Snackbar.make(v, "Wait....", Snackbar.LENGTH_SHORT).show();
         }
@@ -189,7 +210,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         if (mShortestDistance == -1) {
-            mShortestDistance = mEditText.getLineHeight() * 3 / 2;
+            mShortestDistance = mRxMDEditText.getLineHeight() * 3 / 2;
         }
         if (Math.abs(t - oldt) > mShortestDistance) {
 //            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
