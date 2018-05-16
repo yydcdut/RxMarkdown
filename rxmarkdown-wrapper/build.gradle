@@ -29,3 +29,6 @@ dependencies {
     implementation 'io.reactivex:rxandroid:1.2.0'
     implementation project(':markdown-processor')
 }
+
+apply from: './publish.gradle'
+

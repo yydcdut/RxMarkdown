@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.4.0'
     implementation 'com.squareup.okio:okio:1.5.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation project(':markdown-processor')
-    implementation project(':rxmarkdown-wrapper')
+//    implementation project(':markdown-processor')
+//    implementation project(':rxmarkdown-wrapper')
+    implementation 'com.yydcdut:markdown-processor:0.1.2-test'
+    implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2-test'
 }
