@@ -58,19 +58,19 @@ public class MarkdownConfiguration {
      * @param horizontalRule horizontal rule style
      * @param code           code style
      * @param theme          code block theme
-     * @param \t\o\d\o       \t\o\d\o and done style
+     * @param _todo          _todo and done style
      * @param unOrderList    unorder list style
      * @param link           link style
      * @param image          image style
      */
     protected MarkdownConfiguration(Header header, BlockQuote blockQuote, HorizontalRule horizontalRule,
-                                    Code code, Theme theme, Todo todo, UnOrderList unOrderList, Link link, Image image) {
+                                    Code code, Theme theme, Todo _todo, UnOrderList unOrderList, Link link, Image image) {
         this.header = header;
         this.blockQuote = blockQuote;
         this.horizontalRule = horizontalRule;
         this.code = code;
         this.theme = theme;
-        this.todo = todo;
+        this.todo = _todo;
         this.unOrderList = unOrderList;
         this.link = link;
         this.image = image;

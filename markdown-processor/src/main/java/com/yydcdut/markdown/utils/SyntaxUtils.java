@@ -27,9 +27,10 @@ public class SyntaxUtils {
     /**
      * parse bold and italic
      *
-     * @param key {@link SyntaxKey#KEY_BOLD_ASTERISK} or {@link SyntaxKey#KEY_BOLD_UNDERLINE} or
-     *            {@link SyntaxKey#KEY_ITALIC_ASTERISK} or {@link SyntaxKey#KEY_ITALIC_UNDERLINE}
-     * @param ssb the original content
+     * @param key      {@link SyntaxKey#KEY_BOLD_ASTERISK} or {@link SyntaxKey#KEY_BOLD_UNDERLINE} or
+     *                 {@link SyntaxKey#KEY_ITALIC_ASTERISK} or {@link SyntaxKey#KEY_ITALIC_UNDERLINE}
+     * @param ssb      the original content
+     * @param whatSpan span
      * @return the content after parsing
      */
     public static SpannableStringBuilder parseBoldAndItalic(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull Object whatSpan) {
