@@ -68,10 +68,9 @@ class StyleLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString;
+        String addString = s.subSequence(start, (start + after) > s.length() ? s.length() : (start + after)).toString();
         String beforeString = null;
         String afterString = null;
-        addString = s.subSequence(start, start + after).toString();
         if (start + 1 <= s.length()) {
             afterString = s.subSequence(start, start + 1).toString();
         }

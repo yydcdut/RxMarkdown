@@ -56,8 +56,7 @@ class CodeLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString;
-        addString = s.subSequence(start, start + after).toString();
+        String addString = s.subSequence(start, (start + after) > s.length() ? s.length() : (start + after)).toString();
         if (addString.contains(SyntaxKey.KEY_CODE)) {
             format((Editable) s, start);
         }
