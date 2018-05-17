@@ -259,15 +259,15 @@ public interface SyntaxKey {
     /**
      * list ignore key
      */
-    String IGNORE_LIST_STRIP_LOW = "- [x]";
+    String IGNORE_LIST_HYPHEN_LOW = "- [x]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_STRIP_UP = "- [X]";
+    String IGNORE_LIST_HYPHEN_UP = "- [X]";
     /**
      * list ignore key
      */
-    String IGNORE_LIST_STRIP = "- [ ]";
+    String IGNORE_LIST_HYPHEN = "- [ ]";
     /**
      * list ignore key
      */
@@ -294,7 +294,7 @@ public interface SyntaxKey {
     /**
      * horizontal rules key
      */
-    String KEY_HORIZONTAL_RULES_STRIP = "---";
+    String KEY_HORIZONTAL_RULES_HYPHEN = "---";
     /**
      * horizontal rules single char
      */
@@ -302,7 +302,7 @@ public interface SyntaxKey {
     /**
      * horizontal rules single char
      */
-    char KEY_HORIZONTAL_RULES_STRIP_SINGLE = '-';
+    char KEY_HORIZONTAL_RULES_HYPHEN_SINGLE = '-';
     //----------  HorizontalRulesSyntax  ----------
 
     //----------  TodoDoneSyntax  ----------
@@ -328,7 +328,7 @@ public interface SyntaxKey {
     /**
      * to do key
      */
-    String KEY_TODO_STRIP = "- [ ] ";
+    String KEY_TODO_HYPHEN = "- [ ] ";
     /**
      * to do key
      */
@@ -355,15 +355,15 @@ public interface SyntaxKey {
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_STRIP = "- ";
+    String KEY_UNORDER_LIST_HYPHEN = "- ";
     /**
      * unorder list key
      */
-    String KEY_UNORDER_LIST_CHAR_STRIP = "-";
+    String KEY_UNORDER_LIST_CHAR_HYPHEN = "-";
     /**
      * unorder list ignore key
      */
-    String IGNORE_UNORDER_LIST_STRIP = KEY_TODO_STRIP;
+    String IGNORE_UNORDER_LIST_HYPHEN = KEY_TODO_HYPHEN;
     /**
      * unorder list ignore key
      */

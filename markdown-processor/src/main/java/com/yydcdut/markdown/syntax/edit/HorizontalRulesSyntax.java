@@ -41,7 +41,7 @@ import java.util.List;
  */
 class HorizontalRulesSyntax extends EditSyntaxAdapter implements SyntaxUtils.OnWhatSpanCallback {
     private static final String PATTERN_ASTERISK = "^\\*{3,}$";
-    private static final String PATTERN_STRIP = "^\\-{3,}$";
+    private static final String PATTERN_HYPHEN = "^\\-{3,}$";
 
     private int mColor;
     private int mHeight;
@@ -57,7 +57,7 @@ class HorizontalRulesSyntax extends EditSyntaxAdapter implements SyntaxUtils.OnW
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         editTokenList.addAll(SyntaxUtils.parse(editable, PATTERN_ASTERISK, this));
-        editTokenList.addAll(SyntaxUtils.parse(editable, PATTERN_STRIP, this));
+        editTokenList.addAll(SyntaxUtils.parse(editable, PATTERN_HYPHEN, this));
         return editTokenList;
     }
 

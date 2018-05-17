@@ -61,7 +61,7 @@ class UnOrderListSyntax implements Syntax {
         for (int i = 0; i < length; i++) {
             if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_ASTERISK)
                     || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_PLUS)
-                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
+                    || lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_HYPHEN)) {
                 return true;
             } else {
                 continue;
@@ -82,7 +82,7 @@ class UnOrderListSyntax implements Syntax {
         String[] lines = text.split("\n");
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_STRIP) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_ASTERISK) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
+            if (lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_HYPHEN) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_ASTERISK) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_2) ||
                     lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_3) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_4) || lines[i].startsWith(SyntaxKey.IGNORE_UNORDER_LIST_5)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
@@ -103,7 +103,7 @@ class UnOrderListSyntax implements Syntax {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_STRIP)) {
+            if (lines[i].startsWith(SyntaxKey.KEY_UNORDER_LIST_HYPHEN)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -154,7 +154,7 @@ class UnOrderListSyntax implements Syntax {
                 return MDUnOrderListSpan.TYPE_KEY_0;
             } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_2;
-            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
+            } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_HYPHEN.equals(sub)) {
                 return MDUnOrderListSpan.TYPE_KEY_1;
             } else {
                 return 0;
@@ -180,7 +180,7 @@ class UnOrderListSyntax implements Syntax {
                 nested++;
             } else if (SyntaxKey.KEY_UNORDER_LIST_CHAR_ASTERISK.equals(sub) ||
                     SyntaxKey.KEY_UNORDER_LIST_CHAR_PLUS.equals(sub) ||
-                    SyntaxKey.KEY_UNORDER_LIST_CHAR_STRIP.equals(sub)) {
+                    SyntaxKey.KEY_UNORDER_LIST_CHAR_HYPHEN.equals(sub)) {
                 return nested;
             } else {
                 return -1;

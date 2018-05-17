@@ -116,25 +116,25 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
 
     private void replaceTodo(StringBuilder stringBuilder) {
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP_LOW);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_HYPHEN_LOW);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP_LOW.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_HYPHEN_LOW.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP_UP);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_HYPHEN_UP);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP_UP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_HYPHEN_UP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
-            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_STRIP);
+            int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_HYPHEN);
             if (index0 == -1) {
                 break;
             }
-            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_STRIP.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
+            stringBuilder.replace(index0, index0 + SyntaxKey.IGNORE_LIST_HYPHEN.length(), SyntaxKey.IGNORE_LIST_PLACE_HOLDER);
         }
         while (true) {
             int index0 = stringBuilder.indexOf(SyntaxKey.IGNORE_LIST_ASTERISK_LOW);
