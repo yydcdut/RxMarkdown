@@ -18,7 +18,6 @@ package com.yydcdut.markdown.span;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Parcel;
 import android.text.Layout;
 import android.text.style.QuoteSpan;
 
@@ -36,14 +35,6 @@ public class MDTodoSpan extends QuoteSpan {
 
     /**
      * Constructor
-     */
-    public MDTodoSpan() {
-        super();
-        mColor = 0xff0000ff;
-    }
-
-    /**
-     * Constructor
      *
      * @param color {@link QuoteSpan}
      */
@@ -52,24 +43,13 @@ public class MDTodoSpan extends QuoteSpan {
         mColor = color;
     }
 
-    /**
-     * Constructor
-     *
-     * @param src {@link QuoteSpan}
-     */
-    public MDTodoSpan(Parcel src) {
-        super(src);
-        mColor = src.readInt();
-    }
-
     @Override
     public int getLeadingMargin(boolean first) {
         return super.getLeadingMargin(first) + GAP_WIDTH_PLUS + mMarginLength;
     }
 
     @Override
-    public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
-                                  int top, int baseline, int bottom,
+    public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom,
                                   CharSequence text, int start, int end, boolean first, Layout layout) {
         Paint.Style style = p.getStyle();
         float strokeWidth = p.getStrokeWidth();

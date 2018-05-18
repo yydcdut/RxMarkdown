@@ -19,6 +19,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.MarkdownProcessor;
 import com.yydcdut.markdown.MarkdownTextView;
 import com.yydcdut.markdown.callback.OnLinkClickCallback;
+import com.yydcdut.markdown.callback.OnTodoClickCallback;
 import com.yydcdut.markdown.loader.MDImageLoader;
 import com.yydcdut.markdown.syntax.text.TextFactory;
 import com.yydcdut.markdown.theme.ThemeSunburst;
@@ -76,6 +77,8 @@ public class ShowActivity extends AppCompatActivity {
         }
     }
 
+    private Toast mToast;
+
     private void rxMarkdown(final TextView textView, String content, MDImageLoader imageLoader) {
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
                 .setDefaultImageSize(50, 50)
@@ -99,7 +102,14 @@ public class ShowActivity extends AppCompatActivity {
                 .setOnLinkClickCallback(new OnLinkClickCallback() {
                     @Override
                     public void onLinkClicked(View view, String link) {
-                        Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+                        toast(link);
+                    }
+                })
+                .setOnTodoClickCallback(new OnTodoClickCallback() {
+                    @Override
+                    public CharSequence onTodoClicked(View view, String line) {
+                        toast(line);
+                        return textView.getText();
                     }
                 })
                 .build();
@@ -149,7 +159,14 @@ public class ShowActivity extends AppCompatActivity {
                 .setOnLinkClickCallback(new OnLinkClickCallback() {
                     @Override
                     public void onLinkClicked(View view, String link) {
-                        Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+                        toast(link);
+                    }
+                })
+                .setOnTodoClickCallback(new OnTodoClickCallback() {
+                    @Override
+                    public CharSequence onTodoClicked(View view, String line) {
+                        toast(line);
+                        return textView.getText();
                     }
                 })
                 .build();
@@ -166,5 +183,13 @@ public class ShowActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toast(String msg) {
+        if (mToast == null) {
+            mToast = Toast.makeText(ShowActivity.this, "", Toast.LENGTH_SHORT);
+        }
+        mToast.setText(msg);
+        mToast.show();
     }
 }

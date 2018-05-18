@@ -18,7 +18,7 @@ package com.yydcdut.markdown.callback;
 import android.view.View;
 
 /**
- * the callback of link grammar.
+ * the callback of link syntax.
  * <p>
  * Created by yuyidong on 16/7/28.
  */

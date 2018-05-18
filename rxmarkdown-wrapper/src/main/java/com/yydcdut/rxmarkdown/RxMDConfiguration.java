@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.callback.OnLinkClickCallback;
+import com.yydcdut.markdown.callback.OnTodoClickCallback;
 import com.yydcdut.markdown.config.BlockQuote;
 import com.yydcdut.markdown.config.Code;
 import com.yydcdut.markdown.config.Header;
@@ -248,6 +249,17 @@ public class RxMDConfiguration extends MarkdownConfiguration {
          */
         public Builder setTodoDoneColor(@ColorInt int todoDoneColor) {
             todo.doneColor = todoDoneColor;
+            return this;
+        }
+
+        /**
+         * set _todo(done) click callback
+         *
+         * @param onTodoClickCallback OnTodoClickCallback, invoked when clicking _todo or done syntax
+         * @return self
+         */
+        public Builder setOnTodoClickCallback(OnTodoClickCallback onTodoClickCallback) {
+            todo.onTodoClickCallback = onTodoClickCallback;
             return this;
         }
 

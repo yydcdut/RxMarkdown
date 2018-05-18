@@ -1,14 +1,19 @@
 package com.yydcdut.markdown.utils;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
+import android.view.View;
 
+import com.yydcdut.markdown.callback.OnTodoClickListener;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.span.MDCodeBlockSpan;
 import com.yydcdut.markdown.span.MDImageSpan;
@@ -195,5 +200,25 @@ public class SyntaxUtils {
      */
     public static void marginSSBLeft(SpannableStringBuilder ssb, int every, int start, int end) {
         ssb.setSpan(new LeadingMarginSpan.Standard(every), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    /**
+     * set _todo or done click callback
+     *
+     * @param endPosition         the end position of span
+     * @param ssb                 the text
+     * @param onTodoClickListener {@link OnTodoClickListener}
+     */
+    public static void setTodoOrDoneClick(int endPosition, final SpannableStringBuilder ssb, final OnTodoClickListener onTodoClickListener) {
+        Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ALPHA_8);
+        ssb.setSpan(new ImageSpan(bitmap), 0, endPosition, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                if (onTodoClickListener != null) {
+                    onTodoClickListener.onTodoClicked(widget, ssb);
+                }
+            }
+        }, 0, SyntaxKey.KEY_TODO_HYPHEN.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 }

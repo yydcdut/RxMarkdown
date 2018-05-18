@@ -16,12 +16,18 @@
 package com.yydcdut.markdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.view.View;
 
 import com.yydcdut.markdown.MarkdownConfiguration;
+import com.yydcdut.markdown.callback.OnTodoClickCallback;
+import com.yydcdut.markdown.callback.OnTodoClickListener;
+import com.yydcdut.markdown.span.MDTodoDoneSpan;
 import com.yydcdut.markdown.span.MDTodoSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
+import com.yydcdut.markdown.utils.SyntaxUtils;
 
 /**
  * The implementation of syntax for done.
@@ -31,12 +37,16 @@ import com.yydcdut.markdown.syntax.SyntaxKey;
  * <p>
  * Created by yuyidong on 16/5/17.
  */
-class TodoSyntax extends TextSyntaxAdapter {
-    private int mColor;
+class TodoSyntax extends TextSyntaxAdapter implements OnTodoClickListener {
+    private int mTodoColor;
+    private int mDoneColor;
+    private OnTodoClickCallback mOnTodoClickCallback;
 
     public TodoSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
         super(markdownConfiguration);
-        mColor = markdownConfiguration.getTodoColor();
+        mTodoColor = markdownConfiguration.getTodoColor();
+        mDoneColor = markdownConfiguration.getTodoDoneColor();
+        mOnTodoClickCallback = markdownConfiguration.getOnTodoClickCallback();
     }
 
     @Override
@@ -52,13 +62,57 @@ class TodoSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb.delete(0, SyntaxKey.KEY_TODO_HYPHEN.length());
-        ssb.setSpan(new MDTodoSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SyntaxUtils.setTodoOrDoneClick(SyntaxKey.KEY_TODO_HYPHEN.length(), ssb, this);
+        MDTodoSpan mdTodoSpan = new MDTodoSpan(mTodoColor);
+        ssb.setSpan(mdTodoSpan, 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }
 
     @NonNull
     @Override
     void decode(@NonNull SpannableStringBuilder ssb) {
+    }
+
+    @Override
+    public void onTodoClicked(View view, SpannableStringBuilder ssb) {
+        if (mOnTodoClickCallback == null) {
+            return;
+        }
+        CharSequence charSequence = mOnTodoClickCallback.onTodoClicked(view, ssb.toString().replace("\n", ""));
+        if (!(charSequence instanceof SpannableString)) {
+            return;
+        }
+        SpannableString sb = (SpannableString) charSequence;
+        MDTodoSpan[] ssbArray = ssb.getSpans(0, ssb.length(), MDTodoSpan.class);
+        if (ssbArray == null || ssbArray.length != 1) {
+            return;
+        }
+        if (ssbArray[0] instanceof MDTodoDoneSpan) {
+            MDTodoDoneSpan mdTodoDoneSpan = (MDTodoDoneSpan) ssbArray[0];
+            int start = sb.getSpanStart(mdTodoDoneSpan);
+            int end = sb.getSpanEnd(mdTodoDoneSpan);
+            if (start < 0 || end < 0) {
+                return;
+            }
+            sb.removeSpan(mdTodoDoneSpan);
+            MDTodoSpan mdTodoSpan = new MDTodoSpan(mTodoColor);
+            sb.setSpan(mdTodoSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            ssb.removeSpan(mdTodoDoneSpan);
+            ssb.setSpan(mdTodoSpan, 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (ssbArray[0] instanceof MDTodoSpan) {
+            MDTodoSpan mdTodoSpan = ssbArray[0];
+            int start = sb.getSpanStart(mdTodoSpan);
+            int end = sb.getSpanEnd(mdTodoSpan);
+            if (start < 0 || end < 0) {
+                return;
+            }
+            sb.removeSpan(mdTodoSpan);
+            MDTodoDoneSpan mdTodoDoneSpan = new MDTodoDoneSpan(mDoneColor);
+            sb.setSpan(mdTodoDoneSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            ssb.removeSpan(mdTodoSpan);
+            ssb.setSpan(mdTodoDoneSpan, 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
     }
 }
