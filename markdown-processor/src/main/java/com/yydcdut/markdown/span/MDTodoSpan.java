@@ -33,9 +33,6 @@ public class MDTodoSpan extends QuoteSpan {
 
     protected final int mColor;
 
-    private boolean isDrawn;
-    private CharSequence mCharSequence;
-
     /**
      * Constructor
      *

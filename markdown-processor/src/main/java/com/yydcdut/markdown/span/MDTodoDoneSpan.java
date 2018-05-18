@@ -26,9 +26,6 @@ import android.text.Layout;
  */
 public class MDTodoDoneSpan extends MDTodoSpan {
 
-    private boolean isDrawn;
-    private CharSequence mCharSequence;
-
     /**
      * Constructor
      *
