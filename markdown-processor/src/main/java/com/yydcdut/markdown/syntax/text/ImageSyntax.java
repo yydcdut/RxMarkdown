@@ -36,6 +36,8 @@ import java.util.regex.Pattern;
  * Created by yuyidong on 16/5/15.
  */
 class ImageSyntax extends TextSyntaxAdapter {
+    private static final String DEFAULT_TEXT = "image";
+
     private static final String PATTERN = ".*[!\\[]{1}.*[\\](]{1}.*[)]{1}.*";
 
     private int[] mSize;
@@ -140,6 +142,9 @@ class ImageSyntax extends TextSyntaxAdapter {
                 tmpTotal = tmpTotal.substring(positionCenter + SyntaxKey.KEY_IMAGE_MIDDLE.length(), tmpTotal.length());
                 int positionFooter = tmpTotal.indexOf(SyntaxKey.KEY_IMAGE_RIGHT);
                 String link = tmpTotal.substring(0, positionFooter);
+                if (index == tmp.length()) {
+                    tmp.append(DEFAULT_TEXT);
+                }
                 ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1], mMDImageLoader), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + SyntaxKey.KEY_IMAGE_MIDDLE.length() + link.length() + SyntaxKey.KEY_IMAGE_RIGHT.length());
                 tmpTotal = tmpTotal.substring(positionFooter + SyntaxKey.KEY_IMAGE_RIGHT.length(), tmpTotal.length());
