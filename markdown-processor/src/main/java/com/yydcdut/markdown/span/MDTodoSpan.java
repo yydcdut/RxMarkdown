@@ -33,6 +33,9 @@ public class MDTodoSpan extends QuoteSpan {
 
     protected final int mColor;
 
+    private boolean isDrawn;
+    private CharSequence mCharSequence;
+
     /**
      * Constructor
      *
@@ -51,6 +54,9 @@ public class MDTodoSpan extends QuoteSpan {
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom,
                                   CharSequence text, int start, int end, boolean first, Layout layout) {
+        if (!first) {
+            return;
+        }
         Paint.Style style = p.getStyle();
         float strokeWidth = p.getStrokeWidth();
         int color = p.getColor();

@@ -26,6 +26,9 @@ import android.text.Layout;
  */
 public class MDTodoDoneSpan extends MDTodoSpan {
 
+    private boolean isDrawn;
+    private CharSequence mCharSequence;
+
     /**
      * Constructor
      *
@@ -37,6 +40,9 @@ public class MDTodoDoneSpan extends MDTodoSpan {
 
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout layout) {
+        if (!first) {
+            return;
+        }
         super.drawLeadingMargin(c, p, x, dir, top, baseline, bottom, text, start, end, first, layout);
         Paint.Style style = p.getStyle();
         float strokeWidth = p.getStrokeWidth();
