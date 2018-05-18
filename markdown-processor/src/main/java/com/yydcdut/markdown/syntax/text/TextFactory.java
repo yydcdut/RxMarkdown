@@ -16,6 +16,7 @@
 package com.yydcdut.markdown.syntax.text;
 
 import android.support.annotation.NonNull;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 
 import com.yydcdut.markdown.MarkdownConfiguration;
@@ -26,6 +27,7 @@ import com.yydcdut.markdown.chain.SyntaxDoElseChain;
 import com.yydcdut.markdown.chain.SyntaxMultiChains;
 import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxFactory;
+import com.yydcdut.markdown.utils.Utils;
 
 /**
  * This factory's purpose is parsing content <b>correctly</b>, as the same time, it destroys the integrity of the content.
@@ -185,7 +187,8 @@ public class TextFactory implements SyntaxFactory {
         if (mTotalChain == null || mLineChain == null || mMarkdownConfiguration == null || mMarkdownConfiguration != markdownConfiguration) {
             init(markdownConfiguration);
         }
-        SpannableStringBuilder ssb = new SpannableStringBuilder(charSequence);
+        CharSequence standardLines = standardizeLineEndings(charSequence);
+        SpannableStringBuilder ssb = new SpannableStringBuilder(standardLines);
         ssb = parseTotal(mTotalChain, ssb);
         ssb = parseByLine(mLineChain, ssb);
         return ssb;
@@ -215,4 +218,16 @@ public class TextFactory implements SyntaxFactory {
         return ssb;
     }
 
+    private CharSequence standardizeLineEndings(CharSequence charSequence) {
+        if (charSequence instanceof String || charSequence instanceof StringBuilder || charSequence instanceof StringBuffer) {
+            return Utils.standardizeLineEndings(Utils.standardizeLineEndings(new StringBuilder(charSequence), "\\r\\n", "\n"),
+                    "\\r", "\n").toString();
+        } else if (charSequence instanceof Spannable) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder(charSequence);
+            Utils.standardizeLineEndings(ssb, "\r\n", "\n");
+            Utils.standardizeLineEndings(ssb, "\r", "\n");
+            return ssb;
+        }
+        return charSequence;
+    }
 }

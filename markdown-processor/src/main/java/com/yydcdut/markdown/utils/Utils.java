@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility class for edit controller in RxMarkdown
@@ -253,6 +255,42 @@ public class Utils {
         map.put(Theme.CODE_FUN, theme.getFunColor());
         map.put(Theme.CODE_NOCODE, theme.getNocodeColor());
         return map;
+    }
+
+    /**
+     * replace line change, DOS to Unix && Mac to Unix
+     *
+     * @param text        the original text content
+     * @param regex       the regex to match
+     * @param replacement the replacement text
+     * @return the text after replace
+     */
+    public static StringBuilder standardizeLineEndings(StringBuilder text, String regex, String replacement) {
+        Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
+        Matcher m = p.matcher(text);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(sb, replacement);
+        }
+        m.appendTail(sb);
+        return new StringBuilder(sb);
+    }
+
+    /**
+     * replace line change, DOS to Unix && Mac to Unix
+     *
+     * @param ssb         the original text content
+     * @param target      the target to match
+     * @param replacement the replacement text
+     * @return the text after replace
+     */
+    public static void standardizeLineEndings(SpannableStringBuilder ssb, String target, String replacement) {
+        String string = ssb.toString();
+        while (string.indexOf(target) != -1) {
+            int start = string.indexOf(target);
+            ssb.replace(start, start + target.length(), replacement);
+            string = ssb.toString();
+        }
     }
 
 }
