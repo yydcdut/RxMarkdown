@@ -22,3 +22,8 @@
 * Add code high light
 * Add code high light theme
 * Refactor code syntax
+
+### 0.1.2-alpha
+* split module
+* fix #46,#45,#42,#41,#36,#40
+

@@ -19,7 +19,14 @@ Change Log : [SEE](./CHANGELOG.md)
 # Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
+implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2-alpha'
+```
+
+Or if you don't want to use RxJava, you can simply refer to `markdown-processor` :
+
+```groovy
+implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
 ```
 
 ## Support Syntax
@@ -96,45 +103,55 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Setup
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.1.1-beta'
+implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2-alpha'
 
-compile 'io.reactivex:rxandroid:1.2.0'
-compile 'io.reactivex:rxjava:1.1.5'
+implementation 'io.reactivex:rxandroid:1.2.0'
+implementation 'io.reactivex:rxjava:1.1.5'
 ```
 
 ### Configuration
 
-All options in Configuration builder are optional. Use only those you really want to customize.
+All options in Configuration builder are optional. Use only those you really want to customize (`RxMDConfiguration#Builder` and `MarkdownConfiguration#Builder` are the same usage):
 
 ```java
 RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
-        .setDefaultImageSize(100, 100)//default image width & height
-        .setBlockQuotesColor(Color.LTGRAY)//default color of block quotes
         .setHeader1RelativeSize(1.6f)//default relative size of header1
         .setHeader2RelativeSize(1.5f)//default relative size of header2
         .setHeader3RelativeSize(1.4f)//default relative size of header3
         .setHeader4RelativeSize(1.3f)//default relative size of header4
         .setHeader5RelativeSize(1.2f)//default relative size of header5
         .setHeader6RelativeSize(1.1f)//default relative size of header6
+        .setBlockQuotesLineColor(Color.LTGRAY)//default color of block quotes line
+        .setBlockQuotesBgColor(Color.LTGRAY, Color.RED, Color.BLUE)//default color of block quotes background and nested background
+        .setBlockQuotesRelativeSize(Color.LTGRAY, Color.RED, Color.BLUE)//default relative size of block quotes text size
         .setHorizontalRulesColor(Color.LTGRAY)//default color of horizontal rules's background
-        .setInlineCodeBgColor(Color.LTGRAY)//default color of inline code's background
-        .setCodeBgColor(Color.LTGRAY)//default color of code's background
+        .setHorizontalRulesHeight(Color.LTGRAY)//default height of horizontal rules
+        .setCodeFontColor(Color.LTGRAY)//default color of inline code's font
+        .setCodeBgColor(Color.LTGRAY)//default color of inline code's background
+        .setTheme(new ThemeDefault())//default code block theme
         .setTodoColor(Color.DKGRAY)//default color of todo
         .setTodoDoneColor(Color.DKGRAY)//default color of done
+        .setOnTodoClickCallback(new OnTodoClickCallback() {//todo or done click callback
+        	@Override
+        	public CharSequence onTodoClicked(View view, String line) {
+                return textView.getText();
+        	}
+        })
         .setUnOrderListColor(Color.BLACK)//default color of unorder list
-        .setLinkColor(Color.RED)//default color of link text
-        .setLinkUnderline(true)//default value of whether displays link underline
-        .setRxMDImageLoader(new DefaultLoader(context))//default image loader
-        .setDebug(true)//default value of debug
+        .setLinkFontColor(Color.RED)//default color of link text
+        .showLinkUnderline(true)//default value of whether displays link underline
         .setOnLinkClickCallback(new OnLinkClickCallback() {//link click callback
         	@Override
         	public void onLinkClicked(View view, String link) {
         	}
         })
+        .setRxMDImageLoader(new DefaultLoader(context))//default image loader
+        .setDefaultImageSize(100, 100)//default image width & height
         .build();
 ```
 
-### Usage
+### Rx Usage
 
 * `EditText` , live preview :
 
@@ -174,6 +191,33 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
                   rxMDTextView.setText(charSequence, TextView.BufferType.SPANNABLE);
               }
           });
+  ```
+
+### non-Rx Usage
+
+- `EditText` , live preview :
+
+  ```java
+  MarkdownProcessor markdownProcessor = new MarkdownProcessor(this);
+  markdownProcessor.config(markdownConfiguration);
+  markdownProcessor.factory(EditFactory.create());
+  markdownProcessor.live(markdownEditText);
+  ```
+
+
+- cancel real-time preview :
+
+  ```java
+  markdownEditText.clear();
+  ```
+
+- `TextView` render :
+
+  ```java
+  MarkdownProcessor markdownProcessor = new MarkdownProcessor(this);
+  markdownProcessor.factory(TextFactory.create());
+  markdownProcessor.config(markdownConfiguration);
+  textView.setText(markdownProcessor.parse(content));
   ```
 
 ### Note
