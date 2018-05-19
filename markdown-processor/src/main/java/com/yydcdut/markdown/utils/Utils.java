@@ -258,7 +258,7 @@ public class Utils {
     }
 
     /**
-     * replace line change, DOS to Unix && Mac to Unix
+     * replace line change, DOS to Unix and Mac to Unix
      *
      * @param text        the original text content
      * @param regex       the regex to match
@@ -277,12 +277,11 @@ public class Utils {
     }
 
     /**
-     * replace line change, DOS to Unix && Mac to Unix
+     * replace line change, DOS to Unix and Mac to Unix
      *
      * @param ssb         the original text content
      * @param target      the target to match
      * @param replacement the replacement text
-     * @return the text after replace
      */
     public static void standardizeLineEndings(SpannableStringBuilder ssb, String target, String replacement) {
         String string = ssb.toString();
