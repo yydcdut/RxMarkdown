@@ -59,7 +59,7 @@ abstract class TextSyntaxAdapter implements Syntax {
 
     @NonNull
     @Override
-    public CharSequence format(@NonNull CharSequence charSequence) {
+    public CharSequence format(@NonNull CharSequence charSequence, int lineNumber) {
         SpannableStringBuilder ssb;
         if (charSequence instanceof SpannableStringBuilder) {
             ssb = (SpannableStringBuilder) charSequence;
@@ -67,7 +67,7 @@ abstract class TextSyntaxAdapter implements Syntax {
             return charSequence;
         }
         boolean isHandledBackSlash = encode(ssb);
-        ssb = format(ssb);
+        ssb = format(ssb, lineNumber);
         if (isHandledBackSlash) {
             decode(ssb);
         }
@@ -109,10 +109,11 @@ abstract class TextSyntaxAdapter implements Syntax {
     /**
      * parse the content which is encoded
      *
-     * @param ssb the content which is encoded
+     * @param ssb        the content which is encoded
+     * @param lineNumber the number of text in the content
      */
     @NonNull
-    abstract SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb);
+    abstract SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber);
 
     /**
      * decode the back slash in content

@@ -65,7 +65,7 @@ class BackslashSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         //----------  BoldSyntax  ----------
         replace(ssb, SyntaxKey.KEY_BOLD_BACKSLASH_ASTERISK, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
         replace(ssb, SyntaxKey.KEY_BOLD_BACKSLASH_UNDERLINE, SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE);

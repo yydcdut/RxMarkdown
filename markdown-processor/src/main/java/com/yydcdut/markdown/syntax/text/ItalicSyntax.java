@@ -70,7 +70,7 @@ class ItalicSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         if (isContainsAsterisk) {
             ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, new StyleSpan(Typeface.ITALIC));
         }

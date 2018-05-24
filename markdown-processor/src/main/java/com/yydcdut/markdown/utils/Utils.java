@@ -292,4 +292,19 @@ public class Utils {
         }
     }
 
+    /**
+     * format SpannableStringBuilder for _todo syntax or done syntax
+     *
+     * @param ssb    the original text
+     * @param isTodo is _todo or done?
+     * @return the formatted text
+     */
+    public static String formatTodoLine(SpannableStringBuilder ssb, boolean isTodo) {
+        if (isTodo) {
+            return new StringBuilder().append("- [ ] ").append(ssb.subSequence("- [ ] ".length(), ssb.length() - 1)).toString();
+        } else {
+            return new StringBuilder().append("- [x] ").append(ssb.subSequence("- [x] ".length(), ssb.length() - 1)).toString();
+        }
+    }
+
 }

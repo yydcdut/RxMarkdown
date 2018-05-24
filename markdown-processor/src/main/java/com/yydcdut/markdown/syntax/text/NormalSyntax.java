@@ -44,7 +44,7 @@ class NormalSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         return ssb;
     }
 

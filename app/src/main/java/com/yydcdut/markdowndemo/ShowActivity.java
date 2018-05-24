@@ -107,8 +107,8 @@ public class ShowActivity extends AppCompatActivity {
                 })
                 .setOnTodoClickCallback(new OnTodoClickCallback() {
                     @Override
-                    public CharSequence onTodoClicked(View view, String line) {
-                        toast(line);
+                    public CharSequence onTodoClicked(View view, String line, int lineNumber) {
+                        toast("line:" + line + "\n" + "line number:" + lineNumber);
                         return textView.getText();
                     }
                 })
@@ -164,8 +164,8 @@ public class ShowActivity extends AppCompatActivity {
                 })
                 .setOnTodoClickCallback(new OnTodoClickCallback() {
                     @Override
-                    public CharSequence onTodoClicked(View view, String line) {
-                        toast(line);
+                    public CharSequence onTodoClicked(View view, String line, int lineNumber) {
+                        toast("line:" + line + "\n" + "line number:" + lineNumber);
                         return textView.getText();
                     }
                 })

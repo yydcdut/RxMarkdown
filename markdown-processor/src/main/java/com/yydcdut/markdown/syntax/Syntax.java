@@ -43,10 +43,11 @@ public interface Syntax {
      * Parse content, and return the content after parsing
      *
      * @param charSequence the original and matched content
+     * @param lineNumber   the number of text in the content
      * @return the content after parsing
      */
     @NonNull
-    CharSequence format(@NonNull CharSequence charSequence);
+    CharSequence format(@NonNull CharSequence charSequence, int lineNumber);
 
     /**
      * Parse content, and return the {@link EditToken}s after parsing

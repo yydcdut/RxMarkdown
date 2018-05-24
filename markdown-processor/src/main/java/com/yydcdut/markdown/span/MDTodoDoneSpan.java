@@ -29,10 +29,11 @@ public class MDTodoDoneSpan extends MDTodoSpan {
     /**
      * Constructor
      *
-     * @param color {@link MDTodoSpan}
+     * @param color      {@link MDTodoSpan}
+     * @param lineNumber line number
      */
-    public MDTodoDoneSpan(int color) {
-        super(color);
+    public MDTodoDoneSpan(int color, int lineNumber) {
+        super(color, lineNumber);
     }
 
     @Override

@@ -65,7 +65,7 @@ class ImageSyntax extends TextSyntaxAdapter {
     }
 
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         return parse(ssb);
     }
 

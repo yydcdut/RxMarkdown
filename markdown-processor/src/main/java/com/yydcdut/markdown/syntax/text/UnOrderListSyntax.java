@@ -72,7 +72,7 @@ class UnOrderListSyntax implements Syntax {
 
     @NonNull
     @Override
-    public CharSequence format(@NonNull CharSequence charSequence) {
+    public CharSequence format(@NonNull CharSequence charSequence, int lineNumber) {
         if (!(charSequence instanceof SpannableStringBuilder)) {
             return charSequence;
         }
