@@ -271,7 +271,12 @@ public interface SyntaxKey {
     /**
      * list header key
      */
-    String KEY_LIST_HEADER = " ";
+    String KEY_LIST_HEADER = "  ";
+
+    /**
+     * list header key
+     */
+    String KEY_LIST_HEADER_HALF = "  ";
     /**
      * order list dot char
      */

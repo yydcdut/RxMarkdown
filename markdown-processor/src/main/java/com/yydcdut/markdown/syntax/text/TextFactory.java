@@ -85,6 +85,11 @@ public class TextFactory implements SyntaxFactory {
     }
 
     @Override
+    public Syntax getListSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
+        return new ListSyntax(markdownConfiguration);
+    }
+
+    @Override
     public Syntax getCenterAlignSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
         return new CenterAlignSyntax(markdownConfiguration);
     }
@@ -143,8 +148,10 @@ public class TextFactory implements SyntaxFactory {
         mMarkdownConfiguration = markdownConfiguration;
         mTotalChain = new MultiSyntaxChain(
                 getCodeBlockSyntax(markdownConfiguration),
-                getUnOrderListSyntax(markdownConfiguration),
-                getOrderListSyntax(markdownConfiguration));
+                getListSyntax(markdownConfiguration));
+
+//        getUnOrderListSyntax(markdownConfiguration),
+//                getOrderListSyntax(markdownConfiguration));
         mLineChain = new SyntaxChain(getHorizontalRulesSyntax(markdownConfiguration));
         SyntaxDoElseChain blockQuitesChain = new SyntaxDoElseChain(getBlockQuotesSyntax(markdownConfiguration));
         SyntaxDoElseChain todoChain = new SyntaxDoElseChain(getTodoSyntax(markdownConfiguration));

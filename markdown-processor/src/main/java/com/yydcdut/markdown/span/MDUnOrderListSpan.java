@@ -18,24 +18,21 @@ package com.yydcdut.markdown.span;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
-import android.text.style.BulletSpan;
 
 /**
  * unorder list grammar span
  * <p>
  * Created by yuyidong on 16/5/21.
  */
-public class MDUnOrderListSpan extends BulletSpan {
+public class MDUnOrderListSpan extends MDBaseListSpan {
 
     public static final int TYPE_KEY_0 = 0;//*
     public static final int TYPE_KEY_1 = 1;//-
     public static final int TYPE_KEY_2 = 2;//+
 
-    private int mNested;
     private int mColor;
     private int mType;
-    private static final int NESTED_MARGIN_LENGTH = 9;
-    private static final int GAP_WIDTH_PLUS = 10;
+    private static final int MARGIN_LEFT = 20;
 
     /**
      * Constructor
@@ -54,21 +51,12 @@ public class MDUnOrderListSpan extends BulletSpan {
 
     @Override
     public int getLeadingMargin(boolean first) {
-        return super.getLeadingMargin(first) + GAP_WIDTH_PLUS * (mNested + 1);
+        return super.getLeadingMargin(first) + MARGIN_LEFT * (mNested + 1);//文字位置
     }
 
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout l) {
-        super.drawLeadingMargin(c, p, x + (mNested + 1) * NESTED_MARGIN_LENGTH, dir, top, baseline, bottom, text, start, end, first, l);
-    }
-
-    /**
-     * get list nested
-     *
-     * @return the nested number
-     */
-    public int getNested() {
-        return mNested;
+        super.drawLeadingMargin(c, p, x + (mNested + 1) * MARGIN_LEFT, dir, top, baseline, bottom, text, start, end, first, l);//点的位置
     }
 
     /**
