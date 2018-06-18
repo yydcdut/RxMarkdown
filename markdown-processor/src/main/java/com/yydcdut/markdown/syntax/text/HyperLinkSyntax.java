@@ -101,9 +101,12 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
                 SyntaxKey.KEY_HYPER_LINK_MIDDLE_RIGHT_CHAR, SyntaxKey.KEY_HYPER_LINK_RIGHT_CHAR};
         int findPosition = 0;
         for (int i = 0; i < length; i++) {
-            if (array[i] == findArray[findPosition]) {
+            if (Utils.getChar(array, i) != 0 && Utils.getChar(array, i) == Utils.getChar(findArray, findPosition)) {
                 if (findPosition == 1) {//]后面必须得是(
-                    if (array[++i] != findArray[++findPosition]) {
+                    if (Utils.getChar(array, ++i) == 0 || Utils.getChar(findArray, ++findPosition) == 0) {
+                        return false;
+                    }
+                    if (Utils.getChar(array, ++i) != Utils.getChar(findArray, ++findPosition)) {
                         findPosition--;
                     } else {
                         findPosition++;
