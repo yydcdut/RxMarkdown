@@ -40,13 +40,13 @@ public class SyntaxChain implements ISpecialChain {
 
     @NonNull
     @Override
-    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+    public boolean handleSyntax(@NonNull CharSequence charSequence, int lineNumber) {
         if (mSyntax.isMatch(charSequence)) {
-            mSyntax.format(charSequence);
+            mSyntax.format(charSequence, lineNumber);
             return true;
         } else {
             if (mNextHandleSyntax != null) {
-                return mNextHandleSyntax.handleSyntax(charSequence);
+                return mNextHandleSyntax.handleSyntax(charSequence, lineNumber);
             } else {
                 return false;
             }

@@ -62,7 +62,7 @@ class BlockQuotesSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         int nested = calculateNested(ssb.toString());
         if (nested == 0) {
             return ssb;

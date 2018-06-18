@@ -73,7 +73,7 @@ class BoldSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         if (isContainsAsterisk) {
             ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_ASTERISK, ssb, new StyleSpan(Typeface.BOLD));
         }

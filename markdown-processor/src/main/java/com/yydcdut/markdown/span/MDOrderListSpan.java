@@ -19,24 +19,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Layout;
-import android.text.style.BulletSpan;
-
-import java.util.List;
 
 /**
  * order list grammar span
  * <p>
  * Created by yuyidong on 16/7/8.
  */
-public class MDOrderListSpan extends BulletSpan {
-
-    private MDOrderListSpan mParent;//// TODO: 2017/3/5 添加父节点
-    private List<MDOrderListSpan> mChildren;//// TODO: 2017/3/5 添加子节点 
+public class MDOrderListSpan extends MDBaseListSpan {
 
     private int mNumber;
-    private int mNested;
-    private static final int NESTED_MARGIN_LENGTH = 9;
-    private static final int GAP_WIDTH_PLUS = 10;
+    private static final int MARGIN_LEFT = 20;
 
     /**
      * Constructor
@@ -53,12 +45,11 @@ public class MDOrderListSpan extends BulletSpan {
 
     @Override
     public int getLeadingMargin(boolean first) {
-        return super.getLeadingMargin(first) + GAP_WIDTH_PLUS * (mNested + 1);
+        return super.getLeadingMargin(first) + MARGIN_LEFT * (mNested);//文字位置
     }
 
     @Override
     public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom, CharSequence text, int start, int end, boolean first, Layout l) {
-        super.drawLeadingMargin(c, p, x + (mNested + 1) * NESTED_MARGIN_LENGTH, dir, top, baseline, bottom, text, start, end, first, l);
     }
 
     /**
@@ -68,14 +59,5 @@ public class MDOrderListSpan extends BulletSpan {
      */
     public int getNumber() {
         return mNumber;
-    }
-
-    /**
-     * get list nested
-     *
-     * @return the nested number
-     */
-    public int getNested() {
-        return mNested;
     }
 }

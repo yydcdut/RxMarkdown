@@ -38,7 +38,7 @@ abstract class EditSyntaxAdapter implements Syntax {
 
     @NonNull
     @Override
-    public CharSequence format(@NonNull CharSequence charSequence) {
+    public CharSequence format(@NonNull CharSequence charSequence, int lineNumber) {
         return charSequence;
     }
 }

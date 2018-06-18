@@ -32,15 +32,18 @@ public class MDTodoSpan extends QuoteSpan {
     private int mMarginLength = 50;
 
     protected final int mColor;
+    protected final int mLineNumber;
 
     /**
      * Constructor
      *
-     * @param color {@link QuoteSpan}
+     * @param color      {@link QuoteSpan}
+     * @param lineNumber line number
      */
-    public MDTodoSpan(int color) {
+    public MDTodoSpan(int color, int lineNumber) {
         super(color);
         mColor = color;
+        mLineNumber = lineNumber;
     }
 
     @Override
@@ -73,5 +76,9 @@ public class MDTodoSpan extends QuoteSpan {
         p.setStrokeWidth(strokeWidth);
 
         mMarginLength = (int) height;
+    }
+
+    public int getLineNumber() {
+        return mLineNumber;
     }
 }

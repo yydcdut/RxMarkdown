@@ -67,7 +67,7 @@ class OrderListSyntax implements Syntax {
 
     @NonNull
     @Override
-    public CharSequence format(@NonNull CharSequence charSequence) {
+    public CharSequence format(@NonNull CharSequence charSequence, int lineNumber) {
         if (!(charSequence instanceof SpannableStringBuilder)) {
             return charSequence;
         }
@@ -227,7 +227,7 @@ class OrderListSyntax implements Syntax {
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb, int number, int originalNumber) {
         ssb.delete(start, start + nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length());
         ssb.insert(start, String.valueOf(number));
-        ssb.setSpan(new MDOrderListSpan(30, nested, number),
+        ssb.setSpan(new MDOrderListSpan(10, nested, number),
                 start, start + line.length() - (nested * SyntaxKey.KEY_LIST_HEADER.length() + String.valueOf(originalNumber).length()),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }

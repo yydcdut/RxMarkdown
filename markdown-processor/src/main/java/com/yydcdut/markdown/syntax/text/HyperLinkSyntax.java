@@ -25,7 +25,12 @@ import com.yydcdut.markdown.callback.OnLinkClickCallback;
 import com.yydcdut.markdown.span.MDURLSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.utils.CharacterProtector;
+import com.yydcdut.markdown.utils.SyntaxUtils;
+import com.yydcdut.markdown.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -37,6 +42,7 @@ import java.util.regex.Pattern;
  */
 class HyperLinkSyntax extends TextSyntaxAdapter {
     private static final String PATTERN = ".*[\\[]{1}.*[\\](]{1}.*[)]{1}.*";
+    private static final String AUTO_LINK_PATTERN = "https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
     private int mColor;
     private boolean isUnderLine;
@@ -51,7 +57,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return contains(text) ? Pattern.compile(PATTERN).matcher(text).matches() : false;
+        return contains(text) ? Pattern.compile(PATTERN).matcher(text).matches() : Pattern.compile(AUTO_LINK_PATTERN).matcher(text).find();
     }
 
     @NonNull
@@ -65,8 +71,10 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
     }
 
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        return parse(ssb);
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
+        parse(ssb);
+        parseAutoLink(ssb);
+        return ssb;
     }
 
     @NonNull
@@ -84,17 +92,21 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
      * @return
      */
     private static boolean contains(String text) {
-        if (text.length() < 4 || TextUtils.equals(text, "[]()")) {
+        if (text.length() < 4 || TextUtils.equals(text, SyntaxKey.KEY_HYPER_LINK_EMPTY)) {
             return true;
         }
         char[] array = text.toCharArray();
         final int length = array.length;
-        char[] findArray = new char[]{'[', ']', '(', ')'};// TODO: 2018/4/29 写到key里面
+        char[] findArray = new char[]{SyntaxKey.KEY_HYPER_LINK_LEFT_CHAR, SyntaxKey.KEY_HYPER_LINK_MIDDLE_LEFT_CHAR,
+                SyntaxKey.KEY_HYPER_LINK_MIDDLE_RIGHT_CHAR, SyntaxKey.KEY_HYPER_LINK_RIGHT_CHAR};
         int findPosition = 0;
         for (int i = 0; i < length; i++) {
-            if (array[i] == findArray[findPosition]) {
+            if (Utils.getChar(array, i) != 0 && Utils.getChar(array, i) == Utils.getChar(findArray, findPosition)) {
                 if (findPosition == 1) {//]后面必须得是(
-                    if (array[++i] != findArray[++findPosition]) {
+                    if (Utils.getChar(array, ++i) == 0 || Utils.getChar(findArray, ++findPosition) == 0) {
+                        return false;
+                    }
+                    if (Utils.getChar(array, ++i) != Utils.getChar(findArray, ++findPosition)) {
                         findPosition--;
                     } else {
                         findPosition++;
@@ -111,13 +123,12 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
     }
 
     /**
-     * parse
+     * parse [link](url)
      *
      * @param ssb the original content
-     * @return the content after parsing
      */
     @NonNull
-    private SpannableStringBuilder parse(@NonNull SpannableStringBuilder ssb) {
+    private void parse(@NonNull SpannableStringBuilder ssb) {
         String text = ssb.toString();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
         String tmpTotal = text;
@@ -159,7 +170,40 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
                 tmpTotal = tmpTotal.substring(position4Key2 + SyntaxKey.KEY_HYPER_LINK_RIGHT.length(), tmpTotal.length());
             }
         }
-        return ssb;
+    }
+
+    /**
+     * parse links, noy by syntax
+     *
+     * @param ssb the original content
+     */
+    private void parseAutoLink(@NonNull SpannableStringBuilder ssb) {
+        String text = ssb.toString();
+        List<String> matchList = new ArrayList<>();
+        Matcher m = Pattern.compile(AUTO_LINK_PATTERN, Pattern.MULTILINE).matcher(text);
+        while (m.find()) {
+            matchList.add(m.group());
+        }
+        if (matchList.size() == 0) {
+            return;
+        }
+        final int count = matchList.size();
+        for (int i = 0; i < count; i++) {
+            String url = matchList.get(i);
+            int index = text.indexOf(url);
+            if (SyntaxUtils.existHyperLinkSyntax(ssb, index, url.length())) {
+                continue;
+            }
+            ssb.setSpan(new MDURLSpan(url, mColor, isUnderLine, mOnLinkClickCallback), index, index + url.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (i == count - 1) {
+                break;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(text.substring(0, index));
+            sb.append(Utils.getPlaceHolder(url));
+            sb.append(text.substring(index + url.length()));
+            text = sb.toString();
+        }
     }
 
     /**

@@ -15,5 +15,5 @@ public interface OnTodoClickCallback {
      * @param line the line text
      * @return the TextView
      */
-    CharSequence onTodoClicked(View view, String line);
+    CharSequence onTodoClicked(View view, String line, int lineNumber);
 }

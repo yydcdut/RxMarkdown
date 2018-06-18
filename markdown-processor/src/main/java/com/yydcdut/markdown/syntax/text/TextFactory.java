@@ -85,6 +85,11 @@ public class TextFactory implements SyntaxFactory {
     }
 
     @Override
+    public Syntax getListSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
+        return new ListSyntax(markdownConfiguration);
+    }
+
+    @Override
     public Syntax getCenterAlignSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
         return new CenterAlignSyntax(markdownConfiguration);
     }
@@ -143,8 +148,10 @@ public class TextFactory implements SyntaxFactory {
         mMarkdownConfiguration = markdownConfiguration;
         mTotalChain = new MultiSyntaxChain(
                 getCodeBlockSyntax(markdownConfiguration),
-                getUnOrderListSyntax(markdownConfiguration),
-                getOrderListSyntax(markdownConfiguration));
+                getListSyntax(markdownConfiguration));
+
+//        getUnOrderListSyntax(markdownConfiguration),
+//                getOrderListSyntax(markdownConfiguration));
         mLineChain = new SyntaxChain(getHorizontalRulesSyntax(markdownConfiguration));
         SyntaxDoElseChain blockQuitesChain = new SyntaxDoElseChain(getBlockQuotesSyntax(markdownConfiguration));
         SyntaxDoElseChain todoChain = new SyntaxDoElseChain(getTodoSyntax(markdownConfiguration));
@@ -195,25 +202,28 @@ public class TextFactory implements SyntaxFactory {
     }
 
     private SpannableStringBuilder parseTotal(ISpecialChain totalChain, SpannableStringBuilder ssb) {
-        totalChain.handleSyntax(ssb);
+        totalChain.handleSyntax(ssb, 0);
         return ssb;
     }
 
     private SpannableStringBuilder parseByLine(ISpecialChain lineChain, SpannableStringBuilder content) {
         String text = content.toString();
-        String[] lines = text.split("\n");
-        SpannableStringBuilder[] ssbLines = new SpannableStringBuilder[lines.length];
+        String[] lines = text.split(NEWLINE);
+        final int linesCount = lines.length;
+        SpannableStringBuilder[] ssbLines = new SpannableStringBuilder[linesCount];
         SpannableStringBuilder ssb = new SpannableStringBuilder();
+        final int newLineLength = NEWLINE.length();
         int index = 0;
-        for (int i = 0; i < lines.length; i++) {
-            ssbLines[i] = (SpannableStringBuilder) content.subSequence(index, index + lines[i].length());
-            lineChain.handleSyntax(ssbLines[i]);
-            index += (lines[i]).length();
-            if (i < lines.length - 1) {
-                ssbLines[i].append(NEWLINE);
-                index += NEWLINE.length();
+        for (int line = 0; line < linesCount; line++) {
+            int lineLength = lines[line].length();
+            ssbLines[line] = (SpannableStringBuilder) content.subSequence(index, index + lineLength);
+            lineChain.handleSyntax(ssbLines[line], line);
+            index += lineLength;
+            if (line < linesCount - 1) {
+                ssbLines[line].append(NEWLINE);
+                index += newLineLength;
             }
-            ssb.append(ssbLines[i]);
+            ssb.append(ssbLines[line]);
         }
         return ssb;
     }

@@ -77,7 +77,7 @@ class HeaderSyntax extends TextSyntaxAdapter {
 
     @NonNull
     @Override
-    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
+    SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         String text = ssb.toString();
         if (text.startsWith(SyntaxKey.KEY_5_HEADER)) {
             ssb.delete(0, SyntaxKey.KEY_5_HEADER.length());

@@ -99,6 +99,22 @@ public interface SyntaxFactory {
     Syntax getUnOrderListSyntax(@NonNull MarkdownConfiguration markdownConfiguration);
 
     /**
+     * Get list syntax(including order and unorder).
+     * syntax:
+     * "* "
+     * <p>
+     * "+ "
+     * <p>
+     * "- "
+     * OR
+     * "1. "
+     *
+     * @param markdownConfiguration configuration, need UnOrderListColor
+     * @return the interface {@link Syntax} for  list syntax
+     */
+    Syntax getListSyntax(@NonNull MarkdownConfiguration markdownConfiguration);
+
+    /**
      * Get center align syntax.
      * It's not the real syntax in Markdown.
      * syntax:

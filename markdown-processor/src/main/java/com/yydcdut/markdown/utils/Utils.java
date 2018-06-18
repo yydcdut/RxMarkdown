@@ -292,4 +292,33 @@ public class Utils {
         }
     }
 
+    /**
+     * format SpannableStringBuilder for _todo syntax or done syntax
+     *
+     * @param ssb    the original text
+     * @param isTodo is _todo or done?
+     * @return the formatted text
+     */
+    public static String formatTodoLine(SpannableStringBuilder ssb, boolean isTodo) {
+        if (isTodo) {
+            return new StringBuilder().append("- [ ] ").append(ssb.subSequence("- [ ] ".length(), ssb.length() - 1)).toString();
+        } else {
+            return new StringBuilder().append("- [x] ").append(ssb.subSequence("- [x] ".length(), ssb.length() - 1)).toString();
+        }
+    }
+
+    /**
+     * get char from char array
+     *
+     * @param array char array
+     * @param index the index in the char array
+     * @return the char
+     */
+    public static char getChar(char[] array, int index) {
+        if (array == null || index < 0 || index >= array.length) {
+            return 0;
+        }
+        return array[index];
+    }
+
 }

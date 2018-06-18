@@ -33,11 +33,12 @@ public interface ISpecialChain {
     /**
      * Whether the grammar in this chain can handle it
      *
-     * @param charSequence the content
-     * @return TRUE: can handle it
+     * @param charSequence the line text
+     * @param lineNumber   the number of text in the content
+     * @return whether it can handle
      */
     @NonNull
-    boolean handleSyntax(@NonNull CharSequence charSequence);
+    boolean handleSyntax(@NonNull CharSequence charSequence, int lineNumber);
 
     /**
      * If this chain can't handle it, let others handle it.

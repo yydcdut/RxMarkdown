@@ -80,6 +80,11 @@ public class EditFactory implements SyntaxFactory {
     }
 
     @Override
+    public Syntax getListSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
+        return new NormalSyntax(markdownConfiguration);
+    }
+
+    @Override
     public Syntax getCenterAlignSyntax(@NonNull MarkdownConfiguration markdownConfiguration) {
         return new CenterAlignSyntax(markdownConfiguration);
     }

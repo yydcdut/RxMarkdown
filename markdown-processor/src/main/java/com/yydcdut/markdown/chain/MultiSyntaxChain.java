@@ -40,14 +40,14 @@ public class MultiSyntaxChain implements ISpecialChain {
 
     @NonNull
     @Override
-    public boolean handleSyntax(@NonNull CharSequence charSequence) {
+    public boolean handleSyntax(@NonNull CharSequence charSequence, int lineNumber) {
         for (Syntax syntax : mSyntaxArray) {
             if (syntax.isMatch(charSequence)) {
-                syntax.format(charSequence);
+                syntax.format(charSequence, lineNumber);
             }
         }
         if (mNextHandleSyntax != null) {
-            return mNextHandleSyntax.handleSyntax(charSequence);
+            return mNextHandleSyntax.handleSyntax(charSequence, lineNumber);
         } else {
             return false;
         }

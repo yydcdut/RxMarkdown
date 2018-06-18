@@ -9,11 +9,11 @@ import java.io.File;
  */
 public interface Const {
 
-    String MD_SAMPLE = "在这个**版本**中我们*增加test*了 `Markdown` 功能。`Markdown` 是~~一种使用纯文本编写的标记~~语言，可以产生格式![test](http://7xs03u.com1.z0.glb.clouddn.com/dex_dexopt_dex2oat.png/320$320)丰富的页面[^排版效果]，比如突出[标题](http://www.baidu.com)、居中、加粗、引用和生成列表。\n" +
+    String MD_SAMPLE = "在这个**版本**中我们*增加test*了 `Markdown` 功能。`Markdown` 是~~一种使用纯文本编写的标记~~语言，可以产生格式![test](http://7xs03u.com1.z0.glb.clouddn.com/dex_dexopt_dex2oat.png/320$320)丰富的页面[^排版效果]，比如突出[标题](http://www.baidu.com)、居中、加粗、引用和生成列表。 https://www.google.com \n" +
             "\n" +
             "## **用法与规则：**\n" +
-//                    "\n" +
-//                    "你可以手动输入，也可以点击键盘上方的按钮快速输入 Markdown 符号。\n" +
+            "\n" +
+            "你可以手动输入，也可以点击键盘上方的按钮快速输入 Markdown 符号。\n" +
             "\n" +
             "### **标题**\n" +
             "使用“#”加空格在*行首*来创建标题![test](drawable://" + R.drawable.desktop_device + "/300$300)\n" +

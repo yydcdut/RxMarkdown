@@ -133,6 +133,26 @@ public interface SyntaxKey {
      * black slash for hyper link key
      */
     String KEY_HYPER_LINK_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_HYPER_LINK_RIGHT;
+    /**
+     * hyper link key
+     */
+    char KEY_HYPER_LINK_LEFT_CHAR = '[';
+    /**
+     * hyper link key
+     */
+    char KEY_HYPER_LINK_MIDDLE_LEFT_CHAR = ']';
+    /**
+     * hyper link key
+     */
+    char KEY_HYPER_LINK_MIDDLE_RIGHT_CHAR = '(';
+    /**
+     * hyper link key
+     */
+    char KEY_HYPER_LINK_RIGHT_CHAR = ')';
+    /**
+     * hyper link key
+     */
+    String KEY_HYPER_LINK_EMPTY = "[]()";
     //----------  HyperLinkSyntax  ----------
 
     //----------  ImageSyntax  ----------
@@ -251,7 +271,12 @@ public interface SyntaxKey {
     /**
      * list header key
      */
-    String KEY_LIST_HEADER = " ";
+    String KEY_LIST_HEADER = "  ";
+
+    /**
+     * list header key
+     */
+    String KEY_LIST_HEADER_HALF = "  ";
     /**
      * order list dot char
      */
