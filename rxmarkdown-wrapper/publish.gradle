@@ -29,7 +29,7 @@ artifacts {
     archives sourcesJar
 }
 
-version = "0.1.2-alpha"
+version = "0.1.2"
 
 def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
 def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'

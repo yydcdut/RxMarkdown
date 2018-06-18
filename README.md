@@ -19,14 +19,14 @@ Change Log : [SEE](./CHANGELOG.md)
 # Gradle
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
-implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2-alpha'
+implementation 'com.yydcdut:markdown-processor:0.1.2'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2'
 ```
 
 Or if you don't want to use RxJava, you can simply refer to `markdown-processor` :
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
+implementation 'com.yydcdut:markdown-processor:0.1.2'
 ```
 
 ## Support Syntax
@@ -103,8 +103,8 @@ RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditF
 ### Setup
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2-alpha'
-implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2-alpha'
+implementation 'com.yydcdut:markdown-processor:0.1.2'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2'
 
 implementation 'io.reactivex:rxandroid:1.2.0'
 implementation 'io.reactivex:rxjava:1.1.5'
