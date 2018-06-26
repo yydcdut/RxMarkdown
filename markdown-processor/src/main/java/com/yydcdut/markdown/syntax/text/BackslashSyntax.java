@@ -36,25 +36,7 @@ class BackslashSyntax extends TextSyntaxAdapter {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        if (text.contains(SyntaxKey.KEY_BOLD_BACKSLASH_ASTERISK) ||
-                text.contains(SyntaxKey.KEY_BOLD_BACKSLASH_UNDERLINE) ||
-                text.contains(SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT) ||
-                text.contains(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_LEFT) ||
-                text.contains(SyntaxKey.KEY_FOOTNOTE_BACKSLASH_RIGHT) ||
-                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_LEFT) ||
-                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE) ||
-                text.contains(SyntaxKey.KEY_HYPER_LINK_BACKSLASH_RIGHT) ||
-                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT) ||
-                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE) ||
-                text.contains(SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT) ||
-                text.contains(SyntaxKey.KEY_CODE_BACKSLASH) ||
-                text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK) ||
-                text.contains(SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE) ||
-                text.contains(SyntaxKey.KEY_STRIKE_BACKSLASH)) {
-            return true;
-        } else {
-            return false;
-        }
+        return text.contains(SyntaxKey.KEY_BACKSLASH);
     }
 
     @NonNull
@@ -66,37 +48,39 @@ class BackslashSyntax extends TextSyntaxAdapter {
     @NonNull
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
-        //----------  BoldSyntax  ----------
+        //----------  BoldSyntax && ItalicSyntax  ----------
         replace(ssb, SyntaxKey.KEY_BOLD_BACKSLASH_ASTERISK, SyntaxKey.KEY_BOLD_ASTERISK_SINGLE);
         replace(ssb, SyntaxKey.KEY_BOLD_BACKSLASH_UNDERLINE, SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE);
-        //----------  BoldSyntax  ----------
+        //----------  BoldSyntax && ItalicSyntax  ----------
         //----------  CenterAlignSyntax  ----------
         replace(ssb, SyntaxKey.KEY_CENTER_ALIGN_BACKSLASH_RIGHT, SyntaxKey.KEY_CENTER_ALIGN_RIGHT);
         //----------  CenterAlignSyntax  ----------
         //----------  FootnoteSyntax  ----------
         replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_LEFT, SyntaxKey.KEY_FOOTNOTE_LEFT_SINGLE);
+        replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_CARET, SyntaxKey.KEY_FOOTNOTE_CARET);
         replace(ssb, SyntaxKey.KEY_FOOTNOTE_BACKSLASH_RIGHT, SyntaxKey.KEY_FOOTNOTE_RIGHT);
         //----------  FootnoteSyntax  ----------
         //----------  HyperLinkSyntax  ----------
-        replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_LEFT, SyntaxKey.KEY_HYPER_LINK_LEFT);
-        replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE, SyntaxKey.KEY_HYPER_LINK_MIDDLE_SINGLE);
+//        replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_LEFT, SyntaxKey.KEY_HYPER_LINK_LEFT);
+//        replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE, SyntaxKey.KEY_HYPER_LINK_MIDDLE_SINGLE);
+        replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_MIDDLE_RIGHT, SyntaxKey.KEY_HYPER_LINK_MIDDLE_RIGHT);
         replace(ssb, SyntaxKey.KEY_HYPER_LINK_BACKSLASH_RIGHT, SyntaxKey.KEY_HYPER_LINK_RIGHT);
         //----------  HyperLinkSyntax  ----------
         //----------  ImageSyntax  ----------
         replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_LEFT, SyntaxKey.KEY_IMAGE_LEFT_SINGLE);
-        replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE, SyntaxKey.KEY_IMAGE_MIDDLE_SINGLE);
-        replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT, SyntaxKey.KEY_IMAGE_RIGHT);
+//        replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_MIDDLE, SyntaxKey.KEY_IMAGE_MIDDLE_SINGLE);
+//        replace(ssb, SyntaxKey.KEY_IMAGE_BACKSLASH_RIGHT, SyntaxKey.KEY_IMAGE_RIGHT);
         //----------  ImageSyntax  ----------
         //----------  CodeSyntax  ----------
         replace(ssb, SyntaxKey.KEY_CODE_BACKSLASH, SyntaxKey.KEY_CODE);
         //----------  CodeSyntax  ----------
-        //----------  ItalicSyntax  ----------
-        replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_ASTERISK, SyntaxKey.KEY_ITALIC_ASTERISK);
-        replace(ssb, SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE, SyntaxKey.KEY_ITALIC_UNDERLINE);
-        //----------  ItalicSyntax  ----------
         //----------  StrikeThroughSyntax  ----------
         replace(ssb, SyntaxKey.KEY_STRIKE_BACKSLASH, SyntaxKey.KEY_STRIKE_THROUGH_SINGLE);
         //----------  StrikeThroughSyntax  ----------
+        //----------  other  ----------
+        replace(ssb, SyntaxKey.KEY_DOT_BACKSLASH, SyntaxKey.KEY_DOT);
+        replace(ssb, SyntaxKey.KEY_HYPHEN_BACKSLASH, SyntaxKey.KEY_HYPHEN);
+        //----------  other  ----------
         return ssb;
     }
 

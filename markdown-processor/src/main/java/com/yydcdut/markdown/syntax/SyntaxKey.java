@@ -36,6 +36,23 @@ public interface SyntaxKey {
      * black slash key
      */
     String KEY_BACKSLASH = "\\";
+    /**
+     * "."
+     */
+    String KEY_DOT = ".";
+    /**
+     * "." for back slash
+     */
+    String KEY_DOT_BACKSLASH = KEY_BACKSLASH + KEY_DOT;
+    /**
+     * "-"
+     */
+    String KEY_HYPHEN = "-";
+    /**
+     * "-" for back slash
+     */
+    String KEY_HYPHEN_BACKSLASH = KEY_BACKSLASH + KEY_HYPHEN;
+
     //----------  BackslashSyntax  ----------
 
     //----------  BoldSyntax  ----------
@@ -89,6 +106,10 @@ public interface SyntaxKey {
     /**
      * footnote key
      */
+    String KEY_FOOTNOTE_CARET = "^";
+    /**
+     * footnote key
+     */
     String KEY_FOOTNOTE_LEFT_SINGLE = "[";
     /**
      * footnote key
@@ -102,6 +123,10 @@ public interface SyntaxKey {
      * black slash for footnote key
      */
     String KEY_FOOTNOTE_BACKSLASH_RIGHT = KEY_BACKSLASH + KEY_FOOTNOTE_RIGHT;
+    /**
+     * black slash for footnote key
+     */
+    String KEY_FOOTNOTE_BACKSLASH_CARET = KEY_BACKSLASH + KEY_FOOTNOTE_CARET;
     //----------  FootnoteSyntax  ----------
 
     //----------  HyperLinkSyntax  ----------
@@ -113,6 +138,10 @@ public interface SyntaxKey {
      * hyper link key
      */
     String KEY_HYPER_LINK_MIDDLE = "](";
+    /**
+     * hyper link key
+     */
+    String KEY_HYPER_LINK_MIDDLE_RIGHT = "(";
     /**
      * hyper link key (single)
      */
@@ -129,6 +158,10 @@ public interface SyntaxKey {
      * black slash for hyper link key
      */
     String KEY_HYPER_LINK_BACKSLASH_MIDDLE = KEY_BACKSLASH + KEY_HYPER_LINK_MIDDLE_SINGLE;
+    /**
+     * black slash for hyper link key
+     */
+    String KEY_HYPER_LINK_BACKSLASH_MIDDLE_RIGHT = KEY_BACKSLASH + KEY_HYPER_LINK_MIDDLE_RIGHT;
     /**
      * black slash for hyper link key
      */
