@@ -39,14 +39,14 @@ class BlockQuotesLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(start, start + before).toString();
+        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
+            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
         }
         if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(start + before, start + before + 1).toString();
+            afterString = s.subSequence(Utils.safePosition(start + before, s), Utils.safePosition(start + before + 1, s)).toString();
         }
         //"> a" --> ">a"
         if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BLOCK_QUOTES_LEFT_SINGLE, deleteString, beforeString, afterString)) {
@@ -66,14 +66,14 @@ class BlockQuotesLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(start, (start + after) > s.length() ? s.length() : (start + after)).toString();
+        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start + 1 <= s.length()) {
-            afterString = s.subSequence(start, start + 1).toString();
+            afterString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + 1, s)).toString();
         }
         if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
+            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
         }
         //">a" --> "> a"
         if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BLOCK_QUOTES_LEFT_SINGLE, addString, beforeString, afterString)) {

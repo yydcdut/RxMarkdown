@@ -216,7 +216,7 @@ public class TextFactory implements SyntaxFactory {
         int index = 0;
         for (int line = 0; line < linesCount; line++) {
             int lineLength = lines[line].length();
-            ssbLines[line] = (SpannableStringBuilder) content.subSequence(index, index + lineLength);
+            ssbLines[line] = (SpannableStringBuilder) content.subSequence(Utils.safePosition(index, content), Utils.safePosition(index + lineLength, content));
             lineChain.handleSyntax(ssbLines[line], line);
             index += lineLength;
             if (line < linesCount - 1) {

@@ -301,9 +301,9 @@ public class Utils {
      */
     public static String formatTodoLine(SpannableStringBuilder ssb, boolean isTodo) {
         if (isTodo) {
-            return new StringBuilder().append("- [ ] ").append(ssb.subSequence("- [ ] ".length(), ssb.length() - 1)).toString();
+            return new StringBuilder().append("- [ ] ").append(ssb.subSequence(Utils.safePosition("- [ ] ".length(), ssb), Utils.safePosition(ssb.length() - 1, ssb))).toString();
         } else {
-            return new StringBuilder().append("- [x] ").append(ssb.subSequence("- [x] ".length(), ssb.length() - 1)).toString();
+            return new StringBuilder().append("- [x] ").append(ssb.subSequence(Utils.safePosition("- [x] ".length(), ssb), Utils.safePosition(ssb.length() - 1, ssb))).toString();
         }
     }
 

@@ -21,7 +21,7 @@ public class BlockQuotesController {
         if (start == end) {
             int position0 = Utils.findBeforeNewLineChar(mRxMDEditText.getText(), start) + 1;
             Editable editable = mRxMDEditText.getText();
-            if ("> ".equals(editable.subSequence(position0, position0 + "> ".length()).toString())) {
+            if ("> ".equals(editable.subSequence(Utils.safePosition(position0, editable), Utils.safePosition(position0 + "> ".length(), editable)).toString())) {
                 mRxMDEditText.getText().delete(position0, position0 + "> ".length());
                 return;
             }
@@ -34,9 +34,9 @@ public class BlockQuotesController {
                 Editable editable = mRxMDEditText.getText();
                 int selectedStart = mRxMDEditText.getSelectionStart();
                 int selectedEnd = mRxMDEditText.getSelectionEnd();
-                if (selectedStart >= "> ".length() && ("> ".equals(editable.subSequence(selectedStart - "> ".length(), selectedStart).toString())) &&
+                if (selectedStart >= "> ".length() && ("> ".equals(editable.subSequence(Utils.safePosition(selectedStart - "> ".length(), editable), Utils.safePosition(selectedStart, editable)).toString())) &&
                         ((selectedStart > "\n> ".length() && editable.charAt(selectedStart - 3) == '\n') || selectedStart < "\n> ".length()) || (
-                        selectedStart > "> > ".length() && "> > ".equals(editable.subSequence(selectedStart - "> > ".length(), selectedStart).toString()))) {
+                        selectedStart > "> > ".length() && "> > ".equals(editable.subSequence(Utils.safePosition(selectedStart - "> > ".length(), editable), Utils.safePosition(selectedStart, editable)).toString()))) {
                     mRxMDEditText.getText().delete(selectedStart - "> ".length(), selectedStart);
                     mRxMDEditText.setSelection(selectedStart - "> ".length(), selectedEnd - "> ".length());
                     return;
@@ -75,9 +75,10 @@ public class BlockQuotesController {
                 int selectedStart = mRxMDEditText.getSelectionStart();
                 int selectedEnd = mRxMDEditText.getSelectionEnd();
                 Editable editable = mRxMDEditText.getText();
-                if (selectedStart >= "> ".length() && ("> ".equals(editable.subSequence(selectedStart - "> ".length(), selectedStart).toString())) &&
+                if (selectedStart >= "> ".length()
+                        && ("> ".equals(editable.subSequence(Utils.safePosition(selectedStart - "> ".length(), editable), Utils.safePosition(selectedStart, editable)).toString())) &&
                         ((selectedStart > "\n> ".length() && editable.charAt(selectedStart - 3) == '\n') || selectedStart < "\n> ".length()) || (
-                        selectedStart > "> > ".length() && "> > ".equals(editable.subSequence(selectedStart - "> > ".length(), selectedStart).toString()))) {
+                        selectedStart > "> > ".length() && "> > ".equals(editable.subSequence(Utils.safePosition(selectedStart - "> > ".length(), editable), Utils.safePosition(selectedStart, editable)).toString()))) {
                     mRxMDEditText.getText().insert(selectedStart, "> ");
                     mRxMDEditText.setSelection(selectedStart + "> ".length(), selectedEnd + "> ".length());
                     return;

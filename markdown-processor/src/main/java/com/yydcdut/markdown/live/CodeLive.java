@@ -38,7 +38,7 @@ class CodeLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(start, start + before).toString();
+        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
         if (deleteString.contains(SyntaxKey.KEY_CODE)) {
             shouldFormat = true;
         }
@@ -56,7 +56,7 @@ class CodeLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(start, (start + after) > s.length() ? s.length() : (start + after)).toString();
+        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
         if (addString.contains(SyntaxKey.KEY_CODE)) {
             format((Editable) s, start);
         }

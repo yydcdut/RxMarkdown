@@ -1,5 +1,6 @@
 package com.yydcdut.markdowndemo.controller;
 
+import android.text.Editable;
 import android.widget.Toast;
 
 import com.yydcdut.markdown.MarkdownEditText;
@@ -24,13 +25,14 @@ public class TodoController {
             Toast.makeText(mRxMDEditText.getContext(), "无法操作多行", Toast.LENGTH_SHORT).show();
             return;
         }
-        if ("- [ ] ".equals(mRxMDEditText.getText().subSequence(position0, position0 + "- [ ] ".length()).toString())) {
-            mRxMDEditText.getText().delete(position0, position0 + "- [ ] ".length());
-        } else if ("- [x] ".equalsIgnoreCase(mRxMDEditText.getText().subSequence(position0, position0 + "- [ ] ".length()).toString())) {
-            mRxMDEditText.getText().delete(position0, position0 + "- [x] ".length());
-            mRxMDEditText.getText().insert(position0, "- [ ] ");
+        Editable editable = mRxMDEditText.getText();
+        if ("- [ ] ".equals(editable.subSequence(Utils.safePosition(position0, editable), Utils.safePosition(position0 + "- [ ] ".length(), editable)).toString())) {
+            editable.delete(position0, position0 + "- [ ] ".length());
+        } else if ("- [x] ".equalsIgnoreCase(editable.subSequence(Utils.safePosition(position0, editable), Utils.safePosition(position0 + "- [ ] ".length(), editable)).toString())) {
+            editable.delete(position0, position0 + "- [x] ".length());
+            editable.insert(position0, "- [ ] ");
         } else {
-            mRxMDEditText.getText().insert(position0, "- [ ] ");
+            editable.insert(position0, "- [ ] ");
         }
     }
 
@@ -43,13 +45,14 @@ public class TodoController {
             Toast.makeText(mRxMDEditText.getContext(), "无法操作多行", Toast.LENGTH_SHORT).show();
             return;
         }
-        if ("- [x] ".equals(mRxMDEditText.getText().subSequence(position0, position0 + "- [x] ".length()).toString())) {
+        Editable editable = mRxMDEditText.getText();
+        if ("- [x] ".equals(editable.subSequence(Utils.safePosition(position0, editable), Utils.safePosition(position0 + "- [x] ".length(), editable)).toString())) {
             mRxMDEditText.getText().delete(position0, position0 + "- [x] ".length());
-        } else if ("- [ ] ".equalsIgnoreCase(mRxMDEditText.getText().subSequence(position0, position0 + "- [ ] ".length()).toString())) {
-            mRxMDEditText.getText().delete(position0, position0 + "- [ ] ".length());
-            mRxMDEditText.getText().insert(position0, "- [x] ");
+        } else if ("- [ ] ".equalsIgnoreCase(editable.subSequence(Utils.safePosition(position0, editable), Utils.safePosition(position0 + "- [ ] ".length(), editable)).toString())) {
+            editable.delete(position0, position0 + "- [ ] ".length());
+            editable.insert(position0, "- [x] ");
         } else {
-            mRxMDEditText.getText().insert(position0, "- [x] ");
+            editable.insert(position0, "- [x] ");
         }
     }
 }

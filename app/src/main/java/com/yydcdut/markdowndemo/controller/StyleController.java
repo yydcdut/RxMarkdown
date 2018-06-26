@@ -30,8 +30,8 @@ public class StyleController {
                 return;
             }
             Editable editable = mRxMDEditText.getText();
-            if ("**".equals(editable.subSequence(start, start + "**".length()).toString()) &&
-                    "**".equals(editable.subSequence(end - "**".length(), end).toString())) {
+            if ("**".equals(editable.subSequence(Utils.safePosition(start, editable), Utils.safePosition(start + "**".length(), editable)).toString()) &&
+                    "**".equals(editable.subSequence(Utils.safePosition(end - "**".length(), editable), Utils.safePosition(end, editable)).toString())) {
                 mRxMDEditText.getText().delete(end - "**".length(), end);
                 mRxMDEditText.getText().delete(start, start + "**".length());
                 mRxMDEditText.setSelection(start, end - "**".length() * 2);
@@ -61,8 +61,8 @@ public class StyleController {
                 return;
             }
             Editable editable = mRxMDEditText.getText();
-            if (SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(start, start + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length()).toString()) &&
-                    SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), end).toString())) {
+            if (SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(Utils.safePosition(start, editable), Utils.safePosition(start + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), editable)).toString()) &&
+                    SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.equals(editable.subSequence(Utils.safePosition(end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), editable), Utils.safePosition(end, editable)).toString())) {
                 mRxMDEditText.getText().delete(end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length(), end);
                 mRxMDEditText.getText().delete(start, start + SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length());
                 mRxMDEditText.setSelection(start, end - SyntaxKey.KEY_BOLD_ASTERISK_SINGLE.length() * 2);

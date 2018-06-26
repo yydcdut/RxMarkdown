@@ -30,8 +30,8 @@ public class StrikeThroughController {
                 return;
             }
             Editable editable = mRxMDEditText.getText();
-            if ("~~".equals(editable.subSequence(start, start + "~~".length()).toString()) &&
-                    "~~".equals(editable.subSequence(end - "~~".length(), end).toString())) {
+            if ("~~".equals(editable.subSequence(Utils.safePosition(start, editable), Utils.safePosition(start + "~~".length(), editable)).toString()) &&
+                    "~~".equals(editable.subSequence(Utils.safePosition(end - "~~".length(), editable), Utils.safePosition(end, editable)).toString())) {
                 mRxMDEditText.getText().delete(end - "~~".length(), end);
                 mRxMDEditText.getText().delete(start, start + "~~".length());
                 mRxMDEditText.setSelection(start, end - "~~".length() * 2);

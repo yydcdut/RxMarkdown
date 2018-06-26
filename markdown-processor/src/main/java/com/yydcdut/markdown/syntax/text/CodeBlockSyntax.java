@@ -82,7 +82,7 @@ class CodeBlockSyntax implements Syntax {
             List<Integer> middleList = Utils.getNewLineCharPosition(ssb, start, end);
             String language = "";
             if (middleList.size() > 0) {
-                language = ssb.subSequence(start, middleList.get(0)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");
+                language = ssb.subSequence(Utils.safePosition(start, ssb), Utils.safePosition(middleList.get(0), ssb)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");
             }
             int current = middleList.get(0) + 1;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
@@ -92,7 +92,7 @@ class CodeBlockSyntax implements Syntax {
                 }
                 ssb.setSpan(new MDCodeBlockSpan(mBackgroundColor,
                                 language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false),
-                                ssb.subSequence(current, position).toString()),
+                                ssb.subSequence(Utils.safePosition(current, ssb), Utils.safePosition(position, ssb)).toString()),
                         current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 SyntaxUtils.marginSSBLeft(ssb, mIndentedSize, current, position);
                 current = position + 1;

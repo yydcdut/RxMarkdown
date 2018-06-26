@@ -29,8 +29,8 @@ public class CodeController {
                 return;
             }
             Editable editable = mRxMDEditText.getText();
-            if ("`".equals(editable.subSequence(start, start + "`".length()).toString()) &&
-                    "`".equals(editable.subSequence(end - "`".length(), end).toString())) {
+            if ("`".equals(editable.subSequence(Utils.safePosition(start, editable), Utils.safePosition(start + "`".length(), editable)).toString()) &&
+                    "`".equals(editable.subSequence(Utils.safePosition(end - "`".length(), editable), Utils.safePosition(end, editable)).toString())) {
                 mRxMDEditText.getText().delete(end - "`".length(), end);
                 mRxMDEditText.getText().delete(start, start + "`".length());
                 mRxMDEditText.setSelection(start, end - "`".length() * 2);
@@ -57,8 +57,8 @@ public class CodeController {
             }
             Editable editable = mRxMDEditText.getText();
             if (position0 >= 4 && position1 < mRxMDEditText.length() - 4) {
-                boolean begin = "```".equals(editable.subSequence(position0 - 1 - "```".length(), position0 - 1).toString());
-                if (begin && "```\n".equals(editable.subSequence(position1 + 1, position1 + 1 + "```\n".length()).toString())) {
+                boolean begin = "```".equals(editable.subSequence(Utils.safePosition(position0 - 1 - "```".length(), editable), Utils.safePosition(position0 - 1, editable)).toString());
+                if (begin && "```\n".equals(editable.subSequence(Utils.safePosition(position1 + 1, editable), Utils.safePosition(position1 + 1 + "```\n".length(), editable)).toString())) {
                     mRxMDEditText.getText().delete(position1 + 1, position1 + 1 + "```\n".length());
                     mRxMDEditText.getText().delete(position0 - "\n```".length(), position0);
                     return;
@@ -76,8 +76,8 @@ public class CodeController {
             mRxMDEditText.setSelection(selectedStart + "```\n".length(), selectedStart + "```\n".length());
         } else if (end - start > 6) {
             Editable editable = mRxMDEditText.getText();
-            if ("```".equals(editable.subSequence(start, start + "```".length()).toString()) &&
-                    "```".equals(editable.subSequence(end - "```".length(), end).toString())) {
+            if ("```".equals(editable.subSequence(Utils.safePosition(start, editable), Utils.safePosition(start + "```".length(), editable)).toString()) &&
+                    "```".equals(editable.subSequence(Utils.safePosition(end - "```".length(), editable), Utils.safePosition(end, editable)).toString())) {
                 int selectedStart = mRxMDEditText.getSelectionStart();
                 int selectedEnd = mRxMDEditText.getSelectionEnd();
                 mRxMDEditText.getText().delete(end - "\n```".length(), end);

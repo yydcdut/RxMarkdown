@@ -675,7 +675,7 @@ class ListLive extends EditLive {
         if (next + 1 > s.length()) {
             return number;
         }
-        CharSequence cs = s.subSequence(next, next + 1);
+        CharSequence cs = s.subSequence(Utils.safePosition(next, s), Utils.safePosition(next + 1, s));
         if (TextUtils.isDigitsOnly(cs)) {
             number = number * 10 + Integer.parseInt(String.valueOf(cs));
             return calculateOrderListNumber(s, next + 1, number);
@@ -780,7 +780,7 @@ class ListLive extends EditLive {
         if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             return false;
         }
-        CharSequence charSequence = editable.subSequence(startPosition, endPosition);
+        CharSequence charSequence = editable.subSequence(Utils.safePosition(startPosition, editable), Utils.safePosition(endPosition, editable));
         Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$");
         Matcher m = p.matcher(charSequence);
         return m.matches();

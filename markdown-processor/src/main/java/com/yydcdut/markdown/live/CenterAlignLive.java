@@ -38,7 +38,7 @@ class CenterAlignLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        if (isNeedFormat(s.subSequence(start, start + before).toString())) {
+        if (isNeedFormat(s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString())) {
             shouldFormat = true;
         }
     }
@@ -55,7 +55,7 @@ class CenterAlignLive extends EditLive {
         if (after == 0) {
             return;
         }
-        if (isNeedFormat(s.subSequence(start, start + after).toString())) {
+        if (isNeedFormat(s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString())) {
             format((Editable) s, start);
         }
     }

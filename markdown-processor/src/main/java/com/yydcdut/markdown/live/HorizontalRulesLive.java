@@ -57,14 +57,14 @@ class HorizontalRulesLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(start, start + before).toString();
+        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
+            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
         }
         if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(start + before, start + before + 1).toString();
+            afterString = s.subSequence(Utils.safePosition(start + before, s), Utils.safePosition(start + before + 1, s)).toString();
         }
         //1---(-1--)(--1-)(---1) --> ---
         if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, deleteString, beforeString, afterString)
@@ -88,12 +88,12 @@ class HorizontalRulesLive extends EditLive {
         String addString;
         String beforeString = null;
         String afterString = null;
-        addString = s.subSequence(start, start + after).toString();
+        addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
         if (start + 1 <= s.length()) {
-            afterString = s.subSequence(start, start + 1).toString();
+            afterString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + 1, s)).toString();
         }
         if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
+            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
         }
         //--- --> 1---(-1--)(--1-)(---1)
         if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_BOLD_UNDERLINE_SINGLE, addString, beforeString, afterString)

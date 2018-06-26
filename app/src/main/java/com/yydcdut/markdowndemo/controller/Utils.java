@@ -90,4 +90,7 @@ public class Utils {
         }
     }
 
+    public static int safePosition(int position, CharSequence s) {
+        return com.yydcdut.markdown.utils.Utils.safePosition(position, s);
+    }
 }
