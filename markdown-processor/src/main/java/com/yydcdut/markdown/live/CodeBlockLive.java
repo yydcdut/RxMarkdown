@@ -66,20 +66,21 @@ class CodeBlockLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(start, (start + after) > s.length() ? s.length() : (start + after)).toString();
+        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start + 1 <= s.length()) {
-            afterString = s.subSequence(start, start + 1).toString();
+            afterString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + 1, s)).toString();
         }
         if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
+            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
         }
         //``` --> `1``(``1`)(```1)(1```)
         if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
+
 
     private void format(Editable editable, int start) {
         Utils.removeSpans(editable, start, MDCodeBlockSpan.class);

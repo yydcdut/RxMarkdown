@@ -321,4 +321,14 @@ public class Utils {
         return array[index];
     }
 
+    /**
+     * get position safely
+     *
+     * @param position the position
+     * @param s        the CharSequence
+     * @return the safe position
+     */
+    public static int safePosition(int position, CharSequence s) {
+        return position > s.length() ? s.length() : (position < 0 ? 0 : position);
+    }
 }
