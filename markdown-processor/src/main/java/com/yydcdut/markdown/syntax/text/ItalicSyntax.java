@@ -72,10 +72,10 @@ class ItalicSyntax extends TextSyntaxAdapter {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         if (isContainsAsterisk) {
-            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, new StyleSpan(Typeface.ITALIC));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_ASTERISK, ssb, mCallback);
         }
         if (isContainsUnderline) {
-            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_UNDERLINE, ssb, new StyleSpan(Typeface.ITALIC));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_ITALIC_UNDERLINE, ssb, mCallback);
         }
         return ssb;
     }
@@ -90,4 +90,11 @@ class ItalicSyntax extends TextSyntaxAdapter {
             replace(ssb, CharacterProtector.getKeyEncode1(), SyntaxKey.KEY_ITALIC_BACKSLASH_UNDERLINE);
         }
     }
+
+    private SyntaxUtils.OnWhatSpanCallback mCallback = new SyntaxUtils.OnWhatSpanCallback() {
+        @Override
+        public Object whatSpan() {
+            return new StyleSpan(Typeface.ITALIC);
+        }
+    };
 }

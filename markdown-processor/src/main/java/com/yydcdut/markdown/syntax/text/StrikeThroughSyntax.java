@@ -53,7 +53,7 @@ class StrikeThroughSyntax extends TextSyntaxAdapter {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
-        return SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_STRIKE_THROUGH, ssb, new StrikethroughSpan());
+        return SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_STRIKE_THROUGH, ssb, mCallback);
     }
 
     @NonNull
@@ -61,4 +61,11 @@ class StrikeThroughSyntax extends TextSyntaxAdapter {
     void decode(@NonNull SpannableStringBuilder ssb) {
         replace(ssb, CharacterProtector.getKeyEncode(), SyntaxKey.KEY_STRIKE_BACKSLASH);
     }
+
+    private SyntaxUtils.OnWhatSpanCallback mCallback = new SyntaxUtils.OnWhatSpanCallback() {
+        @Override
+        public Object whatSpan() {
+            return new StrikethroughSpan();
+        }
+    };
 }

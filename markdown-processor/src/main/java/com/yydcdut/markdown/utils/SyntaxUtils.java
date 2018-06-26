@@ -35,10 +35,13 @@ public class SyntaxUtils {
      * @param key      {@link SyntaxKey#KEY_BOLD_ASTERISK} or {@link SyntaxKey#KEY_BOLD_UNDERLINE} or
      *                 {@link SyntaxKey#KEY_ITALIC_ASTERISK} or {@link SyntaxKey#KEY_ITALIC_UNDERLINE}
      * @param ssb      the original content
-     * @param whatSpan span
+     * @param callback span callback
      * @return the content after parsing
      */
-    public static SpannableStringBuilder parseBoldAndItalic(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull Object whatSpan) {
+    public static SpannableStringBuilder parseBoldAndItalic(@NonNull String key, @NonNull SpannableStringBuilder ssb, @NonNull OnWhatSpanCallback callback) {
+        if (callback == null) {
+            return ssb;
+        }
         String text = ssb.toString();
         int keyLength = key.length();
         SpannableStringBuilder tmp = new SpannableStringBuilder();
@@ -56,7 +59,7 @@ public class SyntaxUtils {
             if (positionFooter != -1) {
                 ssb.delete(tmp.length(), tmp.length() + keyLength);
                 tmp.append(tmpTotal.substring(0, positionFooter));
-                ssb.setSpan(whatSpan, index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(callback.whatSpan(), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + keyLength);
             } else {
                 tmp.append(key);

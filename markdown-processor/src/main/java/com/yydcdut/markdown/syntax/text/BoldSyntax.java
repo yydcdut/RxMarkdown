@@ -75,10 +75,10 @@ class BoldSyntax extends TextSyntaxAdapter {
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb, int lineNumber) {
         if (isContainsAsterisk) {
-            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_ASTERISK, ssb, new StyleSpan(Typeface.BOLD));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_ASTERISK, ssb, mCallback);
         }
         if (isContainsUnderline) {
-            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_UNDERLINE, ssb, new StyleSpan(Typeface.BOLD));
+            ssb = SyntaxUtils.parseBoldAndItalic(SyntaxKey.KEY_BOLD_UNDERLINE, ssb, mCallback);
         }
         return ssb;
     }
@@ -94,5 +94,10 @@ class BoldSyntax extends TextSyntaxAdapter {
         }
     }
 
-
+    private SyntaxUtils.OnWhatSpanCallback mCallback = new SyntaxUtils.OnWhatSpanCallback() {
+        @Override
+        public Object whatSpan() {
+            return new StyleSpan(Typeface.BOLD);
+        }
+    };
 }
