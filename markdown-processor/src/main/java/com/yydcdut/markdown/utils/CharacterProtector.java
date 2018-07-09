@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2018 yydcdut (yuyidong2015@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.yydcdut.markdown.utils;
 
 import android.support.annotation.NonNull;
@@ -25,6 +40,11 @@ public class CharacterProtector {
         return sb.toString();
     }
 
+    /**
+     * get encoded key
+     *
+     * @return encoded string
+     */
     public static String getKeyEncode() {
         if (KEY_ENCODE == null) {
             KEY_ENCODE = longRandomString();
@@ -36,6 +56,11 @@ public class CharacterProtector {
         return KEY_ENCODE;
     }
 
+    /**
+     * get encoded key
+     *
+     * @return encoded string
+     */
     public static String getKeyEncode1() {
         if (KEY_ENCODE_1 == null) {
             KEY_ENCODE_1 = longRandomString();
@@ -47,6 +72,11 @@ public class CharacterProtector {
         return KEY_ENCODE_1;
     }
 
+    /**
+     * get encoded key
+     *
+     * @return encoded string
+     */
     public static String getKeyEncode2() {
         if (KEY_ENCODE_2 == null) {
             KEY_ENCODE_2 = longRandomString();
@@ -58,6 +88,11 @@ public class CharacterProtector {
         return KEY_ENCODE_2;
     }
 
+    /**
+     * get encoded key
+     *
+     * @return encoded string
+     */
     public static String getKeyEncode3() {
         if (KEY_ENCODE_3 == null) {
             KEY_ENCODE_3 = longRandomString();
@@ -69,6 +104,11 @@ public class CharacterProtector {
         return KEY_ENCODE_3;
     }
 
+    /**
+     * get encoded key
+     *
+     * @return encoded string
+     */
     public static String getKeyEncode4() {
         if (KEY_ENCODE_4 == null) {
             KEY_ENCODE_4 = longRandomString();
