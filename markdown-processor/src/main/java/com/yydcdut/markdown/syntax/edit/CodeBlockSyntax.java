@@ -25,7 +25,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.span.MDCodeBlockSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +52,12 @@ class CodeBlockSyntax extends EditSyntaxAdapter {
     @Override
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        List<Pair<Integer, Integer>> list = Utils.find(editable.toString(), SyntaxKey.KEY_CODE_BLOCK);
+        List<Pair<Integer, Integer>> list = TextHelper.find(editable.toString(), SyntaxKey.KEY_CODE_BLOCK);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
             int end = pair.second;
-            List<Integer> middleList = Utils.getNewLineCharPosition((SpannableStringBuilder) editable, start, end);
+            List<Integer> middleList = TextHelper.getNewLineCharPosition((SpannableStringBuilder) editable, start, end);
             int current = start;
             MDCodeBlockSpan parentSpan = null;
             for (int j = 0; j < middleList.size(); j++) {

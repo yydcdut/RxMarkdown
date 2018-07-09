@@ -24,7 +24,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.MarkdownEditText;
 import com.yydcdut.markdown.span.MDOrderListSpan;
 import com.yydcdut.markdown.span.MDUnOrderListSpan;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,14 +75,14 @@ class ListLive extends EditLive {
         }
         Editable editable = (Editable) s;
         if (checkLineDelete(editable, start, before, after)) {
-            int beforeLinePosition = Utils.findBeforeNewLineChar(editable, start - 1) + 1;
+            int beforeLinePosition = TextHelper.findBeforeNewLineChar(editable, start - 1) + 1;
             MDOrderListSpan mdBeginOrderListSpan = getOrderListSpan(editable, beforeLinePosition, true);
             MDOrderListSpan mdEndOrderListSpan = getOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
             MDUnOrderListSpan mdBeginUnOrderListSpan = getUnOrderListSpan(editable, beforeLinePosition, true);
             MDUnOrderListSpan mdEndUnOrderListSpan = getUnOrderListSpan(editable, start + 1, true);//(start + 1),+1就是为了略过\n
             if (mdBeginOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdBeginOrderListSpan);
-                int position = Utils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
+                int position = TextHelper.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (mdEndOrderListSpan != null) {
                     editable.removeSpan(mdEndOrderListSpan);
                 }
@@ -91,7 +91,7 @@ class ListLive extends EditLive {
                         spanStart, position, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             } else if (mdBeginUnOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdBeginUnOrderListSpan);
-                int position = Utils.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
+                int position = TextHelper.findNextNewLineCharCompat(editable, start + 1);//(start + 1),+1就是为了略过\n
                 if (mdEndUnOrderListSpan != null) {
                     editable.removeSpan(mdEndUnOrderListSpan);
                 }
@@ -288,7 +288,7 @@ class ListLive extends EditLive {
         String appendString = getOrderListNestedString(mdOrderListSpan.getNested(), mdOrderListSpan.getNumber());
         mTextWatcher.doBeforeTextChanged(editable, start + 1, 0, appendString.length());
         editable.insert(start + 1, appendString);
-        int position = Utils.findNextNewLineCharCompat(editable, start + appendString.length());
+        int position = TextHelper.findNextNewLineCharCompat(editable, start + appendString.length());
         editable.setSpan(new MDOrderListSpan(10, mdOrderListSpan.getNested(), mdOrderListSpan.getNumber() + 1),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
@@ -310,7 +310,7 @@ class ListLive extends EditLive {
         String appendString = getUnOderListNestedString(mdUnOrderListSpan.getNested(), mdUnOrderListSpan.getType());
         mTextWatcher.doBeforeTextChanged(editable, start + 1, 0, appendString.length());
         editable.insert(start + 1, appendString);
-        int position = Utils.findNextNewLineCharCompat(editable, start + appendString.length());
+        int position = TextHelper.findNextNewLineCharCompat(editable, start + appendString.length());
         editable.setSpan(new MDUnOrderListSpan(10, mdUnOrderListSpan.getColor(), mdUnOrderListSpan.getNested(), mdUnOrderListSpan.getType()),
                 start + 1,
                 position == -1 ? start + 1 + appendString.length() : position,
@@ -370,8 +370,8 @@ class ListLive extends EditLive {
      * @return whether it is the head of line and starts with order or unorder list key
      */
     private static boolean checkLineHeaderPosition(Editable editable, int start, int before, int after) {
-        if (start == 0 || Utils.findBeforeNewLineChar(editable, start) + 1 == start) {
-            int end = Utils.findNextNewLineCharCompat(editable, start);
+        if (start == 0 || TextHelper.findBeforeNewLineChar(editable, start) + 1 == start) {
+            int end = TextHelper.findNextNewLineCharCompat(editable, start);
             if (getOrderListSpan(editable, start, true) != null ||
                     getUnOrderListSpan(editable, start, true) != null ||
                     getOrderListSpan(editable, start + 1 > end ? start : end, true) != null ||
@@ -399,7 +399,7 @@ class ListLive extends EditLive {
      * @param after    add text's number
      */
     private void updateLineHeaderList(Editable editable, int start, int before, int after) {
-        int position = Utils.findNextNewLineCharCompat(editable, start);
+        int position = TextHelper.findNextNewLineCharCompat(editable, start);
         int nested = calculateNested(editable, start, 0);
         if (nested == -1) {
             return;
@@ -449,7 +449,7 @@ class ListLive extends EditLive {
      * @param mdOrderListSpan the order list span
      */
     private static void updateOrderListSpanBeforeNewLine(Editable editable, int start, MDOrderListSpan mdOrderListSpan, boolean nestedDecrease) {
-        int position = Utils.findNextNewLineCharCompat(editable, start);
+        int position = TextHelper.findNextNewLineCharCompat(editable, start);
         int startSpan = editable.getSpanStart(mdOrderListSpan);
         int endSpan = editable.getSpanEnd(mdOrderListSpan);
         if (endSpan <= position) {
@@ -473,7 +473,7 @@ class ListLive extends EditLive {
      * @param nestedDecrease    need decrease nested
      */
     private static void updateUnOrderListSpanBeforeNewLine(Editable editable, int start, MDUnOrderListSpan mdUnOrderListSpan, boolean nestedDecrease) {
-        int position = Utils.findNextNewLineCharCompat(editable, start);
+        int position = TextHelper.findNextNewLineCharCompat(editable, start);
         int startSpan = editable.getSpanStart(mdUnOrderListSpan);
         int endSpan = editable.getSpanEnd(mdUnOrderListSpan);
         if (endSpan <= position) {
@@ -614,7 +614,7 @@ class ListLive extends EditLive {
         MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListBeginning(editable, start, before, after);
         if (mdOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdOrderListSpan);
-            int position = Utils.findBeforeNewLineChar(editable, start) + 1;
+            int position = TextHelper.findBeforeNewLineChar(editable, start) + 1;
             if (!isOrderList(editable, position, false)) {
                 editable.removeSpan(mdOrderListSpan);
                 return;
@@ -629,7 +629,7 @@ class ListLive extends EditLive {
                     position, spanEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         } else if (mdUnOrderListSpan != null) {
             int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
-            int position = Utils.findBeforeNewLineChar(editable, start) + 1;
+            int position = TextHelper.findBeforeNewLineChar(editable, start) + 1;
             if (!isUnOrderList(editable, position, false)) {
                 editable.removeSpan(mdUnOrderListSpan);
                 return;
@@ -675,7 +675,7 @@ class ListLive extends EditLive {
         if (next + 1 > s.length()) {
             return number;
         }
-        CharSequence cs = s.subSequence(Utils.safePosition(next, s), Utils.safePosition(next + 1, s));
+        CharSequence cs = s.subSequence(TextHelper.safePosition(next, s), TextHelper.safePosition(next + 1, s));
         if (TextUtils.isDigitsOnly(cs)) {
             number = number * 10 + Integer.parseInt(String.valueOf(cs));
             return calculateOrderListNumber(s, next + 1, number);
@@ -774,13 +774,13 @@ class ListLive extends EditLive {
      * @return if satisfied, return true
      */
     private static boolean isSatisfiedOrderListFormat(Editable editable, int start) {
-        int startPosition = Utils.findBeforeNewLineChar(editable, start) + 1;//略过\n
-        int endPosition = Utils.findNextNewLineCharCompat(editable, start);
+        int startPosition = TextHelper.findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = TextHelper.findNextNewLineCharCompat(editable, start);
         MDOrderListSpan[] mdOrderListSpans = editable.getSpans(startPosition, endPosition, MDOrderListSpan.class);
         if (mdOrderListSpans != null && mdOrderListSpans.length > 0) {
             return false;
         }
-        CharSequence charSequence = editable.subSequence(Utils.safePosition(startPosition, editable), Utils.safePosition(endPosition, editable));
+        CharSequence charSequence = editable.subSequence(TextHelper.safePosition(startPosition, editable), TextHelper.safePosition(endPosition, editable));
         Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$");
         Matcher m = p.matcher(charSequence);
         return m.matches();
@@ -793,8 +793,8 @@ class ListLive extends EditLive {
      * @param start
      */
     private static void formatOrderList(Editable editable, int start) {
-        int startPosition = Utils.findBeforeNewLineChar(editable, start) + 1;//略过\n
-        int endPosition = Utils.findNextNewLineCharCompat(editable, start);
+        int startPosition = TextHelper.findBeforeNewLineChar(editable, start) + 1;//略过\n
+        int endPosition = TextHelper.findNextNewLineCharCompat(editable, start);
         int nested = calculateNested(editable, startPosition, 0);
         int number = calculateOrderListNumber(editable, startPosition + nested, 0);
         editable.setSpan(new MDOrderListSpan(10, nested, number),
@@ -820,7 +820,7 @@ class ListLive extends EditLive {
         if (mdOrderListSpan == null) {
             return false;
         }
-        int position = Utils.findBeforeNewLineChar(editable, start) + 1;
+        int position = TextHelper.findBeforeNewLineChar(editable, start) + 1;
         int totalPosition = position + mdOrderListSpan.getNested() + String.valueOf(mdOrderListSpan.getNumber()).length() + " ".length();
         if (totalPosition >= start || start <= position) {
             return true;
@@ -846,7 +846,7 @@ class ListLive extends EditLive {
         if (mdUnOrderListSpan == null) {
             return false;
         }
-        int position = Utils.findBeforeNewLineChar(editable, start) + 1;
+        int position = TextHelper.findBeforeNewLineChar(editable, start) + 1;
         int totalPosition = position + mdUnOrderListSpan.getNested() + "* ".length();
         if (totalPosition >= start || start <= position) {
             return true;

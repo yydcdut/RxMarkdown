@@ -30,7 +30,7 @@ import com.yydcdut.markdown.span.MDCodeBlockSpan;
 import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.utils.SyntaxUtils;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ class CodeBlockSyntax implements Syntax {
         if (TextUtils.isEmpty(charSequence)) {
             return false;
         }
-        return Utils.find(charSequence.toString(), SyntaxKey.KEY_CODE_BLOCK).size() > 0;
+        return TextHelper.find(charSequence.toString(), SyntaxKey.KEY_CODE_BLOCK).size() > 0;
     }
 
     @NonNull
@@ -74,15 +74,15 @@ class CodeBlockSyntax implements Syntax {
         }
         SpannableStringBuilder ssb = (SpannableStringBuilder) charSequence;
         String text = charSequence.toString();
-        List<Pair<Integer, Integer>> list = Utils.find(text, SyntaxKey.KEY_CODE_BLOCK);
+        List<Pair<Integer, Integer>> list = TextHelper.find(text, SyntaxKey.KEY_CODE_BLOCK);
         for (int i = list.size() - 1; i >= 0; i--) {
             Pair<Integer, Integer> pair = list.get(i);
             int start = pair.first;
             int end = pair.second;
-            List<Integer> middleList = Utils.getNewLineCharPosition(ssb, start, end);
+            List<Integer> middleList = TextHelper.getNewLineCharPosition(ssb, start, end);
             String language = "";
             if (middleList.size() > 0) {
-                language = ssb.subSequence(Utils.safePosition(start, ssb), Utils.safePosition(middleList.get(0), ssb)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");
+                language = ssb.subSequence(TextHelper.safePosition(start, ssb), TextHelper.safePosition(middleList.get(0), ssb)).toString().replace(SyntaxKey.KEY_CODE_BLOCK, "").replace("\n", "");
             }
             int current = middleList.get(0) + 1;
             for (int j = 1; j < middleList.size(); j++) {//放弃0，因为0是```java这样的
@@ -92,7 +92,7 @@ class CodeBlockSyntax implements Syntax {
                 }
                 ssb.setSpan(new MDCodeBlockSpan(mBackgroundColor,
                                 language, (j == 1 ? true : false), (j == middleList.size() - 1 ? true : false),
-                                ssb.subSequence(Utils.safePosition(current, ssb), Utils.safePosition(position, ssb)).toString()),
+                                ssb.subSequence(TextHelper.safePosition(current, ssb), TextHelper.safePosition(position, ssb)).toString()),
                         current, position, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 SyntaxUtils.marginSSBLeft(ssb, mIndentedSize, current, position);
                 current = position + 1;
@@ -108,7 +108,7 @@ class CodeBlockSyntax implements Syntax {
                 }
             }
             ssb.delete(end, end + SyntaxKey.KEY_CODE_BLOCK.length() + (end + SyntaxKey.KEY_CODE_BLOCK.length() >= ssb.length() ? 0 : 1));
-            ssb.delete(start, Utils.findNextNewLineChar(ssb, start) + 1);
+            ssb.delete(start, TextHelper.findNextNewLineChar(ssb, start) + 1);
         }
         return ssb;
     }

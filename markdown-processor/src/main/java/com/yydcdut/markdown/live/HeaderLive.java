@@ -22,7 +22,7 @@ import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 import com.yydcdut.markdown.utils.SyntaxUtils;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.List;
 
@@ -39,17 +39,17 @@ class HeaderLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
+        String deleteString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + before, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start > 0) {
-            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
+            beforeString = s.subSequence(TextHelper.safePosition(start - 1, s), TextHelper.safePosition(start, s)).toString();
         }
         if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(Utils.safePosition(start + before, s), Utils.safePosition(start + before + 1, s)).toString();
+            afterString = s.subSequence(TextHelper.safePosition(start + before, s), TextHelper.safePosition(start + before + 1, s)).toString();
         }
         //#12# ss(##12 ss) --> ## ss
-        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, deleteString, beforeString, afterString)) {
+        if (TextHelper.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -66,30 +66,30 @@ class HeaderLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
+        String addString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + after, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start + 1 <= s.length()) {
-            afterString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + 1, s)).toString();
+            afterString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + 1, s)).toString();
         }
         if (start > 0) {
-            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
+            beforeString = s.subSequence(TextHelper.safePosition(start - 1, s), TextHelper.safePosition(start, s)).toString();
         }
         //## ss --> #12# ss(##12 ss)
-        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, addString, beforeString, afterString)) {
+        if (TextHelper.isNeedFormat(SyntaxKey.KEY_HEADER_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         } else {
-            int lineFirstCharPosition = Utils.findBeforeNewLineChar(s, start);
-            if (s.subSequence(Utils.safePosition(lineFirstCharPosition + 1, s), Utils.safePosition(lineFirstCharPosition + 2, s)).toString().equals(SyntaxKey.KEY_HEADER_SINGLE)) {
+            int lineFirstCharPosition = TextHelper.findBeforeNewLineChar(s, start);
+            if (s.subSequence(TextHelper.safePosition(lineFirstCharPosition + 1, s), TextHelper.safePosition(lineFirstCharPosition + 2, s)).toString().equals(SyntaxKey.KEY_HEADER_SINGLE)) {
                 format((Editable) s, lineFirstCharPosition + 1);
             }
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, RelativeSizeSpan.class);
+        SyntaxUtils.removeSpans(editable, start, RelativeSizeSpan.class);
         Syntax syntax = EditFactory.create().getHeaderSyntax(mMarkdownConfiguration);
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
-        Utils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = SyntaxUtils.getMatchedEditTokenList(editable, syntax.format(editable), start);
+        SyntaxUtils.setSpans(editable, editTokenList);
     }
 }

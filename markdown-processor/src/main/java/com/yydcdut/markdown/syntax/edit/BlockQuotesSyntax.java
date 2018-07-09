@@ -22,7 +22,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.span.MDQuoteSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ class BlockQuotesSyntax extends EditSyntaxAdapter {
             int index = content.indexOf(match);
             int length = match.length();
             editTokenList.add(new EditToken(new MDQuoteSpan(mColor, nested), index, index + length));
-            content.replace(index, index + length, Utils.getPlaceHolder(match));
+            content.replace(index, index + length, TextHelper.getPlaceHolder(match));
         }
         return editTokenList;
     }

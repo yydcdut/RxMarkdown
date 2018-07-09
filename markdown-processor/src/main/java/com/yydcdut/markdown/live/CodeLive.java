@@ -21,7 +21,8 @@ import android.text.style.BackgroundColorSpan;
 import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.SyntaxUtils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ class CodeLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
+        String deleteString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + before, s)).toString();
         if (deleteString.contains(SyntaxKey.KEY_CODE)) {
             shouldFormat = true;
         }
@@ -56,16 +57,16 @@ class CodeLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
+        String addString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + after, s)).toString();
         if (addString.contains(SyntaxKey.KEY_CODE)) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, BackgroundColorSpan.class);
+        SyntaxUtils.removeSpans(editable, start, BackgroundColorSpan.class);
         Syntax syntax = EditFactory.create().getCodeSyntax(mMarkdownConfiguration);
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
-        Utils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = SyntaxUtils.getMatchedEditTokenList(editable, syntax.format(editable), start);
+        SyntaxUtils.setSpans(editable, editTokenList);
     }
 }

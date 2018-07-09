@@ -22,7 +22,7 @@ import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
 import com.yydcdut.markdown.utils.SyntaxUtils;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.List;
 
@@ -39,17 +39,17 @@ class CodeBlockLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        String deleteString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString();
+        String deleteString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + before, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start > 0) {
-            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
+            beforeString = s.subSequence(TextHelper.safePosition(start - 1, s), TextHelper.safePosition(start, s)).toString();
         }
         if (start + before + 1 <= s.length()) {
-            afterString = s.subSequence(Utils.safePosition(start + before, s), Utils.safePosition(start + before + 1, s)).toString();
+            afterString = s.subSequence(TextHelper.safePosition(start + before, s), TextHelper.safePosition(start + before + 1, s)).toString();
         }
         //`1``(``1`)(```1)(1```) --> ```
-        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, deleteString, beforeString, afterString)) {
+        if (TextHelper.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, deleteString, beforeString, afterString)) {
             shouldFormat = true;
         }
     }
@@ -66,26 +66,26 @@ class CodeBlockLive extends EditLive {
         if (after == 0) {
             return;
         }
-        String addString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString();
+        String addString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + after, s)).toString();
         String beforeString = null;
         String afterString = null;
         if (start + 1 <= s.length()) {
-            afterString = s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + 1, s)).toString();
+            afterString = s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + 1, s)).toString();
         }
         if (start > 0) {
-            beforeString = s.subSequence(Utils.safePosition(start - 1, s), Utils.safePosition(start, s)).toString();
+            beforeString = s.subSequence(TextHelper.safePosition(start - 1, s), TextHelper.safePosition(start, s)).toString();
         }
         //``` --> `1``(``1`)(```1)(1```)
-        if (SyntaxUtils.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, addString, beforeString, afterString)) {
+        if (TextHelper.isNeedFormat(SyntaxKey.KEY_CODE_BLOCK_SINGLE, addString, beforeString, afterString)) {
             format((Editable) s, start);
         }
     }
 
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, MDCodeBlockSpan.class);
+        SyntaxUtils.removeSpans(editable, start, MDCodeBlockSpan.class);
         Syntax syntax = EditFactory.create().getCodeBlockSyntax(mMarkdownConfiguration);
         List<EditToken> editTokenList = syntax.format(editable);
-        Utils.setCodeSpan(editable, editTokenList);
+        SyntaxUtils.setCodeSpan(editable, editTokenList);
     }
 }

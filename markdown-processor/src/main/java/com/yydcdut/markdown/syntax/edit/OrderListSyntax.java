@@ -24,7 +24,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.span.MDOrderListSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
             int nested = calculateNested(match);
             int number = calculateNumber(match, nested);
             editTokenList.add(new EditToken(new MDOrderListSpan(10, nested, number), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-            content.replace(index, index + length, Utils.getPlaceHolder(match));
+            content.replace(index, index + length, TextHelper.getPlaceHolder(match));
         }
         return editTokenList;
     }
@@ -132,7 +132,7 @@ class OrderListSyntax extends EditSyntaxAdapter {
         if (c == '\n') {
             return index;
         }
-        content.replace(index, index + length, Utils.getPlaceHolder(match));
+        content.replace(index, index + length, TextHelper.getPlaceHolder(match));
         return findTrueIndex(match, content);
     }
 }

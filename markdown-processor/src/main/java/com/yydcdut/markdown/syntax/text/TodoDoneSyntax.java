@@ -28,7 +28,7 @@ import com.yydcdut.markdown.span.MDTodoDoneSpan;
 import com.yydcdut.markdown.span.MDTodoSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.utils.SyntaxUtils;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 /**
  * The implementation of syntax for to do.
@@ -88,10 +88,10 @@ class TodoDoneSyntax extends TextSyntaxAdapter implements OnTodoClickListener {
         String line = null;
         if (ssbArray[0] instanceof MDTodoDoneSpan) {
             lineNumber = ssbArray[0].getLineNumber();
-            line = Utils.formatTodoLine(ssb, true);
+            line = TextHelper.formatTodoLine(ssb, true);
         } else if (ssbArray[0] instanceof MDTodoSpan) {
             lineNumber = ssbArray[0].getLineNumber();
-            line = Utils.formatTodoLine(ssb, false);
+            line = TextHelper.formatTodoLine(ssb, false);
         } else {
             return;
         }

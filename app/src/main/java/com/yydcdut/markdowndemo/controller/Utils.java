@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.yydcdut.markdown.span.MDOrderListSpan;
 import com.yydcdut.markdown.span.MDUnOrderListSpan;
+import com.yydcdut.markdown.utils.TextHelper;
 import com.yydcdut.rxmarkdown.RxMDEditText;
 
 /**
@@ -91,6 +92,6 @@ public class Utils {
     }
 
     public static int safePosition(int position, CharSequence s) {
-        return com.yydcdut.markdown.utils.Utils.safePosition(position, s);
+        return TextHelper.safePosition(position, s);
     }
 }

@@ -25,7 +25,7 @@ import com.yydcdut.markdown.loader.MDImageLoader;
 import com.yydcdut.markdown.span.MDImageSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.utils.CharacterProtector;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.regex.Pattern;
 
@@ -93,12 +93,12 @@ class ImageSyntax extends TextSyntaxAdapter {
         char[] findArray = new char[]{'!', '[', ']', '(', ')'};// TODO: 2018/4/29 写到key里面
         int findPosition = 0;
         for (int i = 0; i < length; i++) {
-            if (Utils.getChar(array, i) != 0 && Utils.getChar(array, i) == Utils.getChar(findArray, findPosition)) {
+            if (TextHelper.getChar(array, i) != 0 && TextHelper.getChar(array, i) == TextHelper.getChar(findArray, findPosition)) {
                 if (findPosition == 0 || findPosition == 2) {//!后面必须得是[  &&  ]后面必须是(
-                    if (Utils.getChar(array, ++i) == 0 || Utils.getChar(findArray, ++findPosition) == 0) {
+                    if (TextHelper.getChar(array, ++i) == 0 || TextHelper.getChar(findArray, ++findPosition) == 0) {
                         return false;
                     }
-                    if (Utils.getChar(array, ++i) != Utils.getChar(findArray, ++findPosition)) {
+                    if (TextHelper.getChar(array, ++i) != TextHelper.getChar(findArray, ++findPosition)) {
                         findPosition--;
                     } else {
                         findPosition++;

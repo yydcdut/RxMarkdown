@@ -163,17 +163,42 @@ public class SyntaxUtils {
         return mdCodeBlockSpans != null && mdCodeBlockSpans.length > 0;
     }
 
+    /**
+     * parse the editable(spannable string) by pattern string
+     *
+     * @param editable   the spannable string
+     * @param pattern    the pattern string
+     * @param ignoreText the replace string
+     * @param callback   the callback to get span
+     * @return
+     */
     public static List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern, String ignoreText, OnWhatSpanCallback callback) {
-        StringBuilder content = new StringBuilder(editable.toString().replace(ignoreText, Utils.getPlaceHolder(ignoreText)));
+        StringBuilder content = new StringBuilder(editable.toString().replace(ignoreText, TextHelper.getPlaceHolder(ignoreText)));
         return parse(content, pattern, callback);
     }
 
+    /**
+     * parse the editable(spannable string) by pattern string
+     *
+     * @param editable the spannable string
+     * @param pattern  the pattern string
+     * @param callback the callback to get span
+     * @return the list of edit token
+     */
     @NonNull
     public static List<EditToken> parse(@NonNull Editable editable, @NonNull String pattern, OnWhatSpanCallback callback) {
         StringBuilder content = new StringBuilder(editable);
         return parse(content, pattern, callback);
     }
 
+    /**
+     * parse the content by pattern string
+     *
+     * @param content  the content
+     * @param pattern  the pattern string
+     * @param callback the callback to get span
+     * @return the list of edit token
+     */
     public static List<EditToken> parse(@NonNull StringBuilder content, @NonNull String pattern, OnWhatSpanCallback callback) {
         List<EditToken> editTokenList = new ArrayList<>();
         Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(content);
@@ -185,17 +210,21 @@ public class SyntaxUtils {
             int index = content.indexOf(match);
             int length = match.length();
             editTokenList.add(new EditToken(callback.whatSpan(), index, index + length));
-            content.replace(index, index + length, Utils.getPlaceHolder(match));
+            content.replace(index, index + length, TextHelper.getPlaceHolder(match));
         }
         return editTokenList;
     }
 
+    /**
+     * the interface of getting span object
+     */
     public interface OnWhatSpanCallback {
+        /**
+         * get span
+         *
+         * @return the span
+         */
         Object whatSpan();
-    }
-
-    public static boolean isNeedFormat(String key, String string, String beforeString, String afterString) {
-        return string.contains(key) || key.equals(beforeString) || key.equals(afterString);
     }
 
     /**
@@ -239,4 +268,82 @@ public class SyntaxUtils {
             }
         }, 0, SyntaxKey.KEY_TODO_HYPHEN.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
+
+    /**
+     * remove spans
+     *
+     * @param editable Editable, the text
+     * @param start    int, the selection position
+     * @param clazz    class
+     * @param <T>      span
+     */
+    public static <T> void removeSpans(Editable editable, int start, Class<T> clazz) {
+        int startPosition = TextHelper.findBeforeNewLineChar(editable, start) + 1;
+        int endPosition = TextHelper.findNextNewLineCharCompat(editable, start);
+        T[] ts = editable.getSpans(startPosition, endPosition, clazz);
+        if (clazz.isAssignableFrom(MDCodeBlockSpan.class)) {
+            for (T t : ts) {
+                MDCodeBlockSpan mdCodeBlockSpan = ((MDCodeBlockSpan) t);
+                while (mdCodeBlockSpan != null) {
+                    editable.removeSpan(mdCodeBlockSpan);
+                    mdCodeBlockSpan = mdCodeBlockSpan.getNext();
+                }
+            }
+        } else {
+            for (T t : ts) {
+                editable.removeSpan(t);
+            }
+        }
+    }
+
+    /**
+     * set spans
+     *
+     * @param editable      Editable, the text
+     * @param editTokenList List, the edit token collection
+     */
+    public static void setSpans(Editable editable, List<EditToken> editTokenList) {
+        for (EditToken editToken : editTokenList) {
+            editable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), editToken.getFlag());
+        }
+    }
+
+    /**
+     * set spans for  code span
+     *
+     * @param editable      Editable, the text
+     * @param editTokenList List, the edit token collection
+     */
+    public static void setCodeSpan(Editable editable, List<EditToken> editTokenList) {
+        for (EditToken editToken : editTokenList) {
+            Object[] spans = editable.getSpans(editToken.getStart(), editToken.getEnd(), Object.class);
+            for (Object o : spans) {
+                if (editToken.getStart() <= editable.getSpanStart(o) && editToken.getEnd() >= editable.getSpanEnd(o)) {
+                    editable.removeSpan(o);
+                }
+            }
+        }
+        setSpans(editable, editTokenList);
+    }
+
+    /**
+     * get matched edit token list
+     *
+     * @param editable Editable, the text
+     * @param allList  List, the edit token collection
+     * @param start    the selection position
+     * @return the matched edit token list
+     */
+    public static List<EditToken> getMatchedEditTokenList(Editable editable, List<EditToken> allList, int start) {
+        List<EditToken> matchEditTokenList = new ArrayList<>();
+        int startPosition = TextHelper.findBeforeNewLineChar(editable, start) + 1;
+        int endPosition = TextHelper.findNextNewLineCharCompat(editable, start);
+        for (EditToken editToken : allList) {
+            if (editToken.getStart() >= startPosition && editToken.getEnd() <= endPosition) {
+                matchEditTokenList.add(editToken);
+            }
+        }
+        return matchEditTokenList;
+    }
+
 }

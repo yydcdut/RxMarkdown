@@ -21,7 +21,8 @@ import android.text.style.AlignmentSpan;
 import com.yydcdut.markdown.syntax.Syntax;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.syntax.edit.EditFactory;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.SyntaxUtils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ class CenterAlignLive extends EditLive {
         if (before == 0 || mMarkdownConfiguration == null) {
             return;
         }
-        if (isNeedFormat(s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + before, s)).toString())) {
+        if (isNeedFormat(s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + before, s)).toString())) {
             shouldFormat = true;
         }
     }
@@ -55,16 +56,16 @@ class CenterAlignLive extends EditLive {
         if (after == 0) {
             return;
         }
-        if (isNeedFormat(s.subSequence(Utils.safePosition(start, s), Utils.safePosition(start + after, s)).toString())) {
+        if (isNeedFormat(s.subSequence(TextHelper.safePosition(start, s), TextHelper.safePosition(start + after, s)).toString())) {
             format((Editable) s, start);
         }
     }
 
     private void format(Editable editable, int start) {
-        Utils.removeSpans(editable, start, AlignmentSpan.Standard.class);
+        SyntaxUtils.removeSpans(editable, start, AlignmentSpan.Standard.class);
         Syntax syntax = EditFactory.create().getCenterAlignSyntax(mMarkdownConfiguration);
-        List<EditToken> editTokenList = Utils.getMatchedEditTokenList(editable, syntax.format(editable), start);
-        Utils.setSpans(editable, editTokenList);
+        List<EditToken> editTokenList = SyntaxUtils.getMatchedEditTokenList(editable, syntax.format(editable), start);
+        SyntaxUtils.setSpans(editable, editTokenList);
     }
 
     private boolean isNeedFormat(String string) {

@@ -26,7 +26,7 @@ import com.yydcdut.markdown.span.MDURLSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
 import com.yydcdut.markdown.utils.CharacterProtector;
 import com.yydcdut.markdown.utils.SyntaxUtils;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,12 +101,12 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
                 SyntaxKey.KEY_HYPER_LINK_MIDDLE_RIGHT_CHAR, SyntaxKey.KEY_HYPER_LINK_RIGHT_CHAR};
         int findPosition = 0;
         for (int i = 0; i < length; i++) {
-            if (Utils.getChar(array, i) != 0 && Utils.getChar(array, i) == Utils.getChar(findArray, findPosition)) {
+            if (TextHelper.getChar(array, i) != 0 && TextHelper.getChar(array, i) == TextHelper.getChar(findArray, findPosition)) {
                 if (findPosition == 1) {//]后面必须得是(
-                    if (Utils.getChar(array, ++i) == 0 || Utils.getChar(findArray, ++findPosition) == 0) {
+                    if (TextHelper.getChar(array, ++i) == 0 || TextHelper.getChar(findArray, ++findPosition) == 0) {
                         return false;
                     }
-                    if (Utils.getChar(array, ++i) != Utils.getChar(findArray, ++findPosition)) {
+                    if (TextHelper.getChar(array, ++i) != TextHelper.getChar(findArray, ++findPosition)) {
                         findPosition--;
                     } else {
                         findPosition++;
@@ -200,7 +200,7 @@ class HyperLinkSyntax extends TextSyntaxAdapter {
             }
             StringBuilder sb = new StringBuilder();
             sb.append(text.substring(0, index));
-            sb.append(Utils.getPlaceHolder(url));
+            sb.append(TextHelper.getPlaceHolder(url));
             sb.append(text.substring(index + url.length()));
             text = sb.toString();
         }

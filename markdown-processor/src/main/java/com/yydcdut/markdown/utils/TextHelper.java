@@ -16,19 +16,12 @@
 package com.yydcdut.markdown.utils;
 
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Pair;
 
-import com.yydcdut.markdown.live.EditToken;
-import com.yydcdut.markdown.span.MDCodeBlockSpan;
-import com.yydcdut.markdown.theme.Theme;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +30,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by yuyidong on 2017/6/6.
  */
-public class Utils {
+public class TextHelper {
 
     /**
      * find '\n' from "start" position
@@ -89,80 +82,16 @@ public class Utils {
     }
 
     /**
-     * remove spans
+     * whether the content contains the key
      *
-     * @param editable Editable, the text
-     * @param start    int, the selection position
-     * @param clazz    class
-     * @param <T>      span
+     * @param key          the key string
+     * @param string       the content
+     * @param beforeString the text text before key position
+     * @param afterString  the text text after key position
+     * @return boolean
      */
-    public static <T> void removeSpans(Editable editable, int start, Class<T> clazz) {
-        int startPosition = findBeforeNewLineChar(editable, start) + 1;
-        int endPosition = findNextNewLineCharCompat(editable, start);
-        T[] ts = editable.getSpans(startPosition, endPosition, clazz);
-        if (clazz.isAssignableFrom(MDCodeBlockSpan.class)) {
-            for (T t : ts) {
-                MDCodeBlockSpan mdCodeBlockSpan = ((MDCodeBlockSpan) t);
-                while (mdCodeBlockSpan != null) {
-                    editable.removeSpan(mdCodeBlockSpan);
-                    mdCodeBlockSpan = mdCodeBlockSpan.getNext();
-                }
-            }
-        } else {
-            for (T t : ts) {
-                editable.removeSpan(t);
-            }
-        }
-    }
-
-    /**
-     * set spans
-     *
-     * @param editable      Editable, the text
-     * @param editTokenList List, the edit token collection
-     */
-    public static void setSpans(Editable editable, List<EditToken> editTokenList) {
-        for (EditToken editToken : editTokenList) {
-            editable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), editToken.getFlag());
-        }
-    }
-
-    /**
-     * set spans for  code span
-     *
-     * @param editable      Editable, the text
-     * @param editTokenList List, the edit token collection
-     */
-    public static void setCodeSpan(Editable editable, List<EditToken> editTokenList) {
-        for (EditToken editToken : editTokenList) {
-            Object[] spans = editable.getSpans(editToken.getStart(), editToken.getEnd(), Object.class);
-            for (Object o : spans) {
-                if (editToken.getStart() <= editable.getSpanStart(o) && editToken.getEnd() >= editable.getSpanEnd(o)) {
-                    editable.removeSpan(o);
-                }
-            }
-        }
-        setSpans(editable, editTokenList);
-    }
-
-    /**
-     * get matched edit token list
-     *
-     * @param editable Editable, the text
-     * @param allList  List, the edit token collection
-     * @param start    the selection position
-     * @return the matched edit token list
-     */
-    public static List<EditToken> getMatchedEditTokenList(Editable editable, List<EditToken> allList, int start) {
-        List<EditToken> matchEditTokenList = new ArrayList<>();
-        int startPosition = findBeforeNewLineChar(editable, start) + 1;
-        int endPosition = findNextNewLineCharCompat(editable, start);
-        for (EditToken editToken : allList) {
-            if (editToken.getStart() >= startPosition && editToken.getEnd() <= endPosition) {
-                matchEditTokenList.add(editToken);
-            }
-        }
-        return matchEditTokenList;
+    public static boolean isNeedFormat(String key, String string, String beforeString, String afterString) {
+        return string.contains(key) || key.equals(beforeString) || key.equals(afterString);
     }
 
     /**
@@ -231,33 +160,6 @@ public class Utils {
     }
 
     /**
-     * get the color map by Theme
-     *
-     * @param theme theme
-     * @return map
-     */
-    public static Map<String, Integer> buildColorsMap(Theme theme) {
-        Map<String, Integer> map = new HashMap<>();
-        map.put(Theme.CODE_TYP, theme.getTypeColor());
-        map.put(Theme.CODE_KWD, theme.getKeyWordColor());
-        map.put(Theme.CODE_LIT, theme.getLiteralColor());
-        map.put(Theme.CODE_COM, theme.getCommentColor());
-        map.put(Theme.CODE_STR, theme.getStringColor());
-        map.put(Theme.CODE_PUN, theme.getPunctuationColor());
-        map.put(Theme.CODE_TAG, theme.getTagColor());
-        map.put(Theme.CODE_PLN, theme.getPlainTextColor());
-        map.put(Theme.CODE_DEC, theme.getDecimalColor());
-        map.put(Theme.CODE_ATN, theme.getAttributeNameColor());
-        map.put(Theme.CODE_ATV, theme.getAttributeValueColor());
-        map.put(Theme.CODE_OPN, theme.getOpnColor());
-        map.put(Theme.CODE_CLO, theme.getCloColor());
-        map.put(Theme.CODE_VAR, theme.getVarColor());
-        map.put(Theme.CODE_FUN, theme.getFunColor());
-        map.put(Theme.CODE_NOCODE, theme.getNocodeColor());
-        return map;
-    }
-
-    /**
      * replace line change, DOS to Unix and Mac to Unix
      *
      * @param text        the original text content
@@ -301,9 +203,9 @@ public class Utils {
      */
     public static String formatTodoLine(SpannableStringBuilder ssb, boolean isTodo) {
         if (isTodo) {
-            return new StringBuilder().append("- [ ] ").append(ssb.subSequence(Utils.safePosition("- [ ] ".length(), ssb), Utils.safePosition(ssb.length() - 1, ssb))).toString();
+            return new StringBuilder().append("- [ ] ").append(ssb.subSequence(TextHelper.safePosition("- [ ] ".length(), ssb), TextHelper.safePosition(ssb.length() - 1, ssb))).toString();
         } else {
-            return new StringBuilder().append("- [x] ").append(ssb.subSequence(Utils.safePosition("- [x] ".length(), ssb), Utils.safePosition(ssb.length() - 1, ssb))).toString();
+            return new StringBuilder().append("- [x] ").append(ssb.subSequence(TextHelper.safePosition("- [x] ".length(), ssb), TextHelper.safePosition(ssb.length() - 1, ssb))).toString();
         }
     }
 

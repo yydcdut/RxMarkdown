@@ -24,7 +24,7 @@ import android.text.style.RelativeSizeSpan;
 import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,7 +185,7 @@ class HeaderSyntax extends EditSyntaxAdapter {
         int index = content.indexOf(match);
         int length = match.length();
         editTokenList.add(new EditToken(getSpan(match), index, index + length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE));
-        content.replace(index, index + length, Utils.getPlaceHolder(match));
+        content.replace(index, index + length, TextHelper.getPlaceHolder(match));
     }
 
     /**

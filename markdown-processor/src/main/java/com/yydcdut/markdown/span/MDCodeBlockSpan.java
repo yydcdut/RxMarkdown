@@ -22,7 +22,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.text.style.LineBackgroundSpan;
 
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 /**
  * code syntax span
@@ -104,8 +104,8 @@ public class MDCodeBlockSpan implements LineBackgroundSpan {
     public void drawBackground(Canvas c, Paint p,
                                int left, int right, int top, int baseline, int bottom,
                                CharSequence text, int start, int end, int lnum) {
-        if (mDrawable != null && !TextUtils.isEmpty(mText) && (mText.startsWith(text.subSequence(Utils.safePosition(start, text), Utils.safePosition(end, text)).toString())
-                || text.subSequence(Utils.safePosition(start, text), Utils.safePosition(end, text)).toString().startsWith(mText))) {
+        if (mDrawable != null && !TextUtils.isEmpty(mText) && (mText.startsWith(text.subSequence(TextHelper.safePosition(start, text), TextHelper.safePosition(end, text)).toString())
+                || text.subSequence(TextHelper.safePosition(start, text), TextHelper.safePosition(end, text)).toString().startsWith(mText))) {
             mDrawable.setBounds(left, top, right, bottom);
             mDrawable.draw(c);
         } else {

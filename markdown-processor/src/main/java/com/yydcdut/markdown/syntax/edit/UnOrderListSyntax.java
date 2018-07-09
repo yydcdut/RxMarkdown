@@ -24,7 +24,7 @@ import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.live.EditToken;
 import com.yydcdut.markdown.span.MDUnOrderListSpan;
 import com.yydcdut.markdown.syntax.SyntaxKey;
-import com.yydcdut.markdown.utils.Utils;
+import com.yydcdut.markdown.utils.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ class UnOrderListSyntax extends EditSyntaxAdapter {
             int length = match.length();
             int nested = calculateNested(match);
             editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested, type), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
-            content.replace(index, index + length, Utils.getPlaceHolder(match));
+            content.replace(index, index + length, TextHelper.getPlaceHolder(match));
         }
     }
 

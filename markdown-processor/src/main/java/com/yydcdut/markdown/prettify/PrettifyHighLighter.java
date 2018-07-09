@@ -22,8 +22,8 @@ import android.text.style.ForegroundColorSpan;
 
 import com.yydcdut.markdown.MarkdownConfiguration;
 import com.yydcdut.markdown.theme.Theme;
-import com.yydcdut.markdown.utils.Utils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class PrettifyHighLighter {
      * @param markdownConfiguration the config
      */
     public PrettifyHighLighter(@NonNull MarkdownConfiguration markdownConfiguration) {
-        mColorMap = Utils.buildColorsMap(markdownConfiguration.getTheme());
+        mColorMap = buildColorsMap(markdownConfiguration.getTheme());
         mParser = new PrettifyParser();
     }
 
@@ -68,9 +68,30 @@ public class PrettifyHighLighter {
         return sourceCode;
     }
 
+    //get the color by type
     private int getColor(String type) {
         return mColorMap.containsKey(type) ? mColorMap.get(type) : mColorMap.get(Theme.CODE_PLN);
     }
 
-
+    //get the color map by Theme
+    private static Map<String, Integer> buildColorsMap(Theme theme) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put(Theme.CODE_TYP, theme.getTypeColor());
+        map.put(Theme.CODE_KWD, theme.getKeyWordColor());
+        map.put(Theme.CODE_LIT, theme.getLiteralColor());
+        map.put(Theme.CODE_COM, theme.getCommentColor());
+        map.put(Theme.CODE_STR, theme.getStringColor());
+        map.put(Theme.CODE_PUN, theme.getPunctuationColor());
+        map.put(Theme.CODE_TAG, theme.getTagColor());
+        map.put(Theme.CODE_PLN, theme.getPlainTextColor());
+        map.put(Theme.CODE_DEC, theme.getDecimalColor());
+        map.put(Theme.CODE_ATN, theme.getAttributeNameColor());
+        map.put(Theme.CODE_ATV, theme.getAttributeValueColor());
+        map.put(Theme.CODE_OPN, theme.getOpnColor());
+        map.put(Theme.CODE_CLO, theme.getCloColor());
+        map.put(Theme.CODE_VAR, theme.getVarColor());
+        map.put(Theme.CODE_FUN, theme.getFunColor());
+        map.put(Theme.CODE_NOCODE, theme.getNocodeColor());
+        return map;
+    }
 }
