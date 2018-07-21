@@ -17,14 +17,14 @@ Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.a
 # Gradle
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2'
-implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2'
+implementation 'com.yydcdut:markdown-processor:0.1.3'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.3'
 ```
 
 或者不想使用 RxJava 的话，直接引用 `markdown-processor` 即可：
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2'
+implementation 'com.yydcdut:markdown-processor:0.1.3'
 ```
 
 ## 支持语法
@@ -101,8 +101,8 @@ RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` �
 ### 引用
 
 ```groovy
-implementation 'com.yydcdut:markdown-processor:0.1.2'
-implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.2'
+implementation 'com.yydcdut:markdown-processor:0.1.3'
+implementation 'com.yydcdut:rxmarkdown-wrapper:0.1.3'
 
 implementation 'io.reactivex:rxandroid:1.2.0'
 implementation 'io.reactivex:rxjava:1.1.5'
